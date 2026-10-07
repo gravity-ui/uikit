@@ -1,12 +1,13 @@
 import * as React from 'react';
 
-import {render, renderHook, screen} from '../../../../test-utils/utils';
+import {renderWithoutProviders as render, renderHook, screen} from '../../../../test-utils/utils';
 import type {ComponentDefaultPropsMap, DefaultPropsMap} from '../../../index';
 import {PasswordInput} from '../../controls/PasswordInput';
 import {PasswordInputQa} from '../../controls/PasswordInput/constants';
 import {Menu as LegacyMenu} from '../../legacy/Menu';
 import type {DefaultPropsProviderProps} from '../DefaultPropsProvider';
 import {DefaultPropsProvider} from '../DefaultPropsProvider';
+import {Provider} from '../Provider';
 import {ThemeProvider} from '../ThemeProvider';
 import {useDefaultProps} from '../useDefaultProps';
 
@@ -157,16 +158,14 @@ describe('DefaultPropsProvider', () => {
         expect(result.current.checkbox).toEqual({size: 'l'});
     });
 
-    it('merges defaults when nested inside ThemeProvider', () => {
+    it('merges defaults when nested inside Provider', () => {
         render(
-            <ThemeProvider
-                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
-            >
+            <Provider defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}>
                 <DefaultPropsProvider defaultProps={{Button: {view: 'action'}}}>
                     <Consumer name="Button" props={{}} />
                     <Consumer name="Checkbox" props={{}} />
                 </DefaultPropsProvider>
-            </ThemeProvider>,
+            </Provider>,
         );
 
         expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
@@ -177,15 +176,15 @@ describe('DefaultPropsProvider', () => {
         });
     });
 
-    it('merges defaults when wrapping ThemeProvider', () => {
+    it('merges defaults when wrapping Provider', () => {
         render(
             <DefaultPropsProvider
                 defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
             >
-                <ThemeProvider defaultProps={{Button: {view: 'action'}}}>
+                <Provider defaultProps={{Button: {view: 'action'}}}>
                     <Consumer name="Button" props={{}} />
                     <Consumer name="Checkbox" props={{}} />
-                </ThemeProvider>
+                </Provider>
             </DefaultPropsProvider>,
         );
 
@@ -200,7 +199,9 @@ describe('DefaultPropsProvider', () => {
     it('applies TextInput defaults consistently to PasswordInput and its action button', () => {
         render(
             <DefaultPropsProvider defaultProps={{TextInput: {size: 'l'}}}>
-                <PasswordInput qa="password-input" />
+                <ThemeProvider>
+                    <PasswordInput qa="password-input" />
+                </ThemeProvider>
             </DefaultPropsProvider>,
         );
 
@@ -209,7 +210,7 @@ describe('DefaultPropsProvider', () => {
     });
 });
 
-describe('ThemeProvider defaultProps', () => {
+describe('Provider defaultProps', () => {
     it('keeps the deprecated map alias type-compatible', () => {
         const deprecatedExternalDefaultProps: ComponentDefaultPropsMap = externalDefaultProps;
         const invalidExternalDefaultProps: DefaultPropsMap = {
@@ -232,7 +233,7 @@ describe('ThemeProvider defaultProps', () => {
                 }),
             {
                 wrapper: ({children}) => (
-                    <ThemeProvider defaultProps={externalDefaultProps}>{children}</ThemeProvider>
+                    <Provider defaultProps={externalDefaultProps}>{children}</Provider>
                 ),
             },
         );
@@ -242,9 +243,9 @@ describe('ThemeProvider defaultProps', () => {
 
     it('passes defaultProps through to useDefaultProps', () => {
         render(
-            <ThemeProvider defaultProps={{Button: {view: 'outlined', size: 'l'}}}>
+            <Provider defaultProps={{Button: {view: 'outlined', size: 'l'}}}>
                 <Consumer name="Button" props={{size: 'm'}} />
-            </ThemeProvider>,
+            </Provider>,
         );
         expect(JSON.parse(screen.getByRole('status').textContent ?? '{}')).toEqual({
             view: 'outlined',
@@ -254,36 +255,34 @@ describe('ThemeProvider defaultProps', () => {
 
     it('does not affect components with no entry in defaultProps', () => {
         render(
-            <ThemeProvider defaultProps={{Button: {view: 'outlined'}}}>
+            <Provider defaultProps={{Button: {view: 'outlined'}}}>
                 <Consumer name="TextInput" props={{size: 's'}} />
-            </ThemeProvider>,
+            </Provider>,
         );
         expect(JSON.parse(screen.getByRole('status').textContent ?? '{}')).toEqual({size: 's'});
     });
 
     it('works correctly when defaultProps is omitted', () => {
         render(
-            <ThemeProvider>
+            <Provider>
                 <Consumer name="Button" props={{view: 'normal'}} />
-            </ThemeProvider>,
+            </Provider>,
         );
         expect(JSON.parse(screen.getByRole('status').textContent ?? '{}')).toEqual({
             view: 'normal',
         });
     });
 
-    it('inner ThemeProvider defaultProps correctly override outer', () => {
+    it('subtree defaults correctly override Provider defaults', () => {
         render(
-            <ThemeProvider
-                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
-            >
-                <ThemeProvider defaultProps={{Button: {view: 'action'}}}>
+            <Provider defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}>
+                <DefaultPropsProvider defaultProps={{Button: {view: 'action'}}}>
                     <Consumer name="Button" props={{}} />
                     <Consumer name="Checkbox" props={{}} />
-                </ThemeProvider>
-            </ThemeProvider>,
+                </DefaultPropsProvider>
+            </Provider>,
         );
-        // Inner ThemeProvider provides replaces props per component not the whole context
+        // Subtree defaults replace props per component, not the whole context
         expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
             view: 'action',
         });

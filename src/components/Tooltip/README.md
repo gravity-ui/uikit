@@ -45,18 +45,18 @@ Pass your state to the `open` prop and change it from `onOpenChange` callback.
 
 ## Delay Group
 
-All tooltips rendered under `ThemeProvider` share the open delay. The first tooltip pays its own `openDelay`,
+All tooltips rendered under `Provider` share the open delay. The first tooltip pays its own `openDelay`,
 so an accidental mouse move still opens nothing. While the group is warm — a tooltip is open or has been closed
 less than `skipDelay` ago — the next hovered tooltip opens instantly, and no more than one tooltip is open at
 a time. This suits toolbars and rows of icon buttons, where waiting for the delay on every button feels slow.
 Opening by focus is instant with or without a group, so the keyboard is not affected.
 
-`skipDelay` (300 ms by default) is configured with `defaultProps` of `ThemeProvider`:
+`skipDelay` (300 ms by default) is configured with `defaultProps` of `Provider`:
 
 ```tsx
-import {ThemeProvider} from '@gravity-ui/uikit';
+import {Provider} from '@gravity-ui/uikit';
 
-<ThemeProvider defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}>{/* ... */}</ThemeProvider>;
+<Provider defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}>{/* ... */}</Provider>;
 ```
 
 ## Properties

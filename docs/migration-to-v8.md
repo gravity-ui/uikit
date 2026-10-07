@@ -25,6 +25,62 @@ removal date for `/legacy` is promised: plan the migration away from them.
 
 4. Check custom CSS and tests against [Everything else](#everything-else).
 
+## ThemeProvider becomes Provider
+
+The application-level `ThemeProvider` is now `Provider`. It keeps the previous props and also accepts
+all `MobileProvider` props directly. Replace the full `ThemeProviderProps` type with `ProviderProps`.
+Remove the extra mobile wrapper when moving its settings to `Provider`:
+
+```diff
+- import {ThemeProvider, MobileProvider, Platform} from '@gravity-ui/uikit';
++ import {Provider, Platform} from '@gravity-ui/uikit';
+
+- <ThemeProvider theme="light" lang="ru" layout={{fixBreakpoints: true}}>
+-   <MobileProvider mobile platform={Platform.IOS} __experimentalMobileModals>
+-     <App />
+-   </MobileProvider>
+- </ThemeProvider>
++ <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
++   mobile platform={Platform.IOS} __experimentalMobileModals>
++   <App />
++ </Provider>
+```
+
+Use only one `Provider` per page. A nested `Provider` throws an error, including through a portal;
+independent React roots are not checked against each other. Replace nested application providers
+with the feature providers needed by that subtree:
+
+| Previous ThemeProvider prop                                 | Subtree provider                                           |
+| ----------------------------------------------------------- | ---------------------------------------------------------- |
+| `theme`, `direction`, `systemLightTheme`, `systemDarkTheme` | `ThemeProvider`                                            |
+| `lang`, `fallbackLang`                                      | `LangProvider`                                             |
+| `layout`                                                    | `LayoutProvider` (spread the former layout object's props) |
+| `defaultProps`                                              | `DefaultPropsProvider`                                     |
+
+The new `ThemeProvider` and its `ThemeProviderProps` handle only theme and direction. `lang`,
+`fallbackLang`, `layout`, and `defaultProps` have been removed from them. Without a parent theme,
+ThemeProvider applies classes and direction to body; use `scoped` for a local root. Inside Provider
+or another ThemeProvider it is always scoped, even with `scoped={false}`:
+
+```tsx
+<Provider theme="light">
+  <ThemeProvider theme="dark">
+    <LangProvider lang="ru">
+      <Toolbar />
+    </LangProvider>
+  </ThemeProvider>
+</Provider>
+```
+
+Theme scopes no longer recreate language, layout, component-default, or mobile providers. In
+particular, they preserve the parent's breakpoint mode and mobile/router settings. Portals retain
+the local theme and direction.
+
+Existing standalone MobileProvider and DefaultPropsProvider APIs remain available.
+The newly public LayoutProvider keeps `fixBreakpoints=false` by default.
+
+See [Theming](theming.md#providers) for the full API and defaults.
+
 ## React 18 minimum
 
 UIKit v8 requires React and React DOM 18 or 19. Upgrade both packages (and `@types/react`, if used) before installing

@@ -7,21 +7,21 @@ We use and recommend CSS variables for theming.
 Everything is driven by CSS custom properties prefixed with `--g-*`. There is no runtime styling API you need to call — you set variables and components pick them up.
 
 ```tsx
-import {ThemeProvider, Button} from '@gravity-ui/uikit';
+import {Provider, Button} from '@gravity-ui/uikit';
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
 
 export const App = () => (
-  <ThemeProvider theme="system">
+  <Provider theme="system">
     <Button view="action">Branded button</Button>
-  </ThemeProvider>
+  </Provider>
 );
 ```
 
 ## How theming works
 
 All variables live on the root class `.g-root`, which `ThemeProvider` assigns to `<body>` by
-default (change the target with the `scoped` prop). Color variables additionally live on a
+default when used without a parent theme (use `scoped` for a local root). Color variables additionally live on a
 per-theme class `.g-root_theme_{themeName}`, so switching the theme swaps one set of values for
 another.
 
@@ -45,31 +45,123 @@ UIKit ships 4 built-in themes:
 | `light-hc` | Light, high-contrast (accessibility) |
 | `dark-hc`  | Dark, high-contrast (accessibility)  |
 
-Select the theme via `ThemeProvider`:
+Select the application theme via `Provider`:
 
 ```tsx
-<ThemeProvider theme="dark">{...}</ThemeProvider>
+<Provider theme="dark">{...}</Provider>
 ```
 
 The default is `"system"`, which follows the OS color-scheme preference and resolves to `light`
 or `dark`. You can control what `system` resolves to with `systemLightTheme` / `systemDarkTheme`.
-Read or switch the theme at runtime with the `useTheme` / `useThemeValue` hooks.
+Read the requested/resolved theme with `useTheme` / `useThemeValue`; switch it by updating the `theme` prop.
+
+## Providers
+
+`Provider` is the application provider. Use only one per page; nesting it throws an error.
+Independent React roots are not checked against each other. Configure a subtree with the individual
+feature providers instead. All components and prop types below are exported from `@gravity-ui/uikit`.
+
+### Provider
+
+`ProviderProps` combines the theme props below, `lang` and `fallbackLang`, the mobile props below,
+`children`, and these settings:
+
+| Prop           | Type                                    | Behavior                                                   |
+| -------------- | --------------------------------------- | ---------------------------------------------------------- |
+| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Layout configuration, media queries, and breakpoint mode   |
+| `defaultProps` | `DefaultPropsMap`                       | Component defaults; explicit component props take priority |
+
+It composes `LayoutProvider`, `DefaultPropsProvider`, `ThemeProvider`, `LangProvider`, and
+`MobileProvider`, and installs a private shared tooltip delay group. Configure that group with
+`defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}`. Theme scopes share the same group.
+
+### ThemeProvider
+
+`ThemeProviderProps` accepts `children` and these optional props:
+
+| Prop               | Type        | Default without a parent theme              |
+| ------------------ | ----------- | ------------------------------------------- |
+| `theme`            | `Theme`     | `system`                                    |
+| `systemLightTheme` | `RealTheme` | `light`                                     |
+| `systemDarkTheme`  | `RealTheme` | `dark`                                      |
+| `direction`        | `Direction` | `ltr`                                       |
+| `scoped`           | `boolean`   | `false`; always `true` inside another theme |
+| `rootClassName`    | `string`    | Empty; added to body or the scoped wrapper  |
+
+Read the requested theme with `useTheme`, the resolved theme with `useThemeValue`, system mappings
+with `useThemeSettings`, and direction with `useDirection`. Change theme by updating the provider's
+`theme` prop. See [Scoped themes](#scoped-themes) for local overrides.
+
+### LangProvider
+
+`LangProviderProps` accepts `children`, `lang`, and `fallbackLang`. Language names support built-in
+`en` and `ru` as well as custom languages registered through the i18n API. Nested providers inherit
+unspecified options. When either language option is specified without a parent language context,
+the remaining option defaults to `en`. With neither option, the provider passes through the parent
+context, or `useLang` reads the global `configure` settings when there is no parent context.
+
+```tsx
+<LangProvider lang="ru" fallbackLang="en">
+  <LocalizedContent />
+</LangProvider>
+```
+
+### LayoutProvider
+
+`LayoutProviderProps` accepts `children`, `config` (`LayoutTheme`), `initialMediaQuery` (a breakpoint
+name for the initial/SSR render), and `fixBreakpoints` (`false` by default). Layout configuration
+uses the existing parent-theme merge. Without `initialMediaQuery`, the initial breakpoint is `s`,
+or `xs` when `fixBreakpoints` is enabled. It adds no DOM wrapper. See [Layout](layout.md).
+
+```tsx
+<LayoutProvider config={layoutConfig} fixBreakpoints>
+  <ResponsiveContent />
+</LayoutProvider>
+```
+
+### MobileProvider and mobile settings
+
+The existing public `MobileProvider` remains available. `Provider` accepts all its settings
+directly, with the same defaults:
+
+| Prop                         | Type                                     | Default                          |
+| ---------------------------- | ---------------------------------------- | -------------------------------- |
+| `mobile`                     | `boolean`                                | `false`                          |
+| `platform`                   | `Platform` (`browser`, `ios`, `android`) | `Platform.BROWSER`               |
+| `__experimentalMobileModals` | `boolean`                                | `false`                          |
+| `useHistory`                 | `MobileProviderProps['useHistory']`      | No-op history                    |
+| `useLocation`                | `MobileProviderProps['useLocation']`     | Empty pathname, search, and hash |
+
+`useHistory` supports router history v4/v5: `back` is adapted to `goBack` when `goBack` is absent.
+`mobile` toggles `.g-root_mobile` on body and is read by `useMobile`; `usePlatform` reads the platform.
+The experimental flag enables mobile Modal/Dialog rendering when `mobile` is also enabled.
+
+```tsx
+import {Platform, Provider} from '@gravity-ui/uikit';
+
+<Provider mobile platform={Platform.IOS} __experimentalMobileModals>
+  <App />
+</Provider>;
+```
+
+Use `MobileProvider` when a separate mobile context is needed; its body-class behavior is unchanged.
+Changing a nested theme preserves the current mobile context.
 
 ## Default component props
 
-Use `ThemeProvider.defaultProps` to set application-wide defaults for UIKit components:
+Use `Provider.defaultProps` to set application-wide defaults for UIKit components:
 
 ```tsx
 import type {DefaultPropsMap} from '@gravity-ui/uikit';
-import {Button, ThemeProvider} from '@gravity-ui/uikit';
+import {Button, Provider} from '@gravity-ui/uikit';
 
 const defaultProps = {
   Button: {size: 'l', view: 'outlined'},
 } satisfies DefaultPropsMap;
 
-<ThemeProvider defaultProps={defaultProps}>
+<Provider defaultProps={defaultProps}>
   <Button>Large outlined button</Button>
-</ThemeProvider>;
+</Provider>;
 ```
 
 Use `DefaultPropsProvider` to override defaults for a subtree without creating another theme
@@ -301,7 +393,7 @@ complete token set (see below) and scope it to your theme's class:
 Then pass your theme name to the provider:
 
 ```tsx
-<ThemeProvider theme="custom">{...}</ThemeProvider>
+<Provider theme="custom">{...}</Provider>
 ```
 
 If you only need to retint one of the built-in themes, don't declare a new theme at all — just
@@ -358,14 +450,28 @@ definition in a single theme file — don't search-and-replace `--g-*` variables
 
 ### Scoped themes
 
-To apply a different theme to just one region (e.g. a dark toolbar in a light app), nest a
-`scoped` provider — it sets the theme class locally and updates React context for descendants
-without polluting the global root:
+Nest `ThemeProvider` inside `Provider` to apply a different theme to one region. It automatically
+creates a local `div` with `.g-root`, the theme class, and `dir`, and updates React context for
+descendants. It never changes the global root when nested, even with `scoped={false}`.
 
 ```tsx
-<ThemeProvider scoped theme="dark">
-  <Toolbar />
-</ThemeProvider>
+import {Provider, ThemeProvider} from '@gravity-ui/uikit';
+
+<Provider theme="light">
+  <Page />
+  <ThemeProvider theme="dark">
+    <Toolbar />
+  </ThemeProvider>
+</Provider>;
 ```
+
+Unspecified theme, direction, and system-theme mappings inherit from the nearest parent theme.
+Nested scopes can contain other `ThemeProvider`s. Their portals, including popups and dialogs,
+retain the local theme and direction even when mounted into `document.body` or a custom container.
+A theme scope does not reset language, layout, component defaults, mobile settings, or tooltip delay groups.
+
+Without a parent theme, `ThemeProvider` applies its theme and direction to `body` by default;
+pass `scoped` to create a local root instead. A standalone `ThemeProvider` configures only theming:
+it does not install the other feature providers or a tooltip delay group.
 
 For a CSS-only region (no context update), apply the class from `getRootClassName({theme: 'dark'})`.

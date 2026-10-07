@@ -5,10 +5,11 @@ import {render as renderWithoutProviders} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {setupTimersMock} from '../../../../test-utils/setupTimersMock';
-import {act, render, screen} from '../../../../test-utils/utils';
+import {act, screen} from '../../../../test-utils/utils';
 import {ActionTooltip} from '../../ActionTooltip';
+import {Provider} from '../../theme/Provider';
+import type {ProviderProps} from '../../theme/Provider';
 import {ThemeProvider} from '../../theme/ThemeProvider';
-import type {ThemeProviderProps} from '../../theme/ThemeProvider';
 import {Tooltip} from '../Tooltip';
 import {TooltipDelayGroup} from '../TooltipDelayGroup';
 
@@ -25,6 +26,18 @@ function advanceTime(ms: number) {
     act(() => {
         jest.advanceTimersByTime(ms);
     });
+}
+
+function render(
+    ui: React.ReactElement,
+    options?: {wrapper?: React.JSXElementConstructor<{children: React.ReactNode}>},
+) {
+    const Wrapper = options?.wrapper ?? React.Fragment;
+    return renderWithoutProviders(
+        <ThemeProvider>
+            <Wrapper>{ui}</Wrapper>
+        </ThemeProvider>,
+    );
 }
 
 function renderTooltips(wrapper?: React.JSXElementConstructor<{children: React.ReactNode}>) {
@@ -317,17 +330,17 @@ test.each([
     },
 );
 
-describe('ThemeProvider', () => {
-    function renderRootTooltips(props?: Omit<ThemeProviderProps, 'children'>) {
+describe('Provider', () => {
+    function renderRootTooltips(props?: Omit<ProviderProps, 'children'>) {
         renderWithoutProviders(
-            <ThemeProvider {...props}>
+            <Provider {...props}>
                 <Tooltip content="first tooltip">
                     <button>first</button>
                 </Tooltip>
                 <Tooltip content="second tooltip">
                     <button>second</button>
                 </Tooltip>
-            </ThemeProvider>,
+            </Provider>,
         );
 
         return {
@@ -352,16 +365,16 @@ describe('ThemeProvider', () => {
     test('should not split the group by a nested provider', async () => {
         const user = setup();
         renderWithoutProviders(
-            <ThemeProvider>
+            <Provider>
                 <Tooltip content="outer tooltip">
                     <button>outer</button>
                 </Tooltip>
-                <ThemeProvider scoped theme="dark">
+                <ThemeProvider theme="dark">
                     <Tooltip content="inner tooltip">
                         <button>inner</button>
                     </Tooltip>
                 </ThemeProvider>
-            </ThemeProvider>,
+            </Provider>,
         );
 
         await user.hover(screen.getByRole('button', {name: 'outer'}));

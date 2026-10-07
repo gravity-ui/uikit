@@ -12,7 +12,7 @@ import {Select} from '@gravity-ui/uikit';
 
 > [!NOTE]
 > В v8 опции рисует новый список. Что изменилось для потребителя, собрано в
-> [миграционном гайде](./migration-guide.md) (на английском).
+> [миграционном гайде](https://github.com/gravity-ui/uikit/blob/main/docs/migration-select-v8.md) (на английском).
 
 ## `Options`
 

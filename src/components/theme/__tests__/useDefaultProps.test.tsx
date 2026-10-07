@@ -5,6 +5,7 @@ import type {ComponentDefaultPropsMap, DefaultPropsMap} from '../../../index';
 import {PasswordInput} from '../../controls/PasswordInput';
 import {PasswordInputQa} from '../../controls/PasswordInput/constants';
 import {Menu as LegacyMenu} from '../../legacy/Menu';
+import {TableColumnSetup as LegacyTableColumnSetup} from '../../legacy/TableColumnSetup';
 import type {DefaultPropsProviderProps} from '../DefaultPropsProvider';
 import {DefaultPropsProvider} from '../DefaultPropsProvider';
 import {Provider} from '../Provider';
@@ -123,6 +124,18 @@ describe('DefaultPropsProvider', () => {
         );
 
         expect(screen.getByTestId('legacy-menu')).toHaveClass('g-menu-legacy_size_l');
+    });
+
+    it('applies TableColumnSetup defaults to the legacy column setup', () => {
+        render(
+            <DefaultPropsProvider
+                defaultProps={{TableColumnSetup: {switcher: <button>Columns</button>}}}
+            >
+                <LegacyTableColumnSetup items={[]} onUpdate={() => {}} />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByRole('button', {name: 'Columns'})).toBeVisible();
     });
 
     it('passes inherited defaults through when defaultProps is omitted', () => {

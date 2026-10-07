@@ -225,8 +225,6 @@ The same applies to the types (`TableProps`, `TableColumnConfig`, `TableSettings
   are gone. The popup looks the same; rewrite the overrides that targeted these classes.
 - **`@deprecated`.** `Table`, its HOCs and `TableColumnSetup` are marked `@deprecated` in their types: linters with a
   `no-deprecated` rule start reporting their usages.
-- **`DefaultPropsProvider` no longer accepts the `TableColumnSetup` key.** `TableColumnSetup` does not read defaults
-  from the provider: pass them to the component explicitly.
 - **Translations.** The keyset names (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) are
   the same, overrides through `addComponentKeysets` keep working.
 

@@ -20,7 +20,7 @@ function Title({title}: {title?: string}) {
         theme: {breakpoints},
     } = useLayoutContext();
     return (
-        <Flex direction="column" space="5" className={sp({mb: '5'})}>
+        <Flex direction="column" gap="spacing-5" className={sp({mb: '5'})}>
             {title && (
                 <Text variant="subheader-2" as="div">
                     {title}

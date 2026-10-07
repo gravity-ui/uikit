@@ -19,10 +19,10 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
     spaceBaseSize: 4,
     components: {
         container: {
-            gutters: 3,
+            gutters: 'spacing-3',
             media: {
                 l: {
-                    gutters: 5,
+                    gutters: 'spacing-5',
                 },
             },
         },

@@ -78,7 +78,7 @@ export default function () {
     return (
         <div>
             <Radio value="option-1" content="Content" size="l" />
-            <Box spacing={{mt: 2}}>
+            <Box marginBlockStart="spacing-2">
                 <Radio value="option-2" size="l">
                     <span>Content as children</span>
                 </Radio>

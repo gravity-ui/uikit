@@ -39,12 +39,12 @@ entire spacing system proportionally (see [Customization](#customization)).
 
 There are three ways to consume the scale — pick by context:
 
-**1. Component props** — spacing **between** children of `Flex`/`Box`, via the `gap` prop:
+**1. Component props** — spacing **between** children of `Flex`/`Grid`, via the `gap` prop:
 
 ```tsx
 import {Flex} from '@gravity-ui/uikit';
 
-<Flex gap={5}>
+<Flex gap="spacing-5">
   <Button />
   <Button />
 </Flex>; // 20px between children
@@ -89,7 +89,7 @@ Supported keys (each takes a scale step):
 
 You can pass a second argument to merge extra class names: `spacing({mr: 5}, myClassName)`.
 
-> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Box`; the `spacing()`/`sp()`
+> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Grid`; the `spacing()`/`sp()`
 > utility for one-off offsets on an element; raw `--g-spacing-*` variables inside your own CSS.
 > Always use scale steps, never hard-coded pixels.
 
@@ -141,10 +141,10 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     spaceBaseSize: 4,
     components: {
         container: {
-            gutters: 3,
+            gutters: 'spacing-3',
             media: {
                 l: {
-                    gutters: 5,
+                    gutters: 'spacing-5',
                 },
             },
         },
@@ -181,7 +181,7 @@ import React, {Suspense} from 'react';
 import {Flex, Loader} from '@gravity-ui/uikit';
 
 // `Flex` extended from `Box` component and enriched flexbox model properties
-<Flex centerContent width="100%" height="100%">
+<Flex justifyContent="center" alignItems="center" width="100%" height="100%">
   <Suspense fallback={<Loader size="m" />}>
     <LazyLoadedComponent />
   </Suspense>
@@ -196,7 +196,7 @@ Supports nested grids. This should be used when you have mobile and desktop app 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
 
-<Row space="5">
+<Row gap="spacing-5">
   <Col size="4">...</Col>
   <Col size="4">...</Col>
   <Col size="4">...</Col>
@@ -207,8 +207,18 @@ import {Row, Col} from '@gravity-ui/uikit';
 
 **Props**
 
-- `space` - specify horizontal spacing between child `Col` components;
-- `spaceRow` - specify vertical spacing between child `Col` components. By default, it takes values from the `space` prop.
+- `gap` sets spacing between columns and wrapped lines;
+- `columnGap` sets horizontal spacing;
+- `rowGap` sets vertical spacing.
+
+All gaps accept responsive objects, `spacing-*` tokens, CSS lengths, and numbers as pixels.
+For example, `gap="spacing-2"` uses the spacing scale, while `gap={2}` means `2px`.
+Use `gap` alone, or separate `rowGap` and `columnGap` for different axis values. These props map
+directly to CSS; mixing shorthand and longhands makes precedence depend on declaration order and
+can cause conflicts during React updates.
+
+`Row` uses CSS Grid with 12 equal tracks. It also accepts `Box` style props, Grid alignment
+props, native element props, `as`, and refs.
 
 ### Col
 
@@ -217,7 +227,10 @@ Must be used as a child of `Row` component.
 
 **Props**
 
-- `size` - column width in column number (if omitted the column will occupy all free space in the row)
+- `size` - number of grid tracks to span. If omitted, the column spans all 12 tracks on its own row.
+
+Use `size` for responsive sizing. The separate breakpoint props `s`, `m`, `l`, `xl`, and `xxl`
+have been removed; for example, use `size={{s: 12, m: 6}}` instead of `s={12} m={6}`.
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -226,9 +239,9 @@ import {Row, Col} from '@gravity-ui/uikit';
   /**
    * In this example we override default theme behavior.
    *
-   * space={{s: '1', xl:'5'}}
+   * gap={{s: 'spacing-1', xl: 'spacing-5'}}
    */
-  space="5"
+  gap="spacing-5"
 >
   <Col
     // Will be:
@@ -240,31 +253,69 @@ import {Row, Col} from '@gravity-ui/uikit';
 </Row>;
 ```
 
-> Grid system use negative margins under the hood. So you can specify background-color css property directly in `Col` components. Use wrapper components in such cases.
+`Row` uses native CSS gaps, and CSS Grid accounts for the gaps when sizing tracks. Columns
+whose sizes add up to 12 fit on one line. Columns without `size` each occupy a full row instead
+of sharing the remaining space. Use explicit sizes for columns that should share a row, or
+`Flex` for dynamically distributed space. `Col` accepts `Box` style props, including padding
+and backgrounds, without generated gutter padding or negative margins.
+
+`justifyContent` aligns the grid tracks, not individual columns within an incomplete row.
+Use `justifyItems` or `justifySelf` to align content within a grid cell. Flex sizing props
+such as `flexGrow` do not affect columns inside `Row`.
 
 ## Container
 
-Center you content. Almost always it should be one per page. Manage max width corresponding to current screen size
+Centers page content using `Box` and normal block flow. Use responsive style props to adjust
+padding, width, and spacing between rows.
 
 **Props**
 
-- `gutters` - left and right content padding. Needed when you content width equals screen width;
-- `maxWidth` - limits screen width for specific screen size;
-- `spaceRow` - ability to specify spacing between children `Row` components
+- `gutters` sets logical horizontal padding, defaulting to the layout theme. It accepts responsive
+  objects, `spacing-*` tokens, CSS lengths, and numbers in pixels;
+- `size` caps the content width at the configured breakpoint width. Gutters and borders are added
+  outside that cap. For example, `size="l"` uses `layout.breakpoints.l`;
+- `maxWidth` accepts a CSS length or number in pixels, not a breakpoint name. Explicit `maxWidth`,
+  `maxInlineSize`, or `style.maxInlineSize` overrides the `size` cap;
+- `rowGap` sets `margin-block-start` between adjacent direct-child `Row` elements, defaulting to
+  the layout theme. It accepts responsive objects, spacing tokens, CSS lengths, and pixel values;
+- all other `Box` style props are supported. Flex container alignment and gap props are not.
+
+Like `Box` and `Flex`, `Container` does not set `box-sizing`. With the default `content-box`,
+`size="l"` allows 1080px of content plus gutters and borders. Leave width unset to fit a narrower
+parent automatically; `width="100%"` with gutters can overflow it. Application CSS can override
+box sizing. Without `size`, no breakpoint cap is applied.
+
+The first row has no added margin. Other elements interrupt row adjacency and receive no added
+spacing. Nested rows are unaffected; nested containers resolve their own `rowGap` from props or
+theme defaults rather than inheriting the outer container's value.
+
+```tsx
+import {Container} from '@gravity-ui/uikit';
+
+<Container size="l" gutters={{xs: 'spacing-3', l: 'spacing-5'}} rowGap="spacing-4">
+  {children}
+</Container>;
+```
+
+Set `gutters={0}` to disable gutters. The theme configuration uses `gutters` and
+`rowGap` too. All three components support polymorphic `as`, native props, and refs.
+The standard `paddingInline` style prop is also supported and overrides theme defaults. Explicit
+`gutters` takes precedence over `paddingInline`.
+See the [migration guide](../src/components/layout/migration-guide.md) for the removed spacing props.
 
 ## Flex
 
-CSS `Flexbox` model representation in `jsx` world. Has built-in `spacing` to manage space between children. All flex properties are available in props.
-For most used properties it supports object syntax config to override behavior in different screen sizes.
+CSS `Flexbox` model representation in `jsx` world. Use `gap`, `columnGap`, and `rowGap` to manage space between children. All flex properties are available as props.
+The most commonly used properties support object syntax to override behavior at different screen sizes.
 
-#### Examples
+### Examples
 
 _Space between children components in row direction_
 
 ```jsx
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
-<Flex space="5">
+<Flex gap="spacing-5">
   <TextInput />
   <Button />
 </Flex>;
@@ -275,8 +326,8 @@ _Nested `Flex` example_
 ```jsx
 import {Flex, TextInput, Button, Table} from '@gravity-ui/uikit';
 
-<Flex direction="column" space="5">
-  <Flex space="5">
+<Flex direction="column" gap="spacing-5">
+  <Flex gap="spacing-5">
     <TextInput />
     <Button />
   </Flex>
@@ -292,7 +343,7 @@ import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 <Flex
   // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
-  space={{s: '5', m: '3'}}
+  gap={{s: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />

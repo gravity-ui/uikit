@@ -19,7 +19,7 @@ export const ListContainerView = React.forwardRef<HTMLDivElement, ListContainerV
             <Flex
                 direction="column"
                 ref={ref}
-                grow
+                flexGrow
                 tabIndex={-1}
                 id={id}
                 role="listbox"

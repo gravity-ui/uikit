@@ -119,7 +119,7 @@ const actions: ActionsPanelProps['actions'] = [
             item: {
                 onClick: () => console.log('Edit'),
                 children: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={PencilToSquare} />
                         Edit
                     </Flex>
@@ -139,7 +139,7 @@ const actions: ActionsPanelProps['actions'] = [
             item: {
                 onClick: () => console.log('Copy'),
                 children: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Files} />
                         Copy
                     </Flex>
@@ -160,7 +160,7 @@ const actions: ActionsPanelProps['actions'] = [
             item: {
                 onClick: () => console.log('Delete'),
                 children: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={TrashBin} />
                         Delete
                     </Flex>
@@ -191,7 +191,7 @@ const actions: ActionsPanelProps['actions'] = [
             item: {
                 onClick: () => console.log('Edit'),
                 children: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={PencilToSquare} />
                         Edit
                     </Flex>
@@ -211,7 +211,7 @@ const actions: ActionsPanelProps['actions'] = [
             item: {
                 onClick: () => console.log('Copy'),
                 children: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Files} />
                         Copy
                     </Flex>
@@ -232,7 +232,7 @@ const actions: ActionsPanelProps['actions'] = [
             item: {
                 onClick: () => console.log('Delete'),
                 children: (
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={TrashBin} />
                         Delete
                     </Flex>
@@ -662,7 +662,7 @@ const actions: ActionsPanelProps['actions'] = [
 | noteClassName | Optional HTML `class` attribute                           |        `string`         |         |
 | maxRowActions | Maximum number of actions in a row                        |        `number`         |   `4`   |
 
-## ActionsPanelItem:
+## ActionsPanelItem
 
 | Name      | Description                                        |                  Type                   | Default |
 | :-------- | :------------------------------------------------- | :-------------------------------------: | :-----: |

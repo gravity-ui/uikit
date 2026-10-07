@@ -1,12 +1,12 @@
 'use client';
 
-import type * as React from 'react';
+import * as React from 'react';
 
-import type {QAProps} from '../../types';
 import {block} from '../../utils/cn';
-import {sp} from '../spacing/spacing';
-import type {MediaPartial, MediaType, Space} from '../types';
-import {makeCssMod} from '../utils';
+import {Box} from '../Box/Box';
+import type {BoxProps} from '../Box/Box';
+import {getSpacingValue} from '../hooks/useStyleProps';
+import type {ContainerConfigProps, LayoutComponentProps, MediaType} from '../types';
 
 import {useContainerThemeProps} from './useContainerThemeProps';
 
@@ -14,107 +14,33 @@ import './Container.scss';
 
 const b = block('container');
 
-export interface ContainerProps extends QAProps {
-    style?: React.CSSProperties;
-    /**
-     * Use function to define different classes in different media queries
-     */
-    className?: string;
-    children?: React.ReactNode;
-    /**
-     * Width of container will never be larger then specified media type width
-     */
-    maxWidth?: MediaType;
-    // TODO BREAKING CHANGE: remove false value, 0 has the same effect
-    /**
-     * Right and left paddings between content
-     *
-     * Take default values during `LayoutContext`
-     */
-    gutters?: Space | false;
-    /**
-     * Space between child `Row` components
-     *
-     * By default takes props via `LayoutContext`
-     */
-    spaceRow?: Space | MediaPartial<Space>;
-    as?: keyof React.JSX.IntrinsicElements;
+export interface ContainerProps<T extends React.ElementType = 'div'> extends BoxProps<T> {
+    /** Caps content width at the configured breakpoint width, excluding gutters by default. */
+    size?: MediaType;
+    /** Logical horizontal padding. Overrides paddingInline and layout-theme defaults. */
+    gutters?: BoxProps<T>['paddingInline'];
+    /** Spacing between adjacent direct-child Row elements. Defaults to the layout theme. */
+    rowGap?: ContainerConfigProps['rowGap'];
 }
 
-/**
- * Center you content in horizontal direction.
- *
- * > In most cases must be one on the page.
- *
- * ```tsx
- * import {Container, Row, Col} from '@gravity-ui/uikit';
- *
- * <Container masWidth="m">
- *   <Row>
- *     <Col>
- *       Col 1
- *    </Col>
- *    <Col>
- *       Col 2
- *    </Col>
- *  </Row>
- * </Container>
- * ```
- * ---
- * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#container
- */
-export const Container = ({
-    children,
-    style: propsStyle,
-    as: Tag = 'div',
-    className,
-    maxWidth,
-    gutters,
-    spaceRow,
-    qa,
-}: ContainerProps) => {
-    const {getClosestMediaProps, containerThemeProps, breakpoints} = useContainerThemeProps();
-
-    const style = {
-        ...(maxWidth
-            ? {
-                  maxWidth: breakpoints[maxWidth],
-              }
-            : {}),
-        ...propsStyle,
-    };
-
-    let sr: string | undefined;
-
-    if (typeof spaceRow === 'object') {
-        const propsCandidate = getClosestMediaProps(spaceRow);
-
-        if (propsCandidate) {
-            sr = makeCssMod(propsCandidate);
-        }
-    } else if (typeof spaceRow !== 'undefined') {
-        sr = makeCssMod(spaceRow);
-    }
+/** Centers page content. Use gutters for horizontal padding and rowGap between rows. */
+export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(function Container(
+    {className, size, gutters, paddingInline, rowGap, style, ...props},
+    ref,
+) {
+    const {containerThemeProps, getClosestMediaProps, breakpoints} = useContainerThemeProps();
+    const rowGapValue = getClosestMediaProps(rowGap ?? containerThemeProps.rowGap);
 
     return (
-        <Tag
-            style={style}
-            className={b(
-                {
-                    sr,
-                },
-                gutters === false
-                    ? className
-                    : sp(
-                          {
-                              px: gutters ?? containerThemeProps.gutters,
-                          },
-                          className,
-                      ),
-            )}
-            data-qa={qa}
-        >
-            {children}
-        </Tag>
+        <Box
+            maxInlineSize={size === undefined ? undefined : `min(100%, ${breakpoints[size]}px)`}
+            {...props}
+            paddingInline={gutters ?? paddingInline ?? containerThemeProps.gutters}
+            style={{...style, '--g-container-row-gap': getSpacingValue(rowGapValue ?? 0)}}
+            className={b(null, className)}
+            ref={ref}
+        />
     );
-};
+}) as (<C extends React.ElementType = 'div'>(
+    props: LayoutComponentProps<C, ContainerProps<C>>,
+) => React.ReactElement) & {displayName: string};

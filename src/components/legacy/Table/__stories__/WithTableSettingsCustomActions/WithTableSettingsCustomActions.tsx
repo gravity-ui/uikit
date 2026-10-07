@@ -43,7 +43,7 @@ export const WithTableSettingsCustomActionsShowcase = ({
             settings={innerSettings}
             updateSettings={updateSettings}
             renderControls={({DefaultApplyButton, onApply}) => (
-                <Flex gapRow="1" direction="column">
+                <Flex rowGap="spacing-1" direction="column">
                     {showSelectAllButton && (
                         <SelectAllButton
                             onClick={() => {
@@ -79,7 +79,7 @@ function SelectAllButton<T extends ButtonButtonProps>({onClick}: T) {
 function ResetButton<T extends ButtonButtonProps>({onClick}: T) {
     return (
         <Button view="outlined-warning" onClick={onClick}>
-            <Flex alignItems="center" gap="1">
+            <Flex alignItems="center" gap="spacing-1">
                 <Icon key="icon" data={ArrowRotateLeft} />
                 <span>Reset</span>
             </Flex>

@@ -21,7 +21,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         });
                     }
 
-                    await mount(<ColStories.Static space={3} />, {width: 'auto'});
+                    await mount(<ColStories.Static gap="spacing-3" />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -41,7 +41,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         });
                     }
 
-                    await mount(<ColStories.Dynamic space={2} />, {width: 'auto'});
+                    await mount(<ColStories.Dynamic gap="spacing-2" />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -67,7 +67,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         l: '4',
                         m: '6',
                         s: '12',
-                        space: 3,
+                        gap: 'spacing-3',
                     } as const;
 
                     await mount(

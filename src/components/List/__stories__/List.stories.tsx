@@ -154,9 +154,9 @@ const sizes = ['s', 'm', 'l', 'xl'] as const;
 
 export const Sizes: Story = {
     render: () => (
-        <Flex gap={8}>
+        <Flex gap="spacing-8">
             {sizes.map((size) => (
-                <Flex key={size} direction="column" gap={2}>
+                <Flex key={size} direction="column" gap="spacing-2">
                     <Text color="secondary" variant="caption-2">
                         {size}
                     </Text>
@@ -181,7 +181,7 @@ export const Actions: Story = {
     render: function ActionsStory() {
         const [currentId, setCurrentId] = React.useState<string>();
         return (
-            <Flex direction="column" gap={2} style={{width: 240}}>
+            <Flex direction="column" gap="spacing-2" style={{width: 240}}>
                 <List
                     aria-label="Actions"
                     items={commands}
@@ -244,7 +244,7 @@ export const ItemContent: Story = {
             items={services}
             style={{width: 240}}
             getItemContent={(service) => (
-                <Flex gap={2} alignItems="center">
+                <Flex gap="spacing-2" alignItems="center">
                     <Icon
                         data={service.healthy ? CircleCheck : TriangleExclamation}
                         size={14}
@@ -437,8 +437,8 @@ export const ControlledActivation: Story = {
     render: function ControlledActivationStory() {
         const [activeItemId, setActiveItemId] = React.useState<string | null>(languages[1]);
         return (
-            <Flex direction="column" gap={2} style={{width: 240}}>
-                <Flex gap={2}>
+            <Flex direction="column" gap="spacing-2" style={{width: 240}}>
+                <Flex gap="spacing-2">
                     <Button onClick={() => setActiveItemId(languages[0])}>First</Button>
                     <Button onClick={() => setActiveItemId(languages[languages.length - 1])}>
                         Last
@@ -483,7 +483,7 @@ export const MultipleSelection: Story = {
     render: function MultipleSelectionStory() {
         const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
         return (
-            <Flex direction="column" gap={2} style={{width: 240}}>
+            <Flex direction="column" gap="spacing-2" style={{width: 240}}>
                 <List
                     aria-label="Languages"
                     items={languages}
@@ -696,7 +696,7 @@ export const FocusOwner: Story = {
         };
 
         return (
-            <Flex direction="column" gap={2} style={{width: 240}}>
+            <Flex direction="column" gap="spacing-2" style={{width: 240}}>
                 <TextInput
                     value={query}
                     onUpdate={handleQueryUpdate}

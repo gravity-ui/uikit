@@ -58,7 +58,7 @@ type StoryArgs = Exclude<Story['args'], undefined>;
 
 export const Default = {
     render: (args) => (
-        <Flex gap={2}>
+        <Flex gap="spacing-2">
             <Select {...args} title="Select sample">
                 <Select.Option value="val1" content="Value1" />
                 <Select.Option value="val2" content="Value2" />
@@ -175,9 +175,9 @@ export const NullableValues: Story = {
     args: {...showcaseArgs, multiple: true, hasClear: true, hasCounter: true},
     render: function NullableValuesStory({view, size, multiple, hasClear, hasCounter}) {
         return (
-            <Flex direction="column" gap={2}>
+            <Flex direction="column" gap="spacing-2">
                 {NULLABLE_CASES.map(({title, options, value}) => (
-                    <Flex key={title} gap={2} alignItems="center">
+                    <Flex key={title} gap="spacing-2" alignItems="center">
                         <Select<unknown, unknown>
                             view={view}
                             size={size}
@@ -318,7 +318,7 @@ export const WithMobileCustomOptions: Story = {
 
         return (
             <MobileProvider mobile>
-                <Flex gap={2}>
+                <Flex gap="spacing-2">
                     <Select
                         {...props}
                         multiple={false}

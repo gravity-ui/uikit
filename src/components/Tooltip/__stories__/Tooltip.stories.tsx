@@ -33,7 +33,7 @@ export const Default: Story = {
 
 export const Delay: Story = {
     render: (args) => (
-        <Flex gap={3} justifyContent="center" wrap>
+        <Flex gap="spacing-3" justifyContent="center" wrap>
             <Tooltip {...args} openDelay={500}>
                 <Button>Open Delay: 500ms</Button>
             </Tooltip>
@@ -51,7 +51,7 @@ const ROW_ACTIONS = ['Edit', 'Duplicate', 'Preview', 'Delete'];
 
 export const DelayGroup: Story = {
     render: (args) => (
-        <Flex gap={2}>
+        <Flex gap="spacing-2">
             {ROW_ACTIONS.map((title) => (
                 <Tooltip {...args} key={title} content={title}>
                     <Button view="outlined">{title}</Button>

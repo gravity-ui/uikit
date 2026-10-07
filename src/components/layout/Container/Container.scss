@@ -2,15 +2,10 @@
 
 #{v.$containerBlock} {
     margin-inline: auto;
-    max-width: 100%;
-    height: 100%;
+    max-inline-size: 100%;
+    block-size: 100%;
 
-    @each $space, $value in v.$SPACE {
-        // space row - space between Row components
-        &_sr_#{$space} {
-            & > #{v.$rowBlock}:not(:last-child) {
-                margin-block-end: $value;
-            }
-        }
+    > #{v.$rowBlock} + #{v.$rowBlock} {
+        margin-block-start: var(--g-container-row-gap, 0px);
     }
 }

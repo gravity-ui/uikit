@@ -14,38 +14,45 @@ Migrating from the `List` of v7? See the [migration guide](https://github.com/gr
 
 <!--/GITHUB_BLOCK-->
 
-- [Basic Usage](#basic-usage)
-- [Sizes](#sizes)
-- [Item getters](#item-getters)
-  - [getItemChildren](#getitemchildren)
-  - [getItemContent](#getitemcontent)
-  - [getItemDisabled](#getitemdisabled)
-  - [getItemId](#getitemid)
-  - [getItemTextValue](#getitemtextvalue)
-- [Item actions](#item-actions)
-- [renderItem](#renderitem)
-  - [List.ItemView](#listitemview)
-  - [Custom markup](#custom-markup)
-  - [Links](#links)
-- [The active item](#the-active-item)
-- [Selection](#selection)
-  - [Single selection](#single-selection)
-  - [Multiple selection](#multiple-selection)
-- [Virtualization](#virtualization)
-- [Interactive rows](#interactive-rows)
-- [Drag and drop](#drag-and-drop)
-  - [@hello-pangea/dnd](#hello-pangeadnd)
-  - [Any other library](#any-other-library)
-- [useListFocusOwner](#uselistfocusowner)
-- [Accessibility](#accessibility)
-  - [Keyboard](#keyboard)
-- [Properties](#properties)
-  - [List](#list)
-  - [ListItemContext](#listitemcontext)
-  - [ListItemHelpers](#listitemhelpers)
-  - [Data attributes](#data-attributes)
-  - [ListVirtualizer](#listvirtualizer)
-  - [ListDndAdapter](#listdndadapter)
+<!--GITHUB_BLOCK-->
+
+Migrating from the `List` of v7? See the [migration guide](../../../docs/migration-from-legacy-list.md).
+
+<!--/GITHUB_BLOCK-->
+
+- [List](#list)
+  - [Basic Usage](#basic-usage)
+  - [Sizes](#sizes)
+  - [Item getters](#item-getters)
+    - [getItemChildren](#getitemchildren)
+    - [getItemContent](#getitemcontent)
+    - [getItemDisabled](#getitemdisabled)
+    - [getItemId](#getitemid)
+    - [getItemTextValue](#getitemtextvalue)
+  - [Item actions](#item-actions)
+  - [renderItem](#renderitem)
+    - [List.ItemView](#listitemview)
+    - [Custom markup](#custom-markup)
+    - [Links](#links)
+  - [The active item](#the-active-item)
+  - [Selection](#selection)
+    - [Single selection](#single-selection)
+    - [Multiple selection](#multiple-selection)
+  - [Virtualization](#virtualization)
+  - [Interactive rows](#interactive-rows)
+  - [Drag and drop](#drag-and-drop)
+    - [@hello-pangea/dnd](#hello-pangeadnd)
+    - [Any other library](#any-other-library)
+  - [useListFocusOwner](#uselistfocusowner)
+  - [Accessibility](#accessibility)
+    - [Keyboard](#keyboard)
+  - [Properties](#properties)
+    - [List](#list-1)
+    - [ListItemContext](#listitemcontext)
+    - [ListItemHelpers](#listitemhelpers)
+    - [Data attributes](#data-attributes)
+    - [ListVirtualizer](#listvirtualizer)
+    - [ListDndAdapter](#listdndadapter)
 
 ## Basic Usage
 
@@ -162,7 +169,7 @@ function ServiceList() {
       aria-label="Services"
       items={services}
       getItemContent={(service) => (
-        <Flex gap={2} alignItems="center">
+        <Flex gap="spacing-2" alignItems="center">
           <Icon data={service.healthy ? CircleCheck : TriangleExclamation} size={14} />
           {service.name}
         </Flex>
@@ -234,7 +241,7 @@ function CommandList() {
   const [currentId, setCurrentId] = React.useState();
 
   return (
-    <Flex direction="column" gap={2}>
+    <Flex direction="column" gap="spacing-2">
       <List
         aria-label="Actions"
         items={commands}
@@ -488,8 +495,8 @@ function LanguageList() {
   const [activeItemId, setActiveItemId] = React.useState(languages[1]);
 
   return (
-    <Flex direction="column" gap={2}>
-      <Flex gap={2}>
+    <Flex direction="column" gap="spacing-2">
+      <Flex gap="spacing-2">
         <Button onClick={() => setActiveItemId(languages[0])}>First</Button>
         <Button onClick={() => setActiveItemId(languages[languages.length - 1])}>Last</Button>
         <Button onClick={() => setActiveItemId(null)}>None</Button>
@@ -560,7 +567,7 @@ function LanguagePicker() {
   const [selectedIds, setSelectedIds] = React.useState([]);
 
   return (
-    <Flex direction="column" gap={2}>
+    <Flex direction="column" gap="spacing-2">
       <List
         aria-label="Languages"
         items={languages}
@@ -853,7 +860,7 @@ function FrameworkPicker() {
   };
 
   return (
-    <Flex direction="column" gap={2}>
+    <Flex direction="column" gap="spacing-2">
       <TextInput
         value={query}
         onUpdate={handleQuery}

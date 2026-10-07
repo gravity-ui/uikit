@@ -25,7 +25,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                 props: {
                     children: 'Action 1',
                     onClick: noop,
-                    view: 'normal-contrast',
+                    view: 'contrast-light',
                 },
             },
             menu: {
@@ -190,7 +190,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                 button: {
                     props: {
                         children: 'Sub-menu',
-                        view: 'outlined-contrast',
+                        view: 'contrast-light',
                         onClick: noop,
                         qa: 'sub-menu-trigger',
                     },

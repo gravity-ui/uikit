@@ -85,7 +85,7 @@ export function ColorPanel(props: ColorPanelProps) {
     }
 
     const currentBackground = BACKGROUND_LIST[currentBackgroundIndex];
-    const switcherView = currentBackground === 'normal' ? 'outlined' : 'outlined-contrast';
+    const switcherView = currentBackground === 'normal' ? 'outlined' : 'contrast-light';
 
     return (
         <div className={b({bg: currentBackground})}>

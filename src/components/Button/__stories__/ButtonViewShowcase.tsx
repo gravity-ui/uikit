@@ -1,6 +1,8 @@
 import {Gear} from '@gravity-ui/icons';
+import {DEFAULT_THEME} from '@gravity-ui/uikit-themer';
 
 import {Icon} from '../../Icon';
+import {useThemeType} from '../../theme';
 import {cn} from '../../utils/cn';
 import {Button} from '../Button';
 import type {ButtonProps} from '../types';
@@ -10,7 +12,16 @@ import './ButtonViewShowcase.scss';
 const b = cn('button-view-showcase');
 
 export function ButtonViewShowcase(args: ButtonProps) {
-    const contrastColor = '#027bf3';
+    const theme = useThemeType();
+
+    const contrastBackgrounds: Record<string, string> = {
+        contrast: 'transparent',
+        'contrast-inverted':
+            DEFAULT_THEME.utilityColors['base-background'][theme === 'dark' ? 'light' : 'dark']
+                .value,
+        'contrast-light': DEFAULT_THEME.utilityColors['base-background'].dark.value,
+        'contrast-dark': DEFAULT_THEME.utilityColors['base-background'].light.value,
+    };
     const views = [
         '-',
         'normal',
@@ -31,9 +42,10 @@ export function ButtonViewShowcase(args: ButtonProps) {
         'flat-danger',
         'flat-utility',
         'flat-action',
-        'normal-contrast',
-        'outlined-contrast',
-        'flat-contrast',
+        'contrast',
+        'contrast-inverted',
+        'contrast-light',
+        'contrast-dark',
     ] as const;
     const states = ['view', 'default', 'disabled', 'loading', 'selected'] as const;
 
@@ -82,9 +94,7 @@ export function ButtonViewShowcase(args: ButtonProps) {
                 items.push(
                     <div
                         key={key}
-                        style={{
-                            backgroundColor: view.endsWith('contrast') ? contrastColor : '',
-                        }}
+                        style={{backgroundColor: contrastBackgrounds[view]}}
                         className={b('grid-cell')}
                     >
                         <Button {...props}>

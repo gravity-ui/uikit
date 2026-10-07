@@ -71,13 +71,13 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                         <Menu
                             size="s"
                             trigger={
-                                <Button view="flat-contrast" size="m" {...action.button.props} />
+                                <Button view="contrast-light" size="m" {...action.button.props} />
                             }
                         >
                             {submenu.props.children}
                         </Menu>
                     ) : (
-                        <Button view="flat-contrast" size="m" {...action.button.props} />
+                        <Button view="contrast-light" size="m" {...action.button.props} />
                     );
                     return (
                         <div className={b('button-action-wrapper', {invisible})} {...attr} key={id}>
@@ -91,7 +91,7 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                     <Menu
                         size="s"
                         trigger={
-                            <Button view="flat-contrast" size="m" aria-label={t('label_more')}>
+                            <Button view="contrast-light" size="m" aria-label={t('label_more')}>
                                 <Icon data={Ellipsis} />
                             </Button>
                         }

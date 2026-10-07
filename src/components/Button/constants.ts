@@ -1,6 +1,10 @@
 export const BUTTON_VIEWS = [
     'normal', // Grey background, no border
     'action', // Branded background, no border
+    'contrast', // Contrasting background for the current theme
+    'contrast-inverted', // Inverted contrasting background
+    'contrast-light', // Light background in both themes
+    'contrast-dark', // Dark background in both themes
     'outlined', // No background, grey border
     'outlined-info', // No background, with info-type border color
     'outlined-success', // No background, with success-type border color
@@ -17,9 +21,6 @@ export const BUTTON_VIEWS = [
     'flat-danger', // No background, no border, danger-type text color
     'flat-utility', // No background, no border, utility-type text color
     'flat-action', // No background, no border, branded text color
-    'normal-contrast', // normal button appearance with contrast background
-    'outlined-contrast', // outlined button appearance with contrast background
-    'flat-contrast', // flat button appearance with contrast background
 ] as const;
 
 export const BUTTON_ICON_SIZE_MAP = {

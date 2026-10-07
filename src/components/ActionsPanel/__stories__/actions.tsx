@@ -109,7 +109,7 @@ export const actionsWithNote: ActionsPanelProps['actions'] = [
             props: {
                 children: 'Action 1',
                 onClick: () => console.log('click button action 1'),
-                view: 'normal-contrast',
+                view: 'contrast-light',
             },
         },
         menu: {
@@ -226,7 +226,7 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
         button: {
             props: {
                 children: ['Sub-menu', <Icon key="icon" data={ChevronDown} />],
-                view: 'outlined-contrast',
+                view: 'contrast-light',
             },
         },
         menu: {

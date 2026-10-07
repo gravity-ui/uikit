@@ -82,8 +82,11 @@ When a legacy tooltip had both a `title` and a `theme` other than `"announcement
 | Legacy `theme`   | Action button `view` | Cancel button `view` |
 | ---------------- | -------------------- | -------------------- |
 | `info` (default) | `normal`             | `flat`               |
-| `special`        | `normal-contrast`    | `flat-contrast`      |
-| `announcement`   | `normal-contrast`    | `outlined`           |
+| `special`        | `contrast-light`     | `flat` + custom CSS  |
+| `announcement`   | `contrast-light`     | `outlined`           |
+
+`normal-contrast` is now `contrast-light`. To reproduce the former `flat-contrast` cancel button for
+`special`, use `view="flat"` with the [Button CSS API and themer v2 tokens](migration-to-v8.md#button-contrast-views).
 
 ## Theme mapping (approximate)
 
@@ -103,7 +106,7 @@ Legacy `theme`: `'info'` \| `'special'` \| `'announcement'`. `Alert` `theme`: `'
   >
   ```
 
-  `--g-popup-background-color`/`--g-popup-border-color` are read by `Popup` itself (`src/components/Popup/Popup.scss`). Setting them on `Alert` instead would only paint its own content box, not the actual `Popup` surface/border behind it. The text `color` override still belongs on the content (`Alert`/`Text`), since it's about the readability of what's drawn on top of that surface, not the surface itself — `--g-color-text-brand-contrast` (a real design token) is a safer choice than a hardcoded light color, since it already resolves to whichever of light/dark text reads better against `--g-color-base-brand` per theme. Action/cancel buttons still use the `normal-contrast`/`flat-contrast` views from the [button-view table above](#content-props--alert), which are already designed to read on a colored background.
+  `--g-popup-background-color`/`--g-popup-border-color` are read by `Popup` itself (`src/components/Popup/Popup.scss`). Setting them on `Alert` instead would only paint its own content box, not the actual `Popup` surface/border behind it. The text `color` override still belongs on the content (`Alert`/`Text`), since it's about the readability of what's drawn on top of that surface, not the surface itself — `--g-color-text-brand-contrast` (a real design token) is a safer choice than a hardcoded light color, since it already resolves to whichever of light/dark text reads better against `--g-color-base-brand` per theme. The action button uses `contrast-light`; the cancel button uses `flat` with custom CSS, as in the [button-view table above](#content-props--alert).
 
 - `theme="announcement"` (dark solid surface with contrast buttons) has **no exact `Alert` equivalent** — none of `Alert`'s filled themes are that dark/neutral color. Either accept the closest palette-wise `Alert` theme (`normal`), or apply the same `Popover`-level `style` approach as `special` above using `var(--g-color-base-simple-hover-solid)` (the variable legacy used for this theme's `--g-popup-background-color`/`--g-popup-border-color`).
 

@@ -20,7 +20,7 @@ function getToastActions({
     firstLabel?: string;
 } = {}): ToastAction[] {
     return [
-        {onClick() {}, label: firstLabel, view: contrastButton ? 'normal-contrast' : 'normal'},
+        {onClick() {}, label: firstLabel, view: contrastButton ? 'contrast-light' : 'normal'},
         {onClick() {}, label: 'Something More', view: 'outlined'},
     ];
 }

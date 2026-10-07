@@ -222,8 +222,6 @@ being used as a type here» — замените их на `SelectOptionProps` �
   удалены. Попап выглядит так же; перепишите переопределения, нацеленные на эти классы.
 - **`@deprecated`.** `Table`, его HOC и `TableColumnSetup` помечены `@deprecated` в типах: линтеры с правилом
   `no-deprecated` начнут сообщать об их использовании.
-- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Сам `TableColumnSetup` не читает пропсы
-  по умолчанию из провайдера: передавайте их компоненту явно.
 - **Переводы.** Имена кейсетов (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) не
   изменились, переопределения через `addComponentKeysets` продолжают работать.
 

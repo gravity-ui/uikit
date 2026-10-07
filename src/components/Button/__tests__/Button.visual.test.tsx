@@ -151,6 +151,53 @@ test.describe('Button', {tag: '@Button'}, () => {
         });
     });
 
+    test('loading respects CSS API colors for every view', async ({mount}) => {
+        const backgroundColor = 'rgb(10, 20, 30)';
+        const hoverBackgroundColor = 'rgb(40, 50, 60)';
+        const component = await mount(
+            <div>
+                {viewsCases.map(([name, view]) => (
+                    <Button
+                        key={name}
+                        view={view}
+                        loading
+                        style={
+                            {
+                                '--g-button-background-color': backgroundColor,
+                                '--g-button-background-color-hover': hoverBackgroundColor,
+                            } as React.CSSProperties
+                        }
+                    >
+                        {name}
+                    </Button>
+                ))}
+            </div>,
+        );
+
+        for (const [name] of viewsCases) {
+            const gradient = await component
+                .getByRole('button', {name, exact: true})
+                .evaluate((button) => getComputedStyle(button, '::before').backgroundImage);
+            expect(gradient).toContain(backgroundColor);
+            expect(gradient).toContain(hoverBackgroundColor);
+        }
+    });
+
+    test('loading does not inherit a private color from its ancestor', async ({mount}) => {
+        const inheritedColor = 'rgb(10, 20, 30)';
+        const component = await mount(
+            <div style={{'--_--loading-color': inheritedColor} as React.CSSProperties}>
+                <Button loading>Loading</Button>
+            </div>,
+        );
+
+        const gradient = await component
+            .getByRole('button')
+            .evaluate((button) => getComputedStyle(button, '::before').backgroundImage);
+        expect(gradient).not.toContain(inheritedColor);
+        expect(gradient).not.toBe('none');
+    });
+
     test.describe('touch interactions', () => {
         test.use({hasTouch: true, isMobile: true});
 

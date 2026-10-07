@@ -21,6 +21,7 @@ removal date for `/legacy` is promised: plan the migration away from them.
    grep -rnE "@gravity-ui/uikit/(unstable|legacy)" src
    grep -rlE "from ['\"]@gravity-ui/uikit['\"]" src | xargs grep -HnwE "List|ListItem|ListQa|Menu|DropdownMenu|Table|TableColumnSetup|withTable[A-Za-z]+"
    grep -rnE "virtualizationThreshold|renderSelectedOption\b|SelectItem|xxs|xxl|extraProps|onKeyPress|iconSize|anchorRef|onEscapeKeyDown|onOutsideClick|onEnterKeyDown|disableHeightTransition|arrowPosition|layersCount" src
+   grep -rnE "(normal|outlined|flat)-contrast|--g-color-base-light" src
    ```
 
 4. Check custom CSS and tests against [Everything else](#everything-else).
@@ -357,7 +358,8 @@ instead of `lab/Breadcrumbs`, so existing `Breadcrumbs.label_more` overrides kee
 
 ## Themer v2 color tokens
 
-UIKit now generates its theme with `@gravity-ui/uikit-themer` 2.0 instead of 1.8.1.
+UIKit now generates its theme with `@gravity-ui/uikit-themer` 2.0 instead of 1.8.1. Regenerate custom
+themes with v2 and update references to removed tokens in CSS.
 
 The opacity values below describe the default `light` and `dark` themes. UIKit's `light-hc` and `dark-hc`
 themes use their own values from `styles/themes/theme-data/hc.ts`.

@@ -1,8 +1,9 @@
 import {Gear} from '@gravity-ui/icons';
 import {DEFAULT_THEME} from '@gravity-ui/uikit-themer';
 
+import {hcTheme} from '../../../../styles/themes/theme-data/hc';
 import {Icon} from '../../Icon';
-import {useThemeType} from '../../theme';
+import {useThemeType, useThemeValue} from '../../theme';
 import {cn} from '../../utils/cn';
 import {Button} from '../Button';
 import type {ButtonProps} from '../types';
@@ -13,14 +14,15 @@ const b = cn('button-view-showcase');
 
 export function ButtonViewShowcase(args: ButtonProps) {
     const theme = useThemeType();
+    const isHC = useThemeValue().endsWith('-hc');
+    const themeConfig = isHC ? hcTheme : DEFAULT_THEME;
 
     const contrastBackgrounds: Record<string, string> = {
         contrast: 'transparent',
         'contrast-inverted':
-            DEFAULT_THEME.utilityColors['base-background'][theme === 'dark' ? 'light' : 'dark']
-                .value,
-        'contrast-light': DEFAULT_THEME.utilityColors['base-background'].dark.value,
-        'contrast-dark': DEFAULT_THEME.utilityColors['base-background'].light.value,
+            themeConfig.utilityColors['base-background'][theme === 'dark' ? 'light' : 'dark'].value,
+        'contrast-light': themeConfig.utilityColors['base-background'].dark.value,
+        'contrast-dark': themeConfig.utilityColors['base-background'].light.value,
     };
     const views = [
         '-',

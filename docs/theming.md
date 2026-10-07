@@ -428,7 +428,7 @@ Practical ways to produce a complete, consistent token set:
   generator as a library, for producing themes programmatically or wiring them into a build step.
 
   ```shell
-  npm install @gravity-ui/uikit-themer
+  npm install @gravity-ui/uikit-themer@^2
   ```
 
   ```ts

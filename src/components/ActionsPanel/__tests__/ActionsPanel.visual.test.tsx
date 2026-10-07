@@ -190,7 +190,7 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                 button: {
                     props: {
                         children: 'Sub-menu',
-                        view: 'contrast-light',
+                        view: 'outlined',
                         onClick: noop,
                         qa: 'sub-menu-trigger',
                     },
@@ -252,6 +252,44 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         await expectScreenshot({
             themes: ['light'],
         });
+    });
+
+    test('keeps secondary actions transparent, including disabled and loading', async ({mount}) => {
+        const root = await mount(
+            <ActionsPanel
+                actions={actionsWithNoteAndGroups.map((action, index) => ({
+                    ...action,
+                    button: {
+                        props: {
+                            ...action.button.props,
+                            disabled: index === 2,
+                            loading: index === 3,
+                        },
+                    },
+                }))}
+                onClose={noop}
+            />,
+            {width: 800},
+        );
+
+        for (const name of ['Action 2', 'Action 3', 'Action 4', 'Close']) {
+            const button = root.getByRole('button', {name, exact: true});
+            expect(
+                await button.evaluate((node) => getComputedStyle(node, '::before').backgroundColor),
+            ).toBe('rgba(0, 0, 0, 0)');
+        }
+        await expect(root.getByRole('button', {name: 'Action 2'})).toHaveCSS(
+            'color',
+            'rgb(255, 255, 255)',
+        );
+        await expect(root.getByRole('button', {name: 'Action 3'})).toHaveCSS(
+            'color',
+            'rgba(255, 255, 255, 0.5)',
+        );
+        const primary = root.getByRole('button', {name: 'Action 1'});
+        expect(
+            await primary.evaluate((node) => getComputedStyle(node, '::before').backgroundColor),
+        ).toBe('rgb(255, 255, 255)');
     });
 
     test('runs an action from a nested overflow menu', async ({mount, page}) => {

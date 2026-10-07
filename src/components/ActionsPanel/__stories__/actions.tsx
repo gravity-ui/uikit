@@ -226,7 +226,7 @@ export const actionsSubmenu: ActionsPanelProps['actions'] = [
         button: {
             props: {
                 children: ['Sub-menu', <Icon key="icon" data={ChevronDown} />],
-                view: 'contrast-light',
+                view: 'outlined',
             },
         },
         menu: {

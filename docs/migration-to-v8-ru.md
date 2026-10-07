@@ -21,6 +21,7 @@
    grep -rnE "@gravity-ui/uikit/(unstable|legacy)" src
    grep -rlE "from ['\"]@gravity-ui/uikit['\"]" src | xargs grep -HnwE "List|ListItem|ListQa|Menu|DropdownMenu|Table|TableColumnSetup|withTable[A-Za-z]+"
    grep -rnE "virtualizationThreshold|renderSelectedOption\b|SelectItem|xxs|xxl|extraProps|onKeyPress|iconSize|anchorRef|onEscapeKeyDown|onOutsideClick|onEnterKeyDown|disableHeightTransition|arrowPosition|layersCount" src
+   grep -rnE "(normal|outlined|flat)-contrast|--g-color-base-light" src
    ```
 
 4. Сверьте свой CSS и тесты с разделом [Остальное](#остальное).
@@ -411,7 +412,7 @@ UIKit теперь генерирует тему через `@gravity-ui/uikit-t
 `--g-color-private-white-<step>-solid`, с шагами `20`, `50`, `70` и от `100` до `950` с интервалом
 `50` (крайние значения `1000-solid` сохранены). В светлой теме добавлена шкала непрозрачного белого, в тёмной —
 непрозрачного чёрного; шаг `70-solid` доступен в обеих темах. Это токены реализации:
-в CSS приложения используйте семантические токены, как описано в [Темизации](theming-ru.md).
+в CSS приложения используйте семантические токены, как описано в [Темизации](theming-ru.md#слои-цветовых-токенов).
 
 ## Контрастные виды Button
 

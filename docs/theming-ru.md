@@ -430,7 +430,7 @@ import {Text} from '@gravity-ui/uikit';
   виде библиотеки для программного создания тем или подключения к сборке.
 
   ```shell
-  npm install @gravity-ui/uikit-themer
+  npm install @gravity-ui/uikit-themer@^2
   ```
 
   ```ts

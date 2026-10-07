@@ -10,7 +10,6 @@ import {filterDOMProps} from '../../utils/filterDOMProps';
 import {warnOnce} from '../../utils/warn';
 
 import i18n from './i18n';
-import {withTableDefaultProps} from './withTableDefaultProps';
 
 import './Table.scss';
 
@@ -178,12 +177,13 @@ const b = block('table');
 
 const EMPTY_VALUES = [undefined, null, ''];
 
-class TableComponent<I extends TableDataItem = Record<string, string>> extends React.Component<
+/**
+ * @deprecated Legacy component. For new code use `@gravity-ui/table`
+ */
+export class Table<I extends TableDataItem = Record<string, string>> extends React.Component<
     TableProps<I>,
     TableState
 > {
-    static displayName = 'Table';
-
     static defaultProps: TableDefaultProps = {
         edgePadding: true,
     };
@@ -665,20 +665,3 @@ class TableComponent<I extends TableDataItem = Record<string, string>> extends R
         }
     };
 }
-
-type TableType = {
-    <I extends TableDataItem = Record<string, string>>(props: TableProps<I>): React.ReactElement;
-    displayName: string;
-} & Pick<typeof TableComponent, 'getRowId' | 'getHeadCellContent' | 'getBodyCellContent'>;
-
-/**
- * @deprecated Legacy component. For new code use `@gravity-ui/table`
- */
-export const Table: TableType = Object.assign(
-    withTableDefaultProps<TableProps<any>>(TableComponent),
-    {
-        getRowId: TableComponent.getRowId,
-        getHeadCellContent: TableComponent.getHeadCellContent,
-        getBodyCellContent: TableComponent.getBodyCellContent,
-    },
-);

@@ -55,6 +55,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 title={sheetTitle}
                 open={Boolean(open)}
                 onOpenChange={handleOpenChange}
+                onTransitionOutComplete={onAfterClose}
             >
                 {children}
             </Sheet>

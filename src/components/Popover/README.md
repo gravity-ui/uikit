@@ -10,6 +10,8 @@
 import {Popover} from '@gravity-ui/uikit';
 ```
 
+Migrating from the legacy `Popover`? See the [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-popover.md).
+
 ## Usage
 
 Wrap HTML element or any component that accepts native DOM handlers and ARIA attributes in properties (i.e. `Button`) with `Popover` component. Put your content

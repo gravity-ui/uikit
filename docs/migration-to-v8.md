@@ -246,7 +246,8 @@ The old `Menu.Item` props, `Menu.Group`, and `DropdownMenu.items` array remain a
 `g-menu-divider` CSS classes instead of the former `g-lab-menu*` classes. The legacy components now use
 `g-menu-legacy` and `g-dropdown-menu-legacy` instead of `g-menu` and `g-dropdown-menu`. Update custom selectors,
 including those for the Tabs overflow menu. In `DefaultPropsProvider`, use `MenuLegacy` for the legacy menu; the
-`DropdownMenu` key stays the same.
+`DropdownMenu` key stays the same. The `unstable_Menu`, `unstable_MenuItem`, and `unstable_MenuTrigger` keys are
+now `Menu`, `MenuItem`, and `MenuTrigger`.
 
 As with any `/legacy` import, install its optional peer dependencies: `@hello-pangea/dnd`, `react-window`, and
 `react-virtualized-auto-sizer`.

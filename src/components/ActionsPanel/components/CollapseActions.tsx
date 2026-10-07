@@ -54,7 +54,11 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
 
     return (
         <div className={b()}>
-            <div className={b('container')} ref={parentRef}>
+            <div
+                className={b('container')}
+                ref={parentRef}
+                style={offset ? ({'--_--offset': `${offset}px`} as React.CSSProperties) : undefined}
+            >
                 {buttonActions.map((action) => {
                     const {id} = action;
                     const attr = {[OBSERVER_TARGET_ATTR]: id};

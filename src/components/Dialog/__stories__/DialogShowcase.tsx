@@ -149,7 +149,7 @@ function WithoutTransitionDialog() {
             </Button>
             <Dialog
                 open={open}
-                onClose={() => setOpen(false)}
+                onOpenChange={setOpen}
                 disableTransition
                 maxWidth="s"
                 fullWidth

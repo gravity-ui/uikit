@@ -243,6 +243,7 @@ being used as a type here» — замените их на `SelectOptionProps` �
 `g-menu-divider` вместо прежних `g-lab-menu*`. Классы legacy-компонентов переименованы: `g-menu` → `g-menu-legacy`,
 `g-dropdown-menu` → `g-dropdown-menu-legacy`. Обновите свои селекторы, включая селекторы меню переполнения вкладок.
 В `DefaultPropsProvider` для старого меню используйте ключ `MenuLegacy`; ключ `DropdownMenu` не изменился.
+Ключи `unstable_Menu`, `unstable_MenuItem` и `unstable_MenuTrigger` стали `Menu`, `MenuItem` и `MenuTrigger`.
 
 Как и для других импортов из `/legacy`, установите необязательные peer-зависимости: `@hello-pangea/dnd`,
 `react-window` и `react-virtualized-auto-sizer`.

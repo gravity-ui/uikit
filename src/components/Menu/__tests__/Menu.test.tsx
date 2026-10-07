@@ -1,7 +1,7 @@
 import {Gear} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
 
-import {act, getAllByRole, render, screen, waitFor} from '../../../test-utils/utils';
+import {act, getAllByRole, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Icon} from '../../Icon';
 import {Modal} from '../../Modal';
 import {Popup} from '../../Popup';
@@ -64,12 +64,12 @@ describe('Menu', () => {
             </DefaultPropsProvider>,
         );
 
-        const item = screen.getByRole('menuitem');
+        const item = screen.getByRole('menuitemcheckbox');
         const trigger = screen.getByTestId(TRIGGER_QA);
 
         expect(screen.getByTestId(MENU_QA)).toHaveClass('default-menu');
         expect(item).toHaveClass('g-menu-item_size_s', 'g-menu-item_theme_danger');
-        expect(item).toHaveAttribute('aria-pressed', 'true');
+        expect(item).toHaveAttribute('aria-checked', 'true');
         expect(item).not.toBeDisabled();
         expect(trigger).toHaveClass('g-button_size_s', 'g-button_view_normal');
     });

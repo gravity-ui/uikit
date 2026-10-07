@@ -112,7 +112,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
             transition: none;
 
             #{$block}__content {
-                transition: $modal-height-transition;
+                transition: none;
             }
         }
     }

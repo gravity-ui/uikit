@@ -63,7 +63,7 @@ import type {DropdownMenuProps} from '../legacy/DropdownMenu';
 import type {MenuProps as MenuLegacyProps} from '../legacy/Menu';
 import type {TabListProps, TabPanelProps, TabProps, TabProviderProps} from '../tabs';
 
-export interface ComponentDefaultPropsMap {
+export interface DefaultPropsMap {
     Accordion?: Partial<AccordionProps<any>>;
     ActionsPanel?: Partial<ActionsPanelProps>;
     ActionTooltip?: Partial<ActionTooltipProps>;
@@ -110,7 +110,7 @@ export interface ComponentDefaultPropsMap {
     Radio?: Partial<RadioProps>;
     RadioGroup?: Partial<RadioGroupProps>;
     SegmentedRadioGroup?: Partial<SegmentedRadioGroupProps<any>>;
-    Select?: Partial<SelectProps<any>>;
+    Select?: Partial<SelectProps<any, any>>;
     Sheet?: Partial<SheetProps>;
     Skeleton?: Partial<SkeletonProps>;
     Slider?: Partial<SliderProps<any>>;
@@ -131,13 +131,16 @@ export interface ComponentDefaultPropsMap {
     UserLabel?: Partial<UserLabelProps>;
 }
 
+/** @deprecated Use `DefaultPropsMap` instead. */
+export type ComponentDefaultPropsMap = DefaultPropsMap;
+
 export interface DefaultPropsProviderProps extends React.PropsWithChildren<{}> {
-    defaultProps?: ComponentDefaultPropsMap;
+    defaultProps?: DefaultPropsMap;
 }
 
-const EMPTY: ComponentDefaultPropsMap = {};
+const EMPTY: DefaultPropsMap = {};
 
-export const DefaultPropsContext = React.createContext<ComponentDefaultPropsMap>(EMPTY);
+export const DefaultPropsContext = React.createContext<DefaultPropsMap>(EMPTY);
 
 export function DefaultPropsProvider({defaultProps, children}: DefaultPropsProviderProps) {
     const parentDefaultProps = React.useContext(DefaultPropsContext);

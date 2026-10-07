@@ -23,7 +23,7 @@ import {useForkRef} from '../../hooks';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
-import {MobileContext, useMobile} from '../mobile';
+import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -110,8 +110,7 @@ function ModalComponent(rawProps: ModalProps) {
         ...restProps
     } = useDefaultProps('Modal', rawProps);
     useLayer({open, type: 'modal'});
-    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
-    const mobile = useMobile() && mobileModals;
+    const mobile = useMobile();
     const hasScroll = mobile || contentOverflow === 'auto';
 
     const overlayRef = React.useRef<HTMLDivElement>(null);

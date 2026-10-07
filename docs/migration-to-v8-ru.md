@@ -42,10 +42,13 @@
 -   </MobileProvider>
 - </ThemeProvider>
 + <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
-+   mobile platform={Platform.IOS} __experimentalMobileModals>
++   mobile platform={Platform.IOS}>
 +   <App />
 + </Provider>
 ```
+
+`__experimentalMobileModals` удалён из `Provider`, `MobileProvider` и мобильного контекста.
+Уберите этот проп: `Modal` и `Dialog` теперь используют мобильный рендеринг при включённом `mobile`.
 
 Вложенные Provider всегда работают в режиме scoped, даже при `scoped={false}`. Они наследуют
 незаданные настройки темы, языка, layout и defaults компонентов, а тему и направление применяют

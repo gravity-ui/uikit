@@ -72,7 +72,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
     test('keeps missing-section padding inside the mobile viewport', async ({mount, page}) => {
         await page.setViewportSize({width: 600, height: 900});
         await mount(
-            <MobileProvider mobile __experimentalMobileModals>
+            <MobileProvider mobile>
                 <Dialog hasCloseButton={false} open>
                     <Dialog.Body>Dialog content</Dialog.Body>
                 </Dialog>
@@ -138,7 +138,7 @@ test.describe('Dialog', {tag: '@Dialog'}, () => {
         await page.setViewportSize({width: 600, height: 900});
 
         await mount(
-            <MobileProvider mobile __experimentalMobileModals>
+            <MobileProvider mobile>
                 <Dialog maxWidth="s" fullWidth open>
                     <Dialog.Header caption="Mobile dialog" />
                     <Dialog.Body>Dialog content</Dialog.Body>

@@ -42,10 +42,13 @@ Remove the extra mobile wrapper when moving its settings to `Provider`:
 -   </MobileProvider>
 - </ThemeProvider>
 + <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
-+   mobile platform={Platform.IOS} __experimentalMobileModals>
++   mobile platform={Platform.IOS}>
 +   <App />
 + </Provider>
 ```
+
+`__experimentalMobileModals` has been removed from `Provider`, `MobileProvider`, and the mobile
+context. Remove this prop: `Modal` and `Dialog` now use mobile rendering whenever `mobile` is enabled.
 
 Nested Providers are always scoped, even with `scoped={false}`. They inherit unspecified theme,
 language, layout, and component-default settings, and apply theme and direction to a local wrapper.

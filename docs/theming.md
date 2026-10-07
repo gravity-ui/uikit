@@ -127,13 +127,12 @@ or `xs` when `fixBreakpoints` is enabled. It adds no DOM wrapper. See [Layout](l
 The existing public `MobileProvider` remains available. `Provider` accepts all its settings
 directly, with the same defaults:
 
-| Prop                         | Type                                     | Default                          |
-| ---------------------------- | ---------------------------------------- | -------------------------------- |
-| `mobile`                     | `boolean`                                | `false`                          |
-| `platform`                   | `Platform` (`browser`, `ios`, `android`) | `Platform.BROWSER`               |
-| `__experimentalMobileModals` | `boolean`                                | `false`                          |
-| `useHistory`                 | `MobileProviderProps['useHistory']`      | No-op history                    |
-| `useLocation`                | `MobileProviderProps['useLocation']`     | Empty pathname, search, and hash |
+| Prop          | Type                                     | Default                          |
+| ------------- | ---------------------------------------- | -------------------------------- |
+| `mobile`      | `boolean`                                | `false`                          |
+| `platform`    | `Platform` (`browser`, `ios`, `android`) | `Platform.BROWSER`               |
+| `useHistory`  | `MobileProviderProps['useHistory']`      | No-op history                    |
+| `useLocation` | `MobileProviderProps['useLocation']`     | Empty pathname, search, and hash |
 
 `useHistory` supports router history v4/v5: `back` is adapted to `goBack` when `goBack` is absent.
 `mobile` toggles `.g-root_mobile` on body through `MobileProvider` and is read by `useMobile`;
@@ -141,12 +140,12 @@ directly, with the same defaults:
 nested and explicitly scoped Providers. Mobile settings and router hooks are not inherited;
 pass them explicitly when needed. Scoped behavior applies to theme and direction; the mobile class
 continues to be managed on body.
-The experimental flag enables mobile Modal/Dialog rendering when `mobile` is also enabled.
+`Modal` and `Dialog` use mobile rendering whenever `mobile` is enabled.
 
 ```tsx
 import {Platform, Provider} from '@gravity-ui/uikit';
 
-<Provider mobile platform={Platform.IOS} __experimentalMobileModals>
+<Provider mobile platform={Platform.IOS}>
   <App />
 </Provider>;
 ```

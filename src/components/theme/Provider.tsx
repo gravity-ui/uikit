@@ -30,7 +30,6 @@ export function Provider({
     fallbackLang,
     mobile,
     platform,
-    __experimentalMobileModals,
     useHistory,
     useLocation,
     ...themeProps
@@ -46,7 +45,6 @@ export function Provider({
                             <MobileProvider
                                 mobile={mobile}
                                 platform={platform}
-                                __experimentalMobileModals={__experimentalMobileModals}
                                 useHistory={useHistory}
                                 useLocation={useLocation}
                             >

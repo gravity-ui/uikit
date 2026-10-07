@@ -21,6 +21,7 @@ removal date for `/legacy` is promised: plan the migration away from them.
    grep -rnE "@gravity-ui/uikit/(unstable|legacy)" src
    grep -rlE "from ['\"]@gravity-ui/uikit['\"]" src | xargs grep -HnwE "List|ListItem|ListQa|Menu|DropdownMenu|Table|TableColumnSetup|withTable[A-Za-z]+"
    grep -rnE "virtualizationThreshold|renderSelectedOption\b|SelectItem|xxs|xxl|extraProps|onKeyPress|iconSize|anchorRef|onEscapeKeyDown|onOutsideClick|onEnterKeyDown|disableHeightTransition|arrowPosition|layersCount" src
+   grep -rnE "(normal|outlined|flat)-contrast|--g-color-base-light" src
    ```
 
 4. Check custom CSS and tests against [Everything else](#everything-else).
@@ -358,6 +359,101 @@ entry point in v7, so you can migrate before upgrading. Other legacy components 
 instead of `lab/Breadcrumbs`, so existing `Breadcrumbs.label_more` overrides keep working. Rename overrides of
 `lab/Breadcrumbs` to `Breadcrumbs`; the current keyset also contains `breadcrumbs`.
 
+## Themer v2 color tokens
+
+UIKit now generates its theme with `@gravity-ui/uikit-themer` 2.0 instead of 1.8.1. Regenerate custom
+themes with v2 and update references to removed tokens in CSS.
+
+The opacity values below describe the default `light` and `dark` themes. UIKit's `light-hc` and `dark-hc`
+themes use their own values from `styles/themes/theme-data/hc.ts`.
+
+### Removed tokens
+
+| Removed token                          | Replacement                                                                                                                                   |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--g-color-base-light`                 | `--g-color-base-contrast-light`                                                                                                               |
+| `--g-color-base-light-hover`           | `--g-color-base-contrast-light-hover`                                                                                                         |
+| `--g-color-base-light-simple-hover`    | `--g-color-base-contrast-light-simple-hover`                                                                                                  |
+| `--g-color-base-light-disabled`        | `--g-color-base-contrast-light-simple-hover` for the former translucent background; there is no separate `base-contrast-light-disabled` token |
+| `--g-color-base-light-accent-disabled` | `--g-color-base-contrast-light-accent-disabled`; its opacity changes from 30% to 7%                                                           |
+
+`--g-color-line-light` and the existing text tokens remain available. `--g-color-line-contrast-light` is a new
+light line token with 25% opacity; `line-light` keeps its 50% opacity.
+
+### Added semantic tokens
+
+The four palettes follow the same theme behavior for backgrounds and lines: `contrast` is dark in light themes
+and light in dark themes; `contrast-inverted` reverses this; `contrast-light` and `contrast-dark` keep their
+respective light or dark color in both themes.
+
+```text
+--g-color-base-contrast
+--g-color-base-contrast-hover
+--g-color-base-contrast-simple-hover
+--g-color-base-contrast-accent-disabled
+
+--g-color-base-contrast-inverted
+--g-color-base-contrast-inverted-hover
+--g-color-base-contrast-inverted-simple-hover
+--g-color-base-contrast-inverted-accent-disabled
+
+--g-color-base-contrast-light
+--g-color-base-contrast-light-hover
+--g-color-base-contrast-light-simple-hover
+--g-color-base-contrast-light-accent-disabled
+
+--g-color-base-contrast-dark
+--g-color-base-contrast-dark-hover
+--g-color-base-contrast-dark-simple-hover
+--g-color-base-contrast-dark-accent-disabled
+
+--g-color-line-contrast
+--g-color-line-contrast-inverted
+--g-color-line-contrast-light
+--g-color-line-contrast-dark
+```
+
+### Private palette additions
+
+The solid black and white scales are now generated in both themes: `--g-color-private-black-<step>-solid` and
+`--g-color-private-white-<step>-solid`, with steps `20`, `50`, `70`, and `100` through `950` in increments of
+`50` (the `1000-solid` endpoints remain). This adds the white solid scale to the light theme and the black solid
+scale to the dark theme, and makes the `70-solid` step available in both. These are implementation tokens:
+use semantic tokens in application CSS, as described in [Theming](theming.md#color-token-layers).
+
+## Button contrast views
+
+`normal-contrast`, `outlined-contrast` and `flat-contrast` are removed. Replace `normal-contrast` with
+`contrast-light`, which stays light in both themes:
+
+```diff
+- <Button view="normal-contrast">Action</Button>
++ <Button view="contrast-light">Action</Button>
+```
+
+Build `outlined-contrast` and `flat-contrast` yourself using `view="outlined"` or `view="flat"` and the
+[Button CSS API](../src/components/Button/README.md#css-api). Use semantic tokens generated by
+`@gravity-ui/uikit-themer` v2. For example, light text, a transparent background and a light hover on a dark surface:
+
+```css
+.button-light {
+  --g-button-text-color: var(--g-color-text-light-primary);
+  --g-button-text-color-hover: var(--g-color-text-light-primary);
+  --g-button-background-color: transparent;
+  --g-button-background-color-hover: var(--g-color-base-contrast-light-simple-hover);
+  --g-button-border-color: var(--g-color-line-contrast-light);
+  --g-button-focus-outline-color: var(--g-color-line-contrast-light);
+}
+```
+
+```tsx
+<Button view="outlined" className="button-light">Outlined</Button>
+<Button view="flat" className="button-light">Flat</Button>
+```
+
+The example sets the default and hover appearance. Customize disabled and selected states through the same CSS API
+when needed. Other contrast palettes use the `base-contrast*` and `line-contrast*` token families.
+
 ## Button and Link `extraProps`
 
 `Button` and `Link` no longer accept `extraProps`. Pass native element props directly to the component, including
@@ -583,19 +679,19 @@ open again. The `onOpenChange` reasons and the transition callbacks are unchange
 
 ## Everything else
 
-| What                                                                                   | Change                                                                                                                                                                                                                                                                                                                                                                                             |
-| :------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Select` ([#2660](https://github.com/gravity-ui/uikit/pull/2660))                      | The popup is 4px away from the control instead of 1px, the same offset as `Popup`.                                                                                                                                                                                                                                                                                                                 |
-| Themes ([#2745](https://github.com/gravity-ui/uikit/pull/2745))                        | The theme variables are generated from `@gravity-ui/uikit-themer`. The SCSS module `@gravity-ui/uikit/styles/themes` and its `g-theme-*` mixins are removed: build a custom theme as in [Theming](theming.md#creating-a-custom-theme). No variable is renamed, but colors shift slightly and values are written as `rgb(r g b / a)` — update screenshot baselines and snapshots of literal values. |
-| `Avatar` ([#2376](https://github.com/gravity-ui/uikit/pull/2376))                      | The `alt` prop is removed; the image is decorative (`alt=""`).                                                                                                                                                                                                                                                                                                                                     |
-| Typography ([#2616](https://github.com/gravity-ui/uikit/pull/2616))                    | Accent texts take their weight from `--g-text-{group}-accent-font-weight`; `--g-text-accent-font-weight` is deprecated, and overriding it no longer affects `Breadcrumbs` and `Menu`.                                                                                                                                                                                                              |
-| `Progress` ([#2151](https://github.com/gravity-ui/uikit/pull/2151))                    | The component no longer centers itself (`margin: 0 auto` is removed).                                                                                                                                                                                                                                                                                                                              |
-| `Lang`, `Platform` ([#2715](https://github.com/gravity-ui/uikit/pull/2715))            | TypeScript enums are replaced with `as const` objects and union types; `Lang.Ru` still works.                                                                                                                                                                                                                                                                                                      |
-| `Dialog.Footer` ([#2657](https://github.com/gravity-ui/uikit/pull/2657))               | On desktop the buttons no longer stretch and have no `min-width: 128px`; pass `width` in `propsButtonApply` and `propsButtonCancel`. On mobile they still stretch.                                                                                                                                                                                                                                 |
-| Dependencies ([#2858](https://github.com/gravity-ui/uikit/pull/2858))                  | `lodash` is replaced with `es-toolkit` and is no longer installed with the package: add it to your dependencies if you import it.                                                                                                                                                                                                                                                                  |
-| `Checkbox`, `Radio`, `Switch` ([#2342](https://github.com/gravity-ui/uikit/pull/2342)) | Size `l` uses the `body-1` font variant; the `g-control-label__control-container` wrapper is removed.                                                                                                                                                                                                                                                                                              |
-| Hover styles ([#2832](https://github.com/gravity-ui/uikit/pull/2832))                  | `:hover` styles apply only on devices that can hover (`@media (hover: hover)`).                                                                                                                                                                                                                                                                                                                    |
-| `button-reset` mixin ([#2862](https://github.com/gravity-ui/uikit/pull/2862))          | It also resets `margin`, `appearance`, `user-select`, `touch-action` and the tap highlight, and no longer sets `outline: none`: elements using it show the browser focus ring.                                                                                                                                                                                                                     |
-| `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | The height is no longer animated when the content changes; `disableHeightTransition` is removed.                                                                                                                                                                                                                                                                                                   |
-| `Keysets` type ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                | It includes the `HelloPangeaDnd` keyset and, since [#2896](https://github.com/gravity-ui/uikit/pull/2896), `FileDropZone`: `addLanguageKeysets<Keysets>` needs their keys.                                                                                                                                                                                                                         |
-| `Select` on mobile ([#2897](https://github.com/gravity-ui/uikit/pull/2897))            | `onClose` and `onOpenChange(false)` fire as soon as the sheet starts closing, as on desktop, not after the animation. A controlled `Select` closes the sheet only when its `open` becomes `false`. A controlled `filter` is no longer reset to an empty string on close.                                                                                                                           |
+| What                                                                                   | Change                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| :------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Select` ([#2660](https://github.com/gravity-ui/uikit/pull/2660))                      | The popup is 4px away from the control instead of 1px, the same offset as `Popup`.                                                                                                                                                                                                                                                                                                                                                                               |
+| Themes ([#2745](https://github.com/gravity-ui/uikit/pull/2745))                        | The theme variables are generated from `@gravity-ui/uikit-themer`. The SCSS module `@gravity-ui/uikit/styles/themes` and its `g-theme-*` mixins are removed: build a custom theme as in [Theming](theming.md#creating-a-custom-theme). Removed and added tokens are listed in [Themer v2 color tokens](#themer-v2-color-tokens). Colors shift slightly and values are written as `rgb(r g b / a)` — update screenshot baselines and snapshots of literal values. |
+| `Avatar` ([#2376](https://github.com/gravity-ui/uikit/pull/2376))                      | The `alt` prop is removed; the image is decorative (`alt=""`).                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Typography ([#2616](https://github.com/gravity-ui/uikit/pull/2616))                    | Accent texts take their weight from `--g-text-{group}-accent-font-weight`; `--g-text-accent-font-weight` is deprecated, and overriding it no longer affects `Breadcrumbs` and `Menu`.                                                                                                                                                                                                                                                                            |
+| `Progress` ([#2151](https://github.com/gravity-ui/uikit/pull/2151))                    | The component no longer centers itself (`margin: 0 auto` is removed).                                                                                                                                                                                                                                                                                                                                                                                            |
+| `Lang`, `Platform` ([#2715](https://github.com/gravity-ui/uikit/pull/2715))            | TypeScript enums are replaced with `as const` objects and union types; `Lang.Ru` still works.                                                                                                                                                                                                                                                                                                                                                                    |
+| `Dialog.Footer` ([#2657](https://github.com/gravity-ui/uikit/pull/2657))               | On desktop the buttons no longer stretch and have no `min-width: 128px`; pass `width` in `propsButtonApply` and `propsButtonCancel`. On mobile they still stretch.                                                                                                                                                                                                                                                                                               |
+| Dependencies ([#2858](https://github.com/gravity-ui/uikit/pull/2858))                  | `lodash` is replaced with `es-toolkit` and is no longer installed with the package: add it to your dependencies if you import it.                                                                                                                                                                                                                                                                                                                                |
+| `Checkbox`, `Radio`, `Switch` ([#2342](https://github.com/gravity-ui/uikit/pull/2342)) | Size `l` uses the `body-1` font variant; the `g-control-label__control-container` wrapper is removed.                                                                                                                                                                                                                                                                                                                                                            |
+| Hover styles ([#2832](https://github.com/gravity-ui/uikit/pull/2832))                  | `:hover` styles apply only on devices that can hover (`@media (hover: hover)`).                                                                                                                                                                                                                                                                                                                                                                                  |
+| `button-reset` mixin ([#2862](https://github.com/gravity-ui/uikit/pull/2862))          | It also resets `margin`, `appearance`, `user-select`, `touch-action` and the tap highlight, and no longer sets `outline: none`: elements using it show the browser focus ring.                                                                                                                                                                                                                                                                                   |
+| `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | The height is no longer animated when the content changes; `disableHeightTransition` is removed.                                                                                                                                                                                                                                                                                                                                                                 |
+| `Keysets` type ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                | It includes the `HelloPangeaDnd` keyset and, since [#2896](https://github.com/gravity-ui/uikit/pull/2896), `FileDropZone`: `addLanguageKeysets<Keysets>` needs their keys.                                                                                                                                                                                                                                                                                       |
+| `Select` on mobile ([#2897](https://github.com/gravity-ui/uikit/pull/2897))            | `onClose` and `onOpenChange(false)` fire as soon as the sheet starts closing, as on desktop, not after the animation. A controlled `Select` closes the sheet only when its `open` becomes `false`. A controlled `filter` is no longer reset to an empty string on close.                                                                                                                                                                                         |

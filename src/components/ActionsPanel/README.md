@@ -266,7 +266,7 @@ const actions: ActionsPanelProps['actions'] = [
             props: {
                 children: 'Action 1',
                 onClick: () => console.log('click button action 1'),
-                view: 'normal-contrast',
+                view: 'contrast-light',
             },
         },
         menu: {
@@ -338,7 +338,7 @@ const actions: ActionsPanelProps['actions'] = [
             props: {
                 children: 'Action 1',
                 onClick: () => console.log('click button action 1'),
-                view: 'normal-contrast',
+                view: 'contrast-light',
             },
         },
         menu: {

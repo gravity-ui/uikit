@@ -22,7 +22,7 @@ export const AlertAction = (props: AlertActionProps) => {
 
     return (
         <Button
-            view={view === 'filled' ? 'normal-contrast' : undefined}
+            view={view === 'filled' ? 'contrast-light' : undefined}
             size={alertSizeToButtonSize(size)}
             {...props}
         />

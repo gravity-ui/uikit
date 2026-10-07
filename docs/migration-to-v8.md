@@ -25,6 +25,66 @@ removal date for `/legacy` is promised: plan the migration away from them.
 
 4. Check custom CSS and tests against [Everything else](#everything-else).
 
+## ThemeProvider is split into separate providers
+
+The previous `ThemeProvider` is split into feature providers, composed by the new application-level
+`Provider`. It keeps the previous props and also accepts
+all `MobileProvider` props directly. Replace the full `ThemeProviderProps` type with `ProviderProps`.
+Remove the extra mobile wrapper when moving its settings to `Provider`:
+
+```diff
+- import {ThemeProvider, MobileProvider, Platform} from '@gravity-ui/uikit';
++ import {Provider, Platform} from '@gravity-ui/uikit';
+
+- <ThemeProvider theme="light" lang="ru" layout={{fixBreakpoints: true}}>
+-   <MobileProvider mobile platform={Platform.IOS} __experimentalMobileModals>
+-     <App />
+-   </MobileProvider>
+- </ThemeProvider>
++ <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
++   mobile platform={Platform.IOS} __experimentalMobileModals>
++   <App />
++ </Provider>
+```
+
+Nested Providers are always scoped, even with `scoped={false}`. They inherit unspecified theme,
+language, layout, and component-default settings, and apply theme and direction to a local wrapper.
+Mobile settings and router hooks are not inherited: each Provider uses the MobileProvider defaults
+unless passed explicitly, and `mobile` controls `.g-root_mobile` on body. To override individual
+features, use the corresponding providers:
+
+| Previous ThemeProvider prop                                 | Subtree provider                                           |
+| ----------------------------------------------------------- | ---------------------------------------------------------- |
+| `theme`, `direction`, `systemLightTheme`, `systemDarkTheme` | `ThemeProvider`                                            |
+| `lang`, `fallbackLang`                                      | `LangProvider`                                             |
+| `layout`                                                    | `LayoutProvider` (spread the former layout object's props) |
+| `defaultProps`                                              | `DefaultPropsProvider`                                     |
+
+The new `ThemeProvider` and its `ThemeProviderProps` handle only theme and direction. `lang`,
+`fallbackLang`, `layout`, and `defaultProps` have been removed from them. Without a parent theme,
+ThemeProvider applies classes and direction to body; use `scoped` for a local root. Inside Provider
+or another ThemeProvider it is always scoped, even with `scoped={false}`:
+
+```tsx
+<Provider theme="light">
+  <ThemeProvider theme="dark">
+    <LangProvider lang="ru">
+      <Toolbar />
+    </LangProvider>
+  </ThemeProvider>
+</Provider>
+```
+
+Theme scopes no longer recreate language, layout, component-default, or mobile providers. In
+particular, they preserve the parent's breakpoint mode and mobile/router settings. Portals retain
+the local theme and direction.
+
+Existing standalone MobileProvider and DefaultPropsProvider APIs remain available.
+The newly public LayoutProvider inherits all parent layout settings; without a parent,
+`fixBreakpoints` still defaults to `false`.
+
+See [Theming](theming.md#providers) for the full API and defaults.
+
 ## React 18 minimum
 
 UIKit v8 requires React and React DOM 18 or 19. Upgrade both packages (and `@types/react`, if used) before installing

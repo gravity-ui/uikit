@@ -11,5 +11,5 @@ interface OverrideLayoutThemeOptions {
  * Use this function to override default `DEFAULT_LAYOUT_THEME`
  */
 export function overrideLayoutTheme({theme, override}: OverrideLayoutThemeOptions): LayoutTheme {
-    return merge(theme, override);
+    return override ? merge({}, theme, override) : theme;
 }

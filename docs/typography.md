@@ -16,7 +16,7 @@ import {Text} from '@gravity-ui/uikit';
 ```
 
 > Setup: import `@gravity-ui/uikit/styles/fonts.css` **before** `styles.css` at the app entry
-> point, and wrap the app in `ThemeProvider`. See [theming](theming.md).
+> point, and wrap the app in `Provider`. See [theming](theming.md).
 
 ## Text variants
 

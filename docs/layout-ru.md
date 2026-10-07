@@ -109,7 +109,7 @@ import {spacing} from '@gravity-ui/uikit';
 Либо через layout-тему, которая синхронизирует JS-значения `Space` и CSS-переменные:
 
 ```tsx
-import {ThemeProvider, LayoutTheme} from '@gravity-ui/uikit';
+import {Provider, LayoutTheme} from '@gravity-ui/uikit';
 
 const config: LayoutTheme = {
     spaceBaseSize: 5,
@@ -117,9 +117,9 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <ThemeProvider layout={{config, fixBreakpoints: true}}>
+        <Provider layout={{config, fixBreakpoints: true}}>
             {...}
-        </ThemeProvider>
+        </Provider>
     );
 };
 ```
@@ -158,10 +158,17 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     },
 };
 
-<ThemeProvider layout={{config: APP_LAYOUT_THEME}}>
+<Provider layout={{config: APP_LAYOUT_THEME}}>
     {...}
-</ThemeProvider>;
+</Provider>;
 ```
+
+`LayoutProvider` позволяет настроить layout для поддерева. Незаданные настройки, включая
+`fixBreakpoints` и активный breakpoint при SSR и обновлениях, наследуются от родителя. Частичный
+`config` объединяется с родительской темой без её изменения. Собственные breakpoints или другой
+режим `fixBreakpoints` вычисляют локальный активный breakpoint; `initialMediaQuery` переопределяет
+его начальное значение. Без родителя сохраняются значения `fixBreakpoints=false` и начальный
+breakpoint `s` (`xs` при `fixBreakpoints=true`).
 
 ## Box
 

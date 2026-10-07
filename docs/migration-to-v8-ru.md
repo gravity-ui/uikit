@@ -25,6 +25,66 @@
 
 4. Сверьте свой CSS и тесты с разделом [Остальное](#остальное).
 
+## ThemeProvider разделён на отдельные провайдеры
+
+Прежний `ThemeProvider` разделён на провайдеры отдельных функций, а их композиция называется
+`Provider`. Он сохраняет прежние пропсы и
+принимает все пропсы MobileProvider напрямую. Полный тип `ThemeProviderProps` замените на `ProviderProps`.
+При переносе мобильных настроек уберите дополнительную обёртку:
+
+```diff
+- import {ThemeProvider, MobileProvider, Platform} from '@gravity-ui/uikit';
++ import {Provider, Platform} from '@gravity-ui/uikit';
+
+- <ThemeProvider theme="light" lang="ru" layout={{fixBreakpoints: true}}>
+-   <MobileProvider mobile platform={Platform.IOS} __experimentalMobileModals>
+-     <App />
+-   </MobileProvider>
+- </ThemeProvider>
++ <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
++   mobile platform={Platform.IOS} __experimentalMobileModals>
++   <App />
++ </Provider>
+```
+
+Вложенные Provider всегда работают в режиме scoped, даже при `scoped={false}`. Они наследуют
+незаданные настройки темы, языка, layout и defaults компонентов, а тему и направление применяют
+к локальной обёртке. Мобильные настройки и хуки роутера не наследуются: каждый Provider использует
+defaults MobileProvider, если пропсы не переданы явно, а `mobile` управляет `.g-root_mobile` на body.
+Для переопределения отдельных функций используйте соответствующие провайдеры:
+
+| Прежний проп ThemeProvider                                  | Провайдер поддерева                                         |
+| ----------------------------------------------------------- | ----------------------------------------------------------- |
+| `theme`, `direction`, `systemLightTheme`, `systemDarkTheme` | `ThemeProvider`                                             |
+| `lang`, `fallbackLang`                                      | `LangProvider`                                              |
+| `layout`                                                    | `LayoutProvider` (передайте пропсы прежнего объекта layout) |
+| `defaultProps`                                              | `DefaultPropsProvider`                                      |
+
+Новый ThemeProvider и его ThemeProviderProps отвечают только за тему и направление. `lang`,
+`fallbackLang`, `layout` и `defaultProps` из них удалены. Без родительской темы ThemeProvider задаёт
+классы и направление для body; `scoped` создаёт локальный корень. Внутри Provider или другого
+ThemeProvider он всегда scoped, даже при `scoped={false}`:
+
+```tsx
+<Provider theme="light">
+  <ThemeProvider theme="dark">
+    <LangProvider lang="ru">
+      <Toolbar />
+    </LangProvider>
+  </ThemeProvider>
+</Provider>
+```
+
+Области темы больше не пересоздают провайдеры языка, layout, defaults компонентов и мобильного режима.
+В частности, сохраняются родительский режим breakpoints и мобильные настройки/хуки роутера.
+Порталы сохраняют локальную тему и направление.
+
+Самостоятельные MobileProvider и DefaultPropsProvider сохраняют свой API.
+Новый публичный LayoutProvider наследует все настройки layout родителя; без родителя
+сохраняется `fixBreakpoints=false` по умолчанию.
+
+Полный API и defaults описаны в руководстве [Темизация](theming-ru.md#провайдеры).
+
 ## Минимальная версия React 18
 
 Для UIKit v8 нужны React и React DOM версии 18 или 19. Перед установкой v8 обновите оба пакета (и `@types/react`, если

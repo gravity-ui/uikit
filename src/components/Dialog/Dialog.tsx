@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import type {ModalProps} from '../Modal';
 import {Modal} from '../Modal';
-import {MobileContext, useMobile} from '../mobile';
+import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -73,8 +73,7 @@ export function Dialog(rawProps: DialogProps) {
         qa,
         ...restProps
     } = useDefaultProps('Dialog', rawProps);
-    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
-    const mobile = useMobile() && mobileModals;
+    const mobile = useMobile();
     const handleCloseButtonClick = React.useCallback(
         (event: React.MouseEvent) => {
             onOpenChange?.(false, event.nativeEvent, 'click');

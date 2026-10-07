@@ -131,13 +131,12 @@ UIKit поставляет четыре встроенные темы:
 Существующий публичный `MobileProvider` сохраняется. `Provider` принимает все его настройки
 напрямую с теми же значениями по умолчанию:
 
-| Проп                         | Тип                                      | Значение по умолчанию          |
-| ---------------------------- | ---------------------------------------- | ------------------------------ |
-| `mobile`                     | `boolean`                                | `false`                        |
-| `platform`                   | `Platform` (`browser`, `ios`, `android`) | `Platform.BROWSER`             |
-| `__experimentalMobileModals` | `boolean`                                | `false`                        |
-| `useHistory`                 | `MobileProviderProps['useHistory']`      | История с пустыми действиями   |
-| `useLocation`                | `MobileProviderProps['useLocation']`     | Пустые pathname, search и hash |
+| Проп          | Тип                                      | Значение по умолчанию          |
+| ------------- | ---------------------------------------- | ------------------------------ |
+| `mobile`      | `boolean`                                | `false`                        |
+| `platform`    | `Platform` (`browser`, `ios`, `android`) | `Platform.BROWSER`             |
+| `useHistory`  | `MobileProviderProps['useHistory']`      | История с пустыми действиями   |
+| `useLocation` | `MobileProviderProps['useLocation']`     | Пустые pathname, search и hash |
 
 `useHistory` поддерживает history v4/v5: `back` преобразуется в `goBack`, если `goBack` отсутствует.
 `mobile` переключает `.g-root_mobile` на body через `MobileProvider` и читается через `useMobile`;
@@ -145,12 +144,12 @@ UIKit поставляет четыре встроенные темы:
 вложенные Provider и Provider с явным `scoped`. Мобильные настройки и хуки роутера не наследуются;
 передавайте их явно, если они нужны. Режим scoped относится к теме и направлению; мобильный класс
 по-прежнему управляется на body.
-Экспериментальный флаг включает мобильный рендеринг Modal/Dialog при включённом `mobile`.
+`Modal` и `Dialog` используют мобильный рендеринг при включённом `mobile`.
 
 ```tsx
 import {Platform, Provider} from '@gravity-ui/uikit';
 
-<Provider mobile platform={Platform.IOS} __experimentalMobileModals>
+<Provider mobile platform={Platform.IOS}>
   <App />
 </Provider>;
 ```

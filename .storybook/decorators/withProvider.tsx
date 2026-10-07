@@ -9,7 +9,6 @@ export const WithProvider: Decorator = (Story, context) => {
             direction={context.globals.direction}
             mobile={context.globals.platform === 'mobile'}
             platform={Platform.BROWSER}
-            __experimentalMobileModals
         >
             <Story key={context.globals.platform} {...context} />
         </Provider>

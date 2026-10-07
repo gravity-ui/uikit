@@ -84,12 +84,19 @@ export const useCurrentActiveMediaQuery = (
     breakpointsMap: MediaProps<number>,
     fixBreakpoints: boolean,
     initialMediaQuery?: MediaType,
+    inheritedMediaQuery?: MediaType,
 ) => {
     const [state, _setState] = React.useState<MediaType>(
         initialMediaQuery ?? (fixBreakpoints ? 'xs' : 's'),
     );
 
+    const inheritsMediaQuery = inheritedMediaQuery !== undefined;
+
     useLayoutEffect(() => {
+        if (inheritsMediaQuery) {
+            return undefined;
+        }
+
         const queries = new Queries(breakpointsMap, fixBreakpoints);
 
         const setState = () => {
@@ -103,7 +110,7 @@ export const useCurrentActiveMediaQuery = (
         return () => {
             queries.removeListeners(setState);
         };
-    }, [breakpointsMap, fixBreakpoints]);
+    }, [breakpointsMap, fixBreakpoints, inheritsMediaQuery]);
 
-    return state;
+    return inheritedMediaQuery ?? state;
 };

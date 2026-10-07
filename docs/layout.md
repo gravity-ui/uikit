@@ -106,7 +106,7 @@ Override the base unit to rescale the whole system. Do it via CSS at the project
 Or through the layout theme, which keeps the JS `Space` values and CSS variables in sync:
 
 ```tsx
-import {ThemeProvider, LayoutTheme} from '@gravity-ui/uikit';
+import {Provider, LayoutTheme} from '@gravity-ui/uikit';
 
 const config: LayoutTheme = {
     spaceBaseSize: 5,
@@ -114,9 +114,9 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <ThemeProvider layout={{config, fixBreakpoints: true}}>
+        <Provider layout={{config, fixBreakpoints: true}}>
             {...}
-        </ThemeProvider>
+        </Provider>
     );
 };
 ```
@@ -155,10 +155,17 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     },
 };
 
-<ThemeProvider layout={{config: APP_LAYOUT_THEME}}>
+<Provider layout={{config: APP_LAYOUT_THEME}}>
     {...}
-</ThemeProvider>;
+</Provider>;
 ```
+
+Use `LayoutProvider` to configure layout for a subtree. Unspecified settings, including
+`fixBreakpoints` and the active breakpoint during SSR and updates, are inherited from the parent.
+Partial `config` merges with the parent theme without mutating it. Custom breakpoints or a different
+`fixBreakpoints` mode calculate a local active breakpoint; `initialMediaQuery` overrides its initial
+value. Without a parent, the defaults remain `fixBreakpoints=false` and initial breakpoint `s`
+(`xs` with `fixBreakpoints=true`).
 
 ## Box
 

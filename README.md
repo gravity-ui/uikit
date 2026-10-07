@@ -161,7 +161,7 @@ The base React component and design-token library for Gravity UI apps — contro
 
 - Standard application UI: buttons, form controls, modals and popups, menus, tabs, labels, typography, and layout primitives.
 - Selectable, navigable lists (`List`) and select controls (`Select`).
-- The theming foundation of a Gravity UI app: `ThemeProvider`, design tokens, and CSS variables the rest of the `@gravity-ui/*` ecosystem expects to be present.
+- The theming foundation of a Gravity UI app: `Provider`, design tokens, and CSS variables the rest of the `@gravity-ui/*` ecosystem expects to be present.
 
 ### When not to use
 
@@ -174,7 +174,7 @@ The base React component and design-token library for Gravity UI apps — contro
 ### Common pitfalls
 
 - `Button` styling prop is `view`, not `variant` or `color`
-- **Components render unstyled without setup.** Wrap the app in `ThemeProvider` **and** import `@gravity-ui/uikit/styles/styles.css` (plus `fonts.css`) once at the entry point — both are required.
+- **Components render unstyled without setup.** Wrap the app in `Provider` **and** import `@gravity-ui/uikit/styles/styles.css` (plus `fonts.css`) once at the entry point — both are required.
 - **`Icon` has no `name` prop.** Pass an imported icon component through `data`: `import {Gear} from '@gravity-ui/icons'; <Icon data={Gear} size={16} />`.
 - **`theme` values are `light | dark | light-hc | dark-hc`.** There is no `theme="default"`.
 - **`List` in v8 is a new component.** The v7 `List` lives in `@gravity-ui/uikit/legacy`; see the [List migration guide](./docs/migration-from-legacy-list.md).

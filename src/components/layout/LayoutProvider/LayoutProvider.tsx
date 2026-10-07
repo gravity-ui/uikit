@@ -2,33 +2,43 @@
 
 import * as React from 'react';
 
-import {LayoutContext} from '../contexts/LayoutContext';
+import {DEFAULT_LAYOUT_CONTEXT, LayoutContext} from '../contexts/LayoutContext';
 import {useCurrentActiveMediaQuery} from '../hooks/useCurrentActiveMediaQuery';
 import type {LayoutTheme, MediaType, RecursivePartial} from '../types';
 import {overrideLayoutTheme} from '../utils/overrideLayoutTheme';
 
-export interface PrivateLayoutProviderProps {
+export interface LayoutProviderProps {
     config?: RecursivePartial<LayoutTheme>;
     /**
-     * During ssr you can override default (`s`) media screen size if needed
+     * Initial breakpoint for SSR. Inherits the parent breakpoint; without a parent,
+     * defaults to `s` (`xs` when fixBreakpoints is enabled).
      */
     initialMediaQuery?: MediaType;
     // TODO BREAKING CHANGE: Make it default behaviour
     /**
      * Fixes "s" media breakpoint behaviour with introducing "xs" media.
+     * Inherits the parent setting; defaults to false without a parent.
      * Will be default in the next major release.
      */
     fixBreakpoints?: boolean;
     children: React.ReactNode;
 }
 
-export function PrivateLayoutProvider({
+export function LayoutProvider({
     children,
     config: override,
     initialMediaQuery,
-    fixBreakpoints = false,
-}: PrivateLayoutProviderProps) {
+    fixBreakpoints: fixBreakpointsProp,
+}: LayoutProviderProps) {
     const parentContext = React.useContext(LayoutContext);
+    const fixBreakpoints = fixBreakpointsProp ?? parentContext.fixBreakpoints;
+    const inheritedMediaQuery =
+        parentContext !== DEFAULT_LAYOUT_CONTEXT &&
+        initialMediaQuery === undefined &&
+        override?.breakpoints === undefined &&
+        fixBreakpoints === parentContext.fixBreakpoints
+            ? parentContext.activeMediaQuery
+            : undefined;
     const theme = React.useMemo(
         () => overrideLayoutTheme({theme: parentContext.theme, override}),
         [override, parentContext.theme],
@@ -36,7 +46,12 @@ export function PrivateLayoutProvider({
     const activeMediaQuery = useCurrentActiveMediaQuery(
         theme.breakpoints,
         fixBreakpoints,
-        initialMediaQuery,
+        initialMediaQuery ??
+            (parentContext !== DEFAULT_LAYOUT_CONTEXT &&
+            fixBreakpoints === parentContext.fixBreakpoints
+                ? parentContext.activeMediaQuery
+                : undefined),
+        inheritedMediaQuery,
     );
 
     const value = React.useMemo(

@@ -2,8 +2,8 @@ import type * as React from 'react';
 
 import type {LayoutTheme} from '../..';
 import {Text} from '../../../Text';
-import {ThemeProvider} from '../../../theme';
 import {Flex} from '../../Flex/Flex';
+import {LayoutProvider} from '../../LayoutProvider/LayoutProvider';
 import {useLayoutContext} from '../../hooks/useLayoutContext';
 import {sp} from '../../spacing/spacing';
 
@@ -36,7 +36,7 @@ function Title({title}: {title?: string}) {
 
 export const LayoutPresenter = ({children, title, theme: config}: LayoutPresenterProps) => {
     return (
-        <ThemeProvider layout={{config, fixBreakpoints: true}} scoped>
+        <LayoutProvider config={config} fixBreakpoints>
             <Title title={title} />
             <div
                 style={{
@@ -47,6 +47,6 @@ export const LayoutPresenter = ({children, title, theme: config}: LayoutPresente
             >
                 {children}
             </div>
-        </ThemeProvider>
+        </LayoutProvider>
     );
 };

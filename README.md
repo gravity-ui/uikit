@@ -66,6 +66,7 @@ A SCSS [mixins](styles/mixins.scss) file with useful helpers is also available f
 
 Read more:
 
+- [Migration to v8](docs/migration-to-v8.md) — the breaking changes of v8 and the way through each of them
 - [Layout components and spacings](docs/layout.md) — compose responsive pages with the shared grid
   and spacing scale
 - [Theming](docs/theming.md) — enable light, dark, and high-contrast themes
@@ -75,17 +76,17 @@ Read more:
 
 ### Entry points
 
-| Entry point                           | What is there                               | When to use                                                                       |
-| :------------------------------------ | :------------------------------------------ | :-------------------------------------------------------------------------------- |
-| `@gravity-ui/uikit`                   | Components, hooks and utilities             | Always — this is the package                                                      |
-| `@gravity-ui/uikit/styles/*`          | The global CSS and the SCSS mixins          | Once at the entry point of the app, see [Styles](#styles)                         |
-| `@gravity-ui/uikit/i18n`              | `addLanguageKeysets`, `addComponentKeysets` | Adding or overriding the built-in component strings                               |
-| `@gravity-ui/uikit/server`            | `getRootClassName`                          | Generating the root class on the server, see [SSR](docs/server-side-rendering.md) |
-| `@gravity-ui/uikit/toaster-singleton` | A ready-made `Toaster` instance             | Showing toasts outside of the React tree                                          |
-| `@gravity-ui/uikit/virtualizer`       | `Virtualizer`, `ListVirtualizer`            | Rendering only the visible window of a long list                                  |
-| `@gravity-ui/uikit/hello-pangea-dnd`  | `useListHelloPangeaDnd`                     | Reordering the rows of a list with `@hello-pangea/dnd`                            |
-| `@gravity-ui/uikit/unstable`          | Components whose API is still moving        | At your own risk — these break outside of major releases                          |
-| `@gravity-ui/uikit/legacy`            | Components that are no longer developed     | Only while migrating away from them                                               |
+| Entry point                           | What is there                                               | When to use                                                                         |
+| :------------------------------------ | :---------------------------------------------------------- | :---------------------------------------------------------------------------------- |
+| `@gravity-ui/uikit`                   | Components, hooks and utilities                             | Always — this is the package                                                        |
+| `@gravity-ui/uikit/styles/*`          | The global CSS and the SCSS mixins                          | Once at the entry point of the app, see [Styles](#styles)                           |
+| `@gravity-ui/uikit/i18n`              | `addLanguageKeysets`, `addComponentKeysets`                 | Adding or overriding the built-in component strings                                 |
+| `@gravity-ui/uikit/server`            | `getRootClassName`                                          | Generating the root class on the server, see [SSR](docs/server-side-rendering.md)   |
+| `@gravity-ui/uikit/toaster-singleton` | A ready-made `Toaster` instance                             | Showing toasts outside of the React tree                                            |
+| `@gravity-ui/uikit/virtualizer`       | `Virtualizer`, `ListVirtualizer`                            | Rendering only the visible window of a long list                                    |
+| `@gravity-ui/uikit/hello-pangea-dnd`  | `ListHelloPangeaDnd`, `useListHelloPangeaDnd`               | Reordering the rows of a list with `@hello-pangea/dnd`                              |
+| `@gravity-ui/uikit/unstable`          | Components whose API is still moving                        | At your own risk — these break outside of major releases                            |
+| `@gravity-ui/uikit/legacy`            | `DropdownMenu`, `List`, `Menu`, `Table`, `TableColumnSetup` | Only while migrating away from them, see [Migration to v8](docs/migration-to-v8.md) |
 
 Some entry points need packages of their own, declared as optional peer dependencies: install them
 next to `@gravity-ui/uikit` when you import from there. Everything else comes with the package
@@ -159,6 +160,7 @@ The base React component and design-token library for Gravity UI apps — contro
 ### When to use
 
 - Standard application UI: buttons, form controls, modals and popups, menus, tabs, labels, typography, and layout primitives.
+- Selectable, navigable lists (`List`) and select controls (`Select`).
 - The theming foundation of a Gravity UI app: `ThemeProvider`, design tokens, and CSS variables the rest of the `@gravity-ui/*` ecosystem expects to be present.
 
 ### When not to use
@@ -175,12 +177,14 @@ The base React component and design-token library for Gravity UI apps — contro
 - **Components render unstyled without setup.** Wrap the app in `ThemeProvider` **and** import `@gravity-ui/uikit/styles/styles.css` (plus `fonts.css`) once at the entry point — both are required.
 - **`Icon` has no `name` prop.** Pass an imported icon component through `data`: `import {Gear} from '@gravity-ui/icons'; <Icon data={Gear} size={16} />`.
 - **`theme` values are `light | dark | light-hc | dark-hc`.** There is no `theme="default"`.
+- **`List` in v8 is a new component.** The v7 `List` lives in `@gravity-ui/uikit/legacy`; see the [List migration guide](./docs/migration-from-legacy-list.md).
 
 ### Useful docs
 
 - [Layout components and spacings](./docs/layout.md)
 - [Theming, Colors & Branding](./docs/theming.md)
 - [Typography](./docs/typography.md)
+- [Migration to v8](./docs/migration-to-v8.md)
 
 ## Documentation for AI agents
 

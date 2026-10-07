@@ -10,6 +10,8 @@
 import {Breadcrumbs} from '@gravity-ui/uikit';
 ```
 
+Migrating from the legacy `Breadcrumbs`? See the [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-breadcrumbs.md).
+
 ## Example
 
 <!--SANDBOX

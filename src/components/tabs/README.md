@@ -10,6 +10,8 @@ Tabs components is used to explore, organize content and switch between differen
 import {TabProvider, TabList, Tab, TabPanel} from '@gravity-ui/uikit';
 ```
 
+Migrating from the legacy `Tabs`? See the [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-tabs.md).
+
 <!--SANDBOX
 import {useState} from 'react';
 import {Tab, TabList, TabPanel, TabProvider} from '@gravity-ui/uikit';

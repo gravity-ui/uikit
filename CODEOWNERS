@@ -21,6 +21,7 @@
 /src/components/Divider @v4dyar4
 /src/components/Drawer @skoptenco
 #/src/components/DropdownMenu @axtk
+/src/components/FileDropZone @dvortsovs
 /src/components/FilePreview @mournfulCoroner
 /src/components/HelpMark @Raubzeug
 /src/components/Hotkey @d3m1d0v
@@ -64,9 +65,8 @@
 /src/components/Tooltip @amje
 /src/components/layout @IsaevAlexandr
 
-/src/components/lab/FileDropZone @dvortsovs
-
 /src/hooks/useActionHandlers @ogonkov
+/src/hooks/useDropZone @dvortsovs
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS
 #/src/hooks/useIntersection @imechoim
@@ -74,8 +74,6 @@
 /src/hooks/useOutsideClick @NikitaCG
 /src/hooks/useViewportSize @NikitaCG
 /src/hooks/useUniqId @ValeraS
-
-/src/hooks/lab/useDropZone @dvortsovs
 
 # Allow everyone to update dependencies
 

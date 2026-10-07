@@ -179,18 +179,19 @@ small interaction-free table without performance requirements can stay on the le
 
 ## Removed from `/unstable`
 
-In v8 `@gravity-ui/uikit/unstable` keeps only `unstable_FileDropZone`, `unstable_useDropZone` and
-their types.
-Everything else has moved:
+In v8 `@gravity-ui/uikit/unstable` is empty; the entrypoint stays for future experiments. Everything
+has moved:
 
-| Removed                                                                                                           | Now                                                                                                                                          |
-| :---------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
-| `unstable_List`, `unstable_moveItem`, `unstable_useListFocusOwner` and the `unstable_List*` types                 | the same names without the prefix from `@gravity-ui/uikit`, see [the List guide](migration-from-legacy-list.md#from-gravity-uiuikitunstable) |
-| `unstable_ListVirtualizer`, `unstable_ListVirtualizerProps`                                                       | `ListVirtualizer`, `ListVirtualizerProps` from `@gravity-ui/uikit/virtualizer`                                                               |
-| `unstable_useListHelloPangeaDnd`, `unstable_UseListHelloPangeaDndOptions`, `unstable_UseListHelloPangeaDndResult` | `useListHelloPangeaDnd`, `UseListHelloPangeaDndProps`, `UseListHelloPangeaDndResult` from `@gravity-ui/uikit/hello-pangea-dnd`               |
-| `unstable_ColorPicker`, `unstable_ColorPickerProps`                                                               | `ColorPicker`, `ColorPickerProps` from `@gravity-ui/uikit`                                                                                   |
-| `unstable_Menu` and the other `unstable_Menu*` names                                                              | see [Menu and DropdownMenu](#menu-and-dropdownmenu)                                                                                          |
-| `unstable_useList` family, `unstable_TreeList`, `unstable_TreeSelect`                                             | see [useList, TreeList and TreeSelect removed from `/unstable`](#uselist-treelist-and-treeselect-removed-from-unstable)                      |
+| Removed                                                                                                                 | Now                                                                                                                                          |
+| :---------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `unstable_List`, `unstable_moveItem`, `unstable_useListFocusOwner` and the `unstable_List*` types                       | the same names without the prefix from `@gravity-ui/uikit`, see [the List guide](migration-from-legacy-list.md#from-gravity-uiuikitunstable) |
+| `unstable_ListVirtualizer`, `unstable_ListVirtualizerProps`                                                             | `ListVirtualizer`, `ListVirtualizerProps` from `@gravity-ui/uikit/virtualizer`                                                               |
+| `unstable_useListHelloPangeaDnd`, `unstable_UseListHelloPangeaDndOptions`, `unstable_UseListHelloPangeaDndResult`       | `useListHelloPangeaDnd`, `UseListHelloPangeaDndProps`, `UseListHelloPangeaDndResult` from `@gravity-ui/uikit/hello-pangea-dnd`               |
+| `unstable_ColorPicker`, `unstable_ColorPickerProps`                                                                     | `ColorPicker`, `ColorPickerProps` from `@gravity-ui/uikit`                                                                                   |
+| `unstable_FileDropZone`, `DropZoneFileRejection`, `FileDropZoneProps`                                                   | `FileDropZone` and the same types from `@gravity-ui/uikit`                                                                                   |
+| `unstable_useDropZone`, `UseDropZoneEventHandler`, `UseDropZoneParams`, `UseDropZoneDroppableProps`, `UseDropZoneState` | `useDropZone` and the same types from `@gravity-ui/uikit`                                                                                    |
+| `unstable_Menu` and the other `unstable_Menu*` names                                                                    | see [Menu and DropdownMenu](#menu-and-dropdownmenu)                                                                                          |
+| `unstable_useList` family, `unstable_TreeList`, `unstable_TreeSelect`                                                   | see [useList, TreeList and TreeSelect removed from `/unstable`](#uselist-treelist-and-treeselect-removed-from-unstable)                      |
 
 ## useList, TreeList and TreeSelect removed from `/unstable`
 

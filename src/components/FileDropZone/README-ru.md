@@ -5,10 +5,7 @@
 <!--/GITHUB_BLOCK-->
 
 ```tsx
-import {
-  unstable_FileDropZone as FileDropZone,
-  type DropZoneFileRejection,
-} from '@gravity-ui/uikit/unstable';
+import {FileDropZone, type DropZoneFileRejection} from '@gravity-ui/uikit';
 ```
 
 ### Базовое использование

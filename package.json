@@ -177,7 +177,7 @@
     "@gravity-ui/prettier-config": "^1.1.0",
     "@gravity-ui/stylelint-config": "^5.0.0",
     "@gravity-ui/tsconfig": "^1.0.0",
-    "@gravity-ui/uikit-themer": "^1.8.1",
+    "@gravity-ui/uikit-themer": "^2.0.0",
     "@hello-pangea/dnd": "^18.0.1",
     "@playwright/experimental-ct-react": "^1.56.0",
     "@playwright/test": "^1.56.0",

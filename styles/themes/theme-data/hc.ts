@@ -2121,27 +2121,117 @@ export const hcTheme: HcThemeSeed = {
                 "ref": "private.blue.500"
             }
         },
-        "base-light": {
+        "base-contrast": {
             "dark": {
-                "value": "rgba(255, 255, 255, 0.85)",
-                "ref": "private.white.850"
+                "value": "rgba(255, 255, 255, 0.9)",
+                "ref": "private.white.900"
+            },
+            "light": {
+                "value": "rgb(0, 0, 0)",
+                "ref": "private.black.1000-solid"
+            }
+        },
+        "base-contrast-hover": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.75)",
+                "ref": "private.white.750"
+            },
+            "light": {
+                "value": "rgb(0, 0, 0, 0.8)",
+                "ref": "private.black.800"
+            }
+        },
+        "base-contrast-simple-hover": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.2)",
+                "ref": "private.white.200"
+            },
+            "light": {
+                "value": "rgb(0, 0, 0, 0.1)",
+                "ref": "private.black.100"
+            }
+        },
+        "base-contrast-accent-disabled": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.15)",
+                "ref": "private.white.150"
+            },
+            "light": {
+                "value": "rgb(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
+            }
+        },
+        "base-contrast-inverted": {
+            "dark": {
+                "value": "rgba(0, 0, 0, 0.9)",
+                "ref": "private.black.900"
             },
             "light": {
                 "value": "rgb(255, 255, 255)",
                 "ref": "private.white.1000-solid"
             }
         },
-        "base-light-accent-disabled": {
+        "base-contrast-inverted-hover": {
             "dark": {
-                "value": "rgba(255, 255, 255, 0.3)",
+                "value": "rgba(0, 0, 0, 0.75)",
+                "ref": "private.black.750"
+            },
+            "light": {
+                "value": "rgb(255, 255, 255, 0.8)",
+                "ref": "private.white.800"
+            }
+        },
+        "base-contrast-inverted-simple-hover": {
+            "dark": {
+                "value": "rgba(0, 0, 0, 0.1)",
+                "ref": "private.black.100"
+            },
+            "light": {
+                "value": "rgb(255, 255, 255, 0.3)",
                 "ref": "private.white.300"
+            }
+        },
+        "base-contrast-inverted-accent-disabled": {
+            "dark": {
+                "value": "rgba(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
+            },
+            "light": {
+                "value": "rgb(255, 255, 255, 0.15)",
+                "ref": "private.white.150"
+            }
+        },
+        "base-contrast-light": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.9)",
+                "ref": "private.white.900"
+            },
+            "light": {
+                "value": "rgb(255, 255, 255)",
+                "ref": "private.white.1000-solid"
+            }
+        },
+        "base-contrast-light-hover": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.75)",
+                "ref": "private.white.750"
+            },
+            "light": {
+                "value": "rgba(255, 255, 255, 0.8)",
+                "ref": "private.white.800"
+            }
+        },
+        "base-contrast-light-simple-hover": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.2)",
+                "ref": "private.white.200"
             },
             "light": {
                 "value": "rgba(255, 255, 255, 0.3)",
                 "ref": "private.white.300"
             }
         },
-        "base-light-disabled": {
+        "base-contrast-light-accent-disabled": {
             "dark": {
                 "value": "rgba(255, 255, 255, 0.15)",
                 "ref": "private.white.150"
@@ -2151,24 +2241,44 @@ export const hcTheme: HcThemeSeed = {
                 "ref": "private.white.150"
             }
         },
-        "base-light-hover": {
+        "base-contrast-dark": {
             "dark": {
-                "value": "rgba(255, 255, 255, 0.7)",
-                "ref": "private.white.700"
+                "value": "rgba(0, 0, 0, 0.9)",
+                "ref": "private.black.900"
             },
             "light": {
-                "value": "rgba(255, 255, 255, 0.85)",
-                "ref": "private.white.850"
+                "value": "rgb(0, 0, 0)",
+                "ref": "private.black.1000-solid"
             }
         },
-        "base-light-simple-hover": {
+        "base-contrast-dark-hover": {
             "dark": {
-                "value": "rgba(255, 255, 255, 0.15)",
-                "ref": "private.white.150"
+                "value": "rgba(0, 0, 0, 0.75)",
+                "ref": "private.black.750"
             },
             "light": {
-                "value": "rgba(255, 255, 255, 0.3)",
-                "ref": "private.white.300"
+                "value": "rgb(0, 0, 0, 0.8)",
+                "ref": "private.black.800"
+            }
+        },
+        "base-contrast-dark-simple-hover": {
+            "dark": {
+                "value": "rgba(0, 0, 0, 0.1)",
+                "ref": "private.black.100"
+            },
+            "light": {
+                "value": "rgb(0, 0, 0, 0.1)",
+                "ref": "private.black.100"
+            }
+        },
+        "base-contrast-dark-accent-disabled": {
+            "dark": {
+                "value": "rgba(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
+            },
+            "light": {
+                "value": "rgb(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
             }
         },
         "base-misc-heavy": {
@@ -2649,6 +2759,46 @@ export const hcTheme: HcThemeSeed = {
             "light": {
                 "value": "rgba(255, 255, 255, 0.5)",
                 "ref": "private.white.500"
+            }
+        },
+        "line-contrast": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.3)",
+                "ref": "private.white.300"
+            },
+            "light": {
+                "value": "rgba(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
+            }
+        },
+        "line-contrast-inverted": {
+            "dark": {
+                "value": "rgba(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
+            },
+            "light": {
+                "value": "rgba(255, 255, 255, 0.3)",
+                "ref": "private.white.300"
+            }
+        },
+        "line-contrast-light": {
+            "dark": {
+                "value": "rgba(255, 255, 255, 0.3)",
+                "ref": "private.white.300"
+            },
+            "light": {
+                "value": "rgba(255, 255, 255, 0.3)",
+                "ref": "private.white.300"
+            }
+        },
+        "line-contrast-dark": {
+            "dark": {
+                "value": "rgba(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
+            },
+            "light": {
+                "value": "rgba(0, 0, 0, 0.15)",
+                "ref": "private.black.150"
             }
         },
         "line-misc": {

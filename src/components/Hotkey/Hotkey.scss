@@ -25,7 +25,7 @@ $block: '.#{variables.$ns}hotkey';
 
         &_dark {
             color: var(--g-color-text-light-complementary);
-            background-color: var(--g-color-base-light-simple-hover);
+            background-color: var(--g-color-base-contrast-light-simple-hover);
 
             #{$block}__plus {
                 color: var(--g-color-text-light-hint);

@@ -57,9 +57,9 @@ Read the requested/resolved theme with `useTheme` / `useThemeValue`; switch it b
 
 ## Providers
 
-`Provider` is the application provider. Use only one per page; nesting it throws an error.
-Independent React roots are not checked against each other. Configure a subtree with the individual
-feature providers instead. All components and prop types below are exported from `@gravity-ui/uikit`.
+`Provider` is the application provider. Nested Providers are always scoped, even with
+`scoped={false}`, and inherit unspecified settings. Use a feature provider to configure just one
+feature. All listed components and prop types are exported from `@gravity-ui/uikit`.
 
 ### Provider
 
@@ -73,7 +73,7 @@ feature providers instead. All components and prop types below are exported from
 
 It composes `LayoutProvider`, `DefaultPropsProvider`, `ThemeProvider`, `LangProvider`, and
 `MobileProvider`, and installs a private shared tooltip delay group. Configure that group with
-`defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}`. Theme scopes share the same group.
+`defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}`. Nested Providers and theme scopes share the same group.
 
 ### ThemeProvider
 
@@ -108,9 +108,12 @@ context, or `useLang` reads the global `configure` settings when there is no par
 
 ### LayoutProvider
 
-`LayoutProviderProps` accepts `children`, `config` (`LayoutTheme`), `initialMediaQuery` (a breakpoint
-name for the initial/SSR render), and `fixBreakpoints` (`false` by default). Layout configuration
-uses the existing parent-theme merge. Without `initialMediaQuery`, the initial breakpoint is `s`,
+`LayoutProviderProps` accepts `children`, `config` (partial `LayoutTheme`), `initialMediaQuery`
+(a breakpoint name for the initial/SSR render), and `fixBreakpoints`. Nested providers inherit the
+theme, `fixBreakpoints`, and active breakpoint, including the parent's initial breakpoint during
+SSR. `config` merges with the parent theme without mutating it. Explicit settings override inherited
+ones; custom breakpoints or a different `fixBreakpoints` mode calculate a local active breakpoint.
+Without a parent provider, `fixBreakpoints` defaults to `false` and the initial breakpoint is `s`,
 or `xs` when `fixBreakpoints` is enabled. It adds no DOM wrapper. See [Layout](layout.md).
 
 ```tsx
@@ -133,7 +136,10 @@ directly, with the same defaults:
 | `useLocation`                | `MobileProviderProps['useLocation']`     | Empty pathname, search, and hash |
 
 `useHistory` supports router history v4/v5: `back` is adapted to `goBack` when `goBack` is absent.
-`mobile` toggles `.g-root_mobile` on body and is read by `useMobile`; `usePlatform` reads the platform.
+`mobile` toggles `.g-root_mobile` on body for a global Provider and is read by `useMobile`;
+`usePlatform` reads the platform. Scoped Providers inherit mobile settings and apply the class to
+the local wrapper, including portal wrappers. Updating or unmounting a nested Provider does not
+change body's mobile class.
 The experimental flag enables mobile Modal/Dialog rendering when `mobile` is also enabled.
 
 ```tsx

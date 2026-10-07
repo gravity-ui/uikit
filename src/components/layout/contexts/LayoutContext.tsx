@@ -10,8 +10,10 @@ interface LayoutContextProps {
     fixBreakpoints: boolean;
 }
 
-export const LayoutContext = React.createContext<LayoutContextProps>({
+export const DEFAULT_LAYOUT_CONTEXT: LayoutContextProps = {
     theme: DEFAULT_LAYOUT_THEME,
     activeMediaQuery: 's',
     fixBreakpoints: false,
-});
+};
+
+export const LayoutContext = React.createContext(DEFAULT_LAYOUT_CONTEXT);

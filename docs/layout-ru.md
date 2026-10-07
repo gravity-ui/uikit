@@ -163,6 +163,13 @@ const APP_LAYOUT_THEME: LayoutTheme = {
 </Provider>;
 ```
 
+`LayoutProvider` позволяет настроить layout для поддерева. Незаданные настройки, включая
+`fixBreakpoints` и активный breakpoint при SSR и обновлениях, наследуются от родителя. Частичный
+`config` объединяется с родительской темой без её изменения. Собственные breakpoints или другой
+режим `fixBreakpoints` вычисляют локальный активный breakpoint; `initialMediaQuery` переопределяет
+его начальное значение. Без родителя сохраняются значения `fixBreakpoints=false` и начальный
+breakpoint `s` (`xs` при `fixBreakpoints=true`).
+
 ## Box
 
 `Box` — базовый строительный блок для других компонентов. Он знает о шкале отступов, собственных

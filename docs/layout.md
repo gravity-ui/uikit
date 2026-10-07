@@ -160,6 +160,13 @@ const APP_LAYOUT_THEME: LayoutTheme = {
 </Provider>;
 ```
 
+Use `LayoutProvider` to configure layout for a subtree. Unspecified settings, including
+`fixBreakpoints` and the active breakpoint during SSR and updates, are inherited from the parent.
+Partial `config` merges with the parent theme without mutating it. Custom breakpoints or a different
+`fixBreakpoints` mode calculate a local active breakpoint; `initialMediaQuery` overrides its initial
+value. Without a parent, the defaults remain `fixBreakpoints=false` and initial breakpoint `s`
+(`xs` with `fixBreakpoints=true`).
+
 ## Box
 
 The `Box` component is a developer friend and basic block to build other components. Aware about spacing, its own sizes and most commonly used CSS properties.

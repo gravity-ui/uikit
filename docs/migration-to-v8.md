@@ -25,9 +25,10 @@ removal date for `/legacy` is promised: plan the migration away from them.
 
 4. Check custom CSS and tests against [Everything else](#everything-else).
 
-## ThemeProvider becomes Provider
+## ThemeProvider is split into separate providers
 
-The application-level `ThemeProvider` is now `Provider`. It keeps the previous props and also accepts
+The previous `ThemeProvider` is split into feature providers, composed by the new application-level
+`Provider`. It keeps the previous props and also accepts
 all `MobileProvider` props directly. Replace the full `ThemeProviderProps` type with `ProviderProps`.
 Remove the extra mobile wrapper when moving its settings to `Provider`:
 
@@ -46,9 +47,9 @@ Remove the extra mobile wrapper when moving its settings to `Provider`:
 + </Provider>
 ```
 
-Use only one `Provider` per page. A nested `Provider` throws an error, including through a portal;
-independent React roots are not checked against each other. Replace nested application providers
-with the feature providers needed by that subtree:
+Nested Providers are always scoped, even with `scoped={false}`. They inherit unspecified settings
+and apply theme, direction, and the mobile class to a local wrapper. To override individual features,
+use the corresponding providers:
 
 | Previous ThemeProvider prop                                 | Subtree provider                                           |
 | ----------------------------------------------------------- | ---------------------------------------------------------- |
@@ -77,7 +78,8 @@ particular, they preserve the parent's breakpoint mode and mobile/router setting
 the local theme and direction.
 
 Existing standalone MobileProvider and DefaultPropsProvider APIs remain available.
-The newly public LayoutProvider keeps `fixBreakpoints=false` by default.
+The newly public LayoutProvider inherits all parent layout settings; without a parent,
+`fixBreakpoints` still defaults to `false`.
 
 See [Theming](theming.md#providers) for the full API and defaults.
 

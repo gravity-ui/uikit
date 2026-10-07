@@ -362,29 +362,32 @@ describe('Provider', () => {
         expect(screen.queryByText('first tooltip')).not.toBeInTheDocument();
     });
 
-    test('should not split the group by a nested provider', async () => {
-        const user = setup();
-        renderWithoutProviders(
-            <Provider>
-                <Tooltip content="outer tooltip">
-                    <button>outer</button>
-                </Tooltip>
-                <ThemeProvider theme="dark">
-                    <Tooltip content="inner tooltip">
-                        <button>inner</button>
+    test.each([ThemeProvider, Provider])(
+        'should not split the group by nested %p',
+        async (Nested) => {
+            const user = setup();
+            renderWithoutProviders(
+                <Provider>
+                    <Tooltip content="outer tooltip">
+                        <button>outer</button>
                     </Tooltip>
-                </ThemeProvider>
-            </Provider>,
-        );
+                    <Nested theme="dark">
+                        <Tooltip content="inner tooltip">
+                            <button>inner</button>
+                        </Tooltip>
+                    </Nested>
+                </Provider>,
+            );
 
-        await user.hover(screen.getByRole('button', {name: 'outer'}));
-        advanceTime(OPEN_DELAY);
-        expect(screen.getByText('outer tooltip')).toBeVisible();
+            await user.hover(screen.getByRole('button', {name: 'outer'}));
+            advanceTime(OPEN_DELAY);
+            expect(screen.getByText('outer tooltip')).toBeVisible();
 
-        await user.hover(screen.getByRole('button', {name: 'inner'}));
-        expect(screen.getByText('inner tooltip')).toBeVisible();
-        expect(screen.queryByText('outer tooltip')).not.toBeInTheDocument();
-    });
+            await user.hover(screen.getByRole('button', {name: 'inner'}));
+            expect(screen.getByText('inner tooltip')).toBeVisible();
+            expect(screen.queryByText('outer tooltip')).not.toBeInTheDocument();
+        },
+    );
 
     test('should configure the app group with default props', async () => {
         const user = setup();

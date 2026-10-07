@@ -60,9 +60,9 @@ UIKit поставляет четыре встроенные темы:
 
 ## Провайдеры
 
-`Provider` — общий провайдер приложения. На странице должен быть только один Provider; вложение
-вызывает ошибку. Независимые React-root не проверяются между собой. Для настроек поддерева используйте
-провайдеры отдельных функций. Все перечисленные компоненты и типы пропсов экспортируются из `@gravity-ui/uikit`.
+`Provider` — общий провайдер приложения. Вложенные Provider всегда работают в режиме scoped,
+даже при `scoped={false}`, и наследуют незаданные настройки. Для изменения одной функции можно
+использовать отдельный провайдер. Все перечисленные компоненты и типы пропсов экспортируются из `@gravity-ui/uikit`.
 
 ### Provider
 
@@ -76,7 +76,7 @@ UIKit поставляет четыре встроенные темы:
 
 Он объединяет `LayoutProvider`, `DefaultPropsProvider`, `ThemeProvider`, `LangProvider` и
 `MobileProvider` и подключает приватную общую группу задержки тултипов. Настройте её через
-`defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}`. Области темы используют ту же группу.
+`defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}`. Вложенные Provider и области темы используют ту же группу.
 
 ### ThemeProvider
 
@@ -111,11 +111,13 @@ UIKit поставляет четыре встроенные темы:
 
 ### LayoutProvider
 
-`LayoutProviderProps` принимает `children`, `config` (`LayoutTheme`), `initialMediaQuery` (имя
-breakpoint для начального/SSR-рендера) и `fixBreakpoints` (по умолчанию `false`). Конфигурация
-объединяется с родительской layout-темой по существующим правилам. Без `initialMediaQuery` начальный
-breakpoint — `s`, либо `xs` при включённом `fixBreakpoints`. DOM-обёртку не добавляет.
-Подробнее — в руководстве [Layout](layout-ru.md).
+`LayoutProviderProps` принимает `children`, `config` (частичный `LayoutTheme`), `initialMediaQuery`
+(имя breakpoint для начального/SSR-рендера) и `fixBreakpoints`. Вложенный провайдер наследует тему,
+`fixBreakpoints` и активный breakpoint, включая начальный breakpoint родителя при SSR. `config`
+объединяется с родительской темой, не изменяя её. Явно переданные настройки переопределяют унаследованные;
+собственные breakpoints или другой режим `fixBreakpoints` вычисляют локальный активный breakpoint.
+Без родительского провайдера `fixBreakpoints` равен `false`, а начальный breakpoint — `s`, либо `xs`
+при включённом `fixBreakpoints`. DOM-обёртку не добавляет. См. [Layout](layout-ru.md).
 
 ```tsx
 <LayoutProvider config={layoutConfig} fixBreakpoints>
@@ -137,7 +139,10 @@ breakpoint — `s`, либо `xs` при включённом `fixBreakpoints`. 
 | `useLocation`                | `MobileProviderProps['useLocation']`     | Пустые pathname, search и hash |
 
 `useHistory` поддерживает history v4/v5: `back` преобразуется в `goBack`, если `goBack` отсутствует.
-`mobile` переключает `.g-root_mobile` на body и читается через `useMobile`; платформу читает `usePlatform`.
+`mobile` переключает `.g-root_mobile` на body у глобального Provider и читается через `useMobile`;
+платформу читает `usePlatform`. В scoped Provider мобильные настройки наследуются, а класс применяется
+к локальной обёртке, включая обёртки порталов. Изменение или размонтирование вложенного Provider
+не меняет мобильный класс body.
 Экспериментальный флаг включает мобильный рендеринг Modal/Dialog при включённом `mobile`.
 
 ```tsx

@@ -1,5 +1,6 @@
 export * from './MobileContext';
-export * from './MobileProvider';
+export {MobileProvider} from './MobileProvider';
+export type {MobileProviderProps} from './MobileProvider';
 export * from './useMobile';
 export * from './usePlatform';
 export * from './withPlatform';

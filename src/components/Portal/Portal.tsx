@@ -5,6 +5,8 @@ import * as React from 'react';
 import {FloatingPortal} from '@floating-ui/react';
 
 import {usePortalContainer} from '../../hooks';
+import {rootMobileClassName} from '../mobile/constants';
+import {useMobile} from '../mobile/useMobile';
 import {ThemeProvider} from '../theme';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import {useThemeContext} from '../theme/useThemeContext';
@@ -24,6 +26,7 @@ export function Portal(rawProps: PortalProps) {
     const {container, children, disablePortal} = useDefaultProps('Portal', rawProps);
     const defaultContainer = usePortalContainer();
     const {scoped} = useThemeContext();
+    const mobile = useMobile();
 
     const containerNode = container ?? defaultContainer;
 
@@ -35,7 +38,12 @@ export function Portal(rawProps: PortalProps) {
         return (
             <FloatingPortal root={containerNode}>
                 {scoped ? (
-                    <ThemeProvider rootClassName={b('theme-wrapper')} scoped>
+                    <ThemeProvider
+                        rootClassName={b('theme-wrapper', [
+                            mobile ? rootMobileClassName : undefined,
+                        ])}
+                        scoped
+                    >
                         {children}
                     </ThemeProvider>
                 ) : (

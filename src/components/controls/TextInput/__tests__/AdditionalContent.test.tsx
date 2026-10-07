@@ -12,7 +12,9 @@ const TextInputWithButtonAndSheet = () => {
     const startContent = (
         <React.Fragment>
             <Button onClick={() => setOpen(true)}>Open</Button>
-            <Sheet visible={open}>Sheet content</Sheet>
+            <Sheet open={open} onOpenChange={setOpen}>
+                Sheet content
+            </Sheet>
         </React.Fragment>
     );
     return <TextInput startContent={startContent} />;

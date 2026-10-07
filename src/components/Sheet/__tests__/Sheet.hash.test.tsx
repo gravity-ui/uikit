@@ -24,6 +24,7 @@ interface HashedSheetsProps {
     onOpenChange?: SheetProps['onOpenChange'];
     onSheetBClose?: () => void;
     acceptDismissal?: boolean;
+    uncontrolledSheetB?: boolean;
     platform?: Platform;
 }
 
@@ -32,6 +33,7 @@ function HashedSheets({
     onOpenChange,
     onSheetBClose,
     acceptDismissal = true,
+    uncontrolledSheetB = false,
     platform = Platform.IOS,
 }: HashedSheetsProps) {
     const [location, setLocation] = React.useState<Location>({
@@ -41,8 +43,8 @@ function HashedSheets({
     });
     const actionRef = React.useRef<History['action']>('');
 
-    const [sheetAVisible, setSheetAVisible] = React.useState(false);
-    const [sheetBVisible, setSheetBVisible] = React.useState(false);
+    const [sheetAOpen, setSheetAOpen] = React.useState(false);
+    const [sheetBOpen, setSheetBOpen] = React.useState(false);
 
     onHashChange(location.hash);
 
@@ -82,10 +84,10 @@ function HashedSheets({
             useHistory={() => history}
             useLocation={() => location}
         >
-            <button onClick={() => setSheetAVisible(true)}>Open A</button>
-            <button onClick={() => setSheetBVisible(true)}>Open B</button>
-            <button onClick={() => setSheetAVisible(false)}>Close A</button>
-            <button onClick={() => setSheetBVisible(false)}>Close B</button>
+            <button onClick={() => setSheetAOpen(true)}>Open A</button>
+            <button onClick={() => setSheetBOpen(true)}>Open B</button>
+            <button onClick={() => setSheetAOpen(false)}>Close A</button>
+            <button onClick={() => setSheetBOpen(false)}>Close B</button>
             <button
                 onClick={() => {
                     actionRef.current = 'POP';
@@ -96,12 +98,11 @@ function HashedSheets({
             </button>
             <Sheet
                 id="sheetA"
-                visible={sheetAVisible}
-                onClose={() => setSheetAVisible(false)}
+                open={sheetAOpen}
                 onOpenChange={(open, event, reason) => {
                     onOpenChange?.(open, event, reason);
                     if (acceptDismissal) {
-                        setSheetAVisible(open);
+                        setSheetAOpen(open);
                     }
                 }}
             >
@@ -109,11 +110,10 @@ function HashedSheets({
             </Sheet>
             <Sheet
                 id="sheetB"
-                visible={sheetBVisible}
-                onClose={() => {
-                    onSheetBClose?.();
-                    setSheetBVisible(false);
-                }}
+                {...(uncontrolledSheetB
+                    ? {defaultOpen: true}
+                    : {open: sheetBOpen, onOpenChange: setSheetBOpen})}
+                onTransitionOutComplete={onSheetBClose}
             >
                 Content B
             </Sheet>
@@ -212,7 +212,7 @@ describe('Sheet hash', () => {
     });
 
     test.each([Platform.IOS, Platform.ANDROID])(
-        'clears the hash during an immediate legacy exit on %s',
+        'clears the hash during an immediate exit on %s',
         (platform) => {
             jest.useFakeTimers();
             let currentHash = '';
@@ -278,13 +278,18 @@ describe('Sheet hash', () => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
 
-    test('closes a legacy sheet when navigation moves away from its hash', () => {
+    test('closes an uncontrolled sheet when navigation moves away from its hash', () => {
         jest.useFakeTimers();
         const onSheetBClose = jest.fn();
 
-        render(<HashedSheets onHashChange={() => {}} onSheetBClose={onSheetBClose} />);
+        render(
+            <HashedSheets
+                onHashChange={() => {}}
+                onSheetBClose={onSheetBClose}
+                uncontrolledSheetB
+            />,
+        );
 
-        fireEvent.click(screen.getByText('Open B'));
         const veil = screen.getByTestId(SheetQa.VEIL);
         fireEvent.transitionEnd(veil);
 

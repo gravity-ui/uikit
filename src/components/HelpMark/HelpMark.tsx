@@ -23,7 +23,7 @@ type IconSize = keyof typeof ICON_SIZE_MAP;
 export interface HelpMarkProps extends QAProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
     size?: IconSize;
     popoverProps?: Omit<PopoverProps, 'children'>;
-    sheetProps?: Omit<SheetProps, 'children' | 'visible'>;
+    sheetProps?: Omit<SheetProps, 'children' | 'open' | 'defaultOpen'>;
     children?: React.ReactNode;
 }
 
@@ -41,7 +41,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
         } = useDefaultProps('HelpMark', rawProps);
 
         const mobile = useMobile();
-        const [sheetVisible, setSheetVisible] = React.useState(false);
+        const [sheetOpen, setSheetOpen] = React.useState(false);
         const {onOpenChange: onSheetOpenChange, ...restSheetProps} = sheetProps ?? {};
 
         const handleMobileButtonClick = React.useCallback<
@@ -50,17 +50,17 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
             (event) => {
                 onClick?.(event);
 
-                if (!event.defaultPrevented && !sheetVisible) {
-                    setSheetVisible(true);
+                if (!event.defaultPrevented && !sheetOpen) {
+                    setSheetOpen(true);
                     onSheetOpenChange?.(true, event.nativeEvent);
                 }
             },
-            [onClick, onSheetOpenChange, sheetVisible],
+            [onClick, onSheetOpenChange, sheetOpen],
         );
 
         const handleSheetOpenChange = React.useCallback<NonNullable<SheetProps['onOpenChange']>>(
             (open, event, reason) => {
-                setSheetVisible(open);
+                setSheetOpen(open);
                 onSheetOpenChange?.(open, event, reason);
             },
             [onSheetOpenChange],
@@ -73,7 +73,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
                 type="button"
                 className={b({size}, className)}
                 data-qa={qa}
-                aria-expanded={mobile ? sheetVisible : undefined}
+                aria-expanded={mobile ? sheetOpen : undefined}
                 aria-haspopup={mobile ? 'dialog' : undefined}
                 onClick={mobile ? handleMobileButtonClick : onClick}
             >
@@ -87,7 +87,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
                     {button}
                     <Sheet
                         {...restSheetProps}
-                        visible={sheetVisible}
+                        open={sheetOpen}
                         onOpenChange={handleSheetOpenChange}
                     >
                         <div className={b('sheet-content')}>{children}</div>

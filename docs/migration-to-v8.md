@@ -498,6 +498,28 @@ uses the current theme from `ThemeProvider`:
 + useColorGenerator({seed})
 ```
 
+## Sheet `open`
+
+`Sheet` no longer accepts `visible` and `onClose`. The open state is the optional `open`, and the control mode follows
+it as in `Menu`: with `open` the sheet is controlled and closes once the parent sets `open` to `false`;
+without it the sheet closes itself and `onOpenChange` only reports the change. `defaultOpen` opens an uncontrolled
+sheet on mount. Passing `onOpenChange` no longer switches the mode, so it is safe to add it for analytics.
+
+| Old                                        | New                                                                                                     |
+| :----------------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| `visible={visible}` with `onOpenChange`    | `open={open}` with `onOpenChange`                                                                       |
+| `visible={visible}` without `onOpenChange` | `open={open}` with `onOpenChange={setOpen}`, or `defaultOpen`                                           |
+| `onClose`                                  | `onOpenChange` to react to dismissal, `onTransitionOutComplete` to clean up after the closing animation |
+
+```diff
+- <Sheet visible={visible} onClose={() => setVisible(false)}>
++ <Sheet open={open} onOpenChange={setOpen}>
+```
+
+`visible` is required in v7 and gone in v8: TypeScript reports the leftover prop, while plain JavaScript ignores it and
+the sheet stays closed. An uncontrolled sheet cannot be reopened from outside; control it with `open` when it has to
+open again. The `onOpenChange` reasons and the transition callbacks are unchanged.
+
 ## Everything else
 
 | What                                                                                   | Change                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -515,3 +537,4 @@ uses the current theme from `ThemeProvider`:
 | `button-reset` mixin ([#2862](https://github.com/gravity-ui/uikit/pull/2862))          | It also resets `margin`, `appearance`, `user-select`, `touch-action` and the tap highlight, and no longer sets `outline: none`: elements using it show the browser focus ring.                                                                                                                                                                                                                     |
 | `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | The height is no longer animated when the content changes; `disableHeightTransition` is removed.                                                                                                                                                                                                                                                                                                   |
 | `Keysets` type ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                | It includes the `HelloPangeaDnd` keyset and, since [#2896](https://github.com/gravity-ui/uikit/pull/2896), `FileDropZone`: `addLanguageKeysets<Keysets>` needs their keys.                                                                                                                                                                                                                         |
+| `Select` on mobile ([#2897](https://github.com/gravity-ui/uikit/pull/2897))            | `onClose` and `onOpenChange(false)` fire as soon as the sheet starts closing, as on desktop, not after the animation. A controlled `Select` closes the sheet only when its `open` becomes `false`. A controlled `filter` is no longer reset to an empty string on close.                                                                                                                           |

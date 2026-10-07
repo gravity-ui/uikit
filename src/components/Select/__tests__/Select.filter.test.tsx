@@ -310,10 +310,8 @@ describe('Select filter', () => {
         onFilterChange.mockClear();
 
         await user.click(sheetVeil);
-        act(() => {
-            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
-        });
 
+        // The select closes as soon as the sheet asks to; the filter is cleared after the exit animation
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(onFilterChange).not.toHaveBeenCalled();
 
@@ -322,6 +320,37 @@ describe('Select filter', () => {
         });
 
         expect(onFilterChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not clear controlled filter when the mobile sheet closes', async () => {
+        jest.useFakeTimers();
+        const onClose = jest.fn();
+        render(
+            <MobileProvider mobile>
+                <Select
+                    defaultOpen={true}
+                    filterable
+                    filter="controlled value"
+                    onFilterChange={onFilterChange}
+                    onClose={onClose}
+                    filterPlaceholder="filter"
+                >
+                    <Select.Option value="one">One</Select.Option>
+                </Select>
+            </MobileProvider>,
+        );
+
+        const sheetVeil = screen.getByTestId(SheetQa.VEIL);
+        const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
+
+        fireEvent.transitionEnd(sheetVeil);
+        await user.click(sheetVeil);
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(onFilterChange).not.toHaveBeenCalled();
     });
 
     test('should not clear controlled filter onClose', async () => {

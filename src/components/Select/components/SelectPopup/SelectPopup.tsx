@@ -44,13 +44,18 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             setAnchorElement(ref && typeof ref !== 'function' ? ref.current : null);
         }, [ref]);
 
+        const handleOpenChange = (isOpen: boolean) => {
+            if (!isOpen) handleClose();
+        };
+
         return mobile ? (
             <Sheet
                 qa={SelectQa.SHEET}
                 className={sheetClassName}
                 title={sheetTitle}
-                visible={Boolean(open)}
-                onClose={handleClose}
+                open={Boolean(open)}
+                onOpenChange={handleOpenChange}
+                onTransitionOutComplete={onAfterClose}
             >
                 {children}
             </Sheet>
@@ -61,9 +66,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 anchorElement={anchorElement}
                 placement={placement}
                 open={open}
-                onOpenChange={(isOpen) => {
-                    if (!isOpen) handleClose();
-                }}
+                onOpenChange={handleOpenChange}
                 disablePortal={disablePortal}
                 returnFocus={controlRef}
                 floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}

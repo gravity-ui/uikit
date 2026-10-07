@@ -156,15 +156,6 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     );
     const handleClearValue = React.useCallback(() => setValue([]), [setValue]);
 
-    React.useEffect(() => {
-        if (!open && filterable && mobile) {
-            // FIXME: add handlers to Sheet like in https://github.com/gravity-ui/uikit/issues/1354
-            setTimeout(() => {
-                setFilter('');
-            }, 300);
-        }
-    }, [open, filterable, setFilter, mobile]);
-
     const propsOptions = props.options || getOptionsFromChildren(props.children);
     const options = useSelectOptions({
         options: propsOptions,

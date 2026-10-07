@@ -123,7 +123,7 @@ export const InsideSheet = {
     ...Default,
     render: (args) => {
         return (
-            <Sheet visible>
+            <Sheet defaultOpen>
                 <Menu {...args}>{getFullFeaturedMenuItems(true)}</Menu>
             </Sheet>
         );

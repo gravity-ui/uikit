@@ -18,7 +18,7 @@ export function SheetKit({virtual}: {virtual?: boolean}) {
     return (
         <React.Fragment>
             <div style={{height: 300}}>Page</div>
-            <Sheet visible onClose={() => {}}>
+            <Sheet open>
                 {virtual ? <ListVirtualizer estimateItemSize={28}>{kit}</ListVirtualizer> : kit}
             </Sheet>
         </React.Fragment>

@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useControlledState} from '../../../hooks/useControlledState';
 import type {SheetOpenChangeReason, SheetProps} from '../Sheet';
 
 export interface SheetDismissRequest {
@@ -9,45 +10,43 @@ export interface SheetDismissRequest {
 }
 
 export interface UseSheetDismissResult {
-    requestedOpen: boolean;
+    open: boolean;
     immediate: boolean;
     requestDismiss: (request: SheetDismissRequest) => void;
 }
 
 export function useSheetDismiss({
-    visible,
+    open: openProp,
+    defaultOpen = false,
     onOpenChange,
     disableEscapeKeyDown = false,
     disableOutsideClick = false,
 }: {
-    visible: boolean;
+    open?: boolean;
+    defaultOpen?: boolean;
     onOpenChange?: SheetProps['onOpenChange'];
     disableEscapeKeyDown?: boolean;
     disableOutsideClick?: boolean;
 }): UseSheetDismissResult {
-    const [legacyDismissed, setLegacyDismissed] = React.useState(false);
+    const [open, setOpen] = useControlledState<
+        boolean,
+        boolean,
+        [event?: Event, reason?: SheetOpenChangeReason]
+    >(openProp, defaultOpen, onOpenChange);
     const [immediate, setImmediate] = React.useState(false);
-    const isControlled = Boolean(onOpenChange);
-    const requestedOpen = isControlled ? visible : visible && !legacyDismissed;
 
-    React.useEffect(() => {
-        if (visible) {
-            setLegacyDismissed(false);
-        }
-    }, [visible]);
-
-    // Depend on immediate to reset a refused full-height swipe even when requestedOpen stays true.
+    // Depend on immediate to reset a refused full-height swipe even when open stays true.
     // Otherwise a later external close could incorrectly skip its transition.
     React.useEffect(() => {
-        if (requestedOpen) {
+        if (open) {
             setImmediate(false);
         }
-    }, [immediate, requestedOpen]);
+    }, [immediate, open]);
 
     const requestDismiss = React.useCallback(
         (request: SheetDismissRequest) => {
             if (
-                !requestedOpen ||
+                !open ||
                 (disableEscapeKeyDown && request.reason === 'escape-key') ||
                 (disableOutsideClick && request.reason === 'outside-press')
             ) {
@@ -55,15 +54,10 @@ export function useSheetDismiss({
             }
 
             setImmediate(Boolean(request.immediate));
-
-            if (onOpenChange) {
-                onOpenChange(false, request.event, request.reason);
-            } else {
-                setLegacyDismissed(true);
-            }
+            setOpen(false, request.event, request.reason);
         },
-        [disableEscapeKeyDown, disableOutsideClick, onOpenChange, requestedOpen],
+        [disableEscapeKeyDown, disableOutsideClick, open, setOpen],
     );
 
-    return {requestedOpen, immediate, requestDismiss};
+    return {open, immediate, requestDismiss};
 }

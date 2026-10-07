@@ -48,10 +48,6 @@ export const MobileActionsMenu = ({actions, fileName, isCustomImage}: MobileActi
         [actions],
     );
 
-    const handleMobileMenuClose = React.useCallback(() => {
-        setShowMobileMenu(false);
-    }, []);
-
     const handleItemAction = React.useCallback<
         NonNullable<ListProps<FilePreviewAction>['onItemAction']>
     >((_id, action, event) => {
@@ -78,8 +74,8 @@ export const MobileActionsMenu = ({actions, fileName, isCustomImage}: MobileActi
             </Button>
             <Sheet
                 className={cn('sheet')}
-                visible={showMobileMenu}
-                onClose={handleMobileMenuClose}
+                open={showMobileMenu}
+                onOpenChange={setShowMobileMenu}
                 title={fileName}
             >
                 <List

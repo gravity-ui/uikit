@@ -495,6 +495,29 @@ const {lang} = getConfig(); // 'ru'
 + useColorGenerator({seed})
 ```
 
+## Проп `open` у Sheet
+
+У `Sheet` удалены пропсы `visible` и `onClose`. Состояние открытия — необязательный `open`, и режим управления следует
+за ним, как у `Menu`: с `open` шторка управляемая и закрывается, когда родитель устанавливает `open` в
+`false`; без него шторка закрывается сама, а `onOpenChange` только сообщает об изменении. `defaultOpen` открывает
+неуправляемую шторку при монтировании. Передача `onOpenChange` больше не переключает режим, поэтому его можно добавлять
+ради аналитики.
+
+| Было                                   | Стало                                                                                             |
+| :------------------------------------- | :------------------------------------------------------------------------------------------------ |
+| `visible={visible}` с `onOpenChange`   | `open={open}` с `onOpenChange`                                                                    |
+| `visible={visible}` без `onOpenChange` | `open={open}` с `onOpenChange={setOpen}` или `defaultOpen`                                        |
+| `onClose`                              | `onOpenChange` — реакция на закрытие, `onTransitionOutComplete` — очистка после анимации закрытия |
+
+```diff
+- <Sheet visible={visible} onClose={() => setVisible(false)}>
++ <Sheet open={open} onOpenChange={setOpen}>
+```
+
+В v7 `visible` обязателен, в v8 его нет: TypeScript сообщит об оставшемся пропе, а чистый JavaScript его игнорирует, и
+шторка остаётся закрытой. Неуправляемую шторку снаружи не переоткрыть; если она должна открываться снова, управляйте ею
+через `open`. Причины `onOpenChange` и колбэки анимации не изменились.
+
 ## Остальное
 
 | Что                                                                                    | Изменение                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -512,3 +535,4 @@ const {lang} = getConfig(); // 'ru'
 | Миксин `button-reset` ([#2862](https://github.com/gravity-ui/uikit/pull/2862))         | Сбрасывает ещё `margin`, `appearance`, `user-select`, `touch-action` и подсветку тапа и больше не задаёт `outline: none`: элементы с ним показывают браузерное кольцо фокуса.                                                                                                                                                                                                                         |
 | `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | Высота больше не анимируется при смене содержимого; `disableHeightTransition` удалён.                                                                                                                                                                                                                                                                                                                 |
 | Тип `Keysets` ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                 | Включает кейсет `HelloPangeaDnd`, а с [#2896](https://github.com/gravity-ui/uikit/pull/2896) и `FileDropZone`: для `addLanguageKeysets<Keysets>` нужны их ключи.                                                                                                                                                                                                                                      |
+| `Select` на мобиле ([#2897](https://github.com/gravity-ui/uikit/pull/2897))            | `onClose` и `onOpenChange(false)` вызываются в начале закрытия шторки, как на десктопе, а не после анимации. Управляемый `Select` закрывает шторку, только когда его `open` становится `false`. Управляемый `filter` больше не сбрасывается в пустую строку при закрытии.                                                                                                                             |

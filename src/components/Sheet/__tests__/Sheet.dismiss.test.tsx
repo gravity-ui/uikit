@@ -31,16 +31,22 @@ function swipePastThreshold(area = screen.getByTestId(SheetQa.SWIPE_AREA)) {
     swipe(area, {from: TOUCH_START_POINT, to: TOUCH_START_POINT + 70});
 }
 
-function AcceptingSheet({onRequest, onClose}: {onRequest: jest.Mock; onClose: jest.Mock}) {
-    const [visible, setVisible] = React.useState(true);
+function AcceptingSheet({
+    onRequest,
+    onTransitionOutComplete,
+}: {
+    onRequest: jest.Mock;
+    onTransitionOutComplete: jest.Mock;
+}) {
+    const [open, setOpen] = React.useState(true);
 
     return (
         <Sheet
-            visible={visible}
-            onClose={onClose}
-            onOpenChange={(open, event, reason) => {
-                onRequest(open, event, reason);
-                setVisible(open);
+            open={open}
+            onTransitionOutComplete={onTransitionOutComplete}
+            onOpenChange={(nextOpen, event, reason) => {
+                onRequest(nextOpen, event, reason);
+                setOpen(nextOpen);
             }}
         >
             Content
@@ -48,14 +54,15 @@ function AcceptingSheet({onRequest, onClose}: {onRequest: jest.Mock; onClose: je
     );
 }
 
-function LegacyReopenSheet() {
-    const [visible, setVisible] = React.useState(true);
+function ControlledReopenSheet() {
+    const [open, setOpen] = React.useState(true);
 
     return (
         <React.Fragment>
-            <button onClick={() => setVisible(false)}>Set visible false</button>
-            <button onClick={() => setVisible(true)}>Set visible true</button>
-            <Sheet visible={visible}>Content</Sheet>
+            <button onClick={() => setOpen(true)}>Set open true</button>
+            <Sheet open={open} onOpenChange={setOpen}>
+                Content
+            </Sheet>
         </React.Fragment>
     );
 }
@@ -79,15 +86,20 @@ describe('Sheet dismissal', () => {
     describe('dismissal requests', () => {
         test('ignores veil clicks until the opening animation finishes', () => {
             const onRequest = jest.fn();
-            const onClose = jest.fn();
-            render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+            const onTransitionOutComplete = jest.fn();
+            render(
+                <AcceptingSheet
+                    onRequest={onRequest}
+                    onTransitionOutComplete={onTransitionOutComplete}
+                />,
+            );
 
             const veil = screen.getByTestId(SheetQa.VEIL);
             fireEvent.click(veil);
             finishPresenceTransition();
 
             expect(onRequest).not.toHaveBeenCalled();
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
             expect(screen.getByRole('dialog')).toBeInTheDocument();
             expect(veil).toHaveStyle({opacity: '1'});
 
@@ -96,11 +108,11 @@ describe('Sheet dismissal', () => {
 
             expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
             expect(onRequest).toHaveBeenCalledTimes(1);
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
 
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         });
 
@@ -113,9 +125,13 @@ describe('Sheet dismissal', () => {
             async ({source, reason}) => {
                 const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
                 const onOpenChange = jest.fn();
-                const onClose = jest.fn();
+                const onTransitionOutComplete = jest.fn();
                 render(
-                    <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
+                    <Sheet
+                        open
+                        onTransitionOutComplete={onTransitionOutComplete}
+                        onOpenChange={onOpenChange}
+                    >
                         Content
                     </Sheet>,
                 );
@@ -133,7 +149,7 @@ describe('Sheet dismissal', () => {
                 expect(onOpenChange).toHaveBeenCalledTimes(1);
                 expect(screen.getByRole('dialog')).toBeInTheDocument();
                 expect(screen.getByTestId(SheetQa.VEIL)).toHaveStyle({opacity: '1'});
-                expect(onClose).not.toHaveBeenCalled();
+                expect(onTransitionOutComplete).not.toHaveBeenCalled();
 
                 if (source === 'Escape') {
                     await user.keyboard('{Escape}');
@@ -160,14 +176,19 @@ describe('Sheet dismissal', () => {
             otherDismiss: () => fireEvent.click(screen.getByTestId(SheetQa.VEIL)),
         },
     ])('$prop', ({prop, options, reason, dismiss, otherDismiss}) => {
-        test.each(['legacy', 'controlled'])(
+        test.each(['uncontrolled', 'controlled'])(
             'blocks %s dismissal until the option is disabled',
             (mode) => {
                 const onOpenChange = jest.fn();
-                const onClose = jest.fn();
-                const onRequest = mode === 'controlled' ? onOpenChange : undefined;
+                const onTransitionOutComplete = jest.fn();
+                const openProps = mode === 'controlled' ? {open: true} : {defaultOpen: true};
                 const {rerender} = render(
-                    <Sheet {...options} visible onOpenChange={onRequest} onClose={onClose}>
+                    <Sheet
+                        {...options}
+                        {...openProps}
+                        onOpenChange={onOpenChange}
+                        onTransitionOutComplete={onTransitionOutComplete}
+                    >
                         Content
                     </Sheet>,
                 );
@@ -177,29 +198,32 @@ describe('Sheet dismissal', () => {
                 finishPresenceTransition();
 
                 expect(onOpenChange).not.toHaveBeenCalled();
-                expect(onClose).not.toHaveBeenCalled();
+                expect(onTransitionOutComplete).not.toHaveBeenCalled();
                 expect(screen.getByRole('dialog')).toBeInTheDocument();
                 expect(document.body.style.overflow).toBe('hidden');
 
                 rerender(
                     <Sheet
                         {...{...options, [prop]: false}}
-                        visible
-                        onOpenChange={onRequest}
-                        onClose={onClose}
+                        {...openProps}
+                        onOpenChange={onOpenChange}
+                        onTransitionOutComplete={onTransitionOutComplete}
                     >
                         Content
                     </Sheet>,
                 );
                 dismiss();
+                finishPresenceTransition();
+
+                expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), reason);
+                expect(onOpenChange).toHaveBeenCalledTimes(1);
 
                 if (mode === 'controlled') {
-                    expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), reason);
-                    expect(onOpenChange).toHaveBeenCalledTimes(1);
+                    expect(onTransitionOutComplete).not.toHaveBeenCalled();
+                    expect(screen.getByRole('dialog')).toBeInTheDocument();
+                    expect(document.body.style.overflow).toBe('hidden');
                 } else {
-                    finishPresenceTransition();
-
-                    expect(onClose).toHaveBeenCalledTimes(1);
+                    expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
                     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
                     expect(document.body.style.overflow).toBe('');
                 }
@@ -207,9 +231,9 @@ describe('Sheet dismissal', () => {
         );
 
         test('keeps the other dismissal source enabled', () => {
-            const onClose = jest.fn();
+            const onTransitionOutComplete = jest.fn();
             render(
-                <Sheet {...options} visible onClose={onClose}>
+                <Sheet {...options} defaultOpen onTransitionOutComplete={onTransitionOutComplete}>
                     Content
                 </Sheet>,
             );
@@ -218,18 +242,23 @@ describe('Sheet dismissal', () => {
             otherDismiss();
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         });
     });
 
-    test.each(['swipe', 'external visible change'])(
+    test.each(['swipe', 'external open change'])(
         'allows %s dismissal when Escape and outside clicks are disabled',
         (source) => {
             const options = {disableEscapeKeyDown: true, disableOutsideClick: true};
-            const onClose = jest.fn();
+            const onTransitionOutComplete = jest.fn();
+            const openProps = source === 'swipe' ? {defaultOpen: true} : {open: true};
             const {rerender} = render(
-                <Sheet {...options} visible onClose={onClose}>
+                <Sheet
+                    {...options}
+                    {...openProps}
+                    onTransitionOutComplete={onTransitionOutComplete}
+                >
                     Content
                 </Sheet>,
             );
@@ -239,24 +268,28 @@ describe('Sheet dismissal', () => {
                 swipePastThreshold();
             } else {
                 rerender(
-                    <Sheet {...options} visible={false} onClose={onClose}>
+                    <Sheet
+                        {...options}
+                        open={false}
+                        onTransitionOutComplete={onTransitionOutComplete}
+                    >
                         Content
                     </Sheet>,
                 );
             }
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
             expect(document.body.style.overflow).toBe('');
         },
     );
 
     describe('exit lifecycle', () => {
-        test('calls legacy onClose once after a veil dismissal finishes', () => {
-            const onClose = jest.fn();
+        test('calls onTransitionOutComplete once after an uncontrolled veil dismissal finishes', () => {
+            const onTransitionOutComplete = jest.fn();
             render(
-                <Sheet visible onClose={onClose}>
+                <Sheet defaultOpen onTransitionOutComplete={onTransitionOutComplete}>
                     Content
                 </Sheet>,
             );
@@ -268,29 +301,33 @@ describe('Sheet dismissal', () => {
                 jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS - 1);
             });
 
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
             expect(screen.getByRole('dialog')).toBeInTheDocument();
 
             act(() => {
                 jest.advanceTimersByTime(1);
             });
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
         });
 
         test.each([
             {getArea: () => screen.getByTestId(SheetQa.SWIPE_AREA), surface: 'handle'},
             {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},
-        ])('finishes a legacy full-height $surface swipe immediately', ({getArea}) => {
-            const onClose = jest.fn();
-            const callbacks = {onTransitionOutComplete: jest.fn()};
+        ])('finishes an uncontrolled full-height $surface swipe immediately', ({getArea}) => {
+            const onOpenChange = jest.fn();
+            const onTransitionOutComplete = jest.fn();
             render(
-                <Sheet {...callbacks} visible onClose={onClose}>
+                <Sheet
+                    defaultOpen
+                    onOpenChange={onOpenChange}
+                    onTransitionOutComplete={onTransitionOutComplete}
+                >
                     Content
                 </Sheet>,
             );
@@ -304,22 +341,27 @@ describe('Sheet dismissal', () => {
                 to: TOUCH_START_POINT + SHEET_HEIGHT,
             });
 
-            expect(onClose).toHaveBeenCalledTimes(1);
-            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
             expect(document.body.style.overflow).toBe('');
             expect(getLayersCount()).toBe(0);
 
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
-            expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
         });
 
         test('finishes an accepted full-height swipe immediately', () => {
             const onRequest = jest.fn();
-            const onClose = jest.fn();
-            render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+            const onTransitionOutComplete = jest.fn();
+            render(
+                <AcceptingSheet
+                    onRequest={onRequest}
+                    onTransitionOutComplete={onTransitionOutComplete}
+                />,
+            );
 
             finishTransition();
             swipe(screen.getByTestId(SheetQa.SWIPE_AREA), {
@@ -329,15 +371,20 @@ describe('Sheet dismissal', () => {
 
             expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
             expect(onRequest).toHaveBeenCalledTimes(1);
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
             expect(document.body.style.overflow).toBe('');
         });
 
         test('runs the shared exit after the parent accepts a veil dismissal', () => {
             const onRequest = jest.fn();
-            const onClose = jest.fn();
-            render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+            const onTransitionOutComplete = jest.fn();
+            render(
+                <AcceptingSheet
+                    onRequest={onRequest}
+                    onTransitionOutComplete={onTransitionOutComplete}
+                />,
+            );
 
             finishTransition();
             const veil = screen.getByTestId(SheetQa.VEIL);
@@ -347,11 +394,11 @@ describe('Sheet dismissal', () => {
             expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
             expect(onRequest).toHaveBeenCalledTimes(1);
             expect(veil).toHaveStyle({opacity: '0'});
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
 
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         });
 
@@ -360,8 +407,13 @@ describe('Sheet dismissal', () => {
             {gesture: 'content scroll', getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA)},
         ])('keeps an accepted exit terminal during a $gesture swipe', ({getArea}) => {
             const onRequest = jest.fn();
-            const onClose = jest.fn();
-            render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+            const onTransitionOutComplete = jest.fn();
+            render(
+                <AcceptingSheet
+                    onRequest={onRequest}
+                    onTransitionOutComplete={onTransitionOutComplete}
+                />,
+            );
 
             finishTransition();
             const veil = screen.getByTestId(SheetQa.VEIL);
@@ -374,18 +426,23 @@ describe('Sheet dismissal', () => {
 
             expect(onRequest).toHaveBeenCalledTimes(1);
             expect(veil).toHaveStyle({opacity: '0'});
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
 
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         });
 
-        test('legacy onClose-only sheet dismisses from Escape', async () => {
-            const onClose = jest.fn();
+        test('uncontrolled sheet with onOpenChange dismisses itself from Escape', async () => {
+            const onOpenChange = jest.fn();
+            const onTransitionOutComplete = jest.fn();
             render(
-                <Sheet visible onClose={onClose}>
+                <Sheet
+                    defaultOpen
+                    onOpenChange={onOpenChange}
+                    onTransitionOutComplete={onTransitionOutComplete}
+                >
                     Content
                 </Sheet>,
             );
@@ -394,17 +451,19 @@ describe('Sheet dismissal', () => {
             await userEvent.setup({advanceTimers: jest.advanceTimersByTime}).keyboard('{Escape}');
 
             const veil = screen.getByTestId(SheetQa.VEIL);
+            expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'escape-key');
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
             expect(veil).toHaveStyle({opacity: '0'});
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
 
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         });
 
-        test('reopens a legacy sheet after visible changes from false to true', () => {
-            render(<LegacyReopenSheet />);
+        test('reopens a controlled sheet after open changes from false to true', () => {
+            render(<ControlledReopenSheet />);
 
             finishTransition();
             fireEvent.click(screen.getByTestId(SheetQa.VEIL));
@@ -412,8 +471,7 @@ describe('Sheet dismissal', () => {
 
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
-            fireEvent.click(screen.getByRole('button', {name: 'Set visible false'}));
-            fireEvent.click(screen.getByRole('button', {name: 'Set visible true'}));
+            fireEvent.click(screen.getByRole('button', {name: 'Set open true'}));
 
             expect(screen.getByRole('dialog')).toBeInTheDocument();
         });
@@ -422,9 +480,14 @@ describe('Sheet dismissal', () => {
     describe('gestures', () => {
         describe('swipe area', () => {
             test('restores a short swipe and dismisses a swipe above the threshold', () => {
-                const onClose = jest.fn();
+                const onTransitionOutComplete = jest.fn();
                 const onRequest = jest.fn();
-                render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+                render(
+                    <AcceptingSheet
+                        onRequest={onRequest}
+                        onTransitionOutComplete={onTransitionOutComplete}
+                    />,
+                );
 
                 const swipeArea = screen.getByTestId(SheetQa.SWIPE_AREA);
                 const sheet = screen.getByRole('dialog');
@@ -435,7 +498,7 @@ describe('Sheet dismissal', () => {
                     to: TOUCH_START_POINT + (HIDE_THRESHOLD - 20),
                 });
 
-                expect(onClose).not.toHaveBeenCalled();
+                expect(onTransitionOutComplete).not.toHaveBeenCalled();
                 expect(onRequest).not.toHaveBeenCalled();
                 expect(veil.style.opacity).toBe('1');
                 expect(sheet.style.transform).toBe(`translate3d(0, -${SHEET_HEIGHT}px, 0)`);
@@ -447,19 +510,19 @@ describe('Sheet dismissal', () => {
 
                 expect(sheet.style.transform).toBe('translate3d(0, 0, 0)');
                 expect(veil.style.opacity).toBe('0');
-                expect(onClose).not.toHaveBeenCalled();
+                expect(onTransitionOutComplete).not.toHaveBeenCalled();
                 expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
                 expect(onRequest).toHaveBeenCalledTimes(1);
 
                 finishPresenceTransition();
 
-                expect(onClose).toHaveBeenCalledTimes(1);
+                expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             });
 
             test('requests dismissal for a fast flick below the distance threshold', () => {
                 const onOpenChange = jest.fn();
                 render(
-                    <Sheet visible onOpenChange={onOpenChange}>
+                    <Sheet open onOpenChange={onOpenChange}>
                         Content
                     </Sheet>,
                 );
@@ -491,9 +554,14 @@ describe('Sheet dismissal', () => {
 
         describe('content scroll', () => {
             test('dismisses immediately when swiping down the full height from the top', () => {
-                const onClose = jest.fn();
+                const onTransitionOutComplete = jest.fn();
                 const onRequest = jest.fn();
-                render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+                render(
+                    <AcceptingSheet
+                        onRequest={onRequest}
+                        onTransitionOutComplete={onTransitionOutComplete}
+                    />,
+                );
 
                 const contentArea = screen.getByTestId(SheetQa.CONTENT_AREA);
                 swipe(contentArea, {
@@ -503,19 +571,19 @@ describe('Sheet dismissal', () => {
 
                 expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
                 expect(onRequest).toHaveBeenCalledTimes(1);
-                expect(onClose).toHaveBeenCalledTimes(1);
+                expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
                 expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
                 expect(document.body.style.overflow).toBe('');
 
                 finishPresenceTransition();
 
-                expect(onClose).toHaveBeenCalledTimes(1);
+                expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             });
 
             test('does not dismiss when allowHideOnContentScroll is false', () => {
                 const onOpenChange = jest.fn();
                 render(
-                    <Sheet visible allowHideOnContentScroll={false} onOpenChange={onOpenChange}>
+                    <Sheet open allowHideOnContentScroll={false} onOpenChange={onOpenChange}>
                         Content
                     </Sheet>,
                 );
@@ -534,7 +602,7 @@ describe('Sheet dismissal', () => {
             test('does not dismiss when the content is scrolled', () => {
                 const onOpenChange = jest.fn();
                 render(
-                    <Sheet visible onOpenChange={onOpenChange}>
+                    <Sheet open onOpenChange={onOpenChange}>
                         Content
                     </Sheet>,
                 );
@@ -562,8 +630,13 @@ describe('Sheet dismissal', () => {
             'dismisses through the veil after $surface touchcancel without movement',
             ({getArea}) => {
                 const onRequest = jest.fn();
-                const onClose = jest.fn();
-                render(<AcceptingSheet onRequest={onRequest} onClose={onClose} />);
+                const onTransitionOutComplete = jest.fn();
+                render(
+                    <AcceptingSheet
+                        onRequest={onRequest}
+                        onTransitionOutComplete={onTransitionOutComplete}
+                    />,
+                );
 
                 finishTransition();
                 const touchArea = getArea();
@@ -586,11 +659,11 @@ describe('Sheet dismissal', () => {
                 expect(onRequest).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
                 expect(onRequest).toHaveBeenCalledTimes(1);
                 expect(veil).toHaveStyle({opacity: '0'});
-                expect(onClose).not.toHaveBeenCalled();
+                expect(onTransitionOutComplete).not.toHaveBeenCalled();
 
                 finishPresenceTransition();
 
-                expect(onClose).toHaveBeenCalledTimes(1);
+                expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
                 expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
             },
         );
@@ -599,11 +672,15 @@ describe('Sheet dismissal', () => {
             {getArea: () => screen.getByTestId(SheetQa.SWIPE_AREA), surface: 'handle'},
             {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},
         ])('restores open state after $surface touchcancel', ({getArea}) => {
-            const onClose = jest.fn();
+            const onTransitionOutComplete = jest.fn();
             const onOpenChange = jest.fn();
 
             render(
-                <Sheet visible onClose={onClose} onOpenChange={onOpenChange}>
+                <Sheet
+                    open
+                    onTransitionOutComplete={onTransitionOutComplete}
+                    onOpenChange={onOpenChange}
+                >
                     Content
                 </Sheet>,
             );
@@ -627,7 +704,7 @@ describe('Sheet dismissal', () => {
             expect(veil).toHaveClass('g-sheet-veil_with-transition');
             expect(contentArea).not.toHaveClass('g-sheet-content-area_without-scroll');
             expect(onOpenChange).not.toHaveBeenCalled();
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
         });
     });
     describe('drag handles in content', () => {
@@ -643,9 +720,9 @@ describe('Sheet dismissal', () => {
             ['a native drag source', {draggable: true}],
             ['a handle of @hello-pangea/dnd', {'data-rfd-drag-handle-draggable-id': 'a'}],
         ])('does not move the sheet on a touch that starts on %s', (_name, attributes) => {
-            const onClose = jest.fn();
+            const onOpenChange = jest.fn();
             render(
-                <Sheet visible onClose={onClose}>
+                <Sheet defaultOpen onOpenChange={onOpenChange}>
                     <span {...attributes} data-qa="handle">
                         Handle
                     </span>
@@ -661,20 +738,21 @@ describe('Sheet dismissal', () => {
             // The sheet does not follow the finger
             expect(sheet.style.transform).toBe(restingTransform);
             fireEvent.touchEnd(handle, {touches: [{clientX: 0, clientY: TOUCH_END_POINT}]});
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onOpenChange).not.toHaveBeenCalled();
 
             // The next swipe on the content works again
             swipeDownOnContent(screen.getByTestId(SheetQa.CONTENT_AREA), {
                 from: TOUCH_START_POINT,
                 to: TOUCH_END_POINT,
             });
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
         });
 
         test('a drag whose end never reaches the content leaves the next swipe working', () => {
-            const onClose = jest.fn();
+            const onOpenChange = jest.fn();
             render(
-                <Sheet visible onClose={onClose}>
+                <Sheet defaultOpen onOpenChange={onOpenChange}>
                     <span data-rfd-drag-handle-draggable-id="a" data-qa="handle">
                         Handle
                     </span>
@@ -690,13 +768,14 @@ describe('Sheet dismissal', () => {
                 from: TOUCH_START_POINT,
                 to: TOUCH_END_POINT,
             });
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
         });
 
         test('a touch on an element that only opts out of the native drag swipes the sheet', () => {
-            const onClose = jest.fn();
+            const onOpenChange = jest.fn();
             render(
-                <Sheet visible onClose={onClose}>
+                <Sheet defaultOpen onOpenChange={onOpenChange}>
                     <span draggable={false} data-qa="image">
                         Image
                     </span>
@@ -707,7 +786,8 @@ describe('Sheet dismissal', () => {
                 from: TOUCH_START_POINT,
                 to: TOUCH_END_POINT,
             });
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'swipe');
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
         });
     });
 });

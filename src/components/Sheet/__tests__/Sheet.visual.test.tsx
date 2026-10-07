@@ -120,7 +120,7 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
         });
     });
 
-    createSmokeScenarios<Partial<Omit<SheetProps, 'visible' | 'onClose'>>>(
+    createSmokeScenarios<Partial<Omit<SheetProps, 'open' | 'defaultOpen' | 'onOpenChange'>>>(
         {},
         {
             hideTopBar: hideTopBarCases,

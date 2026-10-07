@@ -17,6 +17,7 @@ import type {MenuItemProps} from '../../../Menu';
 import {Menu} from '../../../Menu';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import i18n from '../../i18n';
+import {withTableDefaultProps} from '../../withTableDefaultProps';
 
 import './withTableActions.scss';
 
@@ -211,7 +212,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
     const componentName = getComponentName(TableComponent);
     const displayName = `withTableActions(${componentName})`;
 
-    return class extends React.Component<
+    class WithTableActions extends React.Component<
         TableProps<I> & WithTableActionsProps<I> & E,
         WithTableActionsState<I>
     > {
@@ -310,5 +311,7 @@ export function withTableActions<I extends TableDataItem, E extends {} = {}>(
                 };
             },
         );
-    };
+    }
+
+    return withTableDefaultProps(WithTableActions);
 }

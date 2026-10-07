@@ -137,16 +137,15 @@ virtualizer estimate and `itemHeight` — come from `getOptionHeight` and `getOp
 
 ## Table and TableColumnSetup
 
-`Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,
-`withTableSorting`) and `TableColumnSetup` moved from the root entry point to `@gravity-ui/uikit/legacy`. Their API and
-markup did not change, the CSS blocks of the table (`g-table`, `g-table-column-setup`, …) keep their names. The row
-actions menu now uses `g-menu-legacy` instead of `g-menu`; classes inside the column settings popup also changed, see
-below. New table features go to
-[`@gravity-ui/table`](https://github.com/gravity-ui/table).
+`Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`)
+and `TableColumnSetup` moved from the root entry point to `@gravity-ui/uikit/legacy`. Their markup did not change, the
+API differences are listed below, the CSS blocks of the table (`g-table`, `g-table-column-setup`, …) keep their names.
+The row actions menu now uses `g-menu-legacy` instead of `g-menu`; classes inside the column settings popup also
+changed, see below. New table features go to [`@gravity-ui/table`](https://github.com/gravity-ui/table).
 
 ### If you cannot migrate now
 
-Change the import, the rest of the code stays the same:
+Change the import, the rest of the code stays the same except for the points below:
 
 ```diff
 - import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit';
@@ -165,8 +164,10 @@ The same applies to the types (`TableProps`, `TableColumnConfig`, `TableSettings
   are gone. The popup looks the same; rewrite the overrides that targeted these classes.
 - **`@deprecated`.** `Table`, its HOCs and `TableColumnSetup` are marked `@deprecated` in their types: linters with a
   `no-deprecated` rule start reporting their usages.
-- **`DefaultPropsProvider` no longer accepts the `TableColumnSetup` key.** `TableColumnSetup` does not read defaults
-  from the provider: pass them to the component explicitly.
+- **`DefaultPropsProvider` accepts `Table` and `TableColumnSetup`.** `Table` is a new key, `TableColumnSetup` works
+  as in v7. `Table` and the components returned by its HOCs are function components now: the `getRowId`,
+  `getHeadCellContent` and `getBodyCellContent` statics are the same, `Table.defaultProps` is gone, there is no
+  instance to `ref`.
 - **Translations.** The keyset names (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) are
   the same, overrides through `addComponentKeysets` keep working.
 

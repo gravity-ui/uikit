@@ -10,6 +10,7 @@ import {block} from '../../../../utils/cn';
 import {getComponentName} from '../../../../utils/getComponentName';
 import {Table} from '../../Table';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import {withTableDefaultProps} from '../../withTableDefaultProps';
 
 import {SortIndicator} from './SortIndicator/SortIndicator';
 
@@ -58,7 +59,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
         }
     }
 
-    return class extends React.Component<
+    class WithTableSorting extends React.Component<
         TableProps<I> & WithTableSortingProps & E,
         WithTableSortingState
     > {
@@ -240,5 +241,7 @@ export function withTableSorting<I extends TableDataItem, E extends {} = {}>(
 
             return [{column: column.id, order: nextOrder as ColumnSortOrder}];
         }
-    };
+    }
+
+    return withTableDefaultProps(WithTableSorting);
 }

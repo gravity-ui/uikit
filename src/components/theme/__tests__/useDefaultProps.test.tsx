@@ -5,6 +5,8 @@ import type {ComponentDefaultPropsMap, DefaultPropsMap} from '../../../index';
 import {PasswordInput} from '../../controls/PasswordInput';
 import {PasswordInputQa} from '../../controls/PasswordInput/constants';
 import {Menu as LegacyMenu} from '../../legacy/Menu';
+import {Table as LegacyTable, withTableSelection} from '../../legacy/Table';
+import {TableColumnSetup as LegacyTableColumnSetup} from '../../legacy/TableColumnSetup';
 import type {DefaultPropsProviderProps} from '../DefaultPropsProvider';
 import {DefaultPropsProvider} from '../DefaultPropsProvider';
 import {ThemeProvider} from '../ThemeProvider';
@@ -122,6 +124,65 @@ describe('DefaultPropsProvider', () => {
         );
 
         expect(screen.getByTestId('legacy-menu')).toHaveClass('g-menu-legacy_size_l');
+    });
+
+    it('applies Table defaults to the legacy table and lets explicit props win', () => {
+        const columns = [{id: 'name'}];
+        const {rerender} = render(
+            <DefaultPropsProvider defaultProps={{Table: {emptyMessage: 'Nothing here'}}}>
+                <LegacyTable data={[]} columns={columns} />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByText('Nothing here')).toBeVisible();
+
+        rerender(
+            <DefaultPropsProvider defaultProps={{Table: {emptyMessage: 'Nothing here'}}}>
+                <LegacyTable data={[]} columns={columns} emptyMessage="Explicit" />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByText('Explicit')).toBeVisible();
+    });
+
+    it('lets the Table provider default override the class default', () => {
+        render(
+            <DefaultPropsProvider defaultProps={{Table: {edgePadding: false}}}>
+                <LegacyTable data={[{name: 'a'}]} columns={[{id: 'name'}]} />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByRole('cell', {name: 'a'})).not.toHaveClass('g-table__cell_edge-padding');
+    });
+
+    it('applies the Table getRowId default to the selection HOC', () => {
+        const SelectableTable = withTableSelection<{name: string}>(LegacyTable);
+        render(
+            <DefaultPropsProvider defaultProps={{Table: {getRowId: 'name'}}}>
+                <SelectableTable
+                    data={[{name: 'a'}, {name: 'b'}]}
+                    columns={[{id: 'name'}]}
+                    selectedIds={['b']}
+                    onSelectionChange={() => {}}
+                />
+            </DefaultPropsProvider>,
+        );
+
+        const [, firstRow, secondRow] = screen.getAllByRole('checkbox');
+        expect(firstRow).not.toBeChecked();
+        expect(secondRow).toBeChecked();
+    });
+
+    it('applies TableColumnSetup defaults to the legacy column setup', () => {
+        render(
+            <DefaultPropsProvider
+                defaultProps={{TableColumnSetup: {switcher: <button>Columns</button>}}}
+            >
+                <LegacyTableColumnSetup items={[]} onUpdate={() => {}} />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByRole('button', {name: 'Columns'})).toBeVisible();
     });
 
     it('passes inherited defaults through when defaultProps is omitted', () => {

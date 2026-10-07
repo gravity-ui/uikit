@@ -10,6 +10,7 @@ import {getComponentName} from '../../../../utils/getComponentName';
 import {Table} from '../../Table';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
 import i18n from '../../i18n';
+import {withTableDefaultProps} from '../../withTableDefaultProps';
 
 import './withTableSelection.scss';
 
@@ -32,7 +33,9 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
     const componentName = getComponentName(TableComponent);
     const displayName = `withTableSelection(${componentName})`;
 
-    return class extends React.Component<TableProps<I> & WithTableSelectionProps<I> & E> {
+    class WithTableSelection extends React.Component<
+        TableProps<I> & WithTableSelectionProps<I> & E
+    > {
         static displayName = displayName;
         private lastCheckedIndex: number | undefined;
 
@@ -262,5 +265,7 @@ export function withTableSelection<I extends TableDataItem, E extends {} = {}>(
                 getRowDescriptor?.(item, index)?.disabled || isRowDisabled?.(item, index) || false
             );
         };
-    };
+    }
+
+    return withTableDefaultProps(WithTableSelection);
 }

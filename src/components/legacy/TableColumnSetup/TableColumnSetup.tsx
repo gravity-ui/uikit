@@ -7,6 +7,7 @@ import {Gear} from '@gravity-ui/icons';
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
 import type {PopupPlacement} from '../../Popup';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import type {TableColumnConfig} from '../Table/Table';
 import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
@@ -58,7 +59,8 @@ export interface TableColumnSetupProps {
 /**
  * @deprecated Legacy component. For new code use `@gravity-ui/table`
  */
-export const TableColumnSetup = (props: TableColumnSetupProps) => {
+export const TableColumnSetup = (rawProps: TableColumnSetupProps) => {
+    const props = useDefaultProps('TableColumnSetup', rawProps);
     const {
         switcher,
         renderSwitcher: renderSwitcherProps,

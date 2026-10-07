@@ -9,6 +9,7 @@ import {block} from '../../../../utils/cn';
 import {getComponentName} from '../../../../utils/getComponentName';
 import {Table} from '../../Table';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import {withTableDefaultProps} from '../../withTableDefaultProps';
 
 import './withTableCopy.scss';
 
@@ -25,7 +26,7 @@ export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
     const componentName = getComponentName(TableComponent);
     const displayName = `withTableCopy(${componentName})`;
 
-    return class extends React.Component<TableProps<I> & E & WithTableCopyProps> {
+    class WithTableCopy extends React.Component<TableProps<I> & E & WithTableCopyProps> {
         static displayName = displayName;
 
         render() {
@@ -121,5 +122,7 @@ export function withTableCopy<I extends TableDataItem, E extends {} = {}>(
                 };
             },
         );
-    };
+    }
+
+    return withTableDefaultProps(WithTableCopy);
 }

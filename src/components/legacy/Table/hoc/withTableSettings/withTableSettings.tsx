@@ -10,6 +10,7 @@ import type {PopupPlacement} from '../../../../Popup';
 import {block} from '../../../../utils/cn';
 import {getComponentName} from '../../../../utils/getComponentName';
 import type {TableColumnConfig, TableDataItem, TableProps} from '../../Table';
+import {withTableDefaultProps} from '../../withTableDefaultProps';
 import {actionsColumnId, enhanceSystemColumn} from '../withTableActions/withTableActions';
 import {selectionColumnId} from '../withTableSelection/withTableSelection';
 
@@ -267,7 +268,7 @@ export function withTableSettings<I extends TableDataItem, E extends {} = {}>(
         }
         TableWithSettings.displayName = `withTableSettings(${componentName})`;
 
-        return TableWithSettings;
+        return withTableDefaultProps(TableWithSettings);
     }
 
     if (typeof ComponentOrOptions === 'function') {

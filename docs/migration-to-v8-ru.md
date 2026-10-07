@@ -136,15 +136,14 @@ being used as a type here» — замените их на `SelectOptionProps` �
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и
-`TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их API и разметка
-не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена. Меню действий строки теперь
-использует `g-menu-legacy` вместо `g-menu`; классы внутри попапа настроек колонок тоже изменились, см. ниже. Новые
-возможности таблиц появляются в
-[`@gravity-ui/table`](https://github.com/gravity-ui/table).
+`TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их разметка не изменилась, отличия
+API перечислены ниже, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена. Меню действий строки
+теперь использует `g-menu-legacy` вместо `g-menu`; классы внутри попапа настроек колонок тоже изменились, см. ниже.
+Новые возможности таблиц появляются в [`@gravity-ui/table`](https://github.com/gravity-ui/table).
 
 ### Если мигрировать сейчас нельзя
 
-Поменяйте импорт, остальной код остаётся прежним:
+Поменяйте импорт, остальной код остаётся прежним, кроме пунктов ниже:
 
 ```diff
 - import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit';
@@ -162,8 +161,9 @@ being used as a type here» — замените их на `SelectOptionProps` �
   удалены. Попап выглядит так же; перепишите переопределения, нацеленные на эти классы.
 - **`@deprecated`.** `Table`, его HOC и `TableColumnSetup` помечены `@deprecated` в типах: линтеры с правилом
   `no-deprecated` начнут сообщать об их использовании.
-- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Сам `TableColumnSetup` не читает пропсы
-  по умолчанию из провайдера: передавайте их компоненту явно.
+- **`DefaultPropsProvider` принимает `Table` и `TableColumnSetup`.** Ключ `Table` новый, `TableColumnSetup` работает
+  как в v7. `Table` и компоненты, которые возвращают его HOC, теперь функциональные: статические методы `getRowId`,
+  `getHeadCellContent` и `getBodyCellContent` те же, `Table.defaultProps` больше нет, инстанса для `ref` нет.
 - **Переводы.** Имена кейсетов (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) не
   изменились, переопределения через `addComponentKeysets` продолжают работать.
 

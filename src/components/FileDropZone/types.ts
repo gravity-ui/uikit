@@ -1,6 +1,6 @@
-import type {IconData} from '../..';
-import type {BaseInputControlProps} from '../../controls/types';
-import type {QAProps} from '../../types';
+import type {IconData} from '..';
+import type {BaseInputControlProps} from '../controls/types';
+import type {QAProps} from '../types';
 
 import type {FileDropZoneAccept, FileRejection} from './utils';
 

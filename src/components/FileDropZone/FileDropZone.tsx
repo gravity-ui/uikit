@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
+
 import {FileDropZoneProvider, useFileZoneContext} from './FileDropZone.Provider';
 import {cnFileDropZone} from './FileDropZone.classname';
 import {FileDropZoneQa} from './constants';
@@ -89,17 +91,17 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
     /* eslint-enable jsx-a11y/no-static-element-interactions */
 };
 
-const BaseFileDropZone = React.memo<FileDropZoneProps>(
-    ({children, className, qa, ...restProps}: FileDropZoneProps) => {
-        return (
-            <FileDropZoneProvider {...restProps}>
-                <FileDropZoneContent className={className} qa={qa}>
-                    {children}
-                </FileDropZoneContent>
-            </FileDropZoneProvider>
-        );
-    },
-);
+const BaseFileDropZone = React.memo<FileDropZoneProps>((rawProps: FileDropZoneProps) => {
+    const {children, className, qa, ...restProps} = useDefaultProps('FileDropZone', rawProps);
+
+    return (
+        <FileDropZoneProvider {...restProps}>
+            <FileDropZoneContent className={className} qa={qa}>
+                {children}
+            </FileDropZoneContent>
+        </FileDropZoneProvider>
+    );
+});
 
 BaseFileDropZone.displayName = 'FileDropZone';
 

@@ -1,4 +1,4 @@
-import {Button} from '../../../..';
+import {Button} from '../../..';
 import {useFileZoneContext} from '../FileDropZone.Provider';
 import {cnFileDropZone} from '../FileDropZone.classname';
 import {FileDropZoneQa} from '../constants';

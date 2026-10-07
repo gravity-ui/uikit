@@ -4,11 +4,10 @@
 
 <!--/GITHUB_BLOCK-->
 
+`FileDropZone` is an area for selecting files by drag and drop or with the system file dialog.
+
 ```tsx
-import {
-  unstable_FileDropZone as FileDropZone,
-  type DropZoneFileRejection,
-} from '@gravity-ui/uikit/unstable';
+import {FileDropZone, type DropZoneFileRejection} from '@gravity-ui/uikit';
 ```
 
 ### Basic Usage

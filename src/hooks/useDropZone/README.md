@@ -4,6 +4,8 @@
 
 <!--/GITHUB_BLOCK-->
 
+`useDropZone` makes any element a drop target for files and reports the drag state.
+
 ```tsx
 import {useDropZone} from '@gravity-ui/uikit';
 ```

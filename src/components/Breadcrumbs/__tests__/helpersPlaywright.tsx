@@ -57,17 +57,17 @@ export const TestBreadcrumbsWithCustomIcons = (props: Omit<BreadcrumbsProps, 'ch
     return (
         <Breadcrumbs {...props}>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <House /> uikit
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Flame /> components
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Rocket style={{minWidth: 16}} /> Breadcrumbs
                 </Flex>
             </Breadcrumbs.Item>

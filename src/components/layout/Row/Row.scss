@@ -1,30 +1,5 @@
-/* stylelint-disable declaration-no-important */
-
 @use '../variables.scss';
 
 #{variables.$rowBlock} {
-    display: flex;
-    flex-flow: row wrap;
     flex-shrink: 0;
-
-    @each $space, $value in variables.$SPACE {
-        // space
-        &_s_#{$space} {
-            margin-block-start: calc(-1 * $value);
-            margin-inline-start: calc(-1 * $value);
-
-            & > #{variables.$colBlock} {
-                padding-block-start: $value;
-                padding-inline-start: $value;
-            }
-        }
-        // space-row
-        &_sr_#{$space} {
-            margin-block-start: calc(-1 * $value) !important;
-
-            & > #{variables.$colBlock} {
-                padding-block-start: $value !important;
-            }
-        }
-    }
 }

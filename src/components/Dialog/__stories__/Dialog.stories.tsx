@@ -97,7 +97,7 @@ function DialogComponent({
 export const Default: Story = {
     render: (args) => {
         return (
-            <Flex gap={5} direction="column" wrap>
+            <Flex gap="spacing-5" direction="column" wrap>
                 <DialogComponent buttonText="Normal" content="Content" {...args} />
                 <DialogComponent
                     buttonText="Large content"

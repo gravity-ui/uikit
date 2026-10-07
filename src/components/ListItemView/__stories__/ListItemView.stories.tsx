@@ -250,9 +250,9 @@ const showcase = [
 export const Showcase: Story = {
     parameters: {layout: 'padded'},
     render: () => (
-        <Flex gap={8} wrap>
+        <Flex gap="spacing-8" wrap>
             {showcase.map(([title, Example]) => (
-                <Flex key={title} direction="column" gap={2}>
+                <Flex key={title} direction="column" gap="spacing-2">
                     <Text variant="subheader-1">{title}</Text>
                     <Example />
                 </Flex>

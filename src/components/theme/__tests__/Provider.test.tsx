@@ -7,10 +7,12 @@ import {
     screen,
 } from '../../../../test-utils/utils';
 import {
+    Dialog,
     LangProvider,
     LayoutProvider,
     MobileContext,
     MobileProvider,
+    Modal,
     Platform,
     Portal,
     Provider,
@@ -96,7 +98,6 @@ test.each([ThemeProvider, Provider])('keeps feature contexts through nested %p',
             defaults: useDefaultProps('Button', {}),
             mobile: useMobile(),
             platform: usePlatform(),
-            mobileModals: React.useContext(MobileContext).__experimentalMobileModals,
         }),
         {
             wrapper: ({children}) => (
@@ -110,7 +111,6 @@ test.each([ThemeProvider, Provider])('keeps feature contexts through nested %p',
                     defaultProps={{Button: {size: 'l'}}}
                     mobile
                     platform={Platform.IOS}
-                    __experimentalMobileModals
                 >
                     <Nested theme="dark">
                         <Nested scoped={false}>{children}</Nested>
@@ -129,7 +129,6 @@ test.each([ThemeProvider, Provider])('keeps feature contexts through nested %p',
         defaults: {size: 'l'},
         mobile: Nested === ThemeProvider,
         platform: Nested === ThemeProvider ? Platform.IOS : Platform.BROWSER,
-        mobileModals: Nested === ThemeProvider,
     });
     expect(document.body).toHaveClass('g-root_theme_light', 'g-root_mobile');
 });
@@ -141,10 +140,34 @@ test('provides the existing mobile defaults', () => {
     expect(result.current).toMatchObject({
         mobile: false,
         platform: Platform.BROWSER,
-        __experimentalMobileModals: false,
     });
     expect(result.current.useLocation()).toEqual({pathname: '', search: '', hash: ''});
     expect(result.current.useHistory().action).toBe('');
+});
+
+test.each([Provider, MobileProvider])('mobile modals follow mobile mode in %p', (Wrapper) => {
+    const content = (
+        <React.Fragment>
+            <Modal open qa="modal">
+                Modal content
+            </Modal>
+            <Dialog open qa="dialog">
+                Dialog content
+            </Dialog>
+        </React.Fragment>
+    );
+    const {rerender} = render(<Wrapper mobile>{content}</Wrapper>, {wrapper: ThemeProvider});
+    expect(screen.getByTestId('modal')).toHaveClass('g-modal_mobile');
+    expect(screen.getByTestId('dialog')).toHaveClass('g-modal_mobile', 'g-dialog__modal_mobile');
+    expect(screen.getByText('Dialog content')).toHaveClass('g-dialog_mobile');
+
+    rerender(<Wrapper mobile={false}>{content}</Wrapper>);
+    expect(screen.getByTestId('modal')).not.toHaveClass('g-modal_mobile');
+    expect(screen.getByTestId('dialog')).not.toHaveClass(
+        'g-modal_mobile',
+        'g-dialog__modal_mobile',
+    );
+    expect(screen.getByText('Dialog content')).not.toHaveClass('g-dialog_mobile');
 });
 
 test.each(['back', 'goBack'] as const)('passes router hooks and adapts %s', (backMethod) => {
@@ -184,7 +207,6 @@ test('nested Provider uses mobile defaults instead of inheriting parent settings
             <Provider
                 mobile
                 platform={Platform.IOS}
-                __experimentalMobileModals
                 useHistory={() => ({action: 'POP', push() {}, replace() {}, back: parentBack})}
                 useLocation={() => ({pathname: '/parent', search: '?q=1', hash: '#sheet'})}
             >
@@ -195,7 +217,6 @@ test('nested Provider uses mobile defaults instead of inheriting parent settings
     expect(result.current).toMatchObject({
         mobile: false,
         platform: Platform.BROWSER,
-        __experimentalMobileModals: false,
     });
     expect(result.current.useLocation()).toEqual({pathname: '', search: '', hash: ''});
     expect(result.current.useHistory().action).toBe('');
@@ -221,7 +242,7 @@ test.each([Provider, MobileProvider])(
         expect(document.body).not.toHaveClass('g-root_mobile');
         rerender(
             <Provider mobile={false} platform={Platform.IOS}>
-                <Nested mobile platform={Platform.ANDROID} __experimentalMobileModals>
+                <Nested mobile platform={Platform.ANDROID}>
                     <Settings />
                 </Nested>
             </Provider>,
@@ -230,7 +251,6 @@ test.each([Provider, MobileProvider])(
             expect.objectContaining({
                 mobile: true,
                 platform: Platform.ANDROID,
-                __experimentalMobileModals: true,
             }),
         );
         expect(document.body).toHaveClass('g-root_mobile');

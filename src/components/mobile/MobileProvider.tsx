@@ -17,7 +17,6 @@ function useLocationMock(): Location {
 export interface MobileProviderProps {
     children?: React.ReactNode;
     mobile?: boolean;
-    __experimentalMobileModals?: boolean;
     platform?: Platform;
     // Support history v4 and v5
     useHistory?: () => Omit<History, 'goBack'> & {back?: () => void; goBack?: () => void};
@@ -26,7 +25,6 @@ export interface MobileProviderProps {
 
 export function MobileProvider({
     mobile = false,
-    __experimentalMobileModals = false,
     platform = Platform.BROWSER,
     useHistory = useHistoryMock,
     useLocation = useLocationMock,
@@ -58,12 +56,11 @@ export function MobileProvider({
     const contextValue: MobileContextProps = React.useMemo(() => {
         return {
             mobile,
-            __experimentalMobileModals,
             platform,
             useLocation,
             useHistory: useHistoryFunction,
         };
-    }, [mobile, __experimentalMobileModals, platform, useLocation, useHistoryFunction]);
+    }, [mobile, platform, useLocation, useHistoryFunction]);
 
     return <MobileContext.Provider value={contextValue}>{children}</MobileContext.Provider>;
 }

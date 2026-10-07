@@ -310,10 +310,8 @@ describe('Select filter', () => {
         onFilterChange.mockClear();
 
         await user.click(sheetVeil);
-        act(() => {
-            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
-        });
 
+        // The select closes as soon as the sheet asks to; the filter is cleared after the exit animation
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(onFilterChange).not.toHaveBeenCalled();
 

@@ -18,7 +18,7 @@ export default {
 } as Meta;
 
 export const WithMenuShowcase: StoryFn<SheetProps> = (args: SheetProps) => {
-    const [visible, setVisible] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
     const generateMenuItems = () => {
         return Array.from({length: 50}, (_, index) => {
@@ -28,10 +28,10 @@ export const WithMenuShowcase: StoryFn<SheetProps> = (args: SheetProps) => {
 
     return (
         <div className={b()}>
-            <Button className={b('show-btn')} onClick={() => setVisible(true)}>
+            <Button className={b('show-btn')} onClick={() => setOpen(true)}>
                 Show modal
             </Button>
-            <Sheet {...args} visible={visible} onOpenChange={setVisible}>
+            <Sheet {...args} open={open} onOpenChange={setOpen}>
                 <Menu inline className={b('menu')}>
                     <MenuItem>menu item 1.1</MenuItem>
                     <MenuItem>menu item 1.2</MenuItem>

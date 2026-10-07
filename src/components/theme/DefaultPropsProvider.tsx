@@ -21,6 +21,7 @@ import type {DialogProps} from '../Dialog';
 import type {DisclosureProps} from '../Disclosure';
 import type {DividerProps} from '../Divider';
 import type {DrawerProps} from '../Drawer';
+import type {FileDropZoneProps} from '../FileDropZone';
 import type {FilePreviewProps} from '../FilePreview';
 import type {HelpMarkProps} from '../HelpMark';
 import type {HotkeyProps} from '../Hotkey';
@@ -84,6 +85,7 @@ export interface DefaultPropsMap {
     Divider?: Partial<DividerProps>;
     Drawer?: Partial<DrawerProps>;
     DropdownMenu?: Partial<DropdownMenuProps<any>>;
+    FileDropZone?: Partial<FileDropZoneProps>;
     FilePreview?: Partial<FilePreviewProps>;
     HelpMark?: Partial<HelpMarkProps>;
     Hotkey?: Partial<HotkeyProps>;

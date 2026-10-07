@@ -4,8 +4,10 @@
 
 <!--/GITHUB_BLOCK-->
 
+`useDropZone` makes any element a drop target for files and reports the drag state.
+
 ```tsx
-import {unstable_useDropZone as useDropZone} from '@gravity-ui/uikit/unstable';
+import {useDropZone} from '@gravity-ui/uikit';
 ```
 
 The `useDropZone` hook provides props for an element to act as a drop zone and gives access to the dragging-over state. It does not validate MIME types or file counts; handle validation in `onDrop` or use `FileDropZone` if you need built-in file validation.

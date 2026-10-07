@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import {act, renderHook} from '../../../../../test-utils/utils';
+import {act, renderHook} from '../../../../test-utils/utils';
 import {DROP_ZONE_BASE_ATTRIBUTES} from '../constants';
 import {useDropZone} from '../useDropZone';
 

@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen} from '../../../../../test-utils/utils';
+import {fireEvent, render, screen} from '../../../../test-utils/utils';
+import {DefaultPropsProvider} from '../../theme/DefaultPropsProvider';
 import {FileDropZone} from '../FileDropZone';
 import {FileDropZoneQa} from '../constants';
 
@@ -41,6 +42,17 @@ describe('FileDropZone', () => {
         test('renders default title for multiple-file mode', () => {
             render(<FileDropZone {...defaultProps} multiple />);
             expect(screen.getByText('Drag the files here or select them')).toBeInTheDocument();
+        });
+
+        test('applies default props from DefaultPropsProvider', () => {
+            render(
+                <DefaultPropsProvider defaultProps={{FileDropZone: {title: 'Default title'}}}>
+                    <FileDropZone {...defaultProps} />
+                    <FileDropZone {...defaultProps} title="Own title" />
+                </DefaultPropsProvider>,
+            );
+            expect(screen.getByText('Default title')).toBeInTheDocument();
+            expect(screen.getByText('Own title')).toBeInTheDocument();
         });
 
         test('renders custom title, description, buttonText', () => {

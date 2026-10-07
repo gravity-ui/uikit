@@ -176,18 +176,19 @@ being used as a type here» — замените их на `SelectOptionProps` �
 
 ## Удалено из `/unstable`
 
-В v8 в `@gravity-ui/uikit/unstable` остались только `unstable_FileDropZone`, `unstable_useDropZone`
-и их типы.
-Всё остальное переехало:
+В v8 `@gravity-ui/uikit/unstable` пуст; точка входа остаётся для будущих экспериментов. Всё
+переехало:
 
-| Удалено                                                                                                           | Теперь                                                                                                                       |
-| :---------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
-| `unstable_List`, `unstable_moveItem`, `unstable_useListFocusOwner` и типы `unstable_List*`                        | те же имена без префикса из `@gravity-ui/uikit`, см. [гайд List](migration-from-legacy-list.md#from-gravity-uiuikitunstable) |
-| `unstable_ListVirtualizer`, `unstable_ListVirtualizerProps`                                                       | `ListVirtualizer`, `ListVirtualizerProps` из `@gravity-ui/uikit/virtualizer`                                                 |
-| `unstable_useListHelloPangeaDnd`, `unstable_UseListHelloPangeaDndOptions`, `unstable_UseListHelloPangeaDndResult` | `useListHelloPangeaDnd`, `UseListHelloPangeaDndProps`, `UseListHelloPangeaDndResult` из `@gravity-ui/uikit/hello-pangea-dnd` |
-| `unstable_ColorPicker`, `unstable_ColorPickerProps`                                                               | `ColorPicker`, `ColorPickerProps` из `@gravity-ui/uikit`                                                                     |
-| `unstable_Menu` и остальные имена `unstable_Menu*`                                                                | см. [Menu и DropdownMenu](#menu-и-dropdownmenu)                                                                              |
-| семейство `unstable_useList`, `unstable_TreeList`, `unstable_TreeSelect`                                          | см. [useList, TreeList и TreeSelect удалены из `/unstable`](#uselist-treelist-и-treeselect-удалены-из-unstable)              |
+| Удалено                                                                                                                 | Теперь                                                                                                                       |
+| :---------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| `unstable_List`, `unstable_moveItem`, `unstable_useListFocusOwner` и типы `unstable_List*`                              | те же имена без префикса из `@gravity-ui/uikit`, см. [гайд List](migration-from-legacy-list.md#from-gravity-uiuikitunstable) |
+| `unstable_ListVirtualizer`, `unstable_ListVirtualizerProps`                                                             | `ListVirtualizer`, `ListVirtualizerProps` из `@gravity-ui/uikit/virtualizer`                                                 |
+| `unstable_useListHelloPangeaDnd`, `unstable_UseListHelloPangeaDndOptions`, `unstable_UseListHelloPangeaDndResult`       | `useListHelloPangeaDnd`, `UseListHelloPangeaDndProps`, `UseListHelloPangeaDndResult` из `@gravity-ui/uikit/hello-pangea-dnd` |
+| `unstable_ColorPicker`, `unstable_ColorPickerProps`                                                                     | `ColorPicker`, `ColorPickerProps` из `@gravity-ui/uikit`                                                                     |
+| `unstable_FileDropZone`, `DropZoneFileRejection`, `FileDropZoneProps`                                                   | `FileDropZone` и те же типы из `@gravity-ui/uikit`                                                                           |
+| `unstable_useDropZone`, `UseDropZoneEventHandler`, `UseDropZoneParams`, `UseDropZoneDroppableProps`, `UseDropZoneState` | `useDropZone` и те же типы из `@gravity-ui/uikit`                                                                            |
+| `unstable_Menu` и остальные имена `unstable_Menu*`                                                                      | см. [Menu и DropdownMenu](#menu-и-dropdownmenu)                                                                              |
+| семейство `unstable_useList`, `unstable_TreeList`, `unstable_TreeSelect`                                                | см. [useList, TreeList и TreeSelect удалены из `/unstable`](#uselist-treelist-и-treeselect-удалены-из-unstable)              |
 
 ## useList, TreeList и TreeSelect удалены из `/unstable`
 
@@ -510,4 +511,4 @@ const {lang} = getConfig(); // 'ru'
 | Стили hover ([#2832](https://github.com/gravity-ui/uikit/pull/2832))                   | Стили `:hover` применяются только на устройствах с наведением (`@media (hover: hover)`).                                                                                                                                                                                                                                                                                                              |
 | Миксин `button-reset` ([#2862](https://github.com/gravity-ui/uikit/pull/2862))         | Сбрасывает ещё `margin`, `appearance`, `user-select`, `touch-action` и подсветку тапа и больше не задаёт `outline: none`: элементы с ним показывают браузерное кольцо фокуса.                                                                                                                                                                                                                         |
 | `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | Высота больше не анимируется при смене содержимого; `disableHeightTransition` удалён.                                                                                                                                                                                                                                                                                                                 |
-| Тип `Keysets` ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                 | Включает кейсет `HelloPangeaDnd`: для `addLanguageKeysets<Keysets>` нужны два его ключа.                                                                                                                                                                                                                                                                                                              |
+| Тип `Keysets` ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                 | Включает кейсет `HelloPangeaDnd`, а с [#2896](https://github.com/gravity-ui/uikit/pull/2896) и `FileDropZone`: для `addLanguageKeysets<Keysets>` нужны их ключи.                                                                                                                                                                                                                                      |

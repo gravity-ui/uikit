@@ -81,6 +81,7 @@ $block: '.#{variables.$ns}breadcrumbs';
         align-items: center;
         color: var(--g-color-text-secondary);
         padding: 0 var(--g-spacing-2);
+        user-select: none;
     }
 
     &__menu {

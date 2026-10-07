@@ -1,60 +1,23 @@
 'use client';
 
-import type * as React from 'react';
-
 import {Gear} from '@gravity-ui/icons';
 
 import {Button} from '../../Button';
 import {Icon} from '../../Icon';
-import type {PopupPlacement} from '../../Popup';
 import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
-import type {TableColumnConfig} from '../Table/Table';
 import type {TableColumnSetupItem as NewTableColumnSetupItem} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import {TableColumnSetup as NewTableColumnSetup} from '../Table/hoc/withTableSettings/TableColumnSetup/TableColumnSetup';
 import type {TableSetting} from '../Table/hoc/withTableSettings/withTableSettings';
 
 import i18n from './i18n';
+import type {SwitcherProps, TableColumnSetupProps} from './types';
 
 import './TableColumnSetup.scss';
 
+export type {TableColumnSetupItem, TableColumnSetupProps} from './types';
+
 const b = block('table-column-setup');
-
-export interface TableColumnSetupItem {
-    id: string;
-    title: React.ReactNode;
-    selected?: boolean;
-    required?: boolean;
-    sticky?: TableColumnConfig<unknown>['sticky'];
-}
-
-type Item = TableColumnSetupItem;
-
-interface SwitcherProps {
-    onKeyDown: React.KeyboardEventHandler<HTMLElement>;
-    onClick: React.MouseEventHandler<HTMLElement>;
-}
-
-export interface TableColumnSetupProps {
-    // for Button
-    disabled?: boolean;
-    /**
-     * @deprecated Use renderSwitcher instead
-     */
-    switcher?: React.ReactElement | undefined;
-    renderSwitcher?: (props: SwitcherProps) => React.ReactElement | undefined;
-
-    items: Item[];
-    sortable?: boolean;
-    hideApplyButton?: boolean;
-
-    onUpdate: (updated: Item[]) => void;
-    popupWidth?: number | 'fit' | undefined;
-    popupPlacement?: PopupPlacement;
-    getItemTitle?: (item: Item) => TableColumnSetupItem['title'];
-    showStatus?: boolean;
-    className?: string;
-}
 
 /**
  * @deprecated Legacy component. For new code use `@gravity-ui/table`

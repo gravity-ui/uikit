@@ -61,8 +61,8 @@ import type {TextAreaProps} from '../controls/TextArea';
 import type {TextInputProps} from '../controls/TextInput';
 import type {DropdownMenuProps} from '../legacy/DropdownMenu';
 import type {MenuProps as MenuLegacyProps} from '../legacy/Menu';
-import type {TableProps} from '../legacy/Table';
-import type {TableColumnSetupProps} from '../legacy/TableColumnSetup';
+import type {TableProps} from '../legacy/Table/Table';
+import type {TableColumnSetupProps} from '../legacy/TableColumnSetup/types';
 import type {TabListProps, TabPanelProps, TabProps, TabProviderProps} from '../tabs';
 
 export interface DefaultPropsMap {

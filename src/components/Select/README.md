@@ -12,7 +12,7 @@ import {Select} from '@gravity-ui/uikit';
 
 > [!NOTE]
 > In v8 the options are drawn by the new list. What changed for a consumer is collected in the
-> [migration guide](./migration-guide.md).
+> [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-select-v8.md).
 
 ## Options
 

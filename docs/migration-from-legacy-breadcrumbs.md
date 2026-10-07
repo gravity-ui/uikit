@@ -44,4 +44,4 @@ The legacy `BreadcrumbsItem`, `BreadcrumbsProps`, `FirstDisplayedItemsCount`, `L
 
 ## Translations
 
-The current component uses the `Breadcrumbs` keyset in v8. Existing overrides of `Breadcrumbs.label_more` continue to apply; rename overrides of `lab/Breadcrumbs` to `Breadcrumbs`. The current keyset also contains `breadcrumbs`. See the [v8 migration guide](../../../docs/migration-to-v8.md#breadcrumbs-popover-and-tabs-removed-from-legacy).
+The current component uses the `Breadcrumbs` keyset in v8. Existing overrides of `Breadcrumbs.label_more` continue to apply; rename overrides of `lab/Breadcrumbs` to `Breadcrumbs`. The current keyset also contains `breadcrumbs`. See the [v8 migration guide](migration-to-v8.md#breadcrumbs-popover-and-tabs-removed-from-legacy).

@@ -2,9 +2,9 @@
 
 The legacy `Popover` (available from `@gravity-ui/uikit/legacy` in v7, removed in v8) was a fully-styled tooltip/popover: it rendered its own title, content, links, action/cancel buttons, close button and colored themes.
 
-The new `Popover` (`@gravity-ui/uikit`) is a thin, headless wrapper around [`Popup`](../Popup/README.md) — it only handles trigger interactivity (hover/click, delays, dismiss, focus) and renders whatever `content` you pass it, without any built-in title/buttons/theme styling.
+The new `Popover` (`@gravity-ui/uikit`) is a thin, headless wrapper around [`Popup`](../src/components/Popup/README.md) — it only handles trigger interactivity (hover/click, delays, dismiss, focus) and renders whatever `content` you pass it, without any built-in title/buttons/theme styling.
 
-**`Popup` applies no styling to `content` at all — not even padding.** It only draws its own surface (background/border/shadow/border-radius); everything inside is rendered flush against that surface's edges. Because of this, `content` must always be wrapped in an [`Alert`](../Alert/README.md) (or another component that supplies its own padding/layout) — plain text or a bare `div` will visually stick to the popup's edges. Render an `Alert` as `content` even for a simple one-line message. `Alert`'s `theme="clear"` is designed for exactly this: no background/border of its own (the new `Popover`/`Popup` already provides the surface), just a title/message/actions/close-button layout with proper padding.
+**`Popup` applies no styling to `content` at all — not even padding.** It only draws its own surface (background/border/shadow/border-radius); everything inside is rendered flush against that surface's edges. Because of this, `content` must always be wrapped in an [`Alert`](../src/components/Alert/README.md) (or another component that supplies its own padding/layout) — plain text or a bare `div` will visually stick to the popup's edges. Render an `Alert` as `content` even for a simple one-line message. `Alert`'s `theme="clear"` is designed for exactly this: no background/border of its own (the new `Popover`/`Popup` already provides the surface), just a title/message/actions/close-button layout with proper padding.
 
 ## Quick example
 
@@ -51,7 +51,7 @@ Note that `hasArrow` is set explicitly above.
 
 ## Props with no equivalent
 
-- **`anchorRef`/`anchorElement`** (detached/anchor-only mode, popover with no visible trigger child) — new `Popover` always requires a `children` trigger element to attach interaction props to. For a detached anchor, use [`Popup`](../Popup/README.md) directly with `anchorElement`; it needs no trigger.
+- **`anchorRef`/`anchorElement`** (detached/anchor-only mode, popover with no visible trigger child) — new `Popover` always requires a `children` trigger element to attach interaction props to. For a detached anchor, use [`Popup`](../src/components/Popup/README.md) directly with `anchorElement`; it needs no trigger.
 - **Imperative `ref`** (`openTooltip`/`closeTooltip`, `PopoverInstanceProps`) — new `Popover` exposes no ref API. Replace with a controlled `open` + `onOpenChange` state that you toggle yourself.
 - **`autoclosable={false}`** (stays open once hovered, only closes on an explicit trigger click) — no direct equivalent. Reproduce with controlled `open` state where your `onOpenChange` ignores hover-driven close events and only reacts to explicit close actions.
 - **`offset` (`{top, left, block, inline}`)** — this shifted the _trigger wrapper_ via inline style, not the popup itself. New `Popover` has no wrapper to apply this to — wrap your trigger element yourself with the desired offset instead.
@@ -71,7 +71,7 @@ Render `<Alert theme="clear" ... />` as `content`. `Popup` already supplies the 
 | `hasClose` + `onCloseClick`                                          | `onClose` — passing it automatically renders `Alert`'s own close button, no separate boolean needed                                                                                                                                                |
 | `size` (`'s'` \| `'l'`)                                              | `size` (`'s'` \| `'m'` \| `'l'`) — `'s'` → `'s'`, `'l'` → `'l'` is closest, but check padding: `--g-popover-padding`/`--g-popover-max-width` have no `Alert` equivalent, use `--g-alert-padding` or your own `style`/`className` for custom sizing |
 
-When a legacy tooltip had both a `title` and a `theme` other than `"announcement"`, its content was dimmed to a secondary color (using reduced opacity). `Alert` doesn't dim `message` based on `title`/`theme` on its own, so wrap `message` in [`Text`](../Text/README.md) with `color="secondary"` yourself when that condition holds:
+When a legacy tooltip had both a `title` and a `theme` other than `"announcement"`, its content was dimmed to a secondary color (using reduced opacity). `Alert` doesn't dim `message` based on `title`/`theme` on its own, so wrap `message` in [`Text`](../src/components/Text/README.md) with `color="secondary"` yourself when that condition holds:
 
 ```tsx
 <Alert theme="clear" title="Title" message={<Text color="secondary">Some text</Text>} />

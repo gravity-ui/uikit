@@ -4,10 +4,10 @@ The legacy `Tabs` (available from `@gravity-ui/uikit/legacy` in v7, removed in v
 
 The new tabs API (`@gravity-ui/uikit`) splits this into four composable pieces:
 
-- [`TabProvider`](./README.md#tabprovider) — optional context, only needed when a `TabList` and its `TabPanel`s are separated by your own layout markup (so they aren't direct siblings) and need to share `value`/`onUpdate` through context instead of props
-- [`TabList`](./README.md#tablist) — the `role="tablist"` container (equivalent of legacy `Tabs`'s root); holds `value`/`onUpdate` directly in the common case
-- [`Tab`](./README.md#tab) — an individual tab trigger (equivalent of `Tabs.Item`)
-- [`TabPanel`](./README.md#tabpanel) — new, optional; a content region tied to a `value`, with no legacy equivalent (previously you managed panel visibility yourself)
+- [`TabProvider`](../src/components/tabs/README.md#tabprovider) — optional context, only needed when a `TabList` and its `TabPanel`s are separated by your own layout markup (so they aren't direct siblings) and need to share `value`/`onUpdate` through context instead of props
+- [`TabList`](../src/components/tabs/README.md#tablist) — the `role="tablist"` container (equivalent of legacy `Tabs`'s root); holds `value`/`onUpdate` directly in the common case
+- [`Tab`](../src/components/tabs/README.md#tab) — an individual tab trigger (equivalent of `Tabs.Item`)
+- [`TabPanel`](../src/components/tabs/README.md#tabpanel) — new, optional; a content region tied to a `value`, with no legacy equivalent (previously you managed panel visibility yourself)
 
 **There is no items-array mode in the new API** — always render `<Tab>` children directly (via `.map()` if your tabs are data-driven).
 

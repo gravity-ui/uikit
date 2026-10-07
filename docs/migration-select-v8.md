@@ -2,18 +2,18 @@
 
 The options of `Select` are rendered by the new list core instead of the old `List`. The props of the
 component are almost unchanged; what follows is everything that can break a consumer, with a pointer
-to the section of the [README](./README.md) that describes the new state of things.
+to the section of the [README](../src/components/Select/README.md) that describes the new state of things.
 
 ## Props
 
-| Was                                          | Now                                                                                                                                                                                                                                                                                                    |
-| :------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `virtualizationThreshold`                    | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](./README.md#virtualized-list)                                                                                                                           |
-| `SelectOptionProps.text`                     | Gone. The text of an option comes from `getOptionText` — [The text of an option](./README.md#the-text-of-an-option)                                                                                                                                                                                    |
-| `renderOption(option, props)`                | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](./README.md#rendering-custom-options)                                                                                                                    |
-| `renderFilter({value, onChange, onKeyDown})` | `value` and `onKeyDown` are gone: both live in `inputProps`, which also carries the ARIA of the combobox. `onChange` stays and is no longer deprecated — it is the string-shaped counterpart of `inputProps.onChange` — [Rendering custom filter section](./README.md#rendering-custom-filter-section) |
-| `renderSelectedOption(option, index)`        | Gone. `renderSelectedOptions(options)` is called once with the whole selection — [Rendering custom selected options](./README.md#rendering-custom-selected-options)                                                                                                                                    |
-| `SelectItem`, `SelectItemGroup`              | Renamed to `SelectOption` and `SelectOptionGroup`; the types `SelectOption` and `SelectOptionGroup` to `SelectOptionProps` and `SelectOptionGroupProps` — [Migration to v8](../../../docs/migration-to-v8.md#select-option-names)                                                                      |
+| Was                                          | Now                                                                                                                                                                                                                                                                                                                           |
+| :------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `virtualizationThreshold`                    | Gone. Virtualization is asked for explicitly: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer` — [Virtualized list](../src/components/Select/README.md#virtualized-list)                                                                                                                           |
+| `SelectOptionProps.text`                     | Gone. The text of an option comes from `getOptionText` — [The text of an option](../src/components/Select/README.md#the-text-of-an-option)                                                                                                                                                                                    |
+| `renderOption(option, props)`                | `props.isItemActive` is no longer optional — it is always passed, and `props.itemHeight` carries the new heights — [Rendering custom options](../src/components/Select/README.md#rendering-custom-options)                                                                                                                    |
+| `renderFilter({value, onChange, onKeyDown})` | `value` and `onKeyDown` are gone: both live in `inputProps`, which also carries the ARIA of the combobox. `onChange` stays and is no longer deprecated — it is the string-shaped counterpart of `inputProps.onChange` — [Rendering custom filter section](../src/components/Select/README.md#rendering-custom-filter-section) |
+| `renderSelectedOption(option, index)`        | Gone. `renderSelectedOptions(options)` is called once with the whole selection — [Rendering custom selected options](../src/components/Select/README.md#rendering-custom-selected-options)                                                                                                                                    |
+| `SelectItem`, `SelectItemGroup`              | Renamed to `SelectOption` and `SelectOptionGroup`; the types `SelectOption` and `SelectOptionGroup` to `SelectOptionProps` and `SelectOptionGroupProps` — [Migration to v8](migration-to-v8.md#select-option-names)                                                                                                           |
 
 ```diff
 - <Select options={options} virtualizationThreshold={50} />
@@ -28,7 +28,7 @@ option as a row, and above 150 of them says so in a development warning.
 
 The width of the popup follows from the same place. A list that virtualized itself by the old
 threshold was as wide as the control, and never narrower than 100px; a list that is not virtualized
-is as wide as its widest option (see [Popup width](./README.md#popup-width)). So a long list left
+is as wide as its widest option (see [Popup width](../src/components/Select/README.md#popup-width)). So a long list left
 without the wrapper can come out wider than it used to. Wrapping it in `ListVirtualizer` brings the
 old rule back as it was; `popupWidth="fit"` also pins the popup to the control, but it drops the
 100px floor along with it, which shows on a control narrower than that.
@@ -99,7 +99,7 @@ are up to it, and the elements it returns need keys when they hold state:
   `.g-select-list__option_disabled`, `.g-select-list__option-default-label_disabled` and the
   `.g-list__item` of the old list. The names that remain are not a public contract either — the rows
   are drawn by the list and its row view. What is supported instead is described in
-  [CSS API](./README.md#css-api): the colour variables of the row view, and the render props for the
+  [CSS API](../src/components/Select/README.md#css-api): the colour variables of the row view, and the render props for the
   content of a row.
 - **The DOM `id` of a row is derived from the value of the option** instead of its index. Selectors
   and accessibility assertions keyed on the old id have to be rewritten — read the id from
@@ -108,9 +108,9 @@ are up to it, and the elements it returns need keys when they hold state:
 - **`label` names the trigger** instead of joining its value: a screen reader announces
   "Fruit:, combobox, Apple" rather than "combobox, Fruit: Apple". Tests that find the trigger by
   its role and name, or by its text together with the label, see the new name and value —
-  [Accessible name](./README.md#accessible-name).
+  [Accessible name](../src/components/Select/README.md#accessible-name).
 - **A group header is no longer an option**: it carries `role="presentation"` and is skipped by the
-  count of `role="option"` rows — [Grouped list](./README.md#grouped-list).
+  count of `role="option"` rows — [Grouped list](../src/components/Select/README.md#grouped-list).
 - The `data-qa` hooks are unchanged: `select-list` on the list and `list-active-item` on the active
   option (`SelectQa.ACTIVE_ITEM`, which now lives in `SelectQa` rather than in the `ListQa` of the
   old list).
@@ -119,7 +119,7 @@ are up to it, and the elements it returns need keys when they hold state:
 
 - **The search by the first letters matches a prefix** rather than a substring, its buffer resets a
   second after the last key, and repeating one character cycles through the options that start with
-  it. `Backspace` no longer edits the query — [The search by the first letters](./README.md#the-search-by-the-first-letters).
+  it. `Backspace` no longer edits the query — [The search by the first letters](../src/components/Select/README.md#the-search-by-the-first-letters).
 - **A space is part of the query while it is being typed** and applies nothing until the buffer is
   empty again, as the ARIA Authoring Practices Guide prescribes for a listbox.
 - `PageUp`/`PageDown` move the activity by ten options.

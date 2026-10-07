@@ -7,94 +7,213 @@
 На этой странице собраны несовместимые изменения `@gravity-ui/uikit` v8 и способ пройти каждое из них. Каждый раздел
 описывает, что изменилось, как временно сохранить старое поведение и куда двигаться дальше.
 
-Компоненты, которые больше не развиваются, переезжают в точку входа `@gravity-ui/uikit/legacy`. У компонентов,
-оставшихся в `/legacy`, API сохраняется, но дата удаления этой точки входа не обещается: запланируйте уход с них.
+Компоненты, которые больше не развиваются, переезжают в точку входа `@gravity-ui/uikit/legacy`. В v8 это `DropdownMenu`,
+`List`, `Menu`, `Table` и `TableColumnSetup`. У компонентов, оставшихся в `/legacy`, API сохраняется, но дата удаления
+этой точки входа не обещается: запланируйте уход с них.
 
-## Названия размеров с несколькими `x`
+## Быстрый чеклист
 
-В названиях размеров с двумя или более `x` теперь используется цифра и одна `x`:
+1. Обновите React и React DOM до 18 или 19, см. [Минимальная версия React 18](#минимальная-версия-react-18).
+2. Установите необязательные peer-зависимости тех точек входа, из которых импортируете, см. [Зависимости](#зависимости).
+3. Найдите импорты и пропсы, которые переехали или удалены, и пройдите по соответствующим разделам ниже:
 
-| Раньше | Теперь |
-| :----- | :----- |
-| `xxs`  | `2xs`  |
-| `xxl`  | `2xl`  |
-| `xxxl` | `3xl`  |
+   ```bash
+   grep -rnE "@gravity-ui/uikit/(unstable|legacy)" src
+   grep -rlE "from ['\"]@gravity-ui/uikit['\"]" src | xargs grep -HnwE "List|ListItem|ListQa|Menu|DropdownMenu|Table|TableColumnSetup|withTable[A-Za-z]+"
+   grep -rnE "virtualizationThreshold|renderSelectedOption\b|SelectItem|xxs|xxl|extraProps|onKeyPress|iconSize|anchorRef|onEscapeKeyDown|onOutsideClick|onEnterKeyDown|disableHeightTransition|arrowPosition|layersCount" src
+   ```
 
-Замените `Label size="xxs"` на `size="2xs"`. Соответствующий CSS-модификатор изменился с
-`.g-label_size_xxs` на `.g-label_size_2xs`: обновите пользовательские селекторы, которые его используют.
-
-В layout переименуйте ключи `xxl` и `xxxl` в `LayoutTheme.breakpoints` и адаптивных пропсах.
-Если используется устаревший проп `Col xxl`, перенесите его в объект `size` с ключом `{'2xl': значение}`.
-На этих ширинах `useLayoutContext().activeMediaQuery` теперь возвращает `2xl` или `3xl`, а
-`isMediaActive` принимает новые имена. Ширины брейкпоинтов остались прежними: 1400 и 1920 px.
-Названия размеров с одной `x`, например `xs` и `xl`, не изменились.
+4. Сверьте свой CSS и тесты с разделом [Остальное](#остальное).
 
 ## Минимальная версия React 18
 
 Для UIKit v8 нужны React и React DOM версии 18 или 19. Перед установкой v8 обновите оба пакета (и `@types/react`, если
 используете его). React 16 и 17 больше не поддерживаются.
 
-## `configure` и `getConfig`
+## Зависимости
 
-Каждый вызов `configure` теперь создаёт новый объект конфигурации. Ранее сохранённый результат `getConfig()` больше не
-отражает последующие изменения. Чтобы получить актуальную конфигурацию после вызова `configure`, вызовите `getConfig()`
-ещё раз:
+`@hello-pangea/dnd`, `react-window`, `react-virtualized-auto-sizer` и `@tanstack/react-virtual` — необязательные
+peer-зависимости: вместе с пакетом они больше не устанавливаются. Корневой точке входа не нужна ни одна из них;
+установите те, что нужны точкам входа, из которых импортируете:
 
-```ts
-configure({lang: 'ru'});
-const {lang} = getConfig(); // 'ru'
-```
+| Точка входа                          | Что установить                                                      |
+| :----------------------------------- | :------------------------------------------------------------------ |
+| `@gravity-ui/uikit/virtualizer`      | `@tanstack/react-virtual`                                           |
+| `@gravity-ui/uikit/hello-pangea-dnd` | `@hello-pangea/dnd`                                                 |
+| `@gravity-ui/uikit/legacy`           | `@hello-pangea/dnd`, `react-window`, `react-virtualized-auto-sizer` |
 
-## `extraProps` у Button и Link
+## Новые точки входа
 
-`Button` и `Link` больше не принимают `extraProps`. Передавайте стандартные пропсы элемента напрямую компоненту,
-в том числе если `Button` рендерит ссылку или пользовательский компонент.
-То же касается пропсов на основе `ButtonProps`, например `MenuTriggerProps`, `AlertActionProps`,
-`ActionsPanelItem.button.props` и пропсов кнопок `Dialog.Footer`.
+Две точки входа держат свои зависимости вне корневой:
 
-Раньше `type`, `disabled`, `className`, `onClickCapture` и `rel` внутри `extraProps` могли перезаписываться компонентом.
-После переноса на корень они могут изменить поведение: например, кнопка станет `submit` или отключится. Перенос
-`target="_blank"` на корень также добавляет `rel="noopener noreferrer"`, если `rel` не задан, поэтому заголовок Referer
-не отправляется.
+| Точка входа                          | Что там                                                                                                                             |
+| :----------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `@gravity-ui/uikit/virtualizer`      | [`Virtualizer` и `ListVirtualizer`](../src/components/Virtualizer/README.md): рендерится только видимое окно длинного списка        |
+| `@gravity-ui/uikit/hello-pangea-dnd` | [`ListHelloPangeaDnd` и его части](../src/components/HelloPangeaDnd/README.md): перестановка строк `List` через `@hello-pangea/dnd` |
 
-```diff
-- <Button extraProps={{title: 'Сохранить', onClick: handleSave}}>Сохранить</Button>
-+ <Button title="Сохранить" onClick={handleSave}>Сохранить</Button>
-- <Link href="/help" extraProps={{target: '_blank'}}>Помощь</Link>
-+ <Link href="/help" target="_blank">Помощь</Link>
-```
+## List
 
-## Проп `error` у TextInput, PasswordInput, TextArea и Select
-
-`TextInput`, `PasswordInput`, `TextArea` и `Select` больше не принимают устаревший проп `error`. Для состояния ошибки используйте
-`validationState="invalid"`, а для текста ошибки — `errorMessage`:
+`List` из корневой точки входа — новый компонент: выбор, виртуализация и перетаскивание — необязательные слои,
+встроенного фильтра нет. `List` из v7 вместе с `ListItem`, `ListQa` и остальными экспортами — в
+`@gravity-ui/uikit/legacy` (CSS-блок `g-list-legacy`), которой нужны [три необязательные peer-зависимости](#зависимости):
 
 ```diff
-- <TextInput error="Обязательное поле" />
-+ <TextInput validationState="invalid" errorMessage="Обязательное поле" />
-- <TextArea error />
-+ <TextArea validationState="invalid" />
-- <Select error={hasError} />
-+ <Select validationState={hasError ? 'invalid' : undefined} />
-- <TextInput error={errorText} />
-+ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
+- import {List} from '@gravity-ui/uikit';
++ import {List} from '@gravity-ui/uikit/legacy';
 ```
 
-Замена одинакова для всех четырёх компонентов. Если `error` был единственным признаком ошибки, ложные значения (`false`,
-`''` и `undefined`) не включали состояние ошибки.
+Как перейти на новый `List` — в [гайде по миграции List](migration-from-legacy-list.md) (на английском): пропсы,
+различия в поведении, test id и CSS, а также [как остаться на старом List](migration-from-legacy-list.md#staying-on-the-legacy-list).
 
-## Проп `onKeyPress` у TextInput, PasswordInput, TextArea и NumberInput
+## Select
 
-Эти компоненты больше не принимают устаревший проп `onKeyPress` на верхнем уровне. Используйте `onKeyDown`:
+`Select` рисует опции новым `List`. Подробности — в [гайде Select](migration-select-v8.md) (на английском).
+
+### Опции рисует новый List
+
+- `virtualizationThreshold` удалён: оберните `Select` в `ListVirtualizer` из `@gravity-ui/uikit/virtualizer`. Без
+  обёртки рендерятся все опции.
+- Без `ListVirtualizer` попап шириной с самую широкую опцию; оберните `Select` или задайте `popupWidth="fit"`.
+- Поле `text` у опции (`SelectOptionProps`) удалено: текст опции берётся из `getOptionText`.
+- `renderFilter` больше не получает `value` и `onKeyDown`: оба — в `inputProps`.
+- `renderOption` всегда получает `isItemActive`, а `itemHeight` несёт новые высоты строк.
+- Значения опций должны быть уникальными, включая группы.
+- DOM `id` строки строится по значению опции, заголовок группы больше не `role="option"`, нескольких
+  классов `g-select-list__*` и `.g-list__item` больше нет.
+- `label` называет триггер, а не склеивается с его значением.
+- Поиск по первым буквам ищет по префиксу.
+
+### Позиция попапа Select
+
+Попап `Select` позиционируется от контрола, а не от всего компонента: если под контролом показан текст ошибки
+(`errorPlacement="outside"`, по умолчанию), попап открывается сразу под контролом и, пока открыт, закрывает текст
+ошибки. Ширина попапа не изменилась. Вернуть прежнее положение нельзя.
+
+Контрол обёрнут в новую обёртку `g-select__anchor` между корнем и контролом (`g-select-control`). Обновите селекторы,
+которые рассчитывают на то, что контрол — прямой потомок корня, например `.g-select > .g-select-control`.
+
+### `renderSelectedOption` у Select
+
+`renderSelectedOption(option, index)` удалён. `renderSelectedOptions(options)` вызывается один раз со всем выбором,
+поэтому сводку вроде «All ticket types» можно отрисовать без `renderControl`. Чтобы сохранить прежний вид, примените
+старую функцию к каждой опции — разделители между опциями, как и раньше, на ней; см.
+[гайд Select](migration-select-v8.md):
 
 ```diff
-- <TextInput onKeyPress={handleKeyPress} />
-+ <TextInput onKeyDown={handleKeyDown} />
+- <Select renderSelectedOption={renderOne} />
++ <Select renderSelectedOptions={(options) => options.map(renderOne)} />
 ```
 
-В отличие от `onKeyPress`, `onKeyDown` вызывается для клавиш без символа и при вводе через IME, а его `event.charCode`
-равен `0`. Проверяйте `event.key` и при необходимости `event.nativeEvent.isComposing`. Чтобы временно сохранить прежнее
-поведение, передайте компоненту `controlProps={{onKeyPress: handleKeyPress}}`.
+### Имена опций Select
+
+Типы опций и компоненты для них названы по `Select.Option`, как в `SegmentedRadioGroup`. Алиасов для старых имён нет:
+
+| Было                        | Стало                         |
+| :-------------------------- | :---------------------------- |
+| тип `SelectOption`          | тип `SelectOptionProps`       |
+| тип `SelectOptionGroup`     | тип `SelectOptionGroupProps`  |
+| компонент `SelectItem`      | компонент `SelectOption`      |
+| компонент `SelectItemGroup` | компонент `SelectOptionGroup` |
+
+```diff
+- import {SelectItem, type SelectOption} from '@gravity-ui/uikit';
++ import {SelectOption, type SelectOptionProps} from '@gravity-ui/uikit';
+```
+
+Старые `SelectOption` и `SelectOptionGroup` в роли типа теперь дают ошибку «'SelectOption' refers to a value, but is
+being used as a type here» — замените их на `SelectOptionProps` и `SelectOptionGroupProps`.
+
+## Высота строк List, Select и Menu
+
+Строки `ListItemView`, а с ним `List`, `Select` и `Menu`, выровнены по высоте контролов того же размера: 24, 28, 36 и
+44px. Строки размеров `l` и `xl` — 36 и 44px вместо 32 и 36, строки мобильного `Select` — 44px вместо 32.
+Заголовок секции `List` и заголовок группы `Select` высотой со строку своего размера. В попап или список
+фиксированной высоты помещается меньше строк. Чтобы сохранить свою высоту, задайте `--g-list-item-view-min-height`
+на классе списка: `className` у `List` и `Menu`, `popupClassName` и `sheetClassName` у `Select`; отступы
+`List` и `Select` и заголовки следуют за ней. Высоты, которыми считает `Select`, — оценка виртуализатора и `itemHeight` — задаются
+через `getOptionHeight` и `getOptionGroupHeight`.
+
+## Table и TableColumnSetup
+
+`Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и
+`TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их API и разметка
+не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена. Меню действий строки теперь
+использует `g-menu-legacy` вместо `g-menu`; классы внутри попапа настроек колонок тоже изменились, см. ниже. Новые
+возможности таблиц появляются в
+[`@gravity-ui/table`](https://github.com/gravity-ui/table).
+
+### Если мигрировать сейчас нельзя
+
+Поменяйте импорт, остальной код остаётся прежним:
+
+```diff
+- import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit';
++ import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit/legacy';
+```
+
+То же касается типов (`TableProps`, `TableColumnConfig`, `TableSettingsData`, `TableColumnSetupProps`, …).
+
+- **`@gravity-ui/uikit/legacy` нужны три необязательные peer-зависимости.** `@hello-pangea/dnd` (на нём построен попап
+  настроек колонок), `react-window` и `react-virtualized-auto-sizer` (legacy `List`) больше не ставятся вместе с пакетом,
+  а legacy-точка входа загружает их все, что бы из неё ни импортировалось: установите все три рядом с `@gravity-ui/uikit`.
+- **Классы внутри попапа настроек колонок.** `g-tree-select` → `g-tree-select-legacy`, `g-tree-list` →
+  `g-tree-list-legacy`, `g-list-container-view` → `g-list-container-view-legacy`, `g-list-item-view` →
+  `g-list-item-view-legacy`; модификаторы размера (`g-tree-select__popup_size_*`, `_size_*` и `_radius_*` у строк)
+  удалены. Попап выглядит так же; перепишите переопределения, нацеленные на эти классы.
+- **`@deprecated`.** `Table`, его HOC и `TableColumnSetup` помечены `@deprecated` в типах: линтеры с правилом
+  `no-deprecated` начнут сообщать об их использовании.
+- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Сам `TableColumnSetup` не читает пропсы
+  по умолчанию из провайдера: передавайте их компоненту явно.
+- **Переводы.** Имена кейсетов (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) не
+  изменились, переопределения через `addComponentKeysets` продолжают работать.
+
+### Переход на `@gravity-ui/table`
+
+У `@gravity-ui/table` есть
+[пошаговое руководство с `Table` из uikit](https://github.com/gravity-ui/table/blob/main/docs/migration-from-uikit-table/migration-from-uikit-table-ru.md):
+пропсы, каждый HOC и `TableColumnSetup` (раздел 4.1). Его раздел «Оставайтесь на старой таблице, если» — хороший критерий:
+небольшая таблица без интерактива и требований к производительности может остаться на legacy-версии.
+
+## Удалено из `/unstable`
+
+В v8 в `@gravity-ui/uikit/unstable` остались только `unstable_FileDropZone`, `unstable_useDropZone`
+и их типы.
+Всё остальное переехало:
+
+| Удалено                                                                                                           | Теперь                                                                                                                       |
+| :---------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------- |
+| `unstable_List`, `unstable_moveItem`, `unstable_useListFocusOwner` и типы `unstable_List*`                        | те же имена без префикса из `@gravity-ui/uikit`, см. [гайд List](migration-from-legacy-list.md#from-gravity-uiuikitunstable) |
+| `unstable_ListVirtualizer`, `unstable_ListVirtualizerProps`                                                       | `ListVirtualizer`, `ListVirtualizerProps` из `@gravity-ui/uikit/virtualizer`                                                 |
+| `unstable_useListHelloPangeaDnd`, `unstable_UseListHelloPangeaDndOptions`, `unstable_UseListHelloPangeaDndResult` | `useListHelloPangeaDnd`, `UseListHelloPangeaDndProps`, `UseListHelloPangeaDndResult` из `@gravity-ui/uikit/hello-pangea-dnd` |
+| `unstable_ColorPicker`, `unstable_ColorPickerProps`                                                               | `ColorPicker`, `ColorPickerProps` из `@gravity-ui/uikit`                                                                     |
+| `unstable_Menu` и остальные имена `unstable_Menu*`                                                                | см. [Menu и DropdownMenu](#menu-и-dropdownmenu)                                                                              |
+| семейство `unstable_useList`, `unstable_TreeList`, `unstable_TreeSelect`                                          | см. [useList, TreeList и TreeSelect удалены из `/unstable`](#uselist-treelist-и-treeselect-удалены-из-unstable)              |
+
+## useList, TreeList и TreeSelect удалены из `/unstable`
+
+Экспериментальное семейство `useList` удалено из `@gravity-ui/uikit/unstable`, замены внутри пакета нет: оно
+продолжается в [`@gravity-ui/normalized-list`](https://github.com/gravity-ui/normalized-list) под новыми именами, см. его
+[руководство по миграции](https://github.com/gravity-ui/normalized-list/blob/main/MIGRATION.md). Берите версию
+`@gravity-ui/normalized-list`, чей диапазон peer-зависимостей включает `@gravity-ui/uikit` v8.
+
+| `@gravity-ui/uikit/unstable`                                                                                                                                                                                                             | `@gravity-ui/normalized-list`                                         |
+| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
+| `unstable_TreeSelect`, `unstable_TreeSelectProps`                                                                                                                                                                                        | `UIKitNormalizedSelect`, `UIKitNormalizedSelectProps` из `/uikit`     |
+| `unstable_TreeList`, `unstable_TreeListProps`                                                                                                                                                                                            | `UIKitNormalizedList`, `UIKitNormalizedListProps` из `/uikit`         |
+| `unstable_useList`, `unstable_UseListResult`                                                                                                                                                                                             | `useNormalizedList`, `UseNormalizedListResult`                        |
+| `unstable_ListItemView`, `unstable_ListItemViewProps`                                                                                                                                                                                    | `UIKitListItemView` из `/uikit`, `ListItemViewProps`                  |
+| `unstable_ListItemExpandIcon`, `unstable_ListItemExpandIconProps`                                                                                                                                                                        | `UIKitListItemExpandIcon`, `UIKitListItemExpandIconProps` из `/uikit` |
+| `unstable_ListContainer`, `unstable_ListContainerProps`, `unstable_ListContainerView`, `unstable_ListContainerViewProps`                                                                                                                 | те же имена без префикса                                              |
+| `unstable_ListItemType`, `unstable_ListTreeItemType`, `unstable_ListItemId`                                                                                                                                                              | те же имена без префикса                                              |
+| `unstable_useListFilter`, `unstable_useListKeydown`, `unstable_getListItemClickHandler`, `unstable_getItemRenderState`, `unstable_scrollToListItem`, `unstable_getListItemQa`, `unstable_getListParsedState`, `unstable_computeItemSize` | те же имена без префикса                                              |
+
+Что проверить после перехода (по руководству пакета):
+
+- CSS-неймспейс — `g-nl-`: перепишите переопределения старых классов и переменных;
+- у `UIKitNormalizedSelect` нет встроенного мобильного `Sheet`, рендерьте его через `renderPopup`;
+- QA-константы селекта — `NormalizedSelectQa`.
+
+Настройки колонок legacy `Table` продолжают работать: от удалённого семейства они больше не зависят.
 
 ## Menu и DropdownMenu
 
@@ -160,11 +279,11 @@ menu: {
 Старые компоненты `Breadcrumbs`, `Popover` и `Tabs`, их типы и связанные экспорты больше не доступны из
 `@gravity-ui/uikit/legacy`. Замените их актуальными компонентами из `@gravity-ui/uikit`:
 
-| Удалённый компонент | Замена                                                                           | Руководство по миграции                                                          |
-| :------------------ | :------------------------------------------------------------------------------- | :------------------------------------------------------------------------------- |
-| `Breadcrumbs`       | [`Breadcrumbs`](../src/components/Breadcrumbs/README-ru.md)                      | [Пропсы, элементы и рендеринг](../src/components/Breadcrumbs/migration-guide.md) |
-| `Popover`           | [`Popover`](../src/components/Popover/README.md)                                 | [Содержимое и поведение](../src/components/Popover/migration-guide.md)           |
-| `Tabs`              | [`TabList`, `Tab`, `TabProvider` и `TabPanel`](../src/components/tabs/README.md) | [Элементы и выбор вкладки](../src/components/tabs/migration-guide.md)            |
+| Удалённый компонент | Замена                                                                           | Руководство по миграции                                              |
+| :------------------ | :------------------------------------------------------------------------------- | :------------------------------------------------------------------- |
+| `Breadcrumbs`       | [`Breadcrumbs`](../src/components/Breadcrumbs/README-ru.md)                      | [Пропсы, элементы и рендеринг](migration-from-legacy-breadcrumbs.md) |
+| `Popover`           | [`Popover`](../src/components/Popover/README.md)                                 | [Содержимое и поведение](migration-from-legacy-popover.md)           |
+| `Tabs`              | [`TabList`, `Tab`, `TabProvider` и `TabPanel`](../src/components/tabs/README.md) | [Элементы и выбор вкладки](migration-from-legacy-tabs.md)            |
 
 В v8 для этих компонентов нет временной точки импорта. Замены уже доступны из корневой точки входа в v7, поэтому
 мигрировать можно до обновления. Остальные legacy-компоненты остаются доступными.
@@ -173,29 +292,62 @@ menu: {
 `lab/Breadcrumbs`, поэтому существующие переопределения `Breadcrumbs.label_more` продолжат работать. Переименуйте
 переопределения `lab/Breadcrumbs` в `Breadcrumbs`; актуальный кейсет также содержит `breadcrumbs`.
 
-## Устаревшее API Popup
+## `extraProps` у Button и Link
 
-`Popup` больше не принимает `anchorRef`, `onClose`, `onEscapeKeyDown` и `onOutsideClick`. Передавайте DOM-элемент якоря через `anchorElement`, а закрытие обрабатывайте через `onOpenChange(open, event?, reason?)`. Типы `PopupAnchorRef` и `PopupCloseReason` тоже удалены; вместо них используйте `PopupAnchorElement` и публичный тип `OpenChangeReason`.
+`Button` и `Link` больше не принимают `extraProps`. Передавайте стандартные пропсы элемента напрямую компоненту,
+в том числе если `Button` рендерит ссылку или пользовательский компонент.
+То же касается пропсов на основе `ButtonProps`, например `MenuTriggerProps`, `AlertActionProps`,
+`ActionsPanelItem.button.props` и пропсов кнопок `Dialog.Footer`.
 
-Обновите эти пропсы также в `DropdownMenu.popupProps` из `/legacy` и в ключе `Popup` у `DefaultPropsProvider`.
-
-| Прежний колбэк или причина        | Замена через `onOpenChange`             |
-| :-------------------------------- | :-------------------------------------- |
-| `onClose(event, 'escapeKeyDown')` | `(false, event, 'escape-key')`          |
-| `onClose(event, 'outsideClick')`  | `(false, event, 'outside-press')`       |
-| `onEscapeKeyDown(event)`          | Проверяйте `reason === 'escape-key'`    |
-| `onOutsideClick(event)`           | Проверяйте `reason === 'outside-press'` |
-
-`onOpenChange` может сообщать и другие причины закрытия. Закрывайте попап при `open === false`; проверяйте `reason` только для действий, зависящих от причины. Храните якорь в состоянии, чтобы `Popup` получил его после монтирования DOM-узла:
+Раньше `type`, `disabled`, `className`, `onClickCapture` и `rel` внутри `extraProps` могли перезаписываться компонентом.
+После переноса на корень они могут изменить поведение: например, кнопка станет `submit` или отключится. Перенос
+`target="_blank"` на корень также добавляет `rel="noopener noreferrer"`, если `rel` не задан, поэтому заголовок Referer
+не отправляется.
 
 ```diff
-- const anchorRef = React.useRef<HTMLButtonElement>(null);
-+ const [anchorElement, setAnchorElement] = React.useState<HTMLButtonElement | null>(null);
-- <Button ref={anchorRef}>Открыть</Button>
-- <Popup anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} />
-+ <Button ref={setAnchorElement}>Открыть</Button>
-+ <Popup anchorElement={anchorElement} open={open} onOpenChange={setOpen} />
+- <Button extraProps={{title: 'Сохранить', onClick: handleSave}}>Сохранить</Button>
++ <Button title="Сохранить" onClick={handleSave}>Сохранить</Button>
+- <Link href="/help" extraProps={{target: '_blank'}}>Помощь</Link>
++ <Link href="/help" target="_blank">Помощь</Link>
 ```
+
+## Сторона иконки Button.Icon и положение стрелки Disclosure
+
+Пропы `side` у `Button.Icon` и `arrowPosition` у `Disclosure` больше не принимают физические значения `left` и `right`.
+Используйте логические значения `start` и `end`. Они зависят от направления текста: `start` находится слева при LTR и справа при RTL.
+
+```diff
+- <Button.Icon side="left">...</Button.Icon>
++ <Button.Icon side="start">...</Button.Icon>
+- <Button.Icon side="right">...</Button.Icon>
++ <Button.Icon side="end">...</Button.Icon>
+- <Disclosure arrowPosition="left" />
++ <Disclosure arrowPosition="start" />
+- <Disclosure arrowPosition="right" />
++ <Disclosure arrowPosition="end" />
+```
+
+## `configure` и `getConfig`
+
+Каждый вызов `configure` теперь создаёт новый объект конфигурации. Ранее сохранённый результат `getConfig()` больше не
+отражает последующие изменения. Чтобы получить актуальную конфигурацию после вызова `configure`, вызовите `getConfig()`
+ещё раз:
+
+```ts
+configure({lang: 'ru'});
+const {lang} = getConfig(); // 'ru'
+```
+
+## Геометрия Dialog
+
+У `Dialog` уменьшились отступы заголовка и содержимого. У заголовка отступы сверху и снизу составляют 12 и 8 px,
+у содержимого — по 4 px, у футера — 24 и 28 px. Высота типичного диалога уменьшилась со 190 до 176 px. Кнопка
+закрытия находится в 12 px от верхнего края и 16 px от конца строки на десктопе; на мобильном экране — в 12 px от
+обоих краёв. Если заголовка или футера нет, между содержимым и соответствующим краем остаётся 20 или 24 px.
+Проверьте собственное содержимое и CSS-переопределения с новыми отступами.
+
+У корневого элемента больше нет класса `g-dialog_has-close`. Обновите зависящие от него селекторы; при необходимости
+наличие кнопки закрытия можно проверить селектором `.g-dialog:has(.g-dialog-btn-close)`.
 
 ## Устаревшие API Modal и Dialog
 
@@ -240,17 +392,6 @@ menu: {
 </Dialog>
 ```
 
-## Геометрия Dialog
-
-У `Dialog` уменьшились отступы заголовка и содержимого. У заголовка отступы сверху и снизу составляют 12 и 8 px,
-у содержимого — по 4 px, у футера — 24 и 28 px. Высота типичного диалога уменьшилась со 190 до 176 px. Кнопка
-закрытия находится в 12 px от верхнего края и 16 px от конца строки на десктопе; на мобильном экране — в 12 px от
-обоих краёв. Если заголовка или футера нет, между содержимым и соответствующим краем остаётся 20 или 24 px.
-Проверьте собственное содержимое и CSS-переопределения с новыми отступами.
-
-У корневого элемента больше нет класса `g-dialog_has-close`. Обновите зависящие от него селекторы; при необходимости
-наличие кнопки закрытия можно проверить селектором `.g-dialog:has(.g-dialog-btn-close)`.
-
 ## Размер иконки HelpMark
 
 Проп `HelpMark` `iconSize` переименован в `size`. Замените имя пропа во всех использованиях `HelpMark`, в том числе
@@ -268,112 +409,80 @@ menu: {
 В событии `layerschange` больше нет устаревшего поля `meta.layersCount`. Чтобы получить число слоёв, используйте
 `meta.layers.length`. Функция `getLayersCount()` остаётся доступной.
 
-## Позиция попапа Select
+## Устаревшее API Popup
 
-Попап `Select` позиционируется от контрола, а не от всего компонента: если под контролом показан текст ошибки
-(`errorPlacement="outside"`, по умолчанию), попап открывается сразу под контролом и, пока открыт, закрывает текст
-ошибки. Ширина попапа не изменилась. Вернуть прежнее положение нельзя.
+`Popup` больше не принимает `anchorRef`, `onClose`, `onEscapeKeyDown` и `onOutsideClick`. Передавайте DOM-элемент якоря через `anchorElement`, а закрытие обрабатывайте через `onOpenChange(open, event?, reason?)`. Типы `PopupAnchorRef` и `PopupCloseReason` тоже удалены; вместо них используйте `PopupAnchorElement` и публичный тип `OpenChangeReason`.
 
-Контрол обёрнут в новую обёртку `g-select__anchor` между корнем и контролом (`g-select-control`). Обновите селекторы,
-которые рассчитывают на то, что контрол — прямой потомок корня, например `.g-select > .g-select-control`.
+Обновите эти пропсы также в `DropdownMenu.popupProps` из `/legacy` и в ключе `Popup` у `DefaultPropsProvider`.
 
-## `renderSelectedOption` у Select
+| Прежний колбэк или причина        | Замена через `onOpenChange`             |
+| :-------------------------------- | :-------------------------------------- |
+| `onClose(event, 'escapeKeyDown')` | `(false, event, 'escape-key')`          |
+| `onClose(event, 'outsideClick')`  | `(false, event, 'outside-press')`       |
+| `onEscapeKeyDown(event)`          | Проверяйте `reason === 'escape-key'`    |
+| `onOutsideClick(event)`           | Проверяйте `reason === 'outside-press'` |
 
-`renderSelectedOption(option, index)` удалён. `renderSelectedOptions(options)` вызывается один раз со всем выбором,
-поэтому сводку вроде «All ticket types» можно отрисовать без `renderControl`. Чтобы сохранить прежний вид, примените
-старую функцию к каждой опции — разделители между опциями, как и раньше, на ней; см.
-[гайд Select](../src/components/Select/migration-guide.md):
-
-```diff
-- <Select renderSelectedOption={renderOne} />
-+ <Select renderSelectedOptions={(options) => options.map(renderOne)} />
-```
-
-## Имена опций Select
-
-Типы опций и компоненты для них названы по `Select.Option`, как в `SegmentedRadioGroup`. Алиасов для старых имён нет:
-
-| Было                        | Стало                         |
-| :-------------------------- | :---------------------------- |
-| тип `SelectOption`          | тип `SelectOptionProps`       |
-| тип `SelectOptionGroup`     | тип `SelectOptionGroupProps`  |
-| компонент `SelectItem`      | компонент `SelectOption`      |
-| компонент `SelectItemGroup` | компонент `SelectOptionGroup` |
+`onOpenChange` может сообщать и другие причины закрытия. Закрывайте попап при `open === false`; проверяйте `reason` только для действий, зависящих от причины. Храните якорь в состоянии, чтобы `Popup` получил его после монтирования DOM-узла:
 
 ```diff
-- import {SelectItem, type SelectOption} from '@gravity-ui/uikit';
-+ import {SelectOption, type SelectOptionProps} from '@gravity-ui/uikit';
+- const anchorRef = React.useRef<HTMLButtonElement>(null);
++ const [anchorElement, setAnchorElement] = React.useState<HTMLButtonElement | null>(null);
+- <Button ref={anchorRef}>Открыть</Button>
+- <Popup anchorRef={anchorRef} open={open} onClose={() => setOpen(false)} />
++ <Button ref={setAnchorElement}>Открыть</Button>
++ <Popup anchorElement={anchorElement} open={open} onOpenChange={setOpen} />
 ```
 
-Старые `SelectOption` и `SelectOptionGroup` в роли типа теперь дают ошибку «'SelectOption' refers to a value, but is
-being used as a type here» — замените их на `SelectOptionProps` и `SelectOptionGroupProps`.
+## Названия размеров с несколькими `x`
 
-## Table и TableColumnSetup
+В названиях размеров с двумя или более `x` теперь используется цифра и одна `x`:
 
-`Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и
-`TableColumnSetup` переехали из корневой точки входа в `@gravity-ui/uikit/legacy`. Их API и разметка
-не изменились, CSS-блоки таблицы (`g-table`, `g-table-column-setup`, …) сохранили имена. Меню действий строки теперь
-использует `g-menu-legacy` вместо `g-menu`; классы внутри попапа настроек колонок тоже изменились, см. ниже. Новые
-возможности таблиц появляются в
-[`@gravity-ui/table`](https://github.com/gravity-ui/table).
+| Раньше | Теперь |
+| :----- | :----- |
+| `xxs`  | `2xs`  |
+| `xxl`  | `2xl`  |
+| `xxxl` | `3xl`  |
 
-### Если мигрировать сейчас нельзя
+Замените `Label size="xxs"` на `size="2xs"`. Соответствующий CSS-модификатор изменился с
+`.g-label_size_xxs` на `.g-label_size_2xs`: обновите пользовательские селекторы, которые его используют.
 
-Поменяйте импорт, остальной код остаётся прежним:
+В layout переименуйте ключи `xxl` и `xxxl` в `LayoutTheme.breakpoints` и адаптивных пропсах.
+Если используется устаревший проп `Col xxl`, перенесите его в объект `size` с ключом `{'2xl': значение}`.
+На этих ширинах `useLayoutContext().activeMediaQuery` теперь возвращает `2xl` или `3xl`, а
+`isMediaActive` принимает новые имена. Ширины брейкпоинтов остались прежними: 1400 и 1920 px.
+Названия размеров с одной `x`, например `xs` и `xl`, не изменились.
+
+## Проп `error` у TextInput, PasswordInput, TextArea и Select
+
+`TextInput`, `PasswordInput`, `TextArea` и `Select` больше не принимают устаревший проп `error`. Для состояния ошибки используйте
+`validationState="invalid"`, а для текста ошибки — `errorMessage`:
 
 ```diff
-- import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit';
-+ import {Table, withTableSettings, TableColumnSetup} from '@gravity-ui/uikit/legacy';
+- <TextInput error="Обязательное поле" />
++ <TextInput validationState="invalid" errorMessage="Обязательное поле" />
+- <TextArea error />
++ <TextArea validationState="invalid" />
+- <Select error={hasError} />
++ <Select validationState={hasError ? 'invalid' : undefined} />
+- <TextInput error={errorText} />
++ <TextInput validationState={errorText ? 'invalid' : undefined} errorMessage={errorText} />
 ```
 
-То же касается типов (`TableProps`, `TableColumnConfig`, `TableSettingsData`, `TableColumnSetupProps`, …).
+Замена одинакова для всех четырёх компонентов. Если `error` был единственным признаком ошибки, ложные значения (`false`,
+`''` и `undefined`) не включали состояние ошибки.
 
-- **`@gravity-ui/uikit/legacy` нужны три необязательные peer-зависимости.** `@hello-pangea/dnd` (на нём построен попап
-  настроек колонок), `react-window` и `react-virtualized-auto-sizer` (legacy `List`) больше не ставятся вместе с пакетом,
-  а legacy-точка входа загружает их все, что бы из неё ни импортировалось: установите все три рядом с `@gravity-ui/uikit`.
-- **Классы внутри попапа настроек колонок.** `g-tree-select` → `g-tree-select-legacy`, `g-tree-list` →
-  `g-tree-list-legacy`, `g-list-container-view` → `g-list-container-view-legacy`, `g-list-item-view` →
-  `g-list-item-view-legacy`; модификаторы размера (`g-tree-select__popup_size_*`, `_size_*` и `_radius_*` у строк)
-  удалены. Попап выглядит так же; перепишите переопределения, нацеленные на эти классы.
-- **`@deprecated`.** `Table`, его HOC и `TableColumnSetup` помечены `@deprecated` в типах: линтеры с правилом
-  `no-deprecated` начнут сообщать об их использовании.
-- **`DefaultPropsProvider` больше не принимает ключ `TableColumnSetup`.** Сам `TableColumnSetup` не читает пропсы
-  по умолчанию из провайдера: передавайте их компоненту явно.
-- **Переводы.** Имена кейсетов (`Table`, `withTableSettings`, `TableColumnSetupInner`, `TableColumnSetup`) не
-  изменились, переопределения через `addComponentKeysets` продолжают работать.
+## Проп `onKeyPress` у TextInput, PasswordInput, TextArea и NumberInput
 
-### Переход на `@gravity-ui/table`
+Эти компоненты больше не принимают устаревший проп `onKeyPress` на верхнем уровне. Используйте `onKeyDown`:
 
-У `@gravity-ui/table` есть
-[пошаговое руководство с `Table` из uikit](https://github.com/gravity-ui/table/blob/main/docs/migration-from-uikit-table/migration-from-uikit-table-ru.md):
-пропсы, каждый HOC и `TableColumnSetup` (раздел 4.1). Его раздел «Оставайтесь на старой таблице, если» — хороший критерий:
-небольшая таблица без интерактива и требований к производительности может остаться на legacy-версии.
+```diff
+- <TextInput onKeyPress={handleKeyPress} />
++ <TextInput onKeyDown={handleKeyDown} />
+```
 
-## useList, TreeList и TreeSelect удалены из `/unstable`
-
-Экспериментальное семейство `useList` удалено из `@gravity-ui/uikit/unstable`, замены внутри пакета нет: оно
-продолжается в [`@gravity-ui/normalized-list`](https://github.com/gravity-ui/normalized-list) под новыми именами, см. его
-[руководство по миграции](https://github.com/gravity-ui/normalized-list/blob/main/MIGRATION.md). Берите версию
-`@gravity-ui/normalized-list`, чей диапазон peer-зависимостей включает `@gravity-ui/uikit` v8.
-
-| `@gravity-ui/uikit/unstable`                                                                                                                                                                                                             | `@gravity-ui/normalized-list`                                         |
-| :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
-| `unstable_TreeSelect`, `unstable_TreeSelectProps`                                                                                                                                                                                        | `UIKitNormalizedSelect`, `UIKitNormalizedSelectProps` из `/uikit`     |
-| `unstable_TreeList`, `unstable_TreeListProps`                                                                                                                                                                                            | `UIKitNormalizedList`, `UIKitNormalizedListProps` из `/uikit`         |
-| `unstable_useList`, `unstable_UseListResult`                                                                                                                                                                                             | `useNormalizedList`, `UseNormalizedListResult`                        |
-| `unstable_ListItemView`, `unstable_ListItemViewProps`                                                                                                                                                                                    | `UIKitListItemView` из `/uikit`, `ListItemViewProps`                  |
-| `unstable_ListItemExpandIcon`, `unstable_ListItemExpandIconProps`                                                                                                                                                                        | `UIKitListItemExpandIcon`, `UIKitListItemExpandIconProps` из `/uikit` |
-| `unstable_ListContainer`, `unstable_ListContainerProps`, `unstable_ListContainerView`, `unstable_ListContainerViewProps`                                                                                                                 | те же имена без префикса                                              |
-| `unstable_ListItemType`, `unstable_ListTreeItemType`, `unstable_ListItemId`                                                                                                                                                              | те же имена без префикса                                              |
-| `unstable_useListFilter`, `unstable_useListKeydown`, `unstable_getListItemClickHandler`, `unstable_getItemRenderState`, `unstable_scrollToListItem`, `unstable_getListItemQa`, `unstable_getListParsedState`, `unstable_computeItemSize` | те же имена без префикса                                              |
-
-Что проверить после перехода (по руководству пакета):
-
-- CSS-неймспейс — `g-nl-`: перепишите переопределения старых классов и переменных;
-- у `UIKitNormalizedSelect` нет встроенного мобильного `Sheet`, рендерьте его через `renderPopup`;
-- QA-константы селекта — `NormalizedSelectQa`.
-
-Настройки колонок legacy `Table` продолжают работать: от удалённого семейства они больше не зависят.
+В отличие от `onKeyPress`, `onKeyDown` вызывается для клавиш без символа и при вводе через IME, а его `event.charCode`
+равен `0`. Проверяйте `event.key` и при необходимости `event.nativeEvent.isComposing`. Чтобы временно сохранить прежнее
+поведение, передайте компоненту `controlProps={{onKeyPress: handleKeyPress}}`.
 
 ## Опция `theme` у `useColorGenerator`
 
@@ -385,28 +494,20 @@ being used as a type here» — замените их на `SelectOptionProps` �
 + useColorGenerator({seed})
 ```
 
-## Сторона иконки Button.Icon и положение стрелки Disclosure
+## Остальное
 
-Пропы `side` у `Button.Icon` и `arrowPosition` у `Disclosure` больше не принимают физические значения `left` и `right`.
-Используйте логические значения `start` и `end`. Они зависят от направления текста: `start` находится слева при LTR и справа при RTL.
-
-```diff
-- <Button.Icon side="left">...</Button.Icon>
-+ <Button.Icon side="start">...</Button.Icon>
-- <Button.Icon side="right">...</Button.Icon>
-+ <Button.Icon side="end">...</Button.Icon>
-- <Disclosure arrowPosition="left" />
-+ <Disclosure arrowPosition="start" />
-- <Disclosure arrowPosition="right" />
-+ <Disclosure arrowPosition="end" />
-```
-
-## Высота строк List, Select и Menu
-
-Строки `ListItemView`, а с ним `List`, `Select` и `Menu`, выровнены по высоте контролов того же размера: 24, 28, 36 и
-44px. Строки размеров `l` и `xl` — 36 и 44px вместо 32 и 36, строки мобильного `Select` — 44px вместо 32.
-Заголовок секции `List` и заголовок группы `Select` высотой со строку своего размера. В попап или список
-фиксированной высоты помещается меньше строк. Чтобы сохранить свою высоту, задайте `--g-list-item-view-min-height`
-на классе списка: `className` у `List` и `Menu`, `popupClassName` и `sheetClassName` у `Select`; отступы
-`List` и `Select` и заголовки следуют за ней. Высоты, которыми считает `Select`, — оценка виртуализатора и `itemHeight` — задаются
-через `getOptionHeight` и `getOptionGroupHeight`.
+| Что                                                                                    | Изменение                                                                                                                                                                                                                                                                                                                                                                                             |
+| :------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Select` ([#2660](https://github.com/gravity-ui/uikit/pull/2660))                      | Попап отстоит от контрола на 4px вместо 1px — тот же отступ, что у `Popup`.                                                                                                                                                                                                                                                                                                                           |
+| Темы ([#2745](https://github.com/gravity-ui/uikit/pull/2745))                          | Переменные темы генерируются из `@gravity-ui/uikit-themer`. SCSS-модуль `@gravity-ui/uikit/styles/themes` и его миксины `g-theme-*` удалены: собирайте свою тему, как в [Темизации](theming-ru.md#создание-пользовательской-темы). Ни одна переменная не переименована, но цвета немного сдвинулись, а значения записаны как `rgb(r g b / a)` — обновите эталонные скриншоты и снапшоты с литералами. |
+| `Avatar` ([#2376](https://github.com/gravity-ui/uikit/pull/2376))                      | Проп `alt` удалён; изображение декоративное (`alt=""`).                                                                                                                                                                                                                                                                                                                                               |
+| Типографика ([#2616](https://github.com/gravity-ui/uikit/pull/2616))                   | Акцентные тексты берут насыщенность из `--g-text-{group}-accent-font-weight`; `--g-text-accent-font-weight` устарела, и её переопределение больше не действует на `Breadcrumbs` и `Menu`.                                                                                                                                                                                                             |
+| `Progress` ([#2151](https://github.com/gravity-ui/uikit/pull/2151))                    | Компонент больше не центрирует себя (`margin: 0 auto` удалён).                                                                                                                                                                                                                                                                                                                                        |
+| `Lang`, `Platform` ([#2715](https://github.com/gravity-ui/uikit/pull/2715))            | Перечисления TypeScript заменены объектами `as const` и объединениями типов; `Lang.Ru` работает.                                                                                                                                                                                                                                                                                                      |
+| `Dialog.Footer` ([#2657](https://github.com/gravity-ui/uikit/pull/2657))               | На десктопе кнопки больше не растягиваются и не имеют `min-width: 128px`; передайте `width` в `propsButtonApply` и `propsButtonCancel`. На мобильных они по-прежнему растянуты.                                                                                                                                                                                                                       |
+| Зависимости ([#2858](https://github.com/gravity-ui/uikit/pull/2858))                   | `lodash` заменён на `es-toolkit` и больше не ставится вместе с пакетом: добавьте его в свои зависимости, если импортируете.                                                                                                                                                                                                                                                                           |
+| `Checkbox`, `Radio`, `Switch` ([#2342](https://github.com/gravity-ui/uikit/pull/2342)) | Размер `l` использует вариант шрифта `body-1`; обёртка `g-control-label__control-container` удалена.                                                                                                                                                                                                                                                                                                  |
+| Стили hover ([#2832](https://github.com/gravity-ui/uikit/pull/2832))                   | Стили `:hover` применяются только на устройствах с наведением (`@media (hover: hover)`).                                                                                                                                                                                                                                                                                                              |
+| Миксин `button-reset` ([#2862](https://github.com/gravity-ui/uikit/pull/2862))         | Сбрасывает ещё `margin`, `appearance`, `user-select`, `touch-action` и подсветку тапа и больше не задаёт `outline: none`: элементы с ним показывают браузерное кольцо фокуса.                                                                                                                                                                                                                         |
+| `Modal`, `Dialog` ([#2860](https://github.com/gravity-ui/uikit/pull/2860))             | Высота больше не анимируется при смене содержимого; `disableHeightTransition` удалён.                                                                                                                                                                                                                                                                                                                 |
+| Тип `Keysets` ([#2854](https://github.com/gravity-ui/uikit/pull/2854))                 | Включает кейсет `HelloPangeaDnd`: для `addLanguageKeysets<Keysets>` нужны два его ключа.                                                                                                                                                                                                                                                                                                              |

@@ -58,8 +58,8 @@ Read the requested/resolved theme with `useTheme` / `useThemeValue`; switch it b
 ## Providers
 
 `Provider` is the application provider. Nested Providers are always scoped, even with
-`scoped={false}`, and inherit unspecified settings. Use a feature provider to configure just one
-feature. All listed components and prop types are exported from `@gravity-ui/uikit`.
+`scoped={false}`, and inherit unspecified theme, language, layout, and component-default settings.
+Mobile settings use independent defaults. Use a feature provider to configure just one feature. All listed components and prop types are exported from `@gravity-ui/uikit`.
 
 ### Provider
 
@@ -136,10 +136,11 @@ directly, with the same defaults:
 | `useLocation`                | `MobileProviderProps['useLocation']`     | Empty pathname, search, and hash |
 
 `useHistory` supports router history v4/v5: `back` is adapted to `goBack` when `goBack` is absent.
-`mobile` toggles `.g-root_mobile` on body for a global Provider and is read by `useMobile`;
-`usePlatform` reads the platform. Scoped Providers inherit mobile settings and apply the class to
-the local wrapper, including portal wrappers. Updating or unmounting a nested Provider does not
-change body's mobile class.
+`mobile` toggles `.g-root_mobile` on body through `MobileProvider` and is read by `useMobile`;
+`usePlatform` reads the platform. Every Provider uses the mobile defaults independently, including
+nested and explicitly scoped Providers. Mobile settings and router hooks are not inherited;
+pass them explicitly when needed. Scoped behavior applies to theme and direction; the mobile class
+continues to be managed on body.
 The experimental flag enables mobile Modal/Dialog rendering when `mobile` is also enabled.
 
 ```tsx

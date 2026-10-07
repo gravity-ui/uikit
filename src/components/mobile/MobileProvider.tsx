@@ -24,21 +24,7 @@ export interface MobileProviderProps {
     useLocation?: () => Location;
 }
 
-export function MobileProvider(props: MobileProviderProps) {
-    const mobile = props.mobile ?? false;
-
-    React.useEffect(() => {
-        document.body.classList.toggle(rootMobileClassName, mobile);
-    }, [mobile]);
-
-    return <MobileContextProvider {...props} />;
-}
-
-/**
- * Context-only provider for scoped application settings.
- * @internal
- */
-export function MobileContextProvider({
+export function MobileProvider({
     mobile = false,
     __experimentalMobileModals = false,
     platform = Platform.BROWSER,
@@ -64,6 +50,10 @@ export function MobileContextProvider({
         },
         [useHistory],
     );
+
+    React.useEffect(() => {
+        document.body.classList.toggle(rootMobileClassName, mobile);
+    }, [rootMobileClassName, mobile]);
 
     const contextValue: MobileContextProps = React.useMemo(() => {
         return {

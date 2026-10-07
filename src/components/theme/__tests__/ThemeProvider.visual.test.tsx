@@ -60,23 +60,23 @@ for (const kind of ['ThemeProvider', 'Provider']) {
     });
 }
 
-test('scoped mobile Provider keeps its class in portals without changing body', async ({
-    mount,
-    page,
-}) => {
-    await mount(
-        <Provider mobile>
+test('scoped Provider preserves MobileProvider body-class behavior', async ({mount, page}) => {
+    const content = (
+        <div>
             <span data-qa="mobile-region">mobile</span>
             <Portal>
                 <span data-qa="mobile-portal">portal</span>
             </Portal>
-            <Provider mobile={false}>
-                <span data-qa="desktop-region">desktop</span>
-            </Provider>
-        </Provider>,
+        </div>
     );
+    const component = await mount(<Provider mobile={false}>{content}</Provider>);
     await expect(page.locator('body')).not.toHaveClass(/g-root_mobile/);
-    await expect(page.getByTestId('mobile-region').locator('..')).toHaveClass(/g-root_mobile/);
-    await expect(page.getByTestId('mobile-portal').locator('..')).toHaveClass(/g-root_mobile/);
-    await expect(page.getByTestId('desktop-region').locator('..')).not.toHaveClass(/g-root_mobile/);
+    await component.update(<Provider mobile>{content}</Provider>);
+    await expect(page.locator('body')).toHaveClass(/g-root_mobile/);
+    await expect(page.getByTestId('mobile-region').locator('..').locator('..')).not.toHaveClass(
+        /g-root_mobile/,
+    );
+    await expect(page.getByTestId('mobile-portal').locator('..')).not.toHaveClass(/g-root_mobile/);
+    await component.update(<Provider mobile={false}>{content}</Provider>);
+    await expect(page.locator('body')).not.toHaveClass(/g-root_mobile/);
 });

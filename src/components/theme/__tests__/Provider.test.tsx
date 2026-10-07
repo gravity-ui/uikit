@@ -10,6 +10,7 @@ import {
     LangProvider,
     LayoutProvider,
     MobileContext,
+    MobileProvider,
     Platform,
     Portal,
     Provider,
@@ -39,13 +40,13 @@ test.each([Provider, ThemeProvider])(
     (Parent) => {
         const {rerender} = render(
             <Parent theme="light" direction="ltr">
-                <Provider theme="dark" direction="rtl" mobile scoped={false} rootClassName="local">
+                <Provider theme="dark" direction="rtl" scoped={false} rootClassName="local">
                     <span>region</span>
                 </Provider>
             </Parent>,
         );
         const region = screen.getByText('region').parentElement;
-        expect(region).toHaveClass('g-root_theme_dark', 'g-root_mobile', 'local');
+        expect(region).toHaveClass('g-root_theme_dark', 'local');
         expect(region).toHaveAttribute('dir', 'rtl');
         expect(document.body).toHaveClass('g-root_theme_light');
         expect(document.body).not.toHaveClass('g-root_mobile', 'local');
@@ -83,7 +84,7 @@ test('works in StrictMode and updates body theme, direction and mobile mode', ()
     expect(document.body).not.toHaveAttribute('dir');
 });
 
-test.each([ThemeProvider, Provider])('keeps feature settings through nested %p', (Nested) => {
+test.each([ThemeProvider, Provider])('keeps feature contexts through nested %p', (Nested) => {
     const {result} = renderHook(
         () => ({
             theme: useTheme(),
@@ -126,9 +127,9 @@ test.each([ThemeProvider, Provider])('keeps feature settings through nested %p',
         lang: {lang: 'ru', fallbackLang: 'en'},
         layout: {activeMediaQuery: 'xs'},
         defaults: {size: 'l'},
-        mobile: true,
-        platform: Platform.IOS,
-        mobileModals: true,
+        mobile: Nested === ThemeProvider,
+        platform: Nested === ThemeProvider ? Platform.IOS : Platform.BROWSER,
+        mobileModals: Nested === ThemeProvider,
     });
     expect(document.body).toHaveClass('g-root_theme_light', 'g-root_mobile');
 });
@@ -162,8 +163,10 @@ test.each(['back', 'goBack'] as const)('passes router hooks and adapts %s', (bac
         },
         {
             wrapper: ({children}) => (
-                <Provider useHistory={() => history} useLocation={() => location}>
-                    <Provider>{children}</Provider>
+                <Provider>
+                    <Provider useHistory={() => history} useLocation={() => location}>
+                        {children}
+                    </Provider>
                 </Provider>
             ),
         },
@@ -174,45 +177,74 @@ test.each(['back', 'goBack'] as const)('passes router hooks and adapts %s', (bac
     expect(back).toHaveBeenCalledTimes(1);
 });
 
-test('nested mobile overrides do not change the parent or body', () => {
-    const parent = jest.fn();
-    const child = jest.fn();
-    function Settings({onRead}: {onRead: (value: unknown) => void}) {
-        onRead(React.useContext(MobileContext));
-        return null;
-    }
-    const {rerender} = render(
-        <Provider mobile platform={Platform.IOS} __experimentalMobileModals>
-            <Settings onRead={parent} />
-            <Provider mobile={false} platform={Platform.ANDROID} __experimentalMobileModals={false}>
-                <Settings onRead={child} />
-                <span>desktop</span>
+test('nested Provider uses mobile defaults instead of inheriting parent settings', () => {
+    const parentBack = jest.fn();
+    const {result} = renderHook(() => React.useContext(MobileContext), {
+        wrapper: ({children}) => (
+            <Provider
+                mobile
+                platform={Platform.IOS}
+                __experimentalMobileModals
+                useHistory={() => ({action: 'POP', push() {}, replace() {}, back: parentBack})}
+                useLocation={() => ({pathname: '/parent', search: '?q=1', hash: '#sheet'})}
+            >
+                <Provider>{children}</Provider>
             </Provider>
-        </Provider>,
-    );
-    expect(parent).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-            mobile: true,
-            platform: Platform.IOS,
-            __experimentalMobileModals: true,
-        }),
-    );
-    expect(child).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-            mobile: false,
-            platform: Platform.ANDROID,
-            __experimentalMobileModals: false,
-        }),
-    );
-    expect(document.body).toHaveClass('g-root_mobile');
-    expect(screen.getByText('desktop').parentElement).not.toHaveClass('g-root_mobile');
-    rerender(
-        <Provider mobile>
-            <span>parent only</span>
-        </Provider>,
-    );
-    expect(document.body).toHaveClass('g-root_mobile');
+        ),
+    });
+    expect(result.current).toMatchObject({
+        mobile: false,
+        platform: Platform.BROWSER,
+        __experimentalMobileModals: false,
+    });
+    expect(result.current.useLocation()).toEqual({pathname: '', search: '', hash: ''});
+    expect(result.current.useHistory().action).toBe('');
+    result.current.useHistory().goBack();
+    expect(parentBack).not.toHaveBeenCalled();
 });
+
+test.each([Provider, MobileProvider])(
+    'nested %p preserves MobileProvider body-class behavior',
+    (Nested) => {
+        const child = jest.fn();
+        function Settings() {
+            child(React.useContext(MobileContext));
+            return <span>region</span>;
+        }
+        const {rerender} = render(
+            <Provider mobile={false} platform={Platform.IOS}>
+                <Nested>
+                    <Settings />
+                </Nested>
+            </Provider>,
+        );
+        expect(document.body).not.toHaveClass('g-root_mobile');
+        rerender(
+            <Provider mobile={false} platform={Platform.IOS}>
+                <Nested mobile platform={Platform.ANDROID} __experimentalMobileModals>
+                    <Settings />
+                </Nested>
+            </Provider>,
+        );
+        expect(child).toHaveBeenLastCalledWith(
+            expect.objectContaining({
+                mobile: true,
+                platform: Platform.ANDROID,
+                __experimentalMobileModals: true,
+            }),
+        );
+        expect(document.body).toHaveClass('g-root_mobile');
+        expect(screen.getByText('region').parentElement).not.toHaveClass('g-root_mobile');
+        rerender(
+            <Provider mobile={false} platform={Platform.IOS}>
+                <Nested mobile={false}>
+                    <Settings />
+                </Nested>
+            </Provider>,
+        );
+        expect(document.body).not.toHaveClass('g-root_mobile');
+    },
+);
 
 test('standalone ThemeProvider can be global or explicitly scoped', () => {
     const {rerender} = render(<ThemeProvider theme="light" direction="rtl" />);

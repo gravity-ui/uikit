@@ -47,9 +47,11 @@ Remove the extra mobile wrapper when moving its settings to `Provider`:
 + </Provider>
 ```
 
-Nested Providers are always scoped, even with `scoped={false}`. They inherit unspecified settings
-and apply theme, direction, and the mobile class to a local wrapper. To override individual features,
-use the corresponding providers:
+Nested Providers are always scoped, even with `scoped={false}`. They inherit unspecified theme,
+language, layout, and component-default settings, and apply theme and direction to a local wrapper.
+Mobile settings and router hooks are not inherited: each Provider uses the MobileProvider defaults
+unless passed explicitly, and `mobile` controls `.g-root_mobile` on body. To override individual
+features, use the corresponding providers:
 
 | Previous ThemeProvider prop                                 | Subtree provider                                           |
 | ----------------------------------------------------------- | ---------------------------------------------------------- |

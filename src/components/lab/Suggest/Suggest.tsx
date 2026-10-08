@@ -1,10 +1,14 @@
+'use client';
+
 import * as React from 'react';
 
 import type {OpenChangeReason} from '@floating-ui/react';
 
-import {useLayoutEffect, useUniqId} from '../../../hooks';
+import {useIntersection, useLayoutEffect, useUniqId} from '../../../hooks';
 import {useOpenState} from '../../../hooks/useSelect/useOpenState';
-import {List} from '../../List';
+import {List, useListFocusOwner} from '../../List';
+import type {ListItemContext, ListItemHelpers} from '../../List';
+import {ListVirtualizationContext} from '../../List/VirtualizationContext';
 import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
 import {TextInput} from '../../controls';
@@ -20,6 +24,10 @@ function defaultRenderOption(option: SuggestOption): React.ReactNode {
     return option.content ?? option.children ?? null;
 }
 
+const getItemId = (option: SuggestOption) => option.value;
+// Option children are React content, not nested list sections.
+const getItemChildren = () => undefined;
+
 type SuggestComponent = <T>(
     props: SuggestProps<T> & {ref?: React.Ref<HTMLSpanElement>},
 ) => React.ReactElement;
@@ -33,7 +41,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         options,
         onOptionClick,
         renderOption,
-        virtualized = false,
         listHeight = 300,
         getOptionHeight,
         onLoadMore,
@@ -62,12 +69,32 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 ) {
     const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
     const [fitWidth, setFitWidth] = React.useState<number>();
-    const listRef = React.useRef<List<SuggestOption<T>>>(null);
+    const focusOwner = useListFocusOwner();
+    const [lastOptionElement, setLastOptionElement] = React.useState<HTMLElement | null>(null);
+    const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
+    const inputValue = value ?? uncontrolledValue;
+    const outerVirtualization = React.useContext(ListVirtualizationContext);
+    const virtualization = React.useMemo(
+        () =>
+            outerVirtualization && getOptionHeight
+                ? {
+                      ...outerVirtualization,
+                      estimateItemSize: (ctx: ListItemContext<SuggestOption<T>>) =>
+                          getOptionHeight(ctx.item, ctx.index),
+                  }
+                : outerVirtualization,
+        [outerVirtualization, getOptionHeight],
+    );
 
     const autoId = useUniqId();
     const componentId = idProp || autoId;
     const popupId = `${componentId}-popup`;
     const listId = `${componentId}-list`;
+    const listLabel =
+        inputProps?.controlProps?.['aria-label'] ??
+        (inputProps?.label ? undefined : inputProps?.placeholder);
+    const listLabelledBy =
+        inputProps?.controlProps?.['aria-labelledby'] ?? (listLabel ? undefined : componentId);
 
     const {open, toggleOpen} = useOpenState({
         open: openProp,
@@ -86,21 +113,42 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         [open, toggleOpen, onOpenChange],
     );
 
-    const [activeIndex, setActiveIndex] = React.useState<number | undefined>();
-
-    const handleActiveIndexChange = React.useCallback(
-        (index: number | undefined) => {
-            setActiveIndex(index);
-            onActiveIndexChange?.(index);
-        },
-        [onActiveIndexChange],
-    );
+    const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
+    const hasContent = loading || Boolean(options?.length) || Boolean(renderPopup);
+    const popupOpen = hasContent && open;
+    const activeIndex =
+        popupOpen && !loading
+            ? (options?.findIndex((option) => option.value === activeItemId && !option.disabled) ??
+              -1)
+            : -1;
+    const previousActiveIndex = React.useRef(-1);
 
     React.useEffect(() => {
-        if (!open) {
-            setActiveIndex(undefined);
+        if (previousActiveIndex.current !== activeIndex) {
+            previousActiveIndex.current = activeIndex;
+            onActiveIndexChange?.(activeIndex === -1 ? undefined : activeIndex);
         }
-    }, [open]);
+    }, [activeIndex, onActiveIndexChange]);
+
+    React.useEffect(() => {
+        if (activeIndex === -1) {
+            setActiveItemId(null);
+        }
+    }, [activeIndex]);
+
+    const hasLoadMore = Boolean(onLoadMore);
+    const onLoadMoreRef = React.useRef(onLoadMore);
+    useLayoutEffect(() => {
+        onLoadMoreRef.current = onLoadMore;
+    }, [onLoadMore]);
+    const handleLoadMore = React.useCallback(() => onLoadMoreRef.current?.(), []);
+
+    useIntersection({
+        element: popupOpen && !loading && hasLoadMore ? lastOptionElement : null,
+        onIntersect: handleLoadMore,
+    });
+
+    const {onKeyDown: onListKeyDown, ...listInputProps} = focusOwner.getInputProps();
 
     useLayoutEffect(() => {
         if (popupWidth === 'fit' && anchorElement && open) {
@@ -121,56 +169,50 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         return {};
     })();
 
-    const hasContent = loading || Boolean(options?.length) || Boolean(renderPopup);
-
     const handleValueChange = React.useCallback(
         (newValue: string) => {
+            if (value === undefined) {
+                setUncontrolledValue(newValue);
+            }
             onUpdate?.(newValue);
             if (!isOpenControlled) {
                 setOpen(Boolean(newValue));
             }
         },
-        [onUpdate, isOpenControlled, setOpen],
+        [value, onUpdate, isOpenControlled, setOpen],
     );
 
     const handleInputFocus = React.useCallback(
         (e: React.FocusEvent<HTMLInputElement>) => {
-            if (!isOpenControlled && value) {
+            if (!isOpenControlled && inputValue) {
                 setOpen(true);
             }
             inputProps?.onFocus?.(e);
         },
-        [value, isOpenControlled, setOpen, inputProps],
+        [inputValue, isOpenControlled, setOpen, inputProps],
     );
 
     const handleInputClick = React.useCallback(
         (e: React.MouseEvent<HTMLInputElement>) => {
-            if (!isOpenControlled && !open && value) {
+            if (!isOpenControlled && !open && inputValue) {
                 setOpen(true);
             }
             inputProps?.controlProps?.onClick?.(e);
         },
-        [open, value, isOpenControlled, setOpen, inputProps],
+        [open, inputValue, isOpenControlled, setOpen, inputProps],
     );
 
     const handleInputKeyDown = React.useCallback(
         (e: React.KeyboardEvent<HTMLInputElement>) => {
             const {key} = e;
 
-            const isNavKey =
-                key === 'ArrowDown' ||
-                key === 'ArrowUp' ||
-                key === 'Enter' ||
-                key === 'PageUp' ||
-                key === 'PageDown';
-
-            if (open && listRef.current && isNavKey) {
-                listRef.current.onKeyDown(e as React.KeyboardEvent<HTMLDivElement>);
+            if (popupOpen) {
+                onListKeyDown?.(e);
             }
 
             if (!isOpenControlled && !open && (key === 'ArrowDown' || key === 'ArrowUp')) {
                 e.preventDefault();
-                if (value) {
+                if (inputValue) {
                     setOpen(true);
                 }
             }
@@ -181,15 +223,40 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
             inputProps?.onKeyDown?.(e);
         },
-        [open, value, isOpenControlled, setOpen, inputProps],
+        [open, popupOpen, inputValue, isOpenControlled, setOpen, inputProps, onListKeyDown],
     );
 
     const handleOptionClick = React.useCallback(
-        (option: SuggestOption<T>, index?: number) => {
+        (_id: string, option: SuggestOption<T>) => {
+            const index = options?.indexOf(option);
             const keepOpen = Boolean(onOptionClick?.(option, index));
             setOpen(keepOpen);
         },
-        [onOptionClick, setOpen],
+        [options, onOptionClick, setOpen],
+    );
+
+    const renderItem = React.useCallback(
+        (ctx: ListItemContext<SuggestOption<T>>, helpers: ListItemHelpers) => {
+            const height = getOptionHeight?.(ctx.item, ctx.index);
+            return (
+                <List.ItemView
+                    {...helpers.getItemProps({
+                        ref:
+                            hasLoadMore && ctx.index === (options?.length ?? 0) - 1
+                                ? setLastOptionElement
+                                : undefined,
+                        style: height === undefined ? undefined : {height, minHeight: height},
+                        'data-qa': ctx.item.qa,
+                    })}
+                    {...helpers.getItemViewProps()}
+                >
+                    {renderOption
+                        ? renderOption(ctx.item, ctx.state.active, ctx.index)
+                        : ctx.content}
+                </List.ItemView>
+            );
+        },
+        [getOptionHeight, hasLoadMore, options?.length, renderOption],
     );
 
     const renderPopupContent = () => {
@@ -205,28 +272,26 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             return null;
         }
 
-        const virtualizedHeight = virtualized ? listHeight : undefined;
-
         const list = options?.length ? (
-            <div
-                className={b('list')}
-                style={virtualizedHeight ? {height: virtualizedHeight} : undefined}
-            >
+            <ListVirtualizationContext.Provider value={virtualization}>
                 <List<SuggestOption<T>>
-                    ref={listRef}
                     id={listId}
-                    role="listbox"
-                    filterable={false}
+                    className={b('list')}
+                    style={{maxHeight: virtualization ? `min(${listHeight}px, 40vh)` : '40vh'}}
+                    aria-label={listLabel}
+                    aria-labelledby={listLabelledBy}
+                    size={inputProps?.size}
                     items={options}
-                    renderItem={renderOption ?? defaultRenderOption}
-                    virtualized={virtualized}
-                    itemHeight={getOptionHeight}
-                    itemsHeight={virtualizedHeight}
-                    onItemClick={handleOptionClick}
-                    onChangeActive={handleActiveIndexChange}
-                    onLoadMore={onLoadMore}
+                    getItemId={getItemId}
+                    getItemChildren={getItemChildren}
+                    getItemContent={defaultRenderOption}
+                    focusOwner={focusOwner}
+                    activeItemId={activeIndex === -1 ? null : activeItemId}
+                    onActiveItemUpdate={setActiveItemId}
+                    onItemAction={handleOptionClick}
+                    renderItem={renderItem}
                 />
-            </div>
+            </ListVirtualizationContext.Provider>
         ) : null;
 
         if (renderPopup) {
@@ -244,8 +309,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 ref={ref}
                 qa={qa}
                 id={componentId}
-                value={value}
-                defaultValue={defaultValue}
+                value={inputValue}
                 onUpdate={handleValueChange}
                 onFocus={handleInputFocus}
                 onBlur={inputProps?.onBlur}
@@ -254,19 +318,16 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 controlProps={{
                     ...inputProps?.controlProps,
                     onClick: handleInputClick,
-                    role: 'combobox',
-                    'aria-expanded': hasContent && open,
-                    'aria-controls': popupId,
+                    ...listInputProps,
+                    'aria-expanded': popupOpen,
                     'aria-autocomplete': 'list',
-                    'aria-activedescendant':
-                        activeIndex === undefined ? undefined : `${listId}-item-${activeIndex}`,
                 }}
             />
             <Popup
                 placement="bottom-start"
                 {...popupProps}
                 id={popupId}
-                open={hasContent && open}
+                open={popupOpen}
                 onOpenChange={setOpen}
                 anchorElement={anchorElement}
                 className={b('popup', popupProps?.className)}
@@ -274,7 +335,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 onEscapeKeyDown={() => setOpen(false)}
                 returnFocus={false}
             >
-                {renderPopupContent()}
+                {popupOpen ? renderPopupContent() : null}
             </Popup>
         </div>
     );

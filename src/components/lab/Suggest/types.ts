@@ -2,7 +2,6 @@ import type * as React from 'react';
 
 import type {OpenChangeReason} from '@floating-ui/react';
 
-import type {ListProps} from '../../List';
 import type {PopupProps} from '../../Popup';
 import type {TextInputProps} from '../../controls';
 import type {ControlGroupOption, QAProps} from '../../types';
@@ -29,17 +28,19 @@ export interface SuggestProps<T = any> extends QAProps {
     /**
      * Custom option renderer.
      */
-    renderOption?: ListProps<SuggestOption<T>>['renderItem'];
-    /** Enable virtualization for long lists */
-    virtualized?: boolean;
+    renderOption?: (
+        option: SuggestOption<T>,
+        isItemActive: boolean,
+        index: number,
+    ) => React.ReactNode;
     /**
-     * Height of the scrollable list viewport in pixels when `virtualized` is enabled.
-     * Defaults to `300`. Has no effect when `virtualized` is `false`.
+     * Maximum height of the virtualized list viewport in pixels.
+     * Defaults to `300`. Only applies with an external `ListVirtualizer`.
      */
     listHeight?: number;
     /** Returns height for each option row (enables variable-height rows) */
     getOptionHeight?: (option: SuggestOption<T>, index: number) => number;
-    /** Called when the user scrolls to the bottom of the list (for pagination) */
+    /** Called when the last option becomes visible (for pagination) */
     onLoadMore?: () => void;
 
     // Input customization — spread into the underlying TextInput
@@ -72,7 +73,8 @@ export interface SuggestProps<T = any> extends QAProps {
     onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
 
     /**
-     * Called when the keyboard-highlighted option index changes.
+     * Called when the highlighted option index changes, via keyboard or pointer.
+     * Receives `undefined` when no option is highlighted.
      * Use this to implement custom Tab-autocomplete or other behaviors
      * that depend on which option is currently active.
      */

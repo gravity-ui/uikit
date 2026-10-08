@@ -220,6 +220,28 @@ test.describe('Suggest', () => {
         });
 
         const after = await input.getAttribute('aria-activedescendant');
-        expect(after).toMatch(/list-item-0$/);
+        expect(after).toBe(await page.getByRole('option').first().getAttribute('id'));
     });
+});
+
+test('Suggest virtualization: scroll and select an option through the popup portal', async ({
+    mount,
+    page,
+}) => {
+    await mount(<SuggestStories.Virtualized />);
+    const input = page.getByRole('combobox');
+    await input.click();
+    const list = page.getByRole('listbox');
+    await expect(list).toBeVisible();
+    await expect(page.getByRole('option', {name: 'Option 0', exact: true})).toBeVisible();
+    expect(await page.getByRole('option').count()).toBeLessThan(100);
+    await list.evaluate((element) => {
+        element.scrollTo({top: 28000});
+    });
+    const option = page.getByRole('option', {name: 'Option 1000', exact: true});
+    await expect(option).toBeVisible();
+    await option.click();
+    await expect(input).toHaveValue('Option 1000');
+    await expect(input).toBeFocused();
+    await expect(list).not.toBeVisible();
 });

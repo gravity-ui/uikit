@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {ListVirtualizer} from '../../../../virtualizer';
 import {Checkbox} from '../../../Checkbox';
 import {Label} from '../../../Label';
 import {Text} from '../../../Text';
@@ -363,6 +364,47 @@ export const MultiSelect: Story = {
                     </Flex>
                 )}
             </Flex>
+        );
+    },
+};
+
+const MANY_OPTIONS = Array.from({length: 10000}, (_, index) => ({
+    value: String(index),
+    content: `Option ${index}`,
+}));
+
+export const Virtualized: Story = {
+    render: () => {
+        const [value, setValue] = React.useState('');
+        const [open, setOpen] = React.useState(false);
+        const options = React.useMemo(
+            () =>
+                MANY_OPTIONS.filter((option) =>
+                    option.content.toLowerCase().includes(value.toLowerCase()),
+                ),
+            [value],
+        );
+        return (
+            <ListVirtualizer>
+                <Suggest
+                    value={value}
+                    onUpdate={(nextValue) => {
+                        setValue(nextValue);
+                        setOpen(true);
+                    }}
+                    options={options}
+                    open={open}
+                    onOpenChange={setOpen}
+                    listHeight={280}
+                    onOptionClick={(option) => {
+                        setValue(String(option.content));
+                    }}
+                    inputProps={{
+                        placeholder: 'Search 10,000 options…',
+                        onFocus: () => setOpen(true),
+                    }}
+                />
+            </ListVirtualizer>
         );
     },
 };

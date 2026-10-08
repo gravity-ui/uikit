@@ -43,7 +43,7 @@ const options = React.useMemo(
 />;
 ```
 
-By default an option's `content` is rendered; pass `renderOption` to customize the row.
+By default an option's `content` is rendered, falling back to `children`. Pass `renderOption` to customize the content.
 
 <!--/GITHUB_BLOCK-->
 
@@ -162,7 +162,34 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 
 <!--/GITHUB_BLOCK-->
 
+## Virtualization
+
+Wrap `Suggest` in `ListVirtualizer`, just like `List` or `Select`:
+
+```tsx
+import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+<ListVirtualizer>
+  <Suggest options={options} value={value} onUpdate={setValue} listHeight={300} />
+</ListVirtualizer>;
+```
+
+Install the optional peer dependency `@tanstack/react-virtual` to use this entrypoint.
+Without the wrapper, Suggest renders every option and needs no virtualization dependency.
+
+`listHeight` limits the list height when using `ListVirtualizer` (also bounded by `40vh`).
+Without virtualization, the maximum list height is `40vh`.
+Rows use the List design and follow `inputProps.size`. The virtualizer measures variable-height
+rows automatically. `getOptionHeight`, when provided, sets the row height and its virtualization
+estimate; otherwise `ListVirtualizer.estimateItemSize` or the List size determines the estimate.
+
+`onLoadMore` fires when the last option becomes visible, including when the list initially fits
+in the viewport. Fetching and end-of-data checks remain the caller's responsibility.
+
 ## Keyboard Navigation
+
+No option is highlighted automatically when the popup opens.
 
 | Windows / Linux      | macOS                | Action                                            |
 | :------------------- | :------------------- | :------------------------------------------------ |
@@ -188,15 +215,14 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 
 ### Options
 
-| Name              | Type                                                            | Default | Description                                                               |
-| :---------------- | :-------------------------------------------------------------- | :------ | :------------------------------------------------------------------------ |
-| `options`         | `SuggestOption<T>[]`                                            |         | Options to display (`value`, `content`, `disabled`, `data?`)              |
-| `onOptionClick`   | `(option: SuggestOption<T>, index?: number) => boolean \| void` |         | Called when an option is selected. Return `true` to keep popup open       |
-| `renderOption`    | `(option: SuggestOption<T>) => ReactNode`                       |         | Custom option renderer (defaults to rendering `content`)                  |
-| `virtualized`     | `boolean`                                                       | `false` | Enable virtualization for long lists                                      |
-| `listHeight`      | `number`                                                        | `300`   | Height (px) of the scrollable list viewport when `virtualized` is enabled |
-| `getOptionHeight` | `(option: SuggestOption<T>, index: number) => number`           |         | Row height function (enables variable-height rows)                        |
-| `onLoadMore`      | `() => void`                                                    |         | Called when the user scrolls to the bottom (pagination)                   |
+| Name              | Type                                                                      | Default | Description                                                                                          |
+| :---------------- | :------------------------------------------------------------------------ | :------ | :--------------------------------------------------------------------------------------------------- |
+| `options`         | `SuggestOption<T>[]`                                                      |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
+| `onOptionClick`   | `(option: SuggestOption<T>, index?: number) => boolean \| void`           |         | Called when an option is selected. Return `true` to keep popup open                                  |
+| `renderOption`    | `(option: SuggestOption<T>, active: boolean, index: number) => ReactNode` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
+| `listHeight`      | `number`                                                                  | `300`   | Maximum virtualized list viewport height (px)                                                        |
+| `getOptionHeight` | `(option: SuggestOption<T>, index: number) => number`                     |         | Row height function (enables variable-height rows)                                                   |
+| `onLoadMore`      | `() => void`                                                              |         | Called when the last option becomes visible (pagination)                                             |
 
 ### Input customization
 
@@ -213,13 +239,13 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
 
 ### Behavior
 
-| Name                  | Type                                                                | Default | Description                                               |
-| :-------------------- | :------------------------------------------------------------------ | :------ | :-------------------------------------------------------- |
-| `loading`             | `boolean`                                                           | `false` | Show loading spinner in popup                             |
-| `open`                | `boolean`                                                           |         | Control popup open state externally                       |
-| `defaultOpen`         | `boolean`                                                           |         | Initial open state (uncontrolled)                         |
-| `onOpenChange`        | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |         | Called when popup open state changes                      |
-| `onActiveIndexChange` | `(index: number \| undefined) => void`                              |         | Called when the keyboard-highlighted option index changes |
+| Name                  | Type                                                                | Default | Description                                                                                                   |
+| :-------------------- | :------------------------------------------------------------------ | :------ | :------------------------------------------------------------------------------------------------------------ |
+| `loading`             | `boolean`                                                           | `false` | Show loading spinner in popup                                                                                 |
+| `open`                | `boolean`                                                           |         | Control popup open state externally                                                                           |
+| `defaultOpen`         | `boolean`                                                           |         | Initial open state (uncontrolled)                                                                             |
+| `onOpenChange`        | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |         | Called when popup open state changes                                                                          |
+| `onActiveIndexChange` | `(index: number \| undefined) => void`                              |         | Called when the highlighted option changes, with its index in `options` or `undefined` if none is highlighted |
 
 ### Rendering
 

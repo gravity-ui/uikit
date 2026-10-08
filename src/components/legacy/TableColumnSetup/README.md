@@ -200,7 +200,7 @@ SANDBOX-->
 | hideApplyButton | When to apply changes: immediately or manually via Apply button |                          `boolean`                          | `false` |
 | showStatus      | Shows selected/total columns count in switcher button           |                          `boolean`                          | `false` |
 | popupWidth      | Width of the popup                                              |                      `number \| 'fit'`                      |         |
-| popupPlacement  | Popup placement relative to trigger                             |      [`PopupPlacement`](../Popup/README.md#properties)      |         |
+| popupPlacement  | Popup placement relative to trigger                             |    [`PopupPlacement`](../../Popup/README.md#properties)     |         |
 | renderSwitcher  | Custom render function for the switcher button                  | `(props: SwitcherProps) => React.ReactElement \| undefined` |         |
 | switcher        | **Deprecated.** Use `renderSwitcher` instead                    |              `React.ReactElement \| undefined`              |         |
 | getItemTitle    | Function to get item title                                      |      `(item: TableColumnSetupItem) => React.ReactNode`      |         |

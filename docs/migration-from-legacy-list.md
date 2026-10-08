@@ -441,6 +441,12 @@ The new list was available in v7 under `unstable_` names. They are removed:
 | `unstable_ListVirtualizer`, `unstable_ListVirtualizerProps`                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `ListVirtualizer`, `ListVirtualizerProps` from `@gravity-ui/uikit/virtualizer`                                                                                  |
 | `unstable_useListHelloPangeaDnd`, `unstable_UseListHelloPangeaDndOptions`, `unstable_UseListHelloPangeaDndResult`                                                                                                                                                                                                                                                                                                                                                                                                               | `useListHelloPangeaDnd`, `UseListHelloPangeaDndProps`, `UseListHelloPangeaDndResult` from `@gravity-ui/uikit/hello-pangea-dnd`; `ListHelloPangeaDnd` is shorter |
 
+The CSS blocks lose the `lab-` prefix: `g-lab-list`, `g-lab-list-section-header` and `g-lab-list-item-view` are
+`g-list`, `g-list-section-header` and `g-list-item-view`.
+
+Section headers look different: the accent `body-1` text (`body-2` for `xl`) and a divider above every header but the
+first.
+
 `unstable_ListItemView` was not the row of this list: it belonged to the `useList` family, see [Migration to v8](./migration-to-v8.md#uselist-treelist-and-treeselect-removed-from-unstable).
 
 ## Full example

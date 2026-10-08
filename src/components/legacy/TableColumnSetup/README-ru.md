@@ -200,7 +200,7 @@ SANDBOX-->
 | hideApplyButton | Когда применять изменения: немедленно или вручную через кнопку "Применить" |                          `boolean`                          |        `false`        |
 | showStatus      | Показывает количество выбранных/общих колонок в кнопке переключения        |                          `boolean`                          |        `false`        |
 | popupWidth      | Ширина всплывающего окна                                                   |                      `number \| 'fit'`                      |                       |
-| popupPlacement  | Размещение всплывающего окна относительно триггера                         |    [`PopupPlacement`](../Popup/README-ru.md#properties)     |                       |
+| popupPlacement  | Размещение всплывающего окна относительно триггера                         |   [`PopupPlacement`](../../Popup/README-ru.md#properties)   |                       |
 | renderSwitcher  | Пользовательская функция рендеринга для кнопки переключения                | `(props: SwitcherProps) => React.ReactElement \| undefined` |                       |
 | switcher        | **Устарело.** Используйте `renderSwitcher` вместо этого                    |              `React.ReactElement \| undefined`              |                       |
 | getItemTitle    | Функция для получения заголовка элемента                                   |      `(item: TableColumnSetupItem) => React.ReactNode`      |                       |

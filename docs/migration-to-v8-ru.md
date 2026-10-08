@@ -51,7 +51,7 @@
 -     <App />
 -   </MobileProvider>
 - </ThemeProvider>
-+ <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
++ <Provider theme="light" lang="ru"
 +   mobile platform={Platform.IOS}>
 +   <App />
 + </Provider>
@@ -89,7 +89,7 @@ ThemeProvider он всегда scoped, даже при `scoped={false}`:
 ```
 
 Области темы больше не пересоздают провайдеры языка, layout, defaults компонентов и мобильного режима.
-В частности, сохраняются родительский режим breakpoints и мобильные настройки/хуки роутера.
+В частности, сохраняются активный breakpoint родителя и мобильные настройки/хуки роутера.
 Порталы сохраняют локальную тему и направление.
 
 Под `Provider` тултипы входят в общую группу задержки: в течение 300 мс после закрытия `Tooltip`, `ActionTooltip` или
@@ -99,9 +99,23 @@ ThemeProvider он всегда scoped, даже при `scoped={false}`:
 
 Самостоятельные MobileProvider и DefaultPropsProvider сохраняют свой API.
 Новый публичный LayoutProvider наследует все настройки layout родителя; без родителя
-сохраняется `fixBreakpoints=false` по умолчанию.
+начальный breakpoint — `xs`.
 
 Полный API и defaults описаны в руководстве [Темизация](theming-ru.md#провайдеры).
+
+## Layout-breakpoints и отступы контейнера
+
+Удалите `fixBreakpoints` из `LayoutProvider` и `Provider.layout`: исправленное поведение breakpoints
+теперь включено всегда. При стандартных настройках ниже 576px активен `xs`, а `s` начинается с 576px.
+Перенесите адаптивные настройки для самых узких экранов из `s` в `xs`.
+Без родителя или `initialMediaQuery` SSR также начинается с `xs`.
+
+Стандартный breakpoint `l` меняется с 1080px на 980px, включая ширину
+`Container size="l"`. Для сохранения прежнего порога задайте
+`config.breakpoints.l = 1080` у LayoutProvider или `layout.config.breakpoints.l = 1080` у Provider.
+
+Замените `Container gutters={false}` на `gutters={0}`. Нулевые отступы работают
+также в базовой и адаптивной теме контейнера. Для ненулевых отступов темы используйте spacing-токены, как описано в руководстве по миграции layout.
 
 ## Минимальная версия React 18
 

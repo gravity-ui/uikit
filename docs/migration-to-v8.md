@@ -51,7 +51,7 @@ Remove the extra mobile wrapper when moving its settings to `Provider`:
 -     <App />
 -   </MobileProvider>
 - </ThemeProvider>
-+ <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
++ <Provider theme="light" lang="ru"
 +   mobile platform={Platform.IOS}>
 +   <App />
 + </Provider>
@@ -89,7 +89,7 @@ or another ThemeProvider it is always scoped, even with `scoped={false}`:
 ```
 
 Theme scopes no longer recreate language, layout, component-default, or mobile providers. In
-particular, they preserve the parent's breakpoint mode and mobile/router settings. Portals retain
+particular, they preserve the parent's active breakpoint and mobile/router settings. Portals retain
 the local theme and direction.
 
 Under `Provider`, tooltips share one open delay: for 300ms after a `Tooltip`, `ActionTooltip` or `ClipboardButton`
@@ -99,9 +99,23 @@ closes, the next one opens instantly, and only one is open at a time. Change the
 
 Existing standalone MobileProvider and DefaultPropsProvider APIs remain available.
 The newly public LayoutProvider inherits all parent layout settings; without a parent,
-`fixBreakpoints` still defaults to `false`.
+the initial breakpoint is `xs`.
 
 See [Theming](theming.md#providers) for the full API and defaults.
+
+## Layout breakpoints and container gutters
+
+Remove `fixBreakpoints` from `LayoutProvider` and `Provider.layout`: the corrected breakpoint
+behavior is now always enabled. Below 576px, the default active breakpoint is `xs`, and `s` starts
+at 576px. Move responsive settings that should apply to the narrowest screens from `s` to `xs`.
+Without a parent or `initialMediaQuery`, SSR also starts at `xs`.
+
+The default `l` breakpoint changes from 1080px to 980px, including the width of
+`Container size="l"`. To retain the previous threshold, set
+`config.breakpoints.l = 1080` on LayoutProvider or `layout.config.breakpoints.l = 1080` on Provider.
+
+Replace `Container gutters={false}` with `gutters={0}`. Zero gutters also work
+in the base and responsive container theme. Use spacing tokens for nonzero theme gutters, as described in the layout migration guide.
 
 ## React 18 minimum
 

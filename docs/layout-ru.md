@@ -117,7 +117,7 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <Provider layout={{config, fixBreakpoints: true}}>
+        <Provider layout={{config}}>
             {...}
         </Provider>
     );
@@ -132,7 +132,7 @@ export const App = () => {
 - `xs` — < 576px;
 - `s` — ≥ 576px;
 - `m` — ≥ 768px;
-- `l` — ≥ 1080px;
+- `l` — ≥ 980px;
 - `xl` — ≥ 1200px;
 - `2xl` — ≥ 1400px;
 - `3xl` — ≥ 1920px.
@@ -154,7 +154,7 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     },
     breakpoints: {
         s: 320,
-        l: 980,
+        l: 1080,
     },
 };
 
@@ -163,12 +163,11 @@ const APP_LAYOUT_THEME: LayoutTheme = {
 </Provider>;
 ```
 
-`LayoutProvider` позволяет настроить layout для поддерева. Незаданные настройки, включая
-`fixBreakpoints` и активный breakpoint при SSR и обновлениях, наследуются от родителя. Частичный
-`config` объединяется с родительской темой без её изменения. Собственные breakpoints или другой
-режим `fixBreakpoints` вычисляют локальный активный breakpoint; `initialMediaQuery` переопределяет
-его начальное значение. Без родителя сохраняются значения `fixBreakpoints=false` и начальный
-breakpoint `s` (`xs` при `fixBreakpoints=true`).
+`LayoutProvider` позволяет настроить layout для поддерева. Незаданные настройки, включая активный
+breakpoint при SSR и обновлениях, наследуются от родителя. Частичный `config` объединяется с
+родительской темой без её изменения. Собственные breakpoints вычисляют локальный активный
+breakpoint; `initialMediaQuery` переопределяет его начальное значение. Без родителя начальный
+breakpoint — `xs`.
 
 ## Box
 
@@ -287,7 +286,7 @@ style props `Box`, включая padding и фон, без автоматиче
 - поддерживаются остальные style props `Box`. Props выравнивания и отступов flex-контейнера не поддерживаются.
 
 Как и `Box` и `Flex`, `Container` не задаёт `box-sizing`. При стандартном `content-box`
-`size="l"` допускает 1080px содержимого плюс gutters и границы. Не задавайте ширину, чтобы контейнер
+`size="l"` допускает 980px содержимого плюс gutters и границы. Не задавайте ширину, чтобы контейнер
 автоматически помещался в более узком родителе; `width="100%"` с gutters может вызвать переполнение.
 CSS приложения может переопределить box sizing. Если `size` не задан, ширина не ограничивается breakpoint.
 

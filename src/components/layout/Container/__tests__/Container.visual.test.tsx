@@ -50,7 +50,7 @@ test('size caps content width excluding gutters and borders and fits a smaller p
     );
     const container = component.locator('[data-qa="sized-container"]');
     await expect(container).toHaveCSS('box-sizing', 'content-box');
-    await expect(container).toHaveCSS('width', '1080px');
+    await expect(container).toHaveCSS('width', '980px');
     await expect(container).toHaveCSS('padding-inline-start', '20px');
     await expect(container).toHaveCSS('border-inline-start-width', '2px');
     const parentBox = await component.locator('[data-qa="sized-parent"]').boundingBox();
@@ -58,8 +58,8 @@ test('size caps content width excluding gutters and borders and fits a smaller p
     if (!parentBox || !containerBox) {
         throw new Error('Container and parent must have bounding boxes');
     }
-    expect(containerBox.width).toBe(1124);
-    expect(containerBox.x - parentBox.x).toBeCloseTo(38, 1);
+    expect(containerBox.width).toBe(1024);
+    expect(containerBox.x - parentBox.x).toBeCloseTo(88, 1);
     await component.update(
         <div data-qa="sized-parent" style={{width: 320}}>
             <Container qa="sized-container" size="l" gutters={20} borderWidth={2}>

@@ -107,7 +107,6 @@ test.each([ThemeProvider, Provider])('keeps feature contexts through nested %p',
                     systemDarkTheme="dark-hc"
                     lang="ru"
                     fallbackLang="en"
-                    layout={{fixBreakpoints: true}}
                     defaultProps={{Button: {size: 'l'}}}
                     mobile
                     platform={Platform.IOS}
@@ -346,7 +345,7 @@ test('scoped portals keep theme and direction in custom containers and inline', 
 test('feature providers work independently and retain language configuration fallback', () => {
     const {result} = renderHook(() => ({lang: useLang(), layout: useLayoutContext()}), {
         wrapper: ({children}) => (
-            <LayoutProvider fixBreakpoints>
+            <LayoutProvider>
                 <LangProvider>{children}</LangProvider>
             </LayoutProvider>
         ),

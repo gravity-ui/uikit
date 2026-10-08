@@ -9,7 +9,7 @@ interface ComputedMediaContext {
     theme: LayoutTheme;
     /**
      *
-     *  > Note: `s` breakpoint starts from `0px` and and's with `m` - 1px
+     *  > Note: `xs` covers widths below `s`; `s` starts at its configured breakpoint.
      *
      * ```tsx
      * import {useLayoutContext} from '@gravity-ui/uikit';

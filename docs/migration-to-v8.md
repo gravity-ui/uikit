@@ -5,7 +5,7 @@
 ## Overview
 
 This page collects the breaking changes of `@gravity-ui/uikit` v8 and the way through each of them. Every section says
-what changed, how to keep the old behavior for now, and where to go next.
+what changed, how to migrate or keep the old behavior where supported, and where to go next.
 
 Components that are no longer developed move to the `@gravity-ui/uikit/legacy` entry point. In v8 these are
 `DropdownMenu`, `List`, `Menu`, `Table` and `TableColumnSetup`. Components still available there keep their API, but no
@@ -51,7 +51,7 @@ Remove the extra mobile wrapper when moving its settings to `Provider`:
 -     <App />
 -   </MobileProvider>
 - </ThemeProvider>
-+ <Provider theme="light" lang="ru" layout={{fixBreakpoints: true}}
++ <Provider theme="light" lang="ru"
 +   mobile platform={Platform.IOS}>
 +   <App />
 + </Provider>
@@ -89,7 +89,7 @@ or another ThemeProvider it is always scoped, even with `scoped={false}`:
 ```
 
 Theme scopes no longer recreate language, layout, component-default, or mobile providers. In
-particular, they preserve the parent's breakpoint mode and mobile/router settings. Portals retain
+particular, they preserve the parent's active breakpoint and mobile/router settings. Portals retain
 the local theme and direction.
 
 Under `Provider`, tooltips share one open delay: for 300ms after a `Tooltip`, `ActionTooltip` or `ClipboardButton`
@@ -99,9 +99,29 @@ closes, the next one opens instantly, and only one is open at a time. Change the
 
 Existing standalone MobileProvider and DefaultPropsProvider APIs remain available.
 The newly public LayoutProvider inherits all parent layout settings; without a parent,
-`fixBreakpoints` still defaults to `false`.
+the initial breakpoint is `xs`.
 
 See [Theming](theming.md#providers) for the full API and defaults.
+
+## Layout breakpoints and container gutters
+
+Remove `fixBreakpoints` from `LayoutProvider` and `Provider.layout`: the corrected breakpoint
+behavior is now always enabled. Below 576px, the default active breakpoint is `xs`, and `s` starts
+at 576px. Move responsive settings that should apply to the narrowest screens from `s` to `xs`.
+The previous default mode, where `s` also covered the narrowest screens, has been removed;
+there is no universal configuration switch to restore it. Setting `config.breakpoints.s = 0`
+is not a substitute: it also caps `Container size="s"` at 0px.
+
+Without any `Provider` or `LayoutProvider`, components always use `xs` instead of the previous `s`,
+regardless of screen width. Responsive maps with only an `s` key no longer apply there.
+Without a parent or `initialMediaQuery`, SSR also starts at `xs`.
+
+The default `l` breakpoint changes from 1080px to 980px, including the width of
+`Container size="l"`. To retain the previous threshold, set
+`config.breakpoints.l = 1080` on LayoutProvider or `layout.config.breakpoints.l = 1080` on Provider.
+
+Replace `Container gutters={false}` with `gutters={0}`. Zero gutters also work
+in the base and responsive container theme. Use spacing tokens for nonzero theme gutters, as described in the layout migration guide.
 
 ## React 18 minimum
 
@@ -637,7 +657,9 @@ Update `Label size="xxs"` to `size="2xs"`. The corresponding CSS modifier change
 
 For layout, rename `xxl` and `xxxl` keys in `LayoutTheme.breakpoints` and responsive prop maps.
 The `Col` props `s`, `m`, `l`, `xl` and `xxl` are removed: move them into the `size` map, `xxl` as `'2xl'`, see
-[Layout components](#layout-components).
+[Layout components](#layout-components). If `s` applied to the narrowest screens, move it to `xs`,
+for example `<Col size={{xs: 12, m: 6, l: 4}} />`, as described in
+[Layout breakpoints and container gutters](#layout-breakpoints-and-container-gutters).
 `useLayoutContext().activeMediaQuery` now returns `2xl` or `3xl` at those widths, and
 `isMediaActive` accepts the new names. The breakpoint widths remain 1400px and 1920px.
 Single-`x` sizes such as `xs` and `xl` keep their names.

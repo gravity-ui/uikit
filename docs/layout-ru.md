@@ -117,7 +117,7 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <Provider layout={{config, fixBreakpoints: true}}>
+        <Provider layout={{config}}>
             {...}
         </Provider>
     );
@@ -132,7 +132,7 @@ export const App = () => {
 - `xs` — < 576px;
 - `s` — ≥ 576px;
 - `m` — ≥ 768px;
-- `l` — ≥ 1080px;
+- `l` — ≥ 980px;
 - `xl` — ≥ 1200px;
 - `2xl` — ≥ 1400px;
 - `3xl` — ≥ 1920px.
@@ -154,7 +154,7 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     },
     breakpoints: {
         s: 320,
-        l: 980,
+        l: 1080,
     },
 };
 
@@ -163,12 +163,11 @@ const APP_LAYOUT_THEME: LayoutTheme = {
 </Provider>;
 ```
 
-`LayoutProvider` позволяет настроить layout для поддерева. Незаданные настройки, включая
-`fixBreakpoints` и активный breakpoint при SSR и обновлениях, наследуются от родителя. Частичный
-`config` объединяется с родительской темой без её изменения. Собственные breakpoints или другой
-режим `fixBreakpoints` вычисляют локальный активный breakpoint; `initialMediaQuery` переопределяет
-его начальное значение. Без родителя сохраняются значения `fixBreakpoints=false` и начальный
-breakpoint `s` (`xs` при `fixBreakpoints=true`).
+`LayoutProvider` позволяет настроить layout для поддерева. Незаданные настройки, включая активный
+breakpoint при SSR и обновлениях, наследуются от родителя. Частичный `config` объединяется с
+родительской темой без её изменения. Собственные breakpoints вычисляют локальный активный
+breakpoint; `initialMediaQuery` переопределяет его начальное значение. Без родителя начальный
+breakpoint — `xs`.
 
 ## Box
 
@@ -235,7 +234,8 @@ props выравнивания Grid, нативные props элемента, `a
 - `size` — количество треков сетки; если не задано, колонка занимает все 12 треков в отдельной строке.
 
 Для responsive-размеров используйте `size`. Отдельные props `s`, `m`, `l`, `xl` и `xxl` удалены;
-например, вместо `s={12} m={6}` используйте `size={{s: 12, m: 6}}`.
+например, вместо `s={12} m={6}` используйте `size={{xs: 12, m: 6}}`, если `s` раньше применялся
+к самым узким экранам. См. [миграцию breakpoints](migration-to-v8-ru.md#layout-breakpoints-и-отступы-контейнера).
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -244,7 +244,7 @@ import {Row, Col} from '@gravity-ui/uikit';
   /**
    * In this example we override default theme behavior.
    *
-   * gap={{s: 'spacing-1', xl: 'spacing-5'}}
+   * gap={{xs: 'spacing-1', xl: 'spacing-5'}}
    */
   gap="spacing-5"
 >
@@ -287,7 +287,7 @@ style props `Box`, включая padding и фон, без автоматиче
 - поддерживаются остальные style props `Box`. Props выравнивания и отступов flex-контейнера не поддерживаются.
 
 Как и `Box` и `Flex`, `Container` не задаёт `box-sizing`. При стандартном `content-box`
-`size="l"` допускает 1080px содержимого плюс gutters и границы. Не задавайте ширину, чтобы контейнер
+`size="l"` допускает 980px содержимого плюс gutters и границы. Не задавайте ширину, чтобы контейнер
 автоматически помещался в более узком родителе; `width="100%"` с gutters может вызвать переполнение.
 CSS приложения может переопределить box sizing. Если `size` не задан, ширина не ограничивается breakpoint.
 
@@ -350,7 +350,7 @@ import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 <Flex
   // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
-  gap={{s: 'spacing-5', m: 'spacing-3'}}
+  gap={{xs: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />

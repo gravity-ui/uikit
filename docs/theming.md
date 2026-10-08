@@ -448,8 +448,6 @@ Practical ways to produce a complete, consistent token set:
   `updateBaseColor` (rather than editing tokens by hand) so the private palette regenerates and
   the theme stays internally consistent.
 
-- **SCSS mixins** — extend a built-in theme (above) and layer overrides on top.
-
 Whichever you use, **import the generated theme file _after_ `styles.css`** so it wins the
 cascade; `ThemeProvider` activates it via the theme class automatically. Keep the brand
 definition in a single theme file — don't search-and-replace `--g-*` variables across your codebase.

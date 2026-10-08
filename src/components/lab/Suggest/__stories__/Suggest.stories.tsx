@@ -58,7 +58,7 @@ function filterPlanets(query: string): PlanetOption[] {
 
 function renderPlanet(option: PlanetOption) {
     return (
-        <Flex direction="column" gap={0.5} spacing={{p: 1}}>
+        <Flex direction="column" gap="spacing-half" padding="spacing-1">
             <Text>{option.content}</Text>
             {option.data?.description ? (
                 <Text color="secondary">{option.data.description}</Text>
@@ -97,7 +97,7 @@ export const Sizes: Story = {
         const sizes = ['s', 'm', 'l', 'xl'] as const;
 
         return (
-            <Flex direction="column" gap={4}>
+            <Flex direction="column" gap="spacing-4">
                 {sizes.map((size) => (
                     <SizeExample key={size} size={size} />
                 ))}
@@ -111,7 +111,7 @@ function SizeExample({size}: {size: 's' | 'm' | 'l' | 'xl'}) {
     const items = React.useMemo(() => filterPlanets(value), [value]);
 
     return (
-        <Flex gap={2} alignItems="center">
+        <Flex gap="spacing-2" alignItems="center">
             <Text style={{width: 60}}>{`Size: ${size}`}</Text>
             <Suggest<PlanetData>
                 value={value}
@@ -129,7 +129,7 @@ function SizeExample({size}: {size: 's' | 'm' | 'l' | 'xl'}) {
 
 export const PopupWidth: Story = {
     render: () => (
-        <Flex direction="column" gap={4}>
+        <Flex direction="column" gap="spacing-4">
             <Text variant="subheader-2">{`popupWidth="fit"`}</Text>
             <PopupWidthExample popupWidth="fit" placeholder="Width matches input…" />
 
@@ -218,7 +218,7 @@ export const WithLoading: Story = {
         React.useEffect(() => () => clearTimeout(timerRef.current), []);
 
         return (
-            <Flex direction="column" gap={2}>
+            <Flex direction="column" gap="spacing-2">
                 <Text color="secondary">
                     Simulates async loading — results appear after 800 ms.
                 </Text>
@@ -254,7 +254,7 @@ export const CustomPopupContent: Story = {
                     return false;
                 }}
                 renderPopup={({list}) => (
-                    <Flex direction="column" gap={1} spacing={{p: 1}}>
+                    <Flex direction="column" gap="spacing-1" padding="spacing-1">
                         <Text as="div" variant="subheader-2">
                             Astronomical bodies
                         </Text>
@@ -303,12 +303,12 @@ export const MultiSelect: Story = {
 
         const renderSelectableItem = React.useCallback(
             (option: PlanetOption) => (
-                <Flex alignItems="center" gap={2} spacing={{p: 1}}>
+                <Flex alignItems="center" gap="spacing-2" padding="spacing-1">
                     <Checkbox
                         checked={selectedValues.has(option.value)}
                         style={{pointerEvents: 'none'}}
                     />
-                    <Flex direction="column" gap={0.5}>
+                    <Flex direction="column" gap="spacing-half">
                         <Text>{option.content}</Text>
                         {option.data?.description ? (
                             <Text color="secondary">{option.data.description}</Text>
@@ -324,7 +324,7 @@ export const MultiSelect: Story = {
         }, []);
 
         return (
-            <Flex direction="column" gap={2}>
+            <Flex direction="column" gap="spacing-2">
                 <Text color="secondary">
                     Click an item to toggle it — selected items stay in the list with a checked box
                     and the popup stays open (
@@ -351,7 +351,7 @@ export const MultiSelect: Story = {
                     }}
                 />
                 {selected.length > 0 && (
-                    <Flex gap={1} wrap="wrap">
+                    <Flex gap="spacing-1" wrap="wrap">
                         {selected.map((option) => (
                             <Label
                                 key={option.value}

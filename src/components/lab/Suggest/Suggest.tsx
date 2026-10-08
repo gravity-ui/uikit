@@ -332,7 +332,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 anchorElement={anchorElement}
                 className={b('popup', popupProps?.className)}
                 style={popupStyle}
-                onEscapeKeyDown={() => setOpen(false)}
                 returnFocus={false}
             >
                 {popupOpen ? renderPopupContent() : null}

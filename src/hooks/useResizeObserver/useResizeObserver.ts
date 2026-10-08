@@ -43,5 +43,5 @@ export function useResizeObserver<T extends Element>({
         return () => {
             observer.disconnect();
         };
-    }, [ref, onResize, box]);
+    }, [onResize, box, ref]);
 }

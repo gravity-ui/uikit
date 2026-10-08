@@ -72,7 +72,7 @@ UIKit поставляет четыре встроенные темы:
 
 | Проп           | Тип                                     | Поведение                                                    |
 | -------------- | --------------------------------------- | ------------------------------------------------------------ |
-| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Конфигурация layout, media queries и режим breakpoints       |
+| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Конфигурация layout и media queries                          |
 | `defaultProps` | `DefaultPropsMap`                       | Defaults компонентов; явно переданные пропсы имеют приоритет |
 
 Он объединяет `LayoutProvider`, `DefaultPropsProvider`, `ThemeProvider`, `LangProvider` и

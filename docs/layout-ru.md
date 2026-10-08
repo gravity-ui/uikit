@@ -234,7 +234,8 @@ props выравнивания Grid, нативные props элемента, `a
 - `size` — количество треков сетки; если не задано, колонка занимает все 12 треков в отдельной строке.
 
 Для responsive-размеров используйте `size`. Отдельные props `s`, `m`, `l`, `xl` и `xxl` удалены;
-например, вместо `s={12} m={6}` используйте `size={{s: 12, m: 6}}`.
+например, вместо `s={12} m={6}` используйте `size={{xs: 12, m: 6}}`, если `s` раньше применялся
+к самым узким экранам. См. [миграцию breakpoints](migration-to-v8-ru.md#layout-breakpoints-и-отступы-контейнера).
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -243,7 +244,7 @@ import {Row, Col} from '@gravity-ui/uikit';
   /**
    * In this example we override default theme behavior.
    *
-   * gap={{s: 'spacing-1', xl: 'spacing-5'}}
+   * gap={{xs: 'spacing-1', xl: 'spacing-5'}}
    */
   gap="spacing-5"
 >
@@ -349,7 +350,7 @@ import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 <Flex
   // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
-  gap={{s: 'spacing-5', m: 'spacing-3'}}
+  gap={{xs: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />

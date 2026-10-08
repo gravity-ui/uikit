@@ -1,2 +1,5 @@
-// The entrypoint stays even when empty, for future experiments.
-export {};
+/* eslint-disable camelcase */
+export {
+    Suggest as unstable_Suggest,
+    type SuggestProps as unstable_SuggestProps,
+} from './components/lab/Suggest';

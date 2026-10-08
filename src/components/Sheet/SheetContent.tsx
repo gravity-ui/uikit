@@ -191,9 +191,19 @@ export function SheetContent(props: SheetContentProps) {
                 overlay?.clientWidth || window.innerWidth,
                 viewportHeight,
             );
-            // Use the keyboard-less viewport for the top gap so the keyboard keeps the top edge.
-            const availableViewportHeight =
-                viewportHeight - fullViewportHeight * (1 - heightCoefficient) - getSheetTopHeight();
+            // Without the keyboard this is `viewportHeight * heightCoefficient`. The keyboard keeps the
+            // top edge, but never leaves a top gap wider than the default one.
+            const topGap =
+                fullViewportHeight *
+                Math.min(
+                    1 - heightCoefficient,
+                    1 - DEFAULT_MAX_CONTENT_HEIGHT_FROM_VIEWPORT_COEFFICIENT,
+                );
+            const availableViewportHeight = Math.max(
+                0,
+                Math.min(fullViewportHeight * heightCoefficient, viewportHeight - topGap) -
+                    getSheetTopHeight(),
+            );
 
             if (alwaysFullHeight) {
                 return availableViewportHeight;

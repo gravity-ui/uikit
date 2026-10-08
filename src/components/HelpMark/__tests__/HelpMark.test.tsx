@@ -14,6 +14,12 @@ function waitForTooltipOpenedStateChange() {
 setupTimersMock();
 
 describe('HelpMark', () => {
+    test('applies icon size', () => {
+        render(<HelpMark qa={qaId} size="xl" />);
+
+        expect(screen.getByTestId(qaId)).toHaveClass('g-help-mark_size_xl');
+    });
+
     test('render popup when hover help icon', async () => {
         const title = 'HelpMark title';
 

@@ -7,7 +7,7 @@ import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../../Sheet/constants';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {Select} from '../Select';
-import type {SelectOption, SelectProps, SelectRenderPopup} from '../types';
+import type {SelectOptionProps, SelectProps, SelectRenderPopup} from '../types';
 
 import {
     DEFAULT_OPTIONS,
@@ -28,15 +28,17 @@ const onFilterChange = jest.fn();
 const FILTER_PLACEHOLDER = 'Filter placeholder';
 const EMPTY_OPTIONS_QA = 'empty-options';
 
-const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = (props) => {
-    const {value, ref, onChange, onKeyDown} = props;
+// The filter the documentation prescribes: what belongs to the input goes to the input
+const RENDER_CUSTOM_FILTER: SelectProps['renderFilter'] = ({ref, inputProps}) => {
+    const {value, onChange, onKeyDown, ...controlProps} = inputProps;
 
     return (
         <TextInput
             controlRef={ref}
+            controlProps={controlProps}
             placeholder={FILTER_PLACEHOLDER}
             value={value}
-            onUpdate={onChange}
+            onChange={onChange}
             onKeyDown={onKeyDown}
         />
     );
@@ -51,7 +53,46 @@ const RENDER_POPUP: SelectRenderPopup = ({renderList, renderFilter}) => {
     );
 };
 
+const ARIA_OF_THE_INPUT = [
+    'role',
+    'aria-label',
+    'aria-controls',
+    'aria-expanded',
+    'aria-autocomplete',
+    'size',
+];
+
+const wiringOf = (input: HTMLElement) =>
+    Object.fromEntries(
+        [...ARIA_OF_THE_INPUT, 'aria-activedescendant'].map((name) => [
+            name,
+            input.getAttribute(name),
+        ]),
+    );
+
+// eslint-disable-next-line testing-library/no-node-access
+const filterInput = () => document.querySelector('input[role="combobox"]') as HTMLElement;
+
 describe('Select filter', () => {
+    test('a custom filter built on inputProps is wired as the default one', async () => {
+        // The documented way of writing a filter has to end up with the input of a combobox: the
+        // same ARIA, the same name, the same active option under the arrows
+        const user = userEvent.setup();
+
+        // The same id in both renders: the popup id is a part of the wiring under test
+        const {unmount} = setup({id: 'parity', filterable: true});
+        await user.click(screen.getByTestId(TEST_QA));
+        await user.keyboard('{ArrowDown}');
+        const byDefault = wiringOf(filterInput());
+        unmount();
+
+        setup({id: 'parity', filterable: true, renderFilter: RENDER_CUSTOM_FILTER});
+        await user.click(screen.getByTestId(TEST_QA));
+        await user.keyboard('{ArrowDown}');
+
+        expect(wiringOf(filterInput())).toEqual(byDefault);
+    });
+
     test.each([
         ['default', undefined, undefined],
         ['custom', RENDER_CUSTOM_FILTER, RENDER_POPUP],
@@ -171,7 +212,7 @@ describe('Select filter', () => {
     });
 
     test('should filter options even if filter text is empty', async () => {
-        const filterOption = jest.fn((option: SelectOption) => option.value.endsWith('0'));
+        const filterOption = jest.fn((option: SelectOptionProps) => option.value.endsWith('0'));
         const {getByTestId, queryAllByRole} = setup({
             options: generateOptions(40),
             filterable: true,
@@ -193,8 +234,8 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
-        // 4 group labels + 1 option in each group
-        expect(queryAllByRole('option').length).toBe(8);
+        // The group headers are no longer options: 4 groups with one option each
+        expect(queryAllByRole('option').length).toBe(4);
         await user.keyboard('definitely not option');
         expect(queryAllByRole('option').length).toBe(0);
     });
@@ -269,10 +310,8 @@ describe('Select filter', () => {
         onFilterChange.mockClear();
 
         await user.click(sheetVeil);
-        act(() => {
-            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
-        });
 
+        // The select closes as soon as the sheet asks to; the filter is cleared after the exit animation
         expect(onClose).toHaveBeenCalledTimes(1);
         expect(onFilterChange).not.toHaveBeenCalled();
 
@@ -281,6 +320,37 @@ describe('Select filter', () => {
         });
 
         expect(onFilterChange).toHaveBeenCalledTimes(1);
+    });
+
+    test('should not clear controlled filter when the mobile sheet closes', async () => {
+        jest.useFakeTimers();
+        const onClose = jest.fn();
+        render(
+            <MobileProvider mobile>
+                <Select
+                    defaultOpen={true}
+                    filterable
+                    filter="controlled value"
+                    onFilterChange={onFilterChange}
+                    onClose={onClose}
+                    filterPlaceholder="filter"
+                >
+                    <Select.Option value="one">One</Select.Option>
+                </Select>
+            </MobileProvider>,
+        );
+
+        const sheetVeil = screen.getByTestId(SheetQa.VEIL);
+        const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
+
+        fireEvent.transitionEnd(sheetVeil);
+        await user.click(sheetVeil);
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
+
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(onFilterChange).not.toHaveBeenCalled();
     });
 
     test('should not clear controlled filter onClose', async () => {

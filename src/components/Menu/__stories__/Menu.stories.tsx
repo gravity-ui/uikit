@@ -1,31 +1,30 @@
-import {CircleExclamationFill, Gear} from '@gravity-ui/icons';
-import type {Meta, StoryFn} from '@storybook/react-webpack5';
+import * as React from 'react';
+
+import type {VirtualElement} from '@floating-ui/react';
+import {Envelope, LayoutColumns3, LayoutRows3, LogoTelegram, Smartphone} from '@gravity-ui/icons';
+import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Icon} from '../../Icon';
+import {Label} from '../../Label';
+import {Modal} from '../../Modal';
+import {Popup} from '../../Popup';
+import {Sheet} from '../../Sheet';
 import {Menu} from '../Menu';
-import type {MenuProps} from '../Menu';
+import {MenuItem} from '../MenuItem';
+import {MenuTrigger} from '../MenuTrigger';
 
-export default {
+import {getFullFeaturedMenuItems, getSimpleMenuItems} from './utils';
+
+const meta: Meta<typeof Menu> = {
     title: 'Components/Navigation/Menu',
     component: Menu,
     parameters: {
+        layout: 'centered',
         a11y: {
             context: '#storybook-root',
             config: {
                 rules: [
-                    {
-                        id: 'aria-required-parent',
-                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1342
-                    },
-                    {
-                        id: 'aria-required-children',
-                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1342
-                    },
-                    {
-                        id: 'listitem',
-                        enabled: false, // https://github.com/gravity-ui/uikit/issues/1342
-                    },
                     {
                         id: 'color-contrast',
                         enabled: false,
@@ -34,112 +33,193 @@ export default {
             },
         },
     },
-} as Meta<typeof Menu>;
-
-const createItemClickHandler = (text: string) => () => {
-    action(`Click ${text} item`);
-    alert(`${text} item clicked`);
 };
 
-export const Default: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
-        <Menu.Item onClick={createItemClickHandler('Second')}>Second</Menu.Item>
-    </Menu>
-);
+export default meta;
 
-export const ItemActive: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item active onClick={createItemClickHandler('First')}>
-            First
-        </Menu.Item>
-        <Menu.Item onClick={createItemClickHandler('Second')}>Second</Menu.Item>
-        <Menu.Item onClick={createItemClickHandler('Third')}>Third</Menu.Item>
-    </Menu>
-);
+type Story = StoryObj<typeof Menu>;
 
-export const ItemIcon: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item
-            iconStart={<Icon data={Gear} size={16} />}
-            onClick={createItemClickHandler('Settings')}
-        >
-            Settings
-        </Menu.Item>
-    </Menu>
-);
+export const Default = {
+    render: (args) => {
+        return <Menu {...args}>{getSimpleMenuItems()}</Menu>;
+    },
+    args: {
+        trigger: <MenuTrigger aria-label="Actions" />,
+        onOpenChange: action('onOpenChange'),
+    },
+} satisfies Story;
 
-export const ItemBothIcons: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item
-            iconStart={<Icon data={Gear} size={16} />}
-            iconEnd={<Icon data={CircleExclamationFill} size={16} />}
-            onClick={createItemClickHandler('Settings')}
-        >
-            Settings
-        </Menu.Item>
-    </Menu>
-);
+export const IconStory = {
+    ...Default,
+    name: 'Icon',
+    render: (args) => {
+        return (
+            <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
+                {getSimpleMenuItems(true)}
+            </Menu>
+        );
+    },
+} satisfies Story;
 
-export const ItemDisabled: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
-        <Menu.Item onClick={createItemClickHandler('Second')} disabled>
-            Second (unavailable)
-        </Menu.Item>
-        <Menu.Item onClick={createItemClickHandler('Third')}>Third</Menu.Item>
-    </Menu>
-);
+export const FullFeatured = {
+    ...Default,
+    render: (args) => {
+        return (
+            <Menu {...args} trigger={<MenuTrigger aria-label="Actions" />}>
+                {getFullFeaturedMenuItems()}
+            </Menu>
+        );
+    },
+} satisfies Story;
 
-export const ItemSelected: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
-        <Menu.Item onClick={createItemClickHandler('Second')}>Second</Menu.Item>
-        <Menu.Item selected onClick={createItemClickHandler('Third')}>
-            Third
-        </Menu.Item>
-    </Menu>
-);
+export const Context = {
+    ...Default,
+    render: (args) => {
+        const [anchor, setAnchor] = React.useState<VirtualElement | null>(null);
 
-export const ItemTheme: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item onClick={createItemClickHandler('Normal')}>Normal</Menu.Item>
-        <Menu.Item theme="danger" onClick={createItemClickHandler('Danger')}>
-            Danger
-        </Menu.Item>
-        <Menu.Item theme="danger" disabled onClick={createItemClickHandler('Danger (disabled)')}>
-            Danger (disabled)
-        </Menu.Item>
-    </Menu>
-);
+        const handleContextMenu = (event: React.MouseEvent) => {
+            event.preventDefault();
+            setAnchor({
+                getBoundingClientRect() {
+                    return {
+                        width: 0,
+                        height: 0,
+                        x: event.clientX,
+                        y: event.clientY,
+                        top: event.clientY,
+                        right: event.clientX,
+                        bottom: event.clientY,
+                        left: event.clientX,
+                    };
+                },
+            });
+        };
 
-export const ItemLink: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item href="https://gravity-ui.com" target="_blank">
-            gravity-ui.com
-        </Menu.Item>
-        <Menu.Item href="https://gravity-ui.com" target="_blank" disabled>
-            disabled gravity-ui.com
-        </Menu.Item>
-    </Menu>
-);
+        return (
+            <React.Fragment>
+                <div
+                    onContextMenu={handleContextMenu}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 300,
+                        height: 300,
+                        border: '2px dashed var(--g-color-line-focus)',
+                        borderRadius: 12,
+                    }}
+                >
+                    Right click in the area to open the menu
+                </div>
+                <Menu {...args} trigger={anchor}>
+                    {getFullFeaturedMenuItems()}
+                </Menu>
+            </React.Fragment>
+        );
+    },
+} satisfies Story;
 
-export const Group: StoryFn<MenuProps> = (args) => (
-    <Menu {...args}>
-        <Menu.Item onClick={createItemClickHandler('First')}>First</Menu.Item>
-        <Menu.Group label="Group One">
-            <Menu.Item onClick={createItemClickHandler('Group One: One')}>One</Menu.Item>
-            <Menu.Item onClick={createItemClickHandler('Group One: Two')}>Two</Menu.Item>
-        </Menu.Group>
-        <Menu.Group label="Group Two">
-            <Menu.Item onClick={createItemClickHandler('Group Two: One')}>One</Menu.Item>
-            <Menu.Item onClick={createItemClickHandler('Group Two: Two')}>Two</Menu.Item>
-        </Menu.Group>
-        <Menu.Item onClick={createItemClickHandler('Middle')}>Middle</Menu.Item>
-        <Menu.Group label="Group Three">
-            <Menu.Item onClick={createItemClickHandler('Group Three: One')}>One</Menu.Item>
-            <Menu.Item onClick={createItemClickHandler('Group Three: Two')}>Two</Menu.Item>
-        </Menu.Group>
-        <Menu.Item onClick={createItemClickHandler('Last')}>Last</Menu.Item>
-    </Menu>
-);
+export const InsideSheet = {
+    ...Default,
+    render: (args) => {
+        return (
+            <Sheet defaultOpen>
+                <Menu {...args}>{getFullFeaturedMenuItems(true)}</Menu>
+            </Sheet>
+        );
+    },
+    args: {
+        inline: true,
+    },
+} satisfies Story;
+
+export const Selection = {
+    ...Default,
+    render: (args) => {
+        const [value, setValue] = React.useState('row');
+        const items = [
+            {
+                value: 'row',
+                title: 'Row',
+                icon: <Icon data={LayoutRows3} />,
+            },
+            {
+                value: 'column',
+                title: 'Column',
+                icon: <Icon data={LayoutColumns3} />,
+            },
+        ];
+
+        return (
+            <Menu
+                {...args}
+                trigger={
+                    <Label value={items.find((item) => item.value === value)?.title}>
+                        Direction
+                    </Label>
+                }
+            >
+                {items.map((item) => (
+                    <MenuItem
+                        key={item.value}
+                        icon={item.icon}
+                        selected={item.value === value}
+                        onClick={() => setValue(item.value)}
+                    >
+                        {item.title}
+                    </MenuItem>
+                ))}
+            </Menu>
+        );
+    },
+} satisfies Story;
+
+export const Links = {
+    ...Default,
+    render: (args) => {
+        return (
+            <Menu {...args}>
+                <Menu.Item href="#mail" icon={<Icon data={Envelope} />}>
+                    Mail
+                </Menu.Item>
+                <Menu.Item href="#sms" icon={<Icon data={Smartphone} />} disabled>
+                    SMS
+                </Menu.Item>
+                <Menu.Item href="#telegram" icon={<Icon data={LogoTelegram} />}>
+                    Telegram
+                </Menu.Item>
+            </Menu>
+        );
+    },
+} satisfies Story;
+
+export const InsidePopup = {
+    ...Default,
+    render: (args) => {
+        const [popupAnchor, setPopupAnchor] = React.useState<HTMLDivElement | null>(null);
+
+        return (
+            <React.Fragment>
+                <div ref={setPopupAnchor}>&nbsp;</div>
+                <Popup anchorElement={popupAnchor} open>
+                    <div style={{padding: 10}}>
+                        <Menu {...args}>{getSimpleMenuItems()}</Menu>
+                    </div>
+                </Popup>
+            </React.Fragment>
+        );
+    },
+} satisfies Story;
+
+export const InsideModal = {
+    ...Default,
+    render: (args) => {
+        return (
+            <Modal open>
+                <div style={{padding: 10}}>
+                    <Menu {...args}>{getSimpleMenuItems()}</Menu>
+                </div>
+            </Modal>
+        );
+    },
+} satisfies Story;

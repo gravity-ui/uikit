@@ -3,14 +3,16 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../constants';
-import {useControlledState, useFocusWithin, useForkRef, useSelect, useUniqId} from '../../hooks';
-import type {List} from '../List';
+import {useControlledState, useFocusWithin, useForkRef, useUniqId} from '../../hooks';
+import {useOpenState} from '../../hooks/useSelect/useOpenState';
+import {useListFocusOwner} from '../List';
+import {ListVirtualizationContext} from '../List/VirtualizationContext';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
-import {errorPropsMapper} from '../controls/utils';
 import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {CnMods} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
+import {warnOnce} from '../utils/warn';
 
 import {
     EmptyOptions,
@@ -20,27 +22,34 @@ import {
     SelectList,
     SelectPopup,
 } from './components';
-import {DEFAULT_VIRTUALIZATION_THRESHOLD, selectBlock} from './constants';
-import {useActiveItemIndex, useQuickSearch} from './hooks';
+import {VIRTUALIZATION_HINT_OPTIONS_COUNT, selectBlock} from './constants';
+import {useActiveItemId} from './hooks';
 import {getSelectFilteredOptions, useSelectOptions} from './hooks-public';
 import {Option, OptionGroup} from './tech-components';
 import type {SelectProps, SelectRenderPopup} from './types';
 import type {SelectFilterRef} from './types-misc';
 import type {FlattenOption} from './utils';
 import {
-    findItemIndexByQuickSearch,
-    getActiveItem,
-    getListItems,
+    getGroupOfOption,
+    getGroupsWithOptions,
     getOptionsFromChildren,
+    getSelectValueKey,
     getSelectedOptionsContent,
+    getSelectedValues,
+    getValueByKey,
+    isSelectGroupTitle,
 } from './utils';
 
 import './Select.scss';
 
 //https://stackoverflow.com/a/58473012
-type SelectComponent = (<T = any>(
-    p: SelectProps<T> & {ref?: React.Ref<HTMLButtonElement>},
-) => React.ReactElement) & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
+// The last, non-generic signature is the one `React.ComponentProps` reads: it keeps the string value
+type SelectComponent = {
+    <T = any, V = string>(
+        p: SelectProps<T, V> & {ref?: React.Ref<HTMLButtonElement>},
+    ): React.ReactElement;
+    (p: SelectProps & {ref?: React.Ref<HTMLButtonElement>}): React.ReactElement;
+} & {Option: typeof Option} & {OptionGroup: typeof OptionGroup};
 
 export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderList}) => {
     return (
@@ -51,8 +60,11 @@ export const DEFAULT_RENDER_POPUP: SelectRenderPopup = ({renderFilter, renderLis
     );
 };
 
-export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select<T = any>(
-    rawProps: SelectProps<T>,
+// Inside, a value is only ever compared by its key: the type of it stays with the consumer
+type InnerSelectProps = SelectProps<any, unknown>;
+
+export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(function Select(
+    rawProps: InnerSelectProps,
     ref: React.Ref<HTMLButtonElement>,
 ) {
     const props = useDefaultProps('Select', rawProps);
@@ -64,9 +76,12 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         renderFilter,
         renderOption,
         renderOptionGroup,
-        renderSelectedOption,
+        selectionStyle,
+        renderSelectedOptions,
         renderEmptyOptions,
         renderPopup = DEFAULT_RENDER_POPUP,
+        getOptionText,
+        getValueKey,
         getOptionHeight,
         getOptionGroupHeight,
         filterOption,
@@ -78,7 +93,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         sheetClassName,
         qa,
         value: propsValue,
-        defaultValue,
+        defaultValue = [],
         defaultOpen,
         open: propsOpen,
         label,
@@ -87,8 +102,6 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         width,
         popupWidth,
         popupPlacement,
-        error,
-        virtualizationThreshold = DEFAULT_VIRTUALIZATION_THRESHOLD,
         view = 'normal',
         size = 'm',
         pin = 'round-round',
@@ -106,34 +119,42 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     } = props;
     const mobile = useMobile();
     const [filter, setFilter] = useControlledState(propsFilter, '', onFilterChange);
-    // to avoid problem with incorrect popper offset calculation
-    // for example: https://github.com/radix-ui/primitives/issues/1567
-    const controlWrapRef = React.useRef<HTMLDivElement>(null);
+    // The popup is anchored to a wrapper of the trigger: the trigger shrinks while pressed
+    const anchorRef = React.useRef<HTMLDivElement>(null);
     const controlRef = React.useRef<HTMLElement>(null);
     const filterRef = React.useRef<SelectFilterRef>(null);
-    const listRef = React.useRef<List<FlattenOption>>(null);
     const handleControlRef = useForkRef(ref, controlRef);
 
-    const {value, open, toggleOpen, setValue, handleSelection, handleClearValue} = useSelect({
-        onUpdate,
-        value: propsValue,
-        defaultValue,
+    // One owner for two elements: the trigger and the filter input. The list is mounted only while
+    // the popup is open, so the owner is connected exactly then
+    const focusOwner = useListFocusOwner();
+    // Virtualization is opt-in from the outside: <ListVirtualizer> around the Select. The context
+    // reaches the list through the portal of the popup; the Select needs to know about it for the
+    // width of the popup and for the modifier of the list
+    const virtualized = React.useContext(ListVirtualizationContext) !== null;
+
+    const [value, setValueState] = useControlledState(propsValue, defaultValue, onUpdate);
+    const getKey = React.useCallback(
+        (item: unknown) => getSelectValueKey(item, getValueKey),
+        [getValueKey],
+    );
+    const selectedKeys = React.useMemo(() => value.map(getKey), [value, getKey]);
+    const {open, toggleOpen} = useOpenState({
         defaultOpen,
-        multiple,
-        open: propsOpen,
         onClose,
         onOpenChange,
-        disabled,
+        open: propsOpen,
     });
 
-    React.useEffect(() => {
-        if (!open && filterable && mobile) {
-            // FIXME: add handlers to Sheet like in https://github.com/gravity-ui/uikit/issues/1354
-            setTimeout(() => {
-                setFilter('');
-            }, 300);
-        }
-    }, [open, filterable, setFilter, mobile]);
+    const setValue = React.useCallback(
+        (nextValue: unknown[]) => {
+            if (!disabled) {
+                setValueState(nextValue);
+            }
+        },
+        [disabled, setValueState],
+    );
+    const handleClearValue = React.useCallback(() => setValue([]), [setValue]);
 
     const propsOptions = props.options || getOptionsFromChildren(props.children);
     const options = useSelectOptions({
@@ -141,19 +162,88 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         filter,
         filterable,
         filterOption,
+        getOptionText,
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
+    // Which group an option came from: flattening loses the boundary, filtering keeps the objects
+    const groupOfOption = getGroupOfOption(options);
+    const groupsWithOptions = getGroupsWithOptions(options);
+    const selectedValues = React.useMemo(
+        () => getSelectedValues(options as FlattenOption[], value, getKey),
+        [options, value, getKey],
+    );
     const selectedOptionsContent = React.useMemo(() => {
-        return getSelectedOptionsContent(options, value, renderSelectedOption);
-    }, [options, value, renderSelectedOption]);
-    const virtualized = filteredOptions.length >= virtualizationThreshold;
+        return getSelectedOptionsContent(
+            options,
+            selectedValues,
+            getKey,
+            renderSelectedOptions,
+            getOptionText,
+        );
+    }, [options, selectedValues, getKey, renderSelectedOptions, getOptionText]);
 
-    const {errorMessage, errorPlacement, validationState} = errorPropsMapper({
-        error,
-        errorMessage: props.errorMessage,
-        errorPlacement: props.errorPlacement || 'outside',
-        validationState: props.validationState,
-    });
+    // The way back from the ids of the List: a selected value may have no option
+    const valueByKey = React.useMemo(
+        () => getValueByKey(options as FlattenOption[], value, getKey),
+        [options, value, getKey],
+    );
+    const handleSelectedUpdate = React.useCallback(
+        (keys: string[]) => setValue(keys.map((key) => valueByKey.get(key))),
+        [setValue, valueByKey],
+    );
+
+    // The key of a value identifies the row of an option, and the list keeps one row per id. Two
+    // options with one key were never two choices — clicking either applied the same value — but the
+    // message about it should come from the component the consumer is holding
+    const duplicateKey = React.useMemo(() => {
+        if (process.env.NODE_ENV === 'production') {
+            return undefined;
+        }
+
+        const seen = new Set<string>();
+
+        for (const option of options as FlattenOption[]) {
+            if (isSelectGroupTitle(option)) {
+                continue;
+            }
+
+            const key = getKey(option.value);
+
+            if (seen.has(key)) {
+                return key;
+            }
+
+            seen.add(key);
+        }
+
+        return undefined;
+    }, [options, getKey]);
+
+    if (duplicateKey !== undefined) {
+        warnOnce(
+            `[Select] More than one option has the value "${duplicateKey}". The value identifies the row of an option: such rows share one DOM id and all of them show the content of the last option — make the values unique (or their \`getValueKey\`).`,
+        );
+    }
+
+    // Group headers are rows of the list but not options — the hint is about the options
+    const optionsCount = React.useMemo(
+        () =>
+            process.env.NODE_ENV === 'production'
+                ? 0
+                : filteredOptions.reduce(
+                      (count, option) => count + (isSelectGroupTitle(option) ? 0 : 1),
+                      0,
+                  ),
+        [filteredOptions],
+    );
+
+    if (!virtualized && optionsCount > VIRTUALIZATION_HINT_OPTIONS_COUNT) {
+        warnOnce(
+            `[Select] The list renders ${VIRTUALIZATION_HINT_OPTIONS_COUNT}+ options as DOM rows at once. Wrap the Select in <ListVirtualizer> from '@gravity-ui/uikit/virtualizer' to render only the visible ones.`,
+        );
+    }
+
+    const {errorMessage, validationState, errorPlacement = 'outside'} = props;
     const errorMessageId = useUniqId();
 
     const isErrorStateVisible = validationState === 'invalid';
@@ -162,84 +252,11 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const isErrorIconVisible =
         isErrorStateVisible && Boolean(errorMessage) && errorPlacement === 'inside';
 
-    const handleOptionClick = React.useCallback(
-        (option?: FlattenOption) => {
-            if (!option || option?.disabled || 'label' in option) {
-                return;
-            }
-
-            if (multiple) {
-                const activeItemIndex = listRef?.current?.getActiveItem();
-
-                if (!mobile) {
-                    filterRef.current?.focus();
-                }
-
-                if (typeof activeItemIndex === 'number') {
-                    // prevent item deactivation in case of multiple selection
-                    // https://github.com/gravity-ui/uikit/blob/main/src/components/List/List.tsx#L369
-                    // Will fixed after https://github.com/gravity-ui/uikit/issues/385
-                    setTimeout(() => {
-                        listRef?.current?.activateItem(activeItemIndex, true);
-                    }, 50);
-                }
-            }
-
-            handleSelection(option);
-        },
-        [handleSelection, mobile, multiple],
-    );
-
-    const handleControlKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<HTMLElement>) => {
-            // prevent dialog closing in case of item selection by Enter/Spacebar keydown
-            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
-                e.preventDefault();
-
-                if (e.key === KeyCode.SPACEBAR) {
-                    handleOptionClick(getActiveItem(listRef));
-                }
-            }
-            if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
-                e.preventDefault();
-                toggleOpen();
-            }
-            if (e.key === KeyCode.ESCAPE && open) {
-                toggleOpen(false);
-            }
-
-            // The previous List may still be mounted during the closing transition,
-            // so keys must not reach it while the popup is closed.
-            if (open) {
-                listRef?.current?.onKeyDown(e);
-            }
-        },
-        [handleOptionClick, open, toggleOpen],
-    );
-
-    const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
-        listRef?.current?.onKeyDown(e);
-
-        if (e.key === KeyCode.ENTER) {
-            e.preventDefault();
+    const handleOptionAction = React.useCallback(() => {
+        if (!multiple) {
+            toggleOpen(false);
         }
-    }, []);
-
-    const handleQuickSearchChange = React.useCallback((search: string) => {
-        if (search) {
-            const itemIndex = findItemIndexByQuickSearch(search, getListItems(listRef));
-
-            if (typeof itemIndex === 'number' && itemIndex !== -1) {
-                listRef?.current?.activateItem(itemIndex, true);
-            }
-        }
-    }, []);
-
-    useQuickSearch({
-        onChange: handleQuickSearchChange,
-        open,
-        disabled: filterable,
-    });
+    }, [multiple, toggleOpen]);
 
     const mods: CnMods = {
         ...(width === 'max' && {width}),
@@ -270,11 +287,42 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     const selectId = id ?? uniqId;
     const popupId = `select-popup-${selectId}`;
 
-    const [activeIndex, setActiveIndex] = useActiveItemIndex({
+    const [activeItemId, setActiveItemId] = useActiveItemId({
         options: filteredOptions,
         open,
         value,
+        getKey,
     });
+
+    const handleActiveItemUpdate = React.useCallback(
+        (id: string | null) => {
+            setActiveItemId(id ?? undefined);
+        },
+        [setActiveItemId],
+    );
+
+    const handleControlKeyDown = React.useCallback(
+        (e: React.KeyboardEvent<HTMLElement>) => {
+            // prevent dialog closing in case of item selection by Enter/Spacebar keydown
+            if ([KeyCode.ENTER, KeyCode.SPACEBAR].includes(e.key) && open) {
+                e.preventDefault();
+            }
+            if ([KeyCode.ARROW_DOWN, KeyCode.ARROW_UP].includes(e.key) && !open) {
+                e.preventDefault();
+                toggleOpen();
+            }
+            if (e.key === KeyCode.ESCAPE && open) {
+                toggleOpen(false);
+            }
+        },
+        [open, toggleOpen],
+    );
+
+    const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
+        if (e.key === KeyCode.ENTER) {
+            e.preventDefault();
+        }
+    }, []);
 
     const _renderFilter = () => {
         if (filterable) {
@@ -287,8 +335,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
                     onChange={setFilter}
                     onKeyDown={handleFilterKeyDown}
                     renderFilter={renderFilter}
-                    popupId={popupId}
-                    activeIndex={activeIndex}
+                    focusOwner={focusOwner}
+                    open={open}
                 />
             );
         }
@@ -300,23 +348,32 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
         if (filteredOptions.length || props.loading) {
             return (
                 <SelectList
-                    ref={listRef}
                     size={size}
-                    value={value}
+                    selectedKeys={selectedKeys}
+                    getKey={getKey}
                     mobile={mobile}
                     flattenOptions={filteredOptions}
+                    groupOfOption={groupOfOption}
+                    groupsWithOptions={groupsWithOptions}
                     multiple={multiple}
                     virtualized={virtualized}
-                    onOptionClick={handleOptionClick}
+                    onSelectedUpdate={handleSelectedUpdate}
+                    onOptionAction={handleOptionAction}
                     renderOption={renderOption}
                     renderOptionGroup={renderOptionGroup}
+                    selectionStyle={selectionStyle}
+                    getOptionText={getOptionText}
                     getOptionHeight={getOptionHeight}
                     getOptionGroupHeight={getOptionGroupHeight}
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
                     id={popupId}
-                    activeIndex={activeIndex}
-                    onChangeActive={setActiveIndex}
+                    labelledBy={selectId}
+                    // The Sheet and the Popup keep the list mounted while they animate out: a list
+                    // the Select has already closed must not keep the keyboard of the trigger
+                    focusOwner={open ? focusOwner : undefined}
+                    activeItemId={activeItemId}
+                    onActiveItemUpdate={handleActiveItemUpdate}
                 />
             );
         }
@@ -326,44 +383,47 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
 
     return (
         <div
-            ref={controlWrapRef}
             className={selectBlock(mods, className)}
             {...focusWithinProps}
             style={inlineStyles}
             tabIndex={-1}
         >
-            <SelectControl
-                {...filterDOMProps(props, {labelable: true})}
-                toggleOpen={toggleOpen}
-                hasClear={hasClear}
-                clearValue={handleClearValue}
-                ref={handleControlRef}
-                className={controlClassName}
-                qa={qa}
-                view={view}
-                size={size}
-                pin={pin}
-                label={label}
-                placeholder={placeholder}
-                selectedOptionsContent={selectedOptionsContent}
-                isErrorVisible={isErrorStateVisible}
-                errorMessage={isErrorIconVisible ? errorMessage : undefined}
-                open={open}
-                disabled={disabled}
-                onKeyDown={handleControlKeyDown}
-                renderControl={renderControl}
-                value={value}
-                popupId={popupId}
-                selectId={selectId}
-                activeIndex={activeIndex}
-                hasCounter={multiple && hasCounter}
-                renderCounter={renderCounter}
-                title={title}
-            />
+            <div ref={anchorRef} className={selectBlock('anchor')}>
+                <SelectControl
+                    {...filterDOMProps(props, {labelable: true})}
+                    toggleOpen={toggleOpen}
+                    hasClear={hasClear}
+                    clearValue={handleClearValue}
+                    ref={handleControlRef}
+                    className={controlClassName}
+                    qa={qa}
+                    view={view}
+                    size={size}
+                    pin={pin}
+                    label={label}
+                    placeholder={placeholder}
+                    selectedOptionsContent={selectedOptionsContent}
+                    isErrorVisible={isErrorStateVisible}
+                    errorMessage={isErrorIconVisible ? errorMessage : undefined}
+                    open={open}
+                    disabled={disabled}
+                    onKeyDown={handleControlKeyDown}
+                    renderControl={renderControl}
+                    value={value}
+                    selectedCount={selectedValues.length}
+                    popupId={popupId}
+                    selectId={selectId}
+                    focusOwner={focusOwner}
+                    hasCounter={multiple && hasCounter}
+                    renderCounter={renderCounter}
+                    title={title}
+                />
+            </div>
             <SelectPopup
-                ref={controlWrapRef}
+                ref={anchorRef}
                 className={popupClassName}
                 sheetClassName={sheetClassName}
+                sheetTitle={label}
                 controlRef={controlRef}
                 width={popupWidth}
                 open={open}
@@ -396,6 +456,8 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             <HiddenSelect
                 name={name}
                 value={value}
+                selectedValues={selectedValues}
+                getKey={getKey}
                 disabled={disabled}
                 form={form}
                 onReset={setValue}

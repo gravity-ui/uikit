@@ -2,16 +2,21 @@ import * as React from 'react';
 
 import {Plus, TrashBin} from '@gravity-ui/icons';
 import type {Decorator, Meta, StoryObj} from '@storybook/react-webpack5';
-import escapeRegExp from 'lodash/escapeRegExp';
+import {escapeRegExp} from 'es-toolkit';
 import {useArgs} from 'storybook/preview-api';
 
-import {Select} from '..';
+import {Select, getSelectOptionText} from '..';
+import type {SelectOptionProps, SelectProps} from '..';
 import {Button} from '../../Button';
+import {Checkbox} from '../../Checkbox';
 import {Icon} from '../../Icon';
+import {Radio} from '../../Radio';
 import {Text} from '../../Text';
 import {Tooltip} from '../../Tooltip';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout';
+import {MobileProvider} from '../../mobile';
 import {block} from '../../utils/cn';
 
 import {SelectPopupWidthShowcase} from './SelectPopupWidthShowcase';
@@ -53,7 +58,7 @@ type StoryArgs = Exclude<Story['args'], undefined>;
 
 export const Default = {
     render: (args) => (
-        <Flex gap={2}>
+        <Flex gap="spacing-2">
             <Select {...args} title="Select sample">
                 <Select.Option value="val1" content="Value1" />
                 <Select.Option value="val2" content="Value2" />
@@ -144,6 +149,54 @@ export const Simple: Story = {
     },
 };
 
+const LETTER_OPTIONS = [
+    {value: 'a', content: 'A'},
+    {value: 'b', content: 'B'},
+];
+const NULLABLE_CASES: {
+    title: string;
+    options: SelectOptionProps<unknown, unknown>[];
+    value: unknown[];
+}[] = [
+    {
+        title: "'' with an option: a value",
+        options: [{value: '', content: 'Any'}, ...LETTER_OPTIONS],
+        value: [''],
+    },
+    {title: "'' without an option: no value", options: LETTER_OPTIONS, value: ['']},
+    {title: 'null without an option: no value', options: LETTER_OPTIONS, value: [null]},
+    {title: '0 without an option: a value', options: LETTER_OPTIONS, value: [0]},
+    {title: "['', 'a']: the counter shows 1", options: LETTER_OPTIONS, value: ['', 'a']},
+];
+
+export const NullableValues: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {...showcaseArgs, multiple: true, hasClear: true, hasCounter: true},
+    render: function NullableValuesStory({view, size, multiple, hasClear, hasCounter}) {
+        return (
+            <Flex direction="column" gap="spacing-2">
+                {NULLABLE_CASES.map(({title, options, value}) => (
+                    <Flex key={title} gap="spacing-2" alignItems="center">
+                        <Select<unknown, unknown>
+                            view={view}
+                            size={size}
+                            multiple={multiple}
+                            hasClear={hasClear}
+                            hasCounter={hasCounter}
+                            width={200}
+                            placeholder="Letter"
+                            options={options}
+                            defaultValue={value}
+                        />
+                        <Text color="secondary">{title}</Text>
+                    </Flex>
+                ))}
+            </Flex>
+        );
+    },
+};
+
 export const WithGroups: Story = {
     tags: ['!dev'],
     decorators: [WithTitle],
@@ -227,6 +280,65 @@ export const WithUserOptions: Story = {
     },
 };
 
+const LANGUAGES = [
+    {value: 'js', content: 'JavaScript'},
+    {value: 'python', content: 'Python'},
+    {value: 'ruby', content: 'Ruby'},
+    {value: 'rust', content: 'Rust'},
+];
+
+function renderControlOption(Control: typeof Radio | typeof Checkbox): SelectProps['renderOption'] {
+    return function renderOption(option, {selected}) {
+        return (
+            <span className={b('control-option')}>
+                {/* Decoration: out of focus and the a11y tree (React 19: `inert`) */}
+                <span {...{inert: ''}} className={b('control-option-indicator')}>
+                    <Control value={option.value} checked={selected} />
+                </span>
+                {option.content}
+            </span>
+        );
+    };
+}
+
+export const WithMobileCustomOptions: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: showcaseArgs,
+    render: (args) => {
+        const [single, setSingle] = React.useState<string[]>([]);
+        const [multiple, setMultiple] = React.useState<string[]>([]);
+        const props = {
+            ...args,
+            label: 'Language',
+            options: LANGUAGES,
+            selectionStyle: 'none',
+            sheetClassName: b('mobile-sheet'),
+        } satisfies SelectProps;
+
+        return (
+            <MobileProvider mobile>
+                <Flex gap="spacing-2">
+                    <Select
+                        {...props}
+                        multiple={false}
+                        value={single}
+                        onUpdate={setSingle}
+                        renderOption={renderControlOption(Radio)}
+                    />
+                    <Select
+                        {...props}
+                        multiple
+                        value={multiple}
+                        onUpdate={setMultiple}
+                        renderOption={renderControlOption(Checkbox)}
+                    />
+                </Flex>
+            </MobileProvider>
+        );
+    },
+};
+
 export const WithUserSelectedOptions: Story = {
     tags: ['!dev'],
     decorators: [WithTitle],
@@ -247,9 +359,10 @@ export const WithUserSelectedOptions: Story = {
                         </div>
                     );
                 }}
-                renderSelectedOption={(option) => {
-                    return (
+                renderSelectedOptions={(options) =>
+                    options.map((option) => (
                         <span
+                            key={option.value}
                             style={{
                                 color: option.data?.color,
                                 height: 22,
@@ -259,8 +372,8 @@ export const WithUserSelectedOptions: Story = {
                         >
                             {option.content}
                         </span>
-                    );
-                }}
+                    ))
+                }
                 getOptionHeight={() => 22}
             >
                 <Select.Option value="val1" content="Value1" data={{color: 'green'}} />
@@ -268,6 +381,34 @@ export const WithUserSelectedOptions: Story = {
                 <Select.Option value="val3" content="Value3" data={{color: 'pink'}} />
                 <Select.Option value="val4" content="Value4" data={{color: 'purple'}} />
             </Select>
+        );
+    },
+};
+
+export const WithSelectionSummary: Story = {
+    tags: ['!dev'],
+    decorators: [WithTitle],
+    args: {...showcaseArgs, multiple: true, placeholder: 'Ticket types'},
+    render: (args) => {
+        const [{value}, setArgs] = useArgs<typeof args>();
+        const options = [
+            {value: 'bug', content: 'Bug'},
+            {value: 'task', content: 'Task'},
+            {value: 'epic', content: 'Epic'},
+        ];
+
+        return (
+            <Select
+                {...args}
+                options={options}
+                value={value}
+                onUpdate={(values) => setArgs({value: values})}
+                renderSelectedOptions={(selected) =>
+                    selected.length === options.length
+                        ? 'All ticket types'
+                        : selected.map((option) => option.content ?? option.value).join(' and ')
+                }
+            />
         );
     },
 };
@@ -370,19 +511,24 @@ export const WithVirtualizedList: Story = {
     render: (args) => {
         const [{value}, setArgs] = useArgs<typeof args>();
 
+        // Virtualization is opt-in: the wrapper comes from '@gravity-ui/uikit/virtualizer'
         return (
-            <Select
-                {...args}
-                value={value}
-                onUpdate={(values) => setArgs({value: values})}
-                popupWidth={args.multiple ? 120 : undefined}
-            >
-                {Array.from(new Array(100)).map((_, index) => (
-                    <Select.Option key={index} value={`val${index + 1}`}>
-                        Value {index + 1}
-                    </Select.Option>
-                ))}
-            </Select>
+            <ListVirtualizer>
+                <Select
+                    {...args}
+                    value={value}
+                    onUpdate={(values) => setArgs({value: values})}
+                    popupWidth={args.multiple ? 120 : undefined}
+                >
+                    {Array.from(new Array(100)).map((_, index) => (
+                        <Select.Option
+                            key={index}
+                            value={`val${index + 1}`}
+                            content={`Value ${index + 1}`}
+                        />
+                    ))}
+                </Select>
+            </ListVirtualizer>
         );
     },
 };
@@ -410,9 +556,14 @@ export const WithCustomRendererAndTooltipAtDisabledItem: Story = {
                         <span>{option.content}</span>
                     );
                 }}
+                // The disabled option draws something else than its content: the trigger, the
+                // filter and the search by the first letters take the text from here
+                getOptionText={(option) =>
+                    option.disabled ? 'Hover here' : getSelectOptionText(option)
+                }
             >
                 <Select.Option value="1" content="1" />
-                <Select.Option value="2" content="2" text="Hover here" disabled />
+                <Select.Option value="2" content="2" disabled />
             </Select>
         );
     },

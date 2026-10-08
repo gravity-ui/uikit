@@ -18,22 +18,22 @@ function pressEscape() {
 
 describe('Sheet', () => {
     describe('rendering and accessibility', () => {
-        test('renders content when visible', () => {
+        test('renders content when open', () => {
             const sheetContent = 'Sheet content';
-            render(<Sheet visible>{sheetContent}</Sheet>);
+            render(<Sheet open>{sheetContent}</Sheet>);
 
             expect(screen.getByText(sheetContent)).toBeInTheDocument();
         });
 
-        test('does not render content when hidden', () => {
+        test('does not render content when closed', () => {
             const sheetContent = 'Sheet content';
-            render(<Sheet visible={false}>{sheetContent}</Sheet>);
+            render(<Sheet open={false}>{sheetContent}</Sheet>);
 
             expect(screen.queryByText(sheetContent)).not.toBeInTheDocument();
         });
 
         test('does not render the top bar when hideTopBar is set', () => {
-            render(<Sheet visible hideTopBar />);
+            render(<Sheet open hideTopBar />);
 
             expect(screen.queryByTestId(SheetQa.TOP)).not.toBeInTheDocument();
         });
@@ -42,7 +42,7 @@ describe('Sheet', () => {
             const qaId = 'custom-sheet-qa';
             render(
                 <Sheet
-                    visible
+                    open
                     className="custom-sheet"
                     contentClassName="custom-content"
                     swipeAreaClassName="custom-swipe-area"
@@ -59,12 +59,12 @@ describe('Sheet', () => {
 
         test('renders the title block and accessible name only when title is passed', () => {
             const title = 'Sheet title';
-            const {rerender} = render(<Sheet visible>Content</Sheet>);
+            const {rerender} = render(<Sheet open>Content</Sheet>);
 
             expect(screen.queryByTestId(SheetQa.TITLE)).not.toBeInTheDocument();
 
             rerender(
-                <Sheet visible title={title}>
+                <Sheet open title={title}>
                     Content
                 </Sheet>,
             );
@@ -72,6 +72,39 @@ describe('Sheet', () => {
             expect(screen.getByText(title)).toBeInTheDocument();
             expect(screen.getByTestId(SheetQa.TITLE)).toBeInTheDocument();
             expect(screen.getByRole('dialog')).toHaveAttribute('aria-label', title);
+        });
+    });
+
+    describe('control mode', () => {
+        test('is closed without open and defaultOpen', () => {
+            render(<Sheet>Content</Sheet>);
+
+            expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        });
+
+        test('opens on mount with defaultOpen', () => {
+            render(<Sheet defaultOpen>Content</Sheet>);
+
+            expect(screen.getByRole('dialog')).toBeInTheDocument();
+        });
+
+        test('reports a switch between controlled and uncontrolled', () => {
+            const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+            try {
+                const {rerender} = render(<Sheet open>Content</Sheet>);
+
+                expect(consoleError).not.toHaveBeenCalled();
+
+                rerender(<Sheet>Content</Sheet>);
+
+                expect(consoleError).toHaveBeenCalledTimes(1);
+                expect(consoleError).toHaveBeenCalledWith(
+                    expect.stringContaining('changed from controlled to uncontrolled'),
+                );
+            } finally {
+                consoleError.mockRestore();
+            }
         });
     });
 
@@ -113,7 +146,7 @@ describe('Sheet', () => {
         });
 
         test('updates the sheet height when its content is resized', () => {
-            render(<Sheet visible>Content</Sheet>);
+            render(<Sheet open>Content</Sheet>);
 
             const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
             const sheet = screen.getByRole('dialog');
@@ -152,14 +185,13 @@ describe('Sheet', () => {
                 onTransitionInComplete: jest.fn(),
                 onTransitionOut: jest.fn(),
                 onTransitionOutComplete: jest.fn(),
-                onClose: jest.fn(),
             };
-            const {rerender} = render(<Sheet visible={false} {...callbacks} />);
+            const {rerender} = render(<Sheet open={false} {...callbacks} />);
 
             expect(callbacks.onTransitionIn).not.toHaveBeenCalled();
             expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
 
-            rerender(<Sheet visible {...callbacks} />);
+            rerender(<Sheet open {...callbacks} />);
             act(() => jest.advanceTimersToNextTimer());
 
             expect(callbacks.onTransitionIn).toHaveBeenCalledTimes(1);
@@ -170,23 +202,20 @@ describe('Sheet', () => {
             expect(callbacks.onTransitionInComplete).toHaveBeenCalledTimes(1);
             expect(callbacks.onTransitionOut).not.toHaveBeenCalled();
 
-            rerender(<Sheet visible={false} {...callbacks} />);
+            rerender(<Sheet open={false} {...callbacks} />);
 
             expect(callbacks.onTransitionOut).toHaveBeenCalledTimes(1);
             expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
-            expect(callbacks.onClose).not.toHaveBeenCalled();
             expect(screen.getByRole('dialog')).toBeInTheDocument();
 
             finishPresenceTransition();
 
             expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
-            expect(callbacks.onClose).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
             finishPresenceTransition();
 
             expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
-            expect(callbacks.onClose).toHaveBeenCalledTimes(1);
         });
 
         test('does not complete an opening transition interrupted by closing', () => {
@@ -195,12 +224,12 @@ describe('Sheet', () => {
                 onTransitionInComplete: jest.fn(),
                 onTransitionOutComplete: jest.fn(),
             };
-            const {rerender} = render(<Sheet visible {...callbacks} />);
+            const {rerender} = render(<Sheet open {...callbacks} />);
             act(() => jest.advanceTimersToNextTimer());
 
             expect(callbacks.onTransitionIn).toHaveBeenCalledTimes(1);
 
-            rerender(<Sheet visible={false} {...callbacks} />);
+            rerender(<Sheet open={false} {...callbacks} />);
             finishPresenceTransition();
 
             expect(callbacks.onTransitionInComplete).not.toHaveBeenCalled();
@@ -213,7 +242,7 @@ describe('Sheet', () => {
                 onTransitionOut: jest.fn(),
                 onTransitionOutComplete: jest.fn(),
             };
-            const {rerender} = render(<Sheet visible {...callbacks} />);
+            const {rerender} = render(<Sheet open {...callbacks} />);
             finishPresenceTransition();
 
             pressEscape();
@@ -225,7 +254,7 @@ describe('Sheet', () => {
             expect(screen.getByRole('dialog')).toBeInTheDocument();
             expect(getLayersCount()).toBe(1);
 
-            rerender(<Sheet visible={false} {...callbacks} />);
+            rerender(<Sheet open={false} {...callbacks} />);
             expect(getLayersCount()).toBe(0);
             finishPresenceTransition();
 
@@ -233,16 +262,16 @@ describe('Sheet', () => {
             expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
         });
 
-        test('does not echo an external visible change through onOpenChange', () => {
+        test('does not echo an external open change through onOpenChange', () => {
             const onOpenChange = jest.fn();
             const {rerender} = render(
-                <Sheet visible onOpenChange={onOpenChange}>
+                <Sheet open onOpenChange={onOpenChange}>
                     Content
                 </Sheet>,
             );
 
             rerender(
-                <Sheet visible={false} onOpenChange={onOpenChange}>
+                <Sheet open={false} onOpenChange={onOpenChange}>
                     Content
                 </Sheet>,
             );
@@ -255,26 +284,26 @@ describe('Sheet', () => {
             const upperOnOpenChange = jest.fn();
 
             function LayeredSheets() {
-                const [lowerVisible, setLowerVisible] = React.useState(true);
-                const [upperVisible, setUpperVisible] = React.useState(true);
+                const [lowerOpen, setLowerOpen] = React.useState(true);
+                const [upperOpen, setUpperOpen] = React.useState(true);
 
                 return (
                     <React.Fragment>
                         <Sheet
-                            visible={lowerVisible}
+                            open={lowerOpen}
                             onOpenChange={(open, event, reason) => {
                                 lowerOnOpenChange(open, event, reason);
-                                setLowerVisible(open);
+                                setLowerOpen(open);
                             }}
                             qa="lower-sheet"
                         >
                             Lower sheet
                         </Sheet>
                         <Sheet
-                            visible={upperVisible}
+                            open={upperOpen}
                             onOpenChange={(open, event, reason) => {
                                 upperOnOpenChange(open, event, reason);
-                                setUpperVisible(open);
+                                setUpperOpen(open);
                             }}
                             qa="upper-sheet"
                         >
@@ -323,15 +352,10 @@ describe('Sheet', () => {
             const upperOnOpenChange = jest.fn();
             render(
                 <React.Fragment>
-                    <Sheet visible onOpenChange={lowerOnOpenChange} title="Lower sheet">
+                    <Sheet open onOpenChange={lowerOnOpenChange} title="Lower sheet">
                         Lower content
                     </Sheet>
-                    <Sheet
-                        {...options}
-                        visible
-                        onOpenChange={upperOnOpenChange}
-                        title="Upper sheet"
-                    >
+                    <Sheet {...options} open onOpenChange={upperOnOpenChange} title="Upper sheet">
                         Upper content
                     </Sheet>
                 </React.Fragment>,
@@ -347,11 +371,11 @@ describe('Sheet', () => {
             expect(getLayersCount()).toBe(2);
         });
 
-        test('releases the layer when a legacy dismissal starts and unlocks scrolling after exit', () => {
-            const onClose = jest.fn();
+        test('releases the layer when an uncontrolled dismissal starts and unlocks scrolling after exit', () => {
+            const onTransitionOutComplete = jest.fn();
 
             render(
-                <Sheet visible onClose={onClose} qa="legacy-sheet">
+                <Sheet defaultOpen onTransitionOutComplete={onTransitionOutComplete}>
                     Content
                 </Sheet>,
             );
@@ -364,29 +388,29 @@ describe('Sheet', () => {
             expect(screen.getByRole('dialog')).toBeInTheDocument();
             expect(getLayersCount()).toBe(0);
             expect(document.body.style.overflow).toBe('hidden');
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
 
             finishPresenceTransition();
 
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
             expect(getLayersCount()).toBe(0);
             expect(document.body.style.overflow).toBe('');
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
         });
 
         test('publishes layerschange at the start of an external close, not at unmount', () => {
             const onLayersChange = jest.fn();
-            const {rerender} = render(<Sheet visible />);
+            const {rerender} = render(<Sheet open />);
             eventBroker.subscribe(onLayersChange);
 
             try {
-                rerender(<Sheet visible={false} />);
+                rerender(<Sheet open={false} />);
 
                 expect(onLayersChange).toHaveBeenCalledTimes(1);
                 expect(onLayersChange).toHaveBeenCalledWith(
                     expect.objectContaining({
                         eventId: 'layerschange',
-                        meta: {layersCount: 0, layers: []},
+                        meta: {layers: []},
                     }),
                 );
                 expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -400,37 +424,24 @@ describe('Sheet', () => {
             }
         });
 
-        test('reopens when visible becomes true during an unfinished exit', () => {
-            const onClose = jest.fn();
+        test('reopens when open becomes true during an unfinished exit', () => {
             const onOpenChange = jest.fn();
             const callbacks = {onTransitionOutComplete: jest.fn()};
             const {rerender} = render(
-                <Sheet
-                    {...callbacks}
-                    visible
-                    onClose={onClose}
-                    onOpenChange={onOpenChange}
-                    qa="sheet"
-                >
+                <Sheet {...callbacks} open onOpenChange={onOpenChange} qa="sheet">
                     Content
                 </Sheet>,
             );
 
             rerender(
-                <Sheet
-                    {...callbacks}
-                    visible={false}
-                    onClose={onClose}
-                    onOpenChange={onOpenChange}
-                    qa="sheet"
-                >
+                <Sheet {...callbacks} open={false} onOpenChange={onOpenChange} qa="sheet">
                     Content
                 </Sheet>,
             );
 
             expect(screen.getByTestId('sheet')).toHaveAttribute('data-floating-ui-status', 'close');
             expect(screen.getByRole('dialog')).toBeInTheDocument();
-            expect(onClose).not.toHaveBeenCalled();
+            expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
             expect(getLayersCount()).toBe(0);
 
             act(() => {
@@ -438,13 +449,7 @@ describe('Sheet', () => {
             });
 
             rerender(
-                <Sheet
-                    {...callbacks}
-                    visible
-                    onClose={onClose}
-                    onOpenChange={onOpenChange}
-                    qa="sheet"
-                >
+                <Sheet {...callbacks} open onOpenChange={onOpenChange} qa="sheet">
                     Content
                 </Sheet>,
             );
@@ -455,7 +460,6 @@ describe('Sheet', () => {
             expect(screen.getByTestId('sheet')).toHaveAttribute('data-floating-ui-status', 'open');
             expect(screen.getByRole('dialog')).toBeInTheDocument();
             expect(screen.getByTestId('sheet-veil')).toHaveStyle({opacity: '1'});
-            expect(onClose).not.toHaveBeenCalled();
             expect(callbacks.onTransitionOutComplete).not.toHaveBeenCalled();
 
             pressEscape();
@@ -464,11 +468,10 @@ describe('Sheet', () => {
             expect(onOpenChange).toHaveBeenCalledTimes(1);
             expect(getLayersCount()).toBe(1);
 
-            rerender(<Sheet {...callbacks} visible={false} onClose={onClose} />);
+            rerender(<Sheet {...callbacks} open={false} onOpenChange={onOpenChange} />);
             finishPresenceTransition();
 
             expect(callbacks.onTransitionOutComplete).toHaveBeenCalledTimes(1);
-            expect(onClose).toHaveBeenCalledTimes(1);
         });
 
         test.each([
@@ -476,7 +479,7 @@ describe('Sheet', () => {
             {getArea: () => screen.getByTestId(SheetQa.CONTENT_AREA), surface: 'content'},
         ])('completes external close started during $surface drag', ({getArea}) => {
             const {rerender} = render(
-                <Sheet visible qa="sheet">
+                <Sheet open qa="sheet">
                     Content
                 </Sheet>,
             );
@@ -494,7 +497,7 @@ describe('Sheet', () => {
             expect(contentArea).toHaveClass('g-sheet-content-area_without-scroll');
 
             rerender(
-                <Sheet visible={false} qa="sheet">
+                <Sheet open={false} qa="sheet">
                     Content
                 </Sheet>,
             );
@@ -511,16 +514,16 @@ describe('Sheet', () => {
             expect(document.body.style.overflow).toBe('');
         });
 
-        test('calls deprecated onClose once after completed exit', () => {
-            const onClose = jest.fn();
+        test('calls onTransitionOutComplete once after a completed external close', () => {
+            const onTransitionOutComplete = jest.fn();
             const {rerender} = render(
-                <Sheet visible onClose={onClose}>
+                <Sheet open onTransitionOutComplete={onTransitionOutComplete}>
                     Content
                 </Sheet>,
             );
 
             rerender(
-                <Sheet visible={false} onClose={onClose}>
+                <Sheet open={false} onTransitionOutComplete={onTransitionOutComplete}>
                     Content
                 </Sheet>,
             );
@@ -529,19 +532,19 @@ describe('Sheet', () => {
                 jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS - 1);
             });
 
-            expect(onClose).not.toHaveBeenCalled();
+            expect(onTransitionOutComplete).not.toHaveBeenCalled();
             expect(screen.getByRole('dialog')).toBeInTheDocument();
 
             act(() => {
                 jest.advanceTimersByTime(1);
             });
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
             expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
             finishPresenceTransition();
 
-            expect(onClose).toHaveBeenCalledTimes(1);
+            expect(onTransitionOutComplete).toHaveBeenCalledTimes(1);
         });
     });
 });

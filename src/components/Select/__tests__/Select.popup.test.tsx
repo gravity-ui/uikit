@@ -6,13 +6,16 @@ import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
 import {Dialog} from '../../Dialog';
 import {TRANSITION_DURATION} from '../../Popup/constants';
 import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../../Sheet/constants';
+import {block, modsClassName} from '../../utils/cn';
 import {Select} from '../Select';
 import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
-import type {SelectSize} from '../types';
+import type {SelectOptionProps, SelectRenderOptionViewParams, SelectSize} from '../types';
 
 import {DEFAULT_OPTIONS, GROUPED_OPTIONS, TEST_QA, setup, timeout} from './utils';
 
 const onUpdate = jest.fn();
+const listItemViewBlock = block('list-item-view');
+const SELECTED_ROW_CLASS = modsClassName(listItemViewBlock({selected: true}));
 describe('Select popup', () => {
     afterEach(() => {
         jest.useRealTimers();
@@ -82,12 +85,13 @@ describe('Select popup', () => {
         expect(popup).not.toBeNull();
     });
 
+    // The row view sizes itself; the heights are what it comes out as (on mobile it is size `xl`)
     test.each([
-        ['s', {mobile: false, size: 's', height: 28}],
+        ['s', {mobile: false, size: 's', height: 24}],
         ['m', {mobile: false, size: 'm', height: 28}],
-        ['l', {mobile: false, size: 'l', height: 32}],
-        ['xl', {mobile: false, size: 'xl', height: 36}],
-        ['mobile', {mobile: true, size: undefined, height: 32}],
+        ['l', {mobile: false, size: 'l', height: 36}],
+        ['xl', {mobile: false, size: 'xl', height: 44}],
+        ['mobile', {mobile: true, size: undefined, height: 44}],
     ])(
         'should return correct height for option depends on size (%s)',
         async (_type, {size, height, mobile}) => {
@@ -110,12 +114,13 @@ describe('Select popup', () => {
         },
     );
 
+    // A section header has the height of a row of its size
     test.each([
-        ['s', {mobile: false, size: 's', height: 28}],
+        ['s', {mobile: false, size: 's', height: 24}],
         ['m', {mobile: false, size: 'm', height: 28}],
-        ['l', {mobile: false, size: 'l', height: 32}],
-        ['xl', {mobile: false, size: 'xl', height: 36}],
-        ['mobile', {mobile: true, size: undefined, height: 32}],
+        ['l', {mobile: false, size: 'l', height: 36}],
+        ['xl', {mobile: false, size: 'xl', height: 44}],
+        ['mobile', {mobile: true, size: undefined, height: 44}],
     ])(
         'should return correct height for option group depends on size (%s)',
         async (_type, {size, height, mobile}) => {
@@ -208,6 +213,82 @@ describe('Select popup', () => {
         expect(isItemActiveValues).toContain(false);
     });
 
+    test('should title the sheet with the label', async () => {
+        const label = 'Language';
+        const {getByTestId} = setup({options: DEFAULT_OPTIONS, onUpdate, label}, true);
+
+        const user = userEvent.setup();
+        await user.click(getByTestId(TEST_QA));
+
+        expect(getByTestId(SheetQa.TITLE)).toHaveTextContent(label);
+        expect(screen.getByRole('dialog', {name: label})).toBeInTheDocument();
+    });
+
+    test.each([
+        [
+            'single',
+            {multiple: false, value: ['python'], expected: {js: false, python: true, ruby: false}},
+        ],
+        [
+            'multiple',
+            {
+                multiple: true,
+                value: ['js', 'python'],
+                expected: {js: true, python: true, ruby: false},
+            },
+        ],
+    ])('should pass selected to renderOption (%s)', async (_type, {multiple, value, expected}) => {
+        const renderOption = jest.fn(
+            (option: SelectOptionProps, _params: SelectRenderOptionViewParams) => (
+                <span>{option.value}</span>
+            ),
+        );
+
+        const {getByTestId} = setup({
+            renderOption,
+            onUpdate,
+            options: DEFAULT_OPTIONS,
+            multiple,
+            value,
+        });
+
+        const user = userEvent.setup();
+        await user.click(getByTestId(TEST_QA));
+
+        // The last call of every option is what its row shows
+        const selectedByValue = Object.fromEntries(
+            renderOption.mock.calls.map(([option, params]) => [option.value, params.selected]),
+        );
+        expect(selectedByValue).toEqual(expected);
+    });
+
+    test.each([
+        ['single', 'auto', {multiple: false, highlight: true, check: false}],
+        ['single', 'none', {multiple: false, highlight: false, check: false}],
+        ['multiple', 'auto', {multiple: true, highlight: false, check: true}],
+        ['multiple', 'none', {multiple: true, highlight: false, check: false}],
+    ] as const)(
+        'should indicate the selection by selectionStyle (%s, %s)',
+        async (_type, selectionStyle, {multiple, highlight, check}) => {
+            const {getByTestId} = setup({
+                onUpdate,
+                options: DEFAULT_OPTIONS,
+                multiple,
+                value: ['python'],
+                selectionStyle,
+            });
+
+            const user = userEvent.setup();
+            await user.click(getByTestId(TEST_QA));
+
+            const row = screen.getByRole('option', {name: 'Python'});
+            expect(row).toHaveAttribute('aria-selected', 'true');
+            expect(row.classList.contains(SELECTED_ROW_CLASS)).toBe(highlight);
+            // eslint-disable-next-line testing-library/no-node-access
+            expect(Boolean(row.querySelector(`.${listItemViewBlock('icon')}`))).toBe(check);
+        },
+    );
+
     test('should close select popup on Escape key press', async () => {
         const {getByTestId, queryByTestId} = setup({
             options: DEFAULT_OPTIONS,
@@ -245,7 +326,7 @@ describe('Select popup', () => {
         const TestComponent = () => {
             const [open, setOpen] = React.useState(true);
             return (
-                <Dialog open={open} onClose={() => setOpen(false)}>
+                <Dialog open={open} onOpenChange={setOpen}>
                     <Dialog.Body>
                         <Select options={DEFAULT_OPTIONS} onUpdate={onUpdate} qa={TEST_QA} />
                     </Dialog.Body>

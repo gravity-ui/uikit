@@ -30,12 +30,12 @@ export const Default = {
     render: (args) => (
         <LayoutPresenter title="Change screen size to see different row spacing">
             <Container {...args}>
-                <Row space="5">
+                <Row gap="spacing-5">
                     <Col>
                         <Box>Row</Box>
                     </Col>
                 </Row>
-                <Row space="5">
+                <Row gap="spacing-5">
                     <Col>
                         <Box>Row</Box>
                     </Col>
@@ -44,7 +44,7 @@ export const Default = {
         </LayoutPresenter>
     ),
     args: {
-        spaceRow: {s: 1, m: 2, l: 3},
-        maxWidth: 'l',
+        rowGap: {s: 'spacing-1', m: 'spacing-2', l: 'spacing-3'},
+        size: 'l',
     },
 } satisfies Story;

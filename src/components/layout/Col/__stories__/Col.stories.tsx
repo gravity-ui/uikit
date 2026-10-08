@@ -1,21 +1,21 @@
-import * as React from 'react';
-
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Container} from '../../Container/Container';
 import {Row} from '../../Row/Row';
+import type {RowProps} from '../../Row/Row';
 import {DEFAULT_LAYOUT_THEME} from '../../constants';
 import {ColPresenter, LayoutPresenter} from '../../demo';
-import type {LayoutTheme, Space} from '../../types';
+import type {LayoutTheme} from '../../types';
 import {Col} from '../Col';
+import type {ColProps} from '../Col';
 
 type CustomArgs = {
     theme?: LayoutTheme;
-    space?: Space;
-    spaceRow?: Space;
+    gap?: RowProps['gap'];
+    rowGap?: RowProps['rowGap'];
 };
 
-type ColPropsAndCustomArgs = React.ComponentProps<typeof Col> & CustomArgs;
+type ColPropsAndCustomArgs = ColProps & CustomArgs;
 
 const meta = {
     title: 'Components/Layout/Col',
@@ -32,13 +32,10 @@ const meta = {
                 ],
             },
         },
-        controls: {
-            exclude: ['xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl'],
-        },
     },
     args: {
         theme: DEFAULT_LAYOUT_THEME,
-        space: 3,
+        gap: 'spacing-3',
     },
 } satisfies Meta<ColPropsAndCustomArgs>;
 export default meta;
@@ -46,9 +43,9 @@ export default meta;
 type Story = StoryObj<CustomArgs>;
 
 export const Static = {
-    render: ({space, spaceRow}) => (
+    render: ({gap, rowGap}) => (
         <LayoutPresenter>
-            <Row {...{space, spaceRow}}>
+            <Row {...{gap, rowGap}}>
                 {new Array(12).fill('1').map((s, i) => (
                     <ColPresenter size={s} key={i} />
                 ))}
@@ -81,10 +78,10 @@ export const Static = {
 } satisfies Story;
 
 export const Dynamic = {
-    render: ({space, spaceRow}) => (
+    render: ({gap, rowGap}) => (
         <LayoutPresenter>
-            <Container spaceRow="5" gutters={false}>
-                <Row {...{space, spaceRow}}>
+            <Container rowGap="spacing-5" gutters={0}>
+                <Row {...{gap, rowGap}}>
                     <ColPresenter size={[1, {l: 12}]} />
                     <ColPresenter size={[1, {l: 12}]} />
                     <ColPresenter size={[1, {l: 11}]} />
@@ -98,7 +95,7 @@ export const Dynamic = {
                     <ColPresenter size={[1, {l: 7}]} />
                     <ColPresenter size={[1, {l: 5}]} />
                 </Row>
-                <Row {...{space, spaceRow}}>
+                <Row {...{gap, rowGap}}>
                     <ColPresenter size={[7, {l: 1}]} />
                     <ColPresenter size={[5, {l: 1}]} />
                     <ColPresenter size={[8, {l: 1}]} />
@@ -118,9 +115,9 @@ export const Dynamic = {
 } satisfies Story;
 
 export const AllMods = {
-    render: ({space, spaceRow, ...args}) => (
+    render: ({gap, rowGap, ...args}) => (
         <LayoutPresenter title="Change size prop to see different behavior depending on different screen resolutions">
-            <Row {...{space, spaceRow}}>
+            <Row {...{gap, rowGap}}>
                 {new Array(12).fill('_').map((_, i) => (
                     <ColPresenter {...args} key={i} />
                 ))}
@@ -128,6 +125,6 @@ export const AllMods = {
         </LayoutPresenter>
     ),
     args: {
-        size: [12, {s: 6, m: 4, l: 3, xl: 2, xxl: 1}],
+        size: [12, {s: 6, m: 4, l: 3, xl: 2, '2xl': 1}],
     },
 } satisfies StoryObj<ColPropsAndCustomArgs>;

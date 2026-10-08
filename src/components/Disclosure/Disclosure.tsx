@@ -14,7 +14,7 @@ import {b} from './constants';
 import './Disclosure.scss';
 
 export type DisclosureSize = 'm' | 'l' | 'xl';
-export type DisclosureArrowPosition = 'left' | 'right' | 'start' | 'end';
+export type DisclosureArrowPosition = 'start' | 'end';
 
 export interface DisclosureComposition {
     Summary: typeof DisclosureSummary;

@@ -24,7 +24,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &_current {
             box-sizing: content-box;
-            font-weight: var(--g-text-accent-font-weight);
+            font-weight: var(--g-text-body-accent-font-weight);
             min-width: 25px;
 
             #{$block}__link {
@@ -63,8 +63,10 @@ $block: '.#{variables.$ns}breadcrumbs';
         &:not([aria-disabled]) {
             cursor: pointer;
 
-            &:hover {
-                color: var(--g-color-text-link-hover);
+            @media (hover: hover) {
+                &:hover {
+                    color: var(--g-color-text-link-hover);
+                }
             }
         }
 

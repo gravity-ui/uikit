@@ -21,27 +21,27 @@ $block: '.#{variables.$ns}skeleton';
     &_size {
         &_xs {
             --_--border-radius: var(--g-border-radius-xs);
-            --_--size: #{variables.$xs-height};
+            --_--size: #{variables.$height-xs};
         }
 
         &_s {
             --_--border-radius: var(--g-border-radius-s);
-            --_--size: #{variables.$s-height};
+            --_--size: #{variables.$height-s};
         }
 
         &_m {
             --_--border-radius: var(--g-border-radius-m);
-            --_--size: #{variables.$m-height};
+            --_--size: #{variables.$height-m};
         }
 
         &_l {
             --_--border-radius: var(--g-border-radius-l);
-            --_--size: #{variables.$l-height};
+            --_--size: #{variables.$height-l};
         }
 
         &_xl {
             --_--border-radius: var(--g-border-radius-xl);
-            --_--size: #{variables.$xl-height};
+            --_--size: #{variables.$height-xl};
         }
     }
 

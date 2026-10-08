@@ -45,7 +45,7 @@
 ```tsx
 import {Flex} from '@gravity-ui/uikit';
 
-<Flex gap={5}>
+<Flex gap="spacing-5">
   <Button />
   <Button />
 </Flex>; // 20px between children
@@ -109,7 +109,7 @@ import {spacing} from '@gravity-ui/uikit';
 Либо через layout-тему, которая синхронизирует JS-значения `Space` и CSS-переменные:
 
 ```tsx
-import {ThemeProvider, LayoutTheme} from '@gravity-ui/uikit';
+import {Provider, LayoutTheme} from '@gravity-ui/uikit';
 
 const config: LayoutTheme = {
     spaceBaseSize: 5,
@@ -117,9 +117,9 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <ThemeProvider layout={{config, fixBreakpoints: true}}>
+        <Provider layout={{config}}>
             {...}
-        </ThemeProvider>
+        </Provider>
     );
 };
 ```
@@ -132,10 +132,10 @@ export const App = () => {
 - `xs` — < 576px;
 - `s` — ≥ 576px;
 - `m` — ≥ 768px;
-- `l` — ≥ 1080px;
+- `l` — ≥ 980px;
 - `xl` — ≥ 1200px;
-- `xxl` — ≥ 1400px;
-- `xxxl` — ≥ 1920px.
+- `2xl` — ≥ 1400px;
+- `3xl` — ≥ 1920px.
 
 Чтобы переопределить breakpoint, используйте свойство `breakpoints` в layout-конфигурации:
 
@@ -144,24 +144,30 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     spaceBaseSize: 4,
     components: {
         container: {
-            gutters: 3,
+            gutters: 'spacing-3',
             media: {
                 l: {
-                    gutters: 5,
+                    gutters: 'spacing-5',
                 },
             },
         },
     },
     breakpoints: {
         s: 320,
-        l: 980,
+        l: 1080,
     },
 };
 
-<ThemeProvider layout={{config: APP_LAYOUT_THEME}}>
+<Provider layout={{config: APP_LAYOUT_THEME}}>
     {...}
-</ThemeProvider>;
+</Provider>;
 ```
+
+`LayoutProvider` позволяет настроить layout для поддерева. Незаданные настройки, включая активный
+breakpoint при SSR и обновлениях, наследуются от родителя. Частичный `config` объединяется с
+родительской темой без её изменения. Собственные breakpoints вычисляют локальный активный
+breakpoint; `initialMediaQuery` переопределяет его начальное значение. Без родителя начальный
+breakpoint — `xs`.
 
 ## Box
 
@@ -179,7 +185,7 @@ import React, {Suspense} from 'react';
 import {Flex, Loader} from '@gravity-ui/uikit';
 
 // `Flex` extended from `Box` component and enriched flexbox model properties
-<Flex centerContent width="100%" height="100%">
+<Flex justifyContent="center" alignItems="center" width="100%" height="100%">
   <Suspense fallback={<Loader size="m" />}>
     <LazyLoadedComponent />
   </Suspense>
@@ -194,7 +200,7 @@ import {Flex, Loader} from '@gravity-ui/uikit';
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
 
-<Row space="5">
+<Row gap="spacing-5">
   <Col size="4">...</Col>
   <Col size="4">...</Col>
   <Col size="4">...</Col>
@@ -205,9 +211,18 @@ import {Row, Col} from '@gravity-ui/uikit';
 
 **Props**
 
-- `space` — горизонтальное расстояние между дочерними `Col`;
-- `spaceRow` — вертикальное расстояние между дочерними `Col`; по умолчанию принимает значение из
-  prop `space`.
+- `gap` задаёт расстояние между колонками и строками;
+- `columnGap` задаёт горизонтальное расстояние;
+- `rowGap` задаёт вертикальное расстояние.
+
+Все отступы поддерживают responsive-объекты, токены `spacing-*`, CSS-длины и числа в пикселях.
+Например, `gap="spacing-2"` использует шкалу отступов, а `gap={2}` означает `2px`.
+Используйте только `gap` или отдельные `rowGap` и `columnGap` для разных значений по осям.
+Эти props напрямую соответствуют CSS-свойствам. Смешивание shorthand и longhand делает приоритет
+зависимым от порядка объявлений и может вызвать конфликты при обновлении React.
+
+`Row` использует CSS Grid с 12 одинаковыми треками. Также поддерживаются style props `Box`,
+props выравнивания Grid, нативные props элемента, `as` и refs.
 
 ### Col
 
@@ -216,8 +231,11 @@ import {Row, Col} from '@gravity-ui/uikit';
 
 **Props**
 
-- `size` — ширина в количестве колонок; если не задана, колонка занимает всё свободное место в
-  строке.
+- `size` — количество треков сетки; если не задано, колонка занимает все 12 треков в отдельной строке.
+
+Для responsive-размеров используйте `size`. Отдельные props `s`, `m`, `l`, `xl` и `xxl` удалены;
+например, вместо `s={12} m={6}` используйте `size={{xs: 12, m: 6}}`, если `s` раньше применялся
+к самым узким экранам. См. [миграцию breakpoints](migration-to-v8-ru.md#layout-breakpoints-и-отступы-контейнера).
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -226,34 +244,70 @@ import {Row, Col} from '@gravity-ui/uikit';
   /**
    * In this example we override default theme behavior.
    *
-   * space={{s: '1', xl:'5'}}
+   * gap={{xs: 'spacing-1', xl: 'spacing-5'}}
    */
-  space="5"
+  gap="spacing-5"
 >
   <Col
     // Will be:
     // 12 for "xs" and "s"
     // 6 for "m" and "l"
-    // 4 for "xl" and "xxl"
+    // 4 for "xl" and "2xl"
     size={[12, {m: 6, xl: 4}]}
   />
 </Row>;
 ```
 
-> Внутри система сетки использует отрицательные margin. Поэтому не задавайте `background-color`
-> напрямую компоненту `Col`; в таких случаях используйте компонент-обёртку.
+`Row` использует нативные CSS gaps, а CSS Grid учитывает расстояния при расчёте размеров треков.
+Колонки с суммой `size`, равной 12, помещаются в одну строку. Каждая колонка без `size` занимает
+отдельную строку вместо распределения оставшегося места. Чтобы разместить колонки в одной строке,
+задайте размеры явно; для динамического распределения места используйте `Flex`. `Col` поддерживает
+style props `Box`, включая padding и фон, без автоматически добавленных отступов и отрицательных margin.
+
+`justifyContent` выравнивает треки сетки, а не отдельные колонки в неполной строке. Для выравнивания
+внутри ячейки используйте `justifyItems` или `justifySelf`. Flex props, например `flexGrow`,
+не влияют на колонки внутри `Row`.
 
 ## Container
 
-Центрирует содержимое. Почти всегда на странице должен быть один `Container`. Он управляет
-максимальной шириной для текущего размера экрана.
+Центрирует содержимое страницы с помощью `Box` и обычного блочного потока. Responsive style props
+позволяют менять padding, ширину и расстояние между строками.
 
 **Props**
 
-- `gutters` — внутренние отступы слева и справа, нужные, когда ширина содержимого равна ширине
-  экрана;
-- `maxWidth` — ограничивает ширину для конкретного размера экрана;
-- `spaceRow` — задаёт расстояние между дочерними `Row`.
+- `gutters` задаёт логические горизонтальные отступы; по умолчанию берётся из layout-темы.
+  Поддерживает responsive-объекты, токены `spacing-*`, CSS-длины и числа в пикселях;
+- `size` ограничивает ширину содержимого шириной breakpoint из layout-темы. Gutters и границы
+  добавляются сверх этого ограничения. Например, `size="l"` использует `layout.breakpoints.l`;
+- `maxWidth` принимает CSS-длину или число в пикселях, а не имя breakpoint. Явные `maxWidth`,
+  `maxInlineSize` или `style.maxInlineSize` переопределяют ограничение `size`;
+- `rowGap` задаёт `margin-block-start` между соседними непосредственными дочерними `Row`;
+  по умолчанию берётся из layout-темы. Поддерживает responsive-объекты, токены spacing, CSS-длины
+  и числа в пикселях;
+- поддерживаются остальные style props `Box`. Props выравнивания и отступов flex-контейнера не поддерживаются.
+
+Как и `Box` и `Flex`, `Container` не задаёт `box-sizing`. При стандартном `content-box`
+`size="l"` допускает 980px содержимого плюс gutters и границы. Не задавайте ширину, чтобы контейнер
+автоматически помещался в более узком родителе; `width="100%"` с gutters может вызвать переполнение.
+CSS приложения может переопределить box sizing. Если `size` не задан, ширина не ограничивается breakpoint.
+
+У первой строки нет добавленного отступа. Другие элементы прерывают соседство строк и не получают
+добавленных отступов. Вложенные строки не затрагиваются; вложенные контейнеры определяют собственный
+`rowGap` из props или layout-темы, а не наследуют значение внешнего контейнера.
+
+```tsx
+import {Container} from '@gravity-ui/uikit';
+
+<Container size="l" gutters={{xs: 'spacing-3', l: 'spacing-5'}} rowGap="spacing-4">
+  {children}
+</Container>;
+```
+
+Используйте `gutters={0}`, чтобы отключить боковые отступы. Конфигурация темы также использует
+`gutters` и `rowGap`. Все три компонента поддерживают `as`, нативные props и refs.
+Стандартный style prop `paddingInline` также поддерживается и переопределяет значения темы.
+Явно заданный `gutters` имеет приоритет над `paddingInline`.
+Удалённые spacing props описаны в [руководстве по миграции](../src/components/layout/migration-guide.md).
 
 ## Flex
 
@@ -261,14 +315,14 @@ import {Row, Col} from '@gravity-ui/uikit';
 элементами. Все flex-свойства доступны как props. Для наиболее частых свойств поддерживается
 объектная конфигурация, позволяющая менять поведение на разных размерах экрана.
 
-#### Примеры
+### Примеры
 
 _Расстояние между дочерними компонентами в строке_
 
 ```jsx
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
-<Flex space="5">
+<Flex gap="spacing-5">
   <TextInput />
   <Button />
 </Flex>;
@@ -279,8 +333,8 @@ _Вложенный `Flex`_
 ```jsx
 import {Flex, TextInput, Button, Table} from '@gravity-ui/uikit';
 
-<Flex direction="column" space="5">
-  <Flex space="5">
+<Flex direction="column" gap="spacing-5">
+  <Flex gap="spacing-5">
     <TextInput />
     <Button />
   </Flex>
@@ -294,9 +348,9 @@ _Адаптивный пример_
 import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 
 <Flex
-  // direction: column will be applied to l, xl, xxl, xxxl screen sizes here
+  // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
-  space={{s: '5', m: '3'}}
+  gap={{xs: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />
@@ -333,12 +387,12 @@ const Component = () => {
 ```tsx
 import {useLayoutContext} from '@gravity-ui/uikit';
 
-// this example will be shown on xl, xxl and xxxl screen sizes
+// this example will be shown on xl, 2xl and 3xl screen sizes
 const Component = () => {
   const {isMediaActive} = useLayoutContext();
 
   return (
-    <>{isMediaActive('xl') ? <Text>I render on "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>
+    <>{isMediaActive('xl') ? <Text>I render on "xl", "2xl" and "3xl" screen sizes</Text> : null}</>
   );
 };
 ```
@@ -352,7 +406,7 @@ import {useLayoutContext} from '@gravity-ui/uikit';
 const mapOfPropsByScreen = {
   s: "i'm will be shown on 's' and 'n' screen size",
   l: "i'm will be shown on 'l' and 'xl' screen size",
-  xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
+  '2xl': "i'm will be shown on '2xl' and '3xl' screen size",
 };
 
 const Component = () => {

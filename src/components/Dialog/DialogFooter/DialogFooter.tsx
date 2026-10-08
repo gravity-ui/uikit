@@ -75,9 +75,9 @@ export function DialogFooter(props: DialogFooterProps) {
     const {mobile, initialFocusRef, initialFocusAction, onTooltipEscapeKeyDown} =
         React.useContext(DialogPrivateContext);
 
-    const errorTooltipRef = React.useRef<HTMLButtonElement>(null);
-    const apllyBtnRef = useForkRef(
-        errorTooltipRef,
+    const [errorTooltipElement, setErrorTooltipElement] = React.useState<HTMLElement | null>(null);
+    const apllyBtnRef = useForkRef<HTMLElement | null>(
+        setErrorTooltipElement,
         initialFocusAction === 'apply' ? initialFocusRef : null,
     );
     const cancelBtnRef = useForkRef(initialFocusAction === 'cancel' ? initialFocusRef : null);
@@ -88,10 +88,10 @@ export function DialogFooter(props: DialogFooterProps) {
                 ref={cancelBtnRef}
                 view={textButtonApply ? 'flat' : 'normal'}
                 size={mobile ? 'xl' : 'l'}
-                width="max"
                 onClick={onClickButtonCancel}
                 disabled={loading}
                 {...propsButtonCancel}
+                width={mobile ? 'max' : propsButtonCancel?.width}
             >
                 {textButtonCancel}
             </Button>
@@ -114,11 +114,11 @@ export function DialogFooter(props: DialogFooterProps) {
                 type="submit"
                 view={getButtonView(preset)}
                 size={mobile ? 'xl' : 'l'}
-                width="max"
                 onClick={onClickButtonApply}
                 loading={loading}
                 className={b('button-apply', {preset})}
                 {...propsButtonApply}
+                width={mobile ? 'max' : propsButtonApply?.width}
             >
                 {textButtonApply}
             </Button>
@@ -126,7 +126,7 @@ export function DialogFooter(props: DialogFooterProps) {
                 <Popup
                     open={showError}
                     onOpenChange={handleOpenChange}
-                    anchorRef={errorTooltipRef}
+                    anchorElement={errorTooltipElement}
                     placement="top"
                     disablePortal
                     hasArrow

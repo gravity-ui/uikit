@@ -52,7 +52,6 @@ export function TextAreaControl(props: Props) {
         onBlur,
         onKeyDown,
         onKeyUp,
-        onKeyPress,
         inputValue,
     } = props;
     const innerControlRef = React.useRef<HTMLTextAreaElement>(null);
@@ -139,7 +138,6 @@ export function TextAreaControl(props: Props) {
             onBlur={onBlur}
             onKeyDown={onKeyDown}
             onKeyUp={onKeyUp}
-            onKeyPress={onKeyPress}
             disabled={disabled ?? controlProps.disabled}
             readOnly={readOnly ?? controlProps.readOnly}
         />

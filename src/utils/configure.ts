@@ -1,9 +1,10 @@
 import type {StringWithSuggest} from './types';
 
-export enum Lang {
-    Ru = 'ru',
-    En = 'en',
-}
+export const Lang = {
+    Ru: 'ru',
+    En: 'en',
+} as const;
+export type Lang = (typeof Lang)[keyof typeof Lang];
 
 interface Config {
     lang: StringWithSuggest<Lang>;
@@ -14,13 +15,13 @@ type Subscriber = (config: Config) => void;
 
 let subs: Subscriber[] = [];
 
-const config: Config = {
+let config: Config = {
     lang: Lang.En,
     fallbackLang: Lang.En,
 };
 
 export const configure = (newConfig: Partial<Config>) => {
-    Object.assign(config, newConfig);
+    config = {...config, ...newConfig};
     subs.forEach((sub) => {
         sub(config);
     });

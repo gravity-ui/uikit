@@ -10,6 +10,8 @@ import {Breadcrumbs} from '@gravity-ui/uikit';
 
 `Breadcrumbs` (хлебные крошки) — это навигационный элемент, показывающий текущее расположение страницы в иерархии веб-сайта. Он содержит ссылки, позволяющие пользователю вернуться на более высокие уровни иерархии, что упрощает навигацию по многоуровневым сайтам. Хлебные крошки незаменимы для крупных веб-сайтов и приложений с иерархической структурой страниц.
 
+Переходите со старого `Breadcrumbs`? См. [миграционный гайд](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-breadcrumbs.md) (на английском).
+
 ## Пример
 
 <!--SANDBOX
@@ -235,19 +237,19 @@ export default function () {
         <Box width="100%">
             <Breadcrumbs>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={House} size={16} />
                         uikit
                     </Flex>
                 </Breadcrumbs.Item>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Flame} size={16} />
                         components
                     </Flex>
                 </Breadcrumbs.Item>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Rocket} size={16} style={{minWidth: 16}} />
                         <Text ellipsis variant="inherit">
                             Breadcrumbs
@@ -265,17 +267,17 @@ SANDBOX-->
 ```jsx
 <Breadcrumbs>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <House /> uikit
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Flame /> components
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Rocket style={{minWidth: 16}} />
       <Text ellipsis variant="inherit">
         Breadcrumbs
@@ -479,7 +481,7 @@ SANDBOX-->
 ```jsx
 <Breadcrumbs
   endContent={
-    <Flex gap={1} spacing={{pl: 1}}>
+    <Flex gap="spacing-1" paddingInlineStart="spacing-1">
       <Button>Test1</Button>
       <Button>Test2</Button>
     </Flex>
@@ -501,32 +503,35 @@ SANDBOX-->
 
 ## Свойства
 
-| Имя              | Описание                                                                                                         | Тип                                        | Значение по умолчанию |
-| :--------------- | :--------------------------------------------------------------------------------------------------------------- | :----------------------------------------- | :-------------------- |
-| children         | Элементы хлебных крошек.                                                                                         | `React.ReactElement<BreadcrumbsItemProps>` |                       |
-| disabled         | Определяет, отключен ли компонент `Breadcrumbs`.                                                                 | `boolean`                                  |                       |
-| showRoot         | Включает или отключает постоянное отображение корневого элемента при свернутом состоянии его дочерних элементов. | `boolean`                                  |                       |
-| popupPlacement   | Расположение всплывающего окна для свернутых элементов.                                                          | `PopupPlacement`                           |                       |
-| popupStyle       | Стиль всплывающего окна для свернутых элементов.                                                                 | `"staircase"`                              |                       |
-| qa               | HTML-атрибут `data-qa`, используется для тестирования.                                                           | `string`                                   |                       |
-| separator        | Пользовательский разделитель элементов.                                                                          | `React.ReactNode`                          | "/"                   |
-| action           | Обработчик события `click`.                                                                                      | `(id: Key) => void`                        |                       |
-| id               | Уникальный идентификатор элемента.                                                                               | `string`                                   |                       |
-| className        | Имя CSS-класса элемента.                                                                                         | `string`                                   |                       |
-| style            | Задает инлайн-стиль для элемента.                                                                                | `CSSProperties`                            |                       |
-| aria-label       | Определяет строковое значение, используемое в качестве метки для текущего элемента.                              | `string`                                   |                       |
-| aria-labelledby  | Определяет элементы, используемые в качестве метки для текущего элемента.                                        | `string`                                   |                       |
-| aria-describedby | Определяет элементы, описывающие объект.                                                                         | `string`                                   |                       |
-| endContent       | Пользовательский контент после последней крошки.                                                                 | `React.ReactNode`                          |                       |
+| Имя              | Описание                                                                                                         | Тип                  | Значение по умолчанию |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------- | :------------------- | :-------------------- |
+| children         | Элементы хлебных крошек.                                                                                         | `React.ReactNode`    |                       |
+| disabled         | Определяет, отключен ли компонент `Breadcrumbs`.                                                                 | `boolean`            |                       |
+| showRoot         | Включает или отключает постоянное отображение корневого элемента при свернутом состоянии его дочерних элементов. | `boolean`            |                       |
+| maxItems         | Максимальное число видимых элементов с учётом кнопки сворачивания.                                               | `number`             |                       |
+| itemComponent    | Компонент для рендеринга элементов.                                                                              | `React.ElementType`  |                       |
+| popupPlacement   | Расположение всплывающего окна для свернутых элементов.                                                          | `PopupPlacement`     |                       |
+| popupStyle       | Стиль всплывающего окна для свернутых элементов.                                                                 | `"staircase"`        |                       |
+| qa               | HTML-атрибут `data-qa`, используется для тестирования.                                                           | `string`             |                       |
+| separator        | Пользовательский разделитель элементов.                                                                          | `React.ReactNode`    | "/"                   |
+| onAction         | Обработчик, который получает ключ нажатого элемента.                                                             | `(key: Key) => void` |                       |
+| id               | Уникальный идентификатор элемента.                                                                               | `string`             |                       |
+| className        | Имя CSS-класса элемента.                                                                                         | `string`             |                       |
+| style            | Задает инлайн-стиль для элемента.                                                                                | `CSSProperties`      |                       |
+| aria-label       | Определяет строковое значение, используемое в качестве метки для текущего элемента.                              | `string`             |                       |
+| aria-labelledby  | Определяет элементы, используемые в качестве метки для текущего элемента.                                        | `string`             |                       |
+| aria-describedby | Определяет элементы, описывающие объект.                                                                         | `string`             |                       |
+| endContent       | Пользовательский контент после последней крошки.                                                                 | `React.ReactNode`    |                       |
 
 ### BreadcrumbsItemProps
 
 | Имя        | Описание                                                           | Тип                               | Значение по умолчанию |
 | :--------- | :----------------------------------------------------------------- | :-------------------------------- | :-------------------- |
-| children   | Содержимое хлебных крошек.                                         | `string`                          |                       |
+| children   | Содержимое хлебных крошек.                                         | `React.ReactNode`                 |                       |
 | title      | Строковое представление содержимого элемента.                      | `string`                          |                       |
 | aria-label | Метка доступности элемента.                                        | `string`                          |                       |
 | href       | URL-адрес гиперссылки.                                             | `string`                          |                       |
+| onClick    | Обработчик нажатия на элемент.                                     | `React.MouseEventHandler`         |                       |
 | target     | Целевое окно для ссылки.                                           | `React.HTMLAttributeAnchorTarget` |                       |
 | rel        | Определяет отношение между связанным ресурсом и текущей страницей. | `string`                          |                       |
 | disabled   | Определяет можно ли взаимодействовать с элементом.                 | `boolean`                         |                       |

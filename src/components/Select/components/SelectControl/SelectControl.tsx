@@ -4,8 +4,10 @@ import * as React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 
+import {useUniqId} from '../../../../hooks';
 import {Alert} from '../../../Alert';
 import {Icon} from '../../../Icon';
+import type {ListFocusOwner} from '../../../List';
 import {Popover} from '../../../Popover';
 import {useDirection} from '../../../theme';
 import type {AriaLabelingProps} from '../../../types';
@@ -27,7 +29,7 @@ import './SelectControl.scss';
 
 type ControlProps = {
     toggleOpen: () => void;
-    renderControl?: SelectRenderControl;
+    renderControl?: SelectRenderControl<HTMLElement, any>;
     renderCounter?: SelectRenderCounter;
     view: NonNullable<SelectProps['view']>;
     size: NonNullable<SelectProps['size']>;
@@ -40,7 +42,9 @@ type ControlProps = {
     isErrorVisible?: boolean;
     errorMessage?: SelectProps['errorMessage'];
     disabled?: boolean;
-    value: NonNullable<SelectProps['value']>;
+    value: unknown[];
+    /** The values that count as selected: an empty one without an option does not */
+    selectedCount: number;
     clearValue: () => void;
     hasClear?: boolean;
     hasCounter?: boolean;
@@ -49,7 +53,12 @@ type ControlProps = {
     open: boolean;
     popupId: string;
     selectId: string;
-    activeIndex?: number;
+    /**
+     * The focus owner of the list (`useListFocusOwner`): the trigger is one of its two elements,
+     * the filter input is the other. Optional — without it the trigger keeps the combobox props of
+     * its own, but there is no `aria-activedescendant`
+     */
+    focusOwner?: ListFocusOwner;
 } & AriaLabelingProps;
 
 export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((props, ref) => {
@@ -71,19 +80,21 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         open,
         disabled,
         value,
+        selectedCount,
         hasClear,
         popupId,
         selectId,
-        activeIndex,
+        focusOwner,
         renderCounter,
         hasCounter,
         title,
     } = props;
-    const showOptionsText = Boolean(selectedOptionsContent);
-    const showPlaceholder = Boolean(placeholder && !showOptionsText);
-    const hasValue = Array.isArray(value) && value.filter(Boolean).length > 0;
+    const hasValue = selectedCount > 0;
+    // A selected option whose text is empty is still a value: the placeholder would deny it
+    const showPlaceholder = Boolean(placeholder && !hasValue);
 
     const direction = useDirection();
+    const labelId = useUniqId();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
@@ -136,7 +147,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         if (!hasCounter) {
             return null;
         }
-        const count = value.length;
+        const count = selectedCount;
         const counterComponent = <SelectCounter count={count} size={size} disabled={disabled} />;
         return renderCounter
             ? renderCounter(counterComponent, {count, size, disabled})
@@ -144,8 +155,7 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     };
 
     const renderClearIcon = (args: SelectRenderClearArgs) => {
-        const valueIsEmpty = value.length === 0;
-        if (!hasClear || valueIsEmpty || disabled) {
+        if (!hasClear || !hasValue || disabled) {
             return null;
         }
         return (
@@ -159,7 +169,9 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         );
     };
 
-    const triggerProps: SelectRenderTriggerProps = {
+    // `aria-expanded` and `aria-controls` are the state of the Select rather than the state of the
+    // list: on mobile the Sheet keeps the list mounted for the whole closing animation
+    const ownProps = {
         ...filterDOMProps(props, {labelable: true}),
         id: selectId,
         role: 'combobox',
@@ -167,12 +179,25 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         'aria-haspopup': 'listbox',
         'aria-expanded': open,
         'aria-invalid': isErrorVisible || undefined,
-        'aria-activedescendant':
-            activeIndex === undefined ? undefined : `${popupId}-item-${activeIndex}`,
         onClick: handleControlClick,
         onKeyDown,
+    } as const;
+
+    // `disabled` is not a DOM prop of every element, and `aria-controls` has to be written after
+    // the composition rather than through it: an `undefined` override never erases the value of
+    // the owner, and the list outlives the Select while the popup animates out
+    const triggerProps: SelectRenderTriggerProps = {
+        ...(focusOwner ? focusOwner.getInputProps(ownProps) : ownProps),
+        'aria-controls': open ? popupId : undefined,
         disabled,
     };
+
+    // `aria-labelledby` overrides `aria-label`, so the trigger references itself to keep it in the name
+    const labelledBy = label
+        ? [triggerProps['aria-label'] && selectId, triggerProps['aria-labelledby'], labelId]
+              .filter(Boolean)
+              .join(' ')
+        : triggerProps['aria-labelledby'];
 
     const {t} = i18n.useTranslation();
 
@@ -202,12 +227,22 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
                     title={title}
                     tabIndex={0}
                     {...triggerProps}
+                    aria-labelledby={labelledBy}
                 >
-                    {label && <span className={selectControlBlock('label')}>{label}</span>}
+                    {/* hidden from the content so that it names the combobox instead of joining its value */}
+                    {label && (
+                        <span
+                            id={labelId}
+                            className={selectControlBlock('label')}
+                            aria-hidden="true"
+                        >
+                            {label}
+                        </span>
+                    )}
                     {showPlaceholder && (
                         <span className={selectControlBlock('placeholder')}>{placeholder}</span>
                     )}
-                    {showOptionsText && (
+                    {hasValue && (
                         <span className={selectControlBlock('option-text')}>
                             {selectedOptionsContent}
                         </span>

@@ -145,7 +145,7 @@ export const WithLabel = {
         const refApi = React.useRef<PinInputApi>(null);
         /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
         return (
-            <Flex direction="row" gap={2} alignItems="center">
+            <Flex direction="row" gap="spacing-2" alignItems="center">
                 <label
                     id={labelId}
                     htmlFor={id}

@@ -34,6 +34,12 @@ test.describe('Checkbox', {tag: '@Checkbox'}, () => {
                         </div>
                     </div>
                 ))}
+                <div>
+                    <h4>[multiline]</h4>
+                    <div style={{width: 160}}>
+                        <Checkbox content="A checkbox label that wraps onto multiple lines" />
+                    </div>
+                </div>
             </div>,
         );
 

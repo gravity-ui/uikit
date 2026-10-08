@@ -1,121 +1,30 @@
-import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+import {expect} from '@playwright/experimental-ct-react';
+import type {Locator} from '@playwright/test';
 
 import {test} from '~playwright/core';
 
-import type {MenuItemProps, MenuProps} from '../Menu';
-import type {MenuGroupProps} from '../MenuGroup';
+import {LIST_ITEM_VIEW_MIN_HEIGHT} from '../../ListItemView/constants';
 
-import {activeCases, disabledCases, selectedCases, sizeCases, themeCases} from './cases';
-import type {
-    TestMenuGroupProps,
-    TestMenuItemProps,
-    TestMenuItemWithIconsProps,
-    TestMenuProps,
-} from './helpers';
-import {TestMenu, TestMenuGroup, TestMenuItem, TestMenuItemWithIcons} from './helpers';
+import {InlineMenu} from './helpersPlaywright';
+
+const middle = (locator: Locator) =>
+    locator.evaluate((element) => {
+        const {top, height} = element.getBoundingClientRect();
+        return top + height / 2;
+    });
 
 test.describe('Menu', {tag: '@Menu'}, () => {
-    const defaultMenuProps: MenuProps = {};
+    for (const size of ['s', 'm', 'l', 'xl'] as const) {
+        test(`an item has the height of a row of size ${size}, the text in the middle`, async ({
+            mount,
+            page,
+        }) => {
+            await mount(<InlineMenu size={size} />);
 
-    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<TestMenuProps>(defaultMenuProps, {
-            size: sizeCases,
+            const item = page.getByTestId('item');
+
+            expect((await item.boundingBox())?.height).toBe(LIST_ITEM_VIEW_MIN_HEIGHT[size]);
+            expect(await middle(page.getByTestId('text'))).toBeCloseTo(await middle(item), 0);
         });
-
-        await mount(
-            <div>
-                {smokeScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <TestMenu {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    const defaultMenuGroupProps: MenuGroupProps = {
-        label: 'Group title',
-    };
-
-    test('smoke menu group', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<TestMenuGroupProps>(defaultMenuGroupProps, {});
-
-        await mount(
-            <div>
-                {smokeScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <TestMenuGroup {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    const menuItemQa = 'menu-item';
-
-    const defaultMenuItemProps: MenuItemProps = {
-        qa: menuItemQa,
-        children: 'Menu item content',
-    };
-
-    test('smoke menu item', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<TestMenuItemProps>(defaultMenuItemProps, {
-            disabled: disabledCases,
-            active: activeCases,
-            selected: selectedCases,
-            theme: themeCases,
-        });
-
-        await mount(
-            <div>
-                {smokeScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <TestMenuItem {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
-
-    test('smoke menu item with icons', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<TestMenuItemWithIconsProps>(
-            defaultMenuItemProps,
-            {
-                disabled: disabledCases,
-                active: activeCases,
-                selected: selectedCases,
-                theme: themeCases,
-            },
-        );
-
-        await mount(
-            <div>
-                {smokeScenarios.map(([title, props]) => (
-                    <div key={title}>
-                        <h4>{title}</h4>
-                        <div>
-                            <TestMenuItemWithIcons {...props} />
-                        </div>
-                    </div>
-                ))}
-            </div>,
-        );
-
-        await expectScreenshot({});
-    });
+    }
 });

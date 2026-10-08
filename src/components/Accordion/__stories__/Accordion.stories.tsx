@@ -83,7 +83,7 @@ export const Playground: Story = {
         <React.Fragment>
             <Accordion {...args} defaultValue={'settings'}>
                 <Accordion.Item summary="Settings" value="settings">
-                    <Flex direction="column" gap={2}>
+                    <Flex direction="column" gap="spacing-2">
                         Configure various application settings here.
                         <Button size="s">Save Settings</Button>
                     </Flex>
@@ -130,7 +130,7 @@ export const Size: Story = {
     },
     render: (args) => {
         return (
-            <Flex direction="column" gap={4}>
+            <Flex direction="column" gap="spacing-4">
                 <Text variant="body-3">Size M</Text>
                 <Accordion {...args} size="m">
                     <Accordion.Item summary="Settings Configuration">
@@ -186,7 +186,7 @@ export const View: Story = {
     },
     render: (args) => {
         return (
-            <Flex direction={'row'} gap={10}>
+            <Flex direction={'row'} gap="spacing-10">
                 <Accordion {...args} view={'solid'} size={'l'}>
                     <Accordion.Item summary="Item 1">Item 1</Accordion.Item>
                     <Accordion.Item summary="Item 2">Item 2</Accordion.Item>

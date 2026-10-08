@@ -148,7 +148,7 @@ export const WithContent: Story = {
                 direction={args.orientation === 'horizontal' ? 'column' : 'row'}
                 height={args.orientation === 'vertical' ? 200 : undefined}
                 width={400}
-                gap={5}
+                gap="spacing-5"
             >
                 {alignCases.map((align, index) => (
                     <Divider {...args} align={align} key={index}>

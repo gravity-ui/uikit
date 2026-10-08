@@ -4,14 +4,16 @@ The layout update gives `Box`, `Flex`, `Container`, `Row`, and `Col` responsive 
 
 ## Migration checklist
 
-1. Replace `Box`/`Flex` `spacing` objects with logical margin and padding props.
+1. Replace `Box`/`Flex`/`Card` `spacing` objects with logical margin and padding props.
 2. Replace removed `Flex` shortcuts (`grow`, `basis`, `shrink`, `centerContent`, `gapRow`, and `space`).
 3. Convert spacing-scale values used by `Flex` to `spacing-*` tokens.
 4. Check code that depends on the wrapper elements previously created by `Flex space`.
 5. Convert `Container` gutters to spacing tokens and replace `spaceRow`, and `Row` `space` and `spaceRow`.
-6. Rename breakpoint-based `Container.maxWidth` to `size`; keep `maxWidth` for CSS lengths or pixel values.
-7. Check usages that set the same CSS property through both a layout prop and `style`.
-8. Review `Box`/`Flex` sizes that relied on `border-box`; set `box-sizing` explicitly where needed.
+6. Give every sized `Col` a parent `Row`: outside a `Row`, `size` no longer sets its width.
+7. Rename breakpoint-based `Container.maxWidth` to `size`; keep `maxWidth` for CSS lengths or pixel values.
+8. Check usages that set the same CSS property through both a layout prop and `style`.
+9. Review `Box`/`Flex` sizes that relied on `border-box`; set `box-sizing` explicitly where needed.
+10. Declare the native props used by interfaces that extend `BoxProps` and the other layout props types.
 
 ## Spacing values and CSS units
 
@@ -52,12 +54,24 @@ Review fixed-size layouts and `width="100%"` elements with padding or borders, w
 
 If your application already applies a `border-box` reset to these elements, their sizing remains unchanged. `Container` also leaves box sizing to CSS. With the default `content-box`, its width cap excludes gutters and borders.
 
+## Native props in types
+
+`BoxProps` and the props types of the other layout components no longer include native HTML attributes: the component
+infers them from `as` at the call site. An interface that extends `BoxProps` and uses `onClick`, `id` or `role` has to
+declare them:
+
+```tsx
+interface PanelProps
+  extends BoxProps,
+    Omit<React.ComponentPropsWithoutRef<'div'>, keyof BoxProps> {}
+```
+
 ## `Box`
 
 ### Replace `spacing`
 
-The `spacing` prop has been removed, from `Card` too, which is built on `Box`. Replace it with explicit logical margin
-and padding props:
+The `spacing` prop has been removed from `Box` and from `Card`, which is built on it. Replace it with explicit logical
+margin and padding props:
 
 | Old `spacing` key | New `Box` prop       |
 | ----------------- | -------------------- |
@@ -97,18 +111,6 @@ Use UIKit token names for color and radius props, without the CSS variable prefi
 
 ```tsx
 <Box backgroundColor="generic" borderColor="generic" borderWidth={1} borderRadius="m" />
-```
-
-### Native props in types
-
-`BoxProps` and the props types of the other layout components no longer include native HTML attributes: the component
-infers them from `as` at the call site. An interface that extends `BoxProps` and uses `onClick`, `id` or `role` has to
-declare them:
-
-```tsx
-interface PanelProps
-  extends BoxProps,
-    Omit<React.ComponentPropsWithoutRef<'div'>, keyof BoxProps> {}
 ```
 
 ### `style` precedence
@@ -203,7 +205,7 @@ Use `spacing-*` inside track arrays when a track should use the UIKit spacing sc
 <Grid as="main" />
 ```
 
-After migration, run TypeScript and visual tests. TypeScript does not catch every change: numbers and numeric strings in `gap`, `rowGap`, `columnGap` and `gutters` are valid values that now mean pixels, and `Container maxWidth="l"` is a valid CSS value that no longer caps the width. The most useful search terms for locating old API usage are `spacing=`, `grow`, `basis`, `shrink`, `centerContent`, `gapRow`, `space`, `gap=`, `gutters=` and `maxWidth=`.
+After migration, run TypeScript and visual tests. TypeScript does not catch every change. Numbers in `gap`, `rowGap`, `columnGap` and `gutters` now mean pixels, and numeric strings such as `gap="3"` are not valid CSS and set no gap at all. `Container maxWidth="l"` passes TypeScript, but the browser drops it, and the width is no longer capped. The most useful search terms for locating old API usage are `spacing=`, `grow`, `basis`, `shrink`, `centerContent`, `gapRow`, `space`, `gap=`, `gutters=` and `maxWidth=`.
 
 ## `Container`, `Row`, and `Col`
 

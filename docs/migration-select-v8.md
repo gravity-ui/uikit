@@ -111,8 +111,8 @@ are up to it, and the elements it returns need keys when they hold state:
   [Accessible name](../src/components/Select/README.md#accessible-name).
 - **A group header is no longer an option**: it carries `role="presentation"` and is skipped by the
   count of `role="option"` rows — [Grouped list](../src/components/Select/README.md#grouped-list).
-  The options describe themselves with their header, so a test finds the options of a group with
-  `getAllByRole('option', {description: 'Group 1'})`.
+  Each option is described by its group header (`aria-describedby`), so a test finds the options of
+  a group with `getAllByRole('option', {description: 'Group 1'})`.
 - **The built-in filter is a `combobox`**: a test finds it with `getByRole('combobox')` inside the
   popup instead of `getByRole('textbox')`.
 - The `data-qa` hooks are unchanged: `select-list` on the list and `list-active-item` on the active

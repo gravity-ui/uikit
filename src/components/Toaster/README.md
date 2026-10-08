@@ -126,12 +126,12 @@ It accepts the `toastOptions` argument with the ongoing notification details:
 
 Every `action` is an object with following parameters:
 
-| Parameter        | Type                                      | Required | Default    | Description                                                              |
-| :--------------- | :---------------------------------------- | :------- | :--------- | :----------------------------------------------------------------------- |
-| label            | `string`                                  | yes      |            | Action description                                                       |
-| onClick          | `() => void`                              | yes      |            | On-action click handler                                                  |
-| view             | [`ButtonView`](../Button/README.md#props) |          | `outlined` | Action appearance, same as `view` for `<Button/>`                        |
-| removeAfterClick | `boolean`                                 |          | `true`     | Enables or disables closing the notification after the action is clicked |
+| Parameter        | Type                                           | Required | Default    | Description                                                              |
+| :--------------- | :--------------------------------------------- | :------- | :--------- | :----------------------------------------------------------------------- |
+| label            | `string`                                       | yes      |            | Action description                                                       |
+| onClick          | `() => void`                                   | yes      |            | On-action click handler                                                  |
+| view             | [`ButtonView`](../Button/README.md#properties) |          | `outlined` | Action appearance, same as `view` for `<Button/>`                        |
+| removeAfterClick | `boolean`                                      |          | `true`     | Enables or disables closing the notification after the action is clicked |
 
 ## CSS API
 

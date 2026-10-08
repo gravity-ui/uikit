@@ -19,11 +19,11 @@ import {Table} from '@gravity-ui/uikit/legacy';
 
 Дополнительные функции подключаются через компоненты высшего порядка (HOC):
 
-- [withTableActions](#usage-with-hoc-withtableactions)
-- [withTableCopy](#usage-with-hoc-withtablecopy)
-- [withTableSelection](#usage-with-hoc-withtableselection)
-- [withTableSettings](#usage-with-hoc-withtablesettings)
-- [withTableSorting](#usage-with-hoc-withtablesorting)
+- [withTableActions](#использование-table-с-hoc-withtableactions)
+- [withTableCopy](#использование-table-с-hoc-withtablecopy)
+- [withTableSelection](#использование-table-с-hoc-withtableselection)
+- [withTableSettings](#использование-table-с-hoc-withtablesettings)
+- [withTableSorting](#использование-table-с-hoc-withtablesorting)
 
 <!--/GITHUB_BLOCK-->
 

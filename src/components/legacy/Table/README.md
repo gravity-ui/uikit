@@ -19,11 +19,11 @@ loads all of them, whatever you import from it.
 
 Additional features are enabled through HOCs:
 
-- [withTableActions](#usage-with-hoc-withtableactions)
-- [withTableCopy](#usage-with-hoc-withtablecopy)
-- [withTableSelection](#usage-with-hoc-withtableselection)
-- [withTableSettings](#usage-with-hoc-withtablesettings)
-- [withTableSorting](#usage-with-hoc-withtablesorting)
+- [withTableActions](#using-table-with-the-withtableactions-hoc)
+- [withTableCopy](#using-table-with-the-withtablecopy-hoc)
+- [withTableSelection](#using-table-with-the-withtableselection-hoc)
+- [withTableSettings](#using-table-with-the-withtablesettings-hoc)
+- [withTableSorting](#using-table-with-the-withtablesorting-hoc)
 
 <!--/GITHUB_BLOCK-->
 

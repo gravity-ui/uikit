@@ -4,14 +4,16 @@ The layout update gives `Box`, `Flex`, `Container`, `Row`, and `Col` responsive 
 
 ## Migration checklist
 
-1. Replace `Box`/`Flex` `spacing` objects with logical margin and padding props.
+1. Replace `Box`/`Flex`/`Card` `spacing` objects with logical margin and padding props.
 2. Replace removed `Flex` shortcuts (`grow`, `basis`, `shrink`, `centerContent`, `gapRow`, and `space`).
 3. Convert spacing-scale values used by `Flex` to `spacing-*` tokens.
 4. Check code that depends on the wrapper elements previously created by `Flex space`.
 5. Convert `Container` gutters to spacing tokens and replace `spaceRow`, and `Row` `space` and `spaceRow`.
-6. Rename breakpoint-based `Container.maxWidth` to `size`; keep `maxWidth` for CSS lengths or pixel values.
-7. Check usages that set the same CSS property through both a layout prop and `style`.
-8. Review `Box`/`Flex` sizes that relied on `border-box`; set `box-sizing` explicitly where needed.
+6. Give every sized `Col` a parent `Row`: outside a `Row`, `size` no longer sets its width.
+7. Rename breakpoint-based `Container.maxWidth` to `size`; keep `maxWidth` for CSS lengths or pixel values.
+8. Check usages that set the same CSS property through both a layout prop and `style`.
+9. Review `Box`/`Flex` sizes that relied on `border-box`; set `box-sizing` explicitly where needed.
+10. Declare the native props used by interfaces that extend `BoxProps` and the other layout props types.
 
 ## Spacing values and CSS units
 
@@ -52,11 +54,24 @@ Review fixed-size layouts and `width="100%"` elements with padding or borders, w
 
 If your application already applies a `border-box` reset to these elements, their sizing remains unchanged. `Container` also leaves box sizing to CSS. With the default `content-box`, its width cap excludes gutters and borders.
 
+## Native props in types
+
+`BoxProps` and the props types of the other layout components no longer include native HTML attributes: the component
+infers them from `as` at the call site. An interface that extends `BoxProps` and uses `onClick`, `id` or `role` has to
+declare them:
+
+```tsx
+interface PanelProps
+  extends BoxProps,
+    Omit<React.ComponentPropsWithoutRef<'div'>, keyof BoxProps> {}
+```
+
 ## `Box`
 
 ### Replace `spacing`
 
-The `spacing` prop has been removed. Replace it with explicit logical margin and padding props:
+The `spacing` prop has been removed from `Box` and from `Card`, which is built on it. Replace it with explicit logical
+margin and padding props:
 
 | Old `spacing` key | New `Box` prop       |
 | ----------------- | -------------------- |
@@ -190,11 +205,11 @@ Use `spacing-*` inside track arrays when a track should use the UIKit spacing sc
 <Grid as="main" />
 ```
 
-After migration, run TypeScript and visual tests. The most useful search terms for locating old API usage are `spacing=`, `grow`, `basis`, `shrink`, `centerContent`, `gapRow`, and `space` on `Box`/`Flex` elements.
+After migration, run TypeScript and visual tests. TypeScript does not catch every change. Numbers in `gap`, `rowGap`, `columnGap` and `gutters` now mean pixels, and numeric strings such as `gap="3"` are not valid CSS and set no gap at all. `Container maxWidth="l"` passes TypeScript, but the browser drops it, and the width is no longer capped. The most useful search terms for locating old API usage are `spacing=`, `grow`, `basis`, `shrink`, `centerContent`, `gapRow`, `space`, `gap=`, `gutters=` and `maxWidth=`.
 
 ## `Container`, `Row`, and `Col`
 
-`Row` now uses CSS Grid with 12 equal tracks and native CSS gaps instead of negative margins and generated column padding. All three components accept `Box` style props, `as`, native element props, and refs. Explicit column sizing through `size`, including responsive objects and tuples, is unchanged. Each unsized `Col` now spans all 12 tracks on its own row instead of sharing remaining space. Use explicit sizes to share a row, or use `Flex` for flexible widths. The deprecated `Col` props `s`, `m`, `l`, `xl`, and `xxl` have been removed. Move them into `size`:
+`Row` now uses CSS Grid with 12 equal tracks and native CSS gaps instead of negative margins and generated column padding. All three components accept `Box` style props, `as`, native element props, and refs. Explicit column sizing through `size`, including responsive objects and tuples, is unchanged. Each unsized `Col` now spans all 12 tracks on its own row instead of sharing remaining space. Use explicit sizes to share a row, or use `Flex` for flexible widths. `Col` takes its width from the tracks of `Row`: outside a `Row` its `size` no longer sets a percentage width. The deprecated `Col` props `s`, `m`, `l`, `xl`, and `xxl` have been removed. Move them into `size`:
 
 ```diff
 - <Col s={12} m={6} l={4} />
@@ -215,7 +230,7 @@ After migration, run TypeScript and visual tests. The most useful search terms f
 
 `Container size="l"` restores the breakpoint-based width cap under a new name. It reads the configured `l` breakpoint and caps the content width, excluding gutters and borders with the default `content-box` sizing. Leave width unset to fit narrower parents automatically; `width="100%"` plus gutters can overflow. Application CSS can override box sizing. Omit `size` for an uncapped container. `maxWidth` remains a normal responsive CSS style prop; explicit `maxWidth`, `maxInlineSize`, or `style.maxInlineSize` overrides the breakpoint cap.
 
-Use `columnGap` to override only horizontal spacing. Numbers are pixels, CSS strings pass through, and spacing-scale values require `spacing-*` tokens. `gap` also supports two-value arrays, with row spacing first and column spacing second.
+The old `Row space` set both gaps and `spaceRow` overrode the vertical one, so `space` alone becomes `gap`, and `space` with `spaceRow` becomes `columnGap` with `rowGap`. Use `columnGap` to override only horizontal spacing. Numbers are pixels, CSS strings pass through, and spacing-scale values require `spacing-*` tokens. `gap` also supports two-value arrays, with row spacing first and column spacing second.
 
 ```diff
 - <Container gutters={3} spaceRow={4} maxWidth="l">
@@ -231,6 +246,6 @@ Keep `components.container.gutters` and rename `components.container.spaceRow` t
 
 `gutters` keeps its name but now accepts responsive values, spacing tokens, CSS lengths, and numbers in pixels. Use `gutters={0}` instead of `gutters={false}`. The standard `paddingInline` style prop remains available and overrides theme defaults; explicit `gutters` takes precedence over `paddingInline`.
 
-`Container` is based on `Box`, not `Flex`. Its `rowGap` applies `margin-block-start` only between adjacent direct-child `Row` elements. The first row, non-row children, and nested rows receive no added spacing. Each nested container resolves its own row spacing from props or theme defaults. Flex container alignment and gap props are no longer supported; use `Flex` for spacing arbitrary children. `Col` backgrounds and borders now cover the column's content box instead of its old gutter padding. Review selectors that depend on old spacing modifier classes or on `Col` padding. CSS Grid handles gap sizing directly, so gaps defined in CSS classes also work when no inline gap overrides them.
+`Container` is based on `Box`, not `Flex`. Its `rowGap` applies `margin-block-start` only between adjacent direct-child `Row` elements. The first row, non-row children, and nested rows receive no added spacing. Each nested container resolves its own row spacing from props or theme defaults. Flex container alignment and gap props are no longer supported; use `Flex` for spacing arbitrary children. `Col` backgrounds and borders now cover the column's content box instead of its old gutter padding. Review selectors that depend on old modifier classes (`g-flex_center-content`, `g-flex_s_*`, `g-row_s_*`, `g-row_sr_*`, `g-container_sr_*`, `g-box_overflow_*`) or on `Col` padding; `overflow` of `Box` is now an inline style. CSS Grid handles gap sizing directly, so gaps defined in CSS classes also work when no inline gap overrides them.
 
 `Row` accepts Grid alignment props instead of Flex alignment props. `justifyContent` aligns the tracks rather than columns in a partially filled row. Use `justifyItems` or column `justifySelf` for alignment inside cells. Flex sizing props such as `flexGrow` no longer affect `Col` inside a `Row`.

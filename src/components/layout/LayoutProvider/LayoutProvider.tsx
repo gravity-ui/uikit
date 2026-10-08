@@ -11,16 +11,9 @@ export interface LayoutProviderProps {
     config?: RecursivePartial<LayoutTheme>;
     /**
      * Initial breakpoint for SSR. Inherits the parent breakpoint; without a parent,
-     * defaults to `s` (`xs` when fixBreakpoints is enabled).
+     * defaults to `xs`.
      */
     initialMediaQuery?: MediaType;
-    // TODO BREAKING CHANGE: Make it default behaviour
-    /**
-     * Fixes "s" media breakpoint behaviour with introducing "xs" media.
-     * Inherits the parent setting; defaults to false without a parent.
-     * Will be default in the next major release.
-     */
-    fixBreakpoints?: boolean;
     children: React.ReactNode;
 }
 
@@ -28,15 +21,12 @@ export function LayoutProvider({
     children,
     config: override,
     initialMediaQuery,
-    fixBreakpoints: fixBreakpointsProp,
 }: LayoutProviderProps) {
     const parentContext = React.useContext(LayoutContext);
-    const fixBreakpoints = fixBreakpointsProp ?? parentContext.fixBreakpoints;
     const inheritedMediaQuery =
         parentContext !== DEFAULT_LAYOUT_CONTEXT &&
         initialMediaQuery === undefined &&
-        override?.breakpoints === undefined &&
-        fixBreakpoints === parentContext.fixBreakpoints
+        override?.breakpoints === undefined
             ? parentContext.activeMediaQuery
             : undefined;
     const theme = React.useMemo(
@@ -45,18 +35,11 @@ export function LayoutProvider({
     );
     const activeMediaQuery = useCurrentActiveMediaQuery(
         theme.breakpoints,
-        fixBreakpoints,
         initialMediaQuery ??
-            (parentContext !== DEFAULT_LAYOUT_CONTEXT &&
-            fixBreakpoints === parentContext.fixBreakpoints
-                ? parentContext.activeMediaQuery
-                : undefined),
+            (parentContext !== DEFAULT_LAYOUT_CONTEXT ? parentContext.activeMediaQuery : undefined),
         inheritedMediaQuery,
     );
 
-    const value = React.useMemo(
-        () => ({activeMediaQuery, theme, fixBreakpoints}),
-        [activeMediaQuery, theme, fixBreakpoints],
-    );
+    const value = React.useMemo(() => ({activeMediaQuery, theme}), [activeMediaQuery, theme]);
     return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
 }

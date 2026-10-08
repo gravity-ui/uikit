@@ -68,7 +68,7 @@ Mobile settings use independent defaults. Use a feature provider to configure ju
 
 | Prop           | Type                                    | Behavior                                                   |
 | -------------- | --------------------------------------- | ---------------------------------------------------------- |
-| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Layout configuration, media queries, and breakpoint mode   |
+| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Layout configuration and media queries                     |
 | `defaultProps` | `DefaultPropsMap`                       | Component defaults; explicit component props take priority |
 
 It composes `LayoutProvider`, `DefaultPropsProvider`, `ThemeProvider`, `LangProvider`, and
@@ -108,16 +108,15 @@ context, or `useLang` reads the global `configure` settings when there is no par
 
 ### LayoutProvider
 
-`LayoutProviderProps` accepts `children`, `config` (partial `LayoutTheme`), `initialMediaQuery`
-(a breakpoint name for the initial/SSR render), and `fixBreakpoints`. Nested providers inherit the
-theme, `fixBreakpoints`, and active breakpoint, including the parent's initial breakpoint during
-SSR. `config` merges with the parent theme without mutating it. Explicit settings override inherited
-ones; custom breakpoints or a different `fixBreakpoints` mode calculate a local active breakpoint.
-Without a parent provider, `fixBreakpoints` defaults to `false` and the initial breakpoint is `s`,
-or `xs` when `fixBreakpoints` is enabled. It adds no DOM wrapper. See [Layout](layout.md).
+`LayoutProviderProps` accepts `children`, `config` (partial `LayoutTheme`), and `initialMediaQuery`
+(a breakpoint name for the initial/SSR render). Nested providers inherit the theme and active
+breakpoint, including the parent's initial breakpoint during SSR. `config` merges with the parent
+theme without mutating it. Explicit settings override inherited ones; custom breakpoints calculate
+a local active breakpoint. Without a parent provider, the initial breakpoint is `xs`.
+It adds no DOM wrapper. See [Layout](layout.md).
 
 ```tsx
-<LayoutProvider config={layoutConfig} fixBreakpoints>
+<LayoutProvider config={layoutConfig}>
   <ResponsiveContent />
 </LayoutProvider>
 ```

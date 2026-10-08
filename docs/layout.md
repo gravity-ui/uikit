@@ -114,7 +114,7 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <Provider layout={{config, fixBreakpoints: true}}>
+        <Provider layout={{config}}>
             {...}
         </Provider>
     );
@@ -129,7 +129,7 @@ The default breakpoints are:
 - `xs` - < 576px
 - `s` - ≥ 576px;
 - `m` - ≥ 768px;
-- `l` - ≥ 1080px;
+- `l` - ≥ 980px;
 - `xl` - ≥ 1200px;
 - `2xl` - ≥ 1400px;
 - `3xl` - ≥ 1920px;
@@ -151,7 +151,7 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     },
     breakpoints: {
         s: 320,
-        l: 980,
+        l: 1080,
     },
 };
 
@@ -160,12 +160,10 @@ const APP_LAYOUT_THEME: LayoutTheme = {
 </Provider>;
 ```
 
-Use `LayoutProvider` to configure layout for a subtree. Unspecified settings, including
-`fixBreakpoints` and the active breakpoint during SSR and updates, are inherited from the parent.
-Partial `config` merges with the parent theme without mutating it. Custom breakpoints or a different
-`fixBreakpoints` mode calculate a local active breakpoint; `initialMediaQuery` overrides its initial
-value. Without a parent, the defaults remain `fixBreakpoints=false` and initial breakpoint `s`
-(`xs` with `fixBreakpoints=true`).
+Use `LayoutProvider` to configure layout for a subtree. Unspecified settings, including the active
+breakpoint during SSR and updates, are inherited from the parent. Partial `config` merges with the
+parent theme without mutating it. Custom breakpoints calculate a local active breakpoint;
+`initialMediaQuery` overrides its initial value. Without a parent, the initial breakpoint is `xs`.
 
 ## Box
 
@@ -230,7 +228,8 @@ Must be used as a child of `Row` component.
 - `size` - number of grid tracks to span. If omitted, the column spans all 12 tracks on its own row.
 
 Use `size` for responsive sizing. The separate breakpoint props `s`, `m`, `l`, `xl`, and `xxl`
-have been removed; for example, use `size={{s: 12, m: 6}}` instead of `s={12} m={6}`.
+have been removed; for example, use `size={{xs: 12, m: 6}}` instead of `s={12} m={6}` when `s`
+previously applied to the narrowest screens. See [the breakpoint migration](migration-to-v8.md#layout-breakpoints-and-container-gutters).
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -239,7 +238,7 @@ import {Row, Col} from '@gravity-ui/uikit';
   /**
    * In this example we override default theme behavior.
    *
-   * gap={{s: 'spacing-1', xl: 'spacing-5'}}
+   * gap={{xs: 'spacing-1', xl: 'spacing-5'}}
    */
   gap="spacing-5"
 >
@@ -281,7 +280,7 @@ padding, width, and spacing between rows.
 - all other `Box` style props are supported. Flex container alignment and gap props are not.
 
 Like `Box` and `Flex`, `Container` does not set `box-sizing`. With the default `content-box`,
-`size="l"` allows 1080px of content plus gutters and borders. Leave width unset to fit a narrower
+`size="l"` allows 980px of content plus gutters and borders. Leave width unset to fit a narrower
 parent automatically; `width="100%"` with gutters can overflow it. Application CSS can override
 box sizing. Without `size`, no breakpoint cap is applied.
 
@@ -343,7 +342,7 @@ import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 <Flex
   // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
-  gap={{s: 'spacing-5', m: 'spacing-3'}}
+  gap={{xs: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />

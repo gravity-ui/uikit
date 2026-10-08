@@ -50,3 +50,10 @@ describe('makeCssMod', () => {
         expect(makeCssMod(value)).toEqual(result);
     });
 });
+
+test('responsive helpers distinguish xs from s', () => {
+    expect(isMediaActiveFactory('xs')('xs')).toBe(true);
+    expect(isMediaActiveFactory('xs')('s')).toBe(false);
+    expect(getClosestMediaPropsFactory('xs')({xs: 'mobile', s: 'small'})).toBe('mobile');
+    expect(getClosestMediaPropsFactory('xs')({s: 'small'})).toBeUndefined();
+});

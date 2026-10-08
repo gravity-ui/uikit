@@ -72,7 +72,7 @@ UIKit поставляет четыре встроенные темы:
 
 | Проп           | Тип                                     | Поведение                                                    |
 | -------------- | --------------------------------------- | ------------------------------------------------------------ |
-| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Конфигурация layout, media queries и режим breakpoints       |
+| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Конфигурация layout и media queries                          |
 | `defaultProps` | `DefaultPropsMap`                       | Defaults компонентов; явно переданные пропсы имеют приоритет |
 
 Он объединяет `LayoutProvider`, `DefaultPropsProvider`, `ThemeProvider`, `LangProvider` и
@@ -112,16 +112,15 @@ UIKit поставляет четыре встроенные темы:
 
 ### LayoutProvider
 
-`LayoutProviderProps` принимает `children`, `config` (частичный `LayoutTheme`), `initialMediaQuery`
-(имя breakpoint для начального/SSR-рендера) и `fixBreakpoints`. Вложенный провайдер наследует тему,
-`fixBreakpoints` и активный breakpoint, включая начальный breakpoint родителя при SSR. `config`
-объединяется с родительской темой, не изменяя её. Явно переданные настройки переопределяют унаследованные;
-собственные breakpoints или другой режим `fixBreakpoints` вычисляют локальный активный breakpoint.
-Без родительского провайдера `fixBreakpoints` равен `false`, а начальный breakpoint — `s`, либо `xs`
-при включённом `fixBreakpoints`. DOM-обёртку не добавляет. См. [Layout](layout-ru.md).
+`LayoutProviderProps` принимает `children`, `config` (частичный `LayoutTheme`) и `initialMediaQuery`
+(имя breakpoint для начального/SSR-рендера). Вложенный провайдер наследует тему и активный breakpoint,
+включая начальный breakpoint родителя при SSR. `config` объединяется с родительской темой, не изменяя
+её. Явно переданные настройки переопределяют унаследованные; собственные breakpoints вычисляют
+локальный активный breakpoint. Без родительского провайдера начальный breakpoint — `xs`.
+DOM-обёртку не добавляет. См. [Layout](layout-ru.md).
 
 ```tsx
-<LayoutProvider config={layoutConfig} fixBreakpoints>
+<LayoutProvider config={layoutConfig}>
   <ResponsiveContent />
 </LayoutProvider>
 ```

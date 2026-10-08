@@ -7,13 +7,11 @@ import type {LayoutTheme, MediaType} from '../types';
 interface LayoutContextProps {
     theme: LayoutTheme;
     activeMediaQuery: MediaType;
-    fixBreakpoints: boolean;
 }
 
 export const DEFAULT_LAYOUT_CONTEXT: LayoutContextProps = {
     theme: DEFAULT_LAYOUT_THEME,
-    activeMediaQuery: 's',
-    fixBreakpoints: false,
+    activeMediaQuery: 'xs',
 };
 
 export const LayoutContext = React.createContext(DEFAULT_LAYOUT_CONTEXT);

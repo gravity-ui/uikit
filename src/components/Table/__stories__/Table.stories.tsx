@@ -339,3 +339,40 @@ export const HOCWithTableSorting = WithTableSortingTemplate.bind({});
 HOCWithTableSorting.args = {
     columns: columnsWithSorting,
 };
+
+// ---------------------------------
+const columnsWithSticky = cloneDeep(columns);
+columnsWithSticky[0].sticky = 'start';
+columnsWithSticky[0].width = 150;
+columnsWithSticky[1].width = 200;
+columnsWithSticky[2].width = 200;
+columnsWithSticky[3].width = 200;
+columnsWithSticky[4].width = 150;
+columnsWithSticky[5].width = 150;
+
+// Note: --g-color-base-info-light is semi-transparent (rgba), so we use
+// the solid equivalent --g-color-private-blue-100-solid for sticky columns
+const CUSTOM_BG_COLOR = 'var(--g-color-private-blue-100-solid)';
+
+const StickyColumnsCustomBackgroundTemplate: StoryFn<TableProps<DataItem>> = (args) => {
+    return (
+        <div
+            style={{
+                padding: 20,
+                backgroundColor: CUSTOM_BG_COLOR,
+            }}
+        >
+            <div
+                style={{
+                    maxWidth: 500,
+                    // @ts-expect-error CSS custom property
+                    '--g-table-sticky-column-background': CUSTOM_BG_COLOR,
+                }}
+            >
+                <Table {...args} columns={columnsWithSticky} />
+            </div>
+        </div>
+    );
+};
+export const StickyColumnsCustomBackground = StickyColumnsCustomBackgroundTemplate.bind({});
+StickyColumnsCustomBackground.storyName = 'Sticky Columns: Custom Background';

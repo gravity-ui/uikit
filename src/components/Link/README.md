@@ -159,6 +159,18 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+## Custom component
+
+Use the `component` property to render `Link` as another component (for example, a link from your router) while keeping the `Link` styles. In this case, `href` is not required, and all the other props are passed to the component.
+
+```tsx
+import {Link as RouterLink} from 'react-router-dom';
+
+<Link component={RouterLink} to="/settings">
+  Settings
+</Link>;
+```
+
 ## Properties
 
 `Link` accepts any valid `a` element props in addition to these:
@@ -166,6 +178,7 @@ SANDBOX-->
 | Name      | Description                                |                 Type                 |  Default   |
 | :-------- | :----------------------------------------- | :----------------------------------: | :--------: |
 | children  | `Link` content                             |          `React.ReactNode`           |            |
+| component | Overrides the root component               |         `React.ElementType`          |            |
 | href      | `href` HTML attribute                      |               `string`               |            |
 | qa        | `data-qa` HTML attribute, used for testing |               `string`               |            |
 | underline | Displays underline underneath the `Link`   |              `boolean`               |  `false`   |

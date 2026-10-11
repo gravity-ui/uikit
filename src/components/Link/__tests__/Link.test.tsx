@@ -58,4 +58,25 @@ describe('Link', () => {
 
         expect(ref.current).toBe(screen.getByTestId(qaId));
     });
+
+    test('should forward ref to the element rendered by a custom component', () => {
+        const RouterLink = React.forwardRef<HTMLAnchorElement, React.ComponentProps<'a'>>(
+            function RouterLink({children, ...props}, ref) {
+                return (
+                    <a {...props} ref={ref}>
+                        {children}
+                    </a>
+                );
+            },
+        );
+        const ref = React.createRef<HTMLAnchorElement>();
+
+        render(
+            <Link component={RouterLink} href="/path" ref={ref}>
+                Router link
+            </Link>,
+        );
+
+        expect(ref.current).toBe(screen.getByRole('link'));
+    });
 });

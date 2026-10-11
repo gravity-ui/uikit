@@ -57,7 +57,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
     T extends LinkCustomElementType,
 >(
     rawProps: LinkProps | LinkComponentProps<Exclude<T, undefined>>,
-    ref: React.Ref<HTMLAnchorElement> | React.Ref<T extends string ? React.ComponentRef<T> : T>,
+    ref: React.Ref<HTMLAnchorElement> | React.Ref<React.ComponentRef<Exclude<T, undefined>>>,
 ) {
     // default props are declared for the anchor variant, but apply to a custom component as well
     const props = useDefaultProps('Link', rawProps as LinkProps) as typeof rawProps;
@@ -125,7 +125,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
 >(
     props: P extends {component: Exclude<T, undefined>}
         ? LinkComponentProps<Exclude<T, undefined>> & {
-              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
+              ref?: React.Ref<React.ComponentRef<Exclude<T, undefined>>>;
           }
         : LinkProps & {ref?: React.Ref<HTMLAnchorElement>},
 ) => React.ReactElement;

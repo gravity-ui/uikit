@@ -132,7 +132,7 @@ SANDBOX-->
 
 ## Custom content
 
-Use `Disclosure.Summary` component to create a custom header and `Disclosure.Details` to fulfill custom content.
+Use `Disclosure.Summary` to configure the default summary separately from `Disclosure`. The `summary`, `size`, and `arrowPosition` properties override the corresponding `Disclosure` properties for this summary. Use the `children` render function to create a fully custom summary, and `Disclosure.Details` to provide custom content.
 
 <!--SANDBOX
 import {Check} from '@gravity-ui/icons';
@@ -141,6 +141,15 @@ import {Button, Disclosure, Flex, Icon} from '@gravity-ui/uikit';
 export default function () {
     return (
         <Flex gap={4} alignItems="center">
+            <Disclosure>
+                <Disclosure.Summary
+                    summary="Full-width summary"
+                    width="max"
+                    justifyContent="space-between"
+                    arrowPosition="end"
+                />
+                <Disclosure.Details>Details</Disclosure.Details>
+            </Disclosure>
             <Disclosure>
                 <Disclosure.Summary>
                     {(props) => (
@@ -171,6 +180,18 @@ export default function () {
 SANDBOX-->
 
 <!--GITHUB_BLOCK-->
+
+```tsx
+<Disclosure>
+  <Disclosure.Summary
+    summary="Full-width summary"
+    width="max"
+    justifyContent="space-between"
+    arrowPosition="end"
+  />
+  <Disclosure.Details>Details</Disclosure.Details>
+</Disclosure>
+```
 
 ```tsx
 <Disclosure>
@@ -251,10 +272,15 @@ SANDBOX-->
 
 ### Disclosure.Summary
 
-| Name     | Description     | Type                                            | Default              |
-| :------- | :-------------- | :---------------------------------------------- | :------------------- |
-| children | Render function | `(props, defaultSummary) => React.ReactElement` |                      |
-| qa       | Test identifier | `string`                                        | `disclosure-summary` |
+| Name           | Description                                            | Type                                            | Default                    |
+| :------------- | :----------------------------------------------------- | :---------------------------------------------- | :------------------------- |
+| children       | Optional custom summary render function                | `(props, defaultSummary) => React.ReactElement` |                            |
+| width          | Summary width                                          | `"auto"` `"max"`                                | `"auto"`                   |
+| justifyContent | Content justification along main axis                  | `"start"` `"space-between"`                     | `"start"`                  |
+| size           | Summary size; overrides `Disclosure.size`              | `"m"` `"l"` `"xl"`                              | `Disclosure.size`          |
+| summary        | Summary content; overrides `Disclosure.summary`        | `React.ReactNode`                               | `Disclosure.summary`       |
+| arrowPosition  | Control position; overrides `Disclosure.arrowPosition` | `"start"` `"end"`                               | `Disclosure.arrowPosition` |
+| qa             | Test identifier                                        | `string`                                        | `disclosure-summary`       |
 
 ### Disclosure.Details
 

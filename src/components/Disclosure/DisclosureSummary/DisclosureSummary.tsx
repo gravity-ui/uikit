@@ -5,7 +5,7 @@ import * as React from 'react';
 import {ArrowToggle} from '../../ArrowToggle';
 import type {QAProps} from '../../types';
 import {warnOnce} from '../../utils/warn';
-import type {DisclosureSize} from '../Disclosure';
+import type {DisclosureArrowPosition, DisclosureSize} from '../Disclosure';
 import {useDisclosureAttributes, useToggleDisclosure} from '../DisclosureContext';
 import {DisclosureQa, b} from '../constants';
 
@@ -21,6 +21,9 @@ function warnAboutPhysicalValues() {
     );
 }
 
+export type DisclosureSummaryWidth = 'auto' | 'max';
+export type DisclosureSummaryJustifyContent = 'start' | 'space-between';
+
 export interface DisclosureSummaryRenderFunctionProps extends QAProps {
     onClick: (e: React.SyntheticEvent) => void;
     ariaControls: string;
@@ -29,16 +32,34 @@ export interface DisclosureSummaryRenderFunctionProps extends QAProps {
     onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void;
     disabled?: boolean;
     className?: string;
+    width?: DisclosureSummaryWidth;
+    justifyContent?: DisclosureSummaryJustifyContent;
+    size?: DisclosureSize;
+    summary?: React.ReactNode;
+    arrowPosition?: DisclosureArrowPosition;
 }
 
 export interface DisclosureSummaryProps extends QAProps {
-    children: (
+    width?: DisclosureSummaryWidth;
+    justifyContent?: DisclosureSummaryJustifyContent;
+    size?: DisclosureSize;
+    summary?: React.ReactNode;
+    arrowPosition?: DisclosureArrowPosition;
+    children?: (
         props: DisclosureSummaryRenderFunctionProps,
         defaultSummary: React.ReactElement,
     ) => React.ReactElement;
 }
 
-export function DisclosureSummary({children: renderFunction, qa}: DisclosureSummaryProps) {
+export function DisclosureSummary({
+    children: renderFunction,
+    qa,
+    justifyContent = 'start',
+    width = 'auto',
+    size,
+    summary,
+    arrowPosition,
+}: DisclosureSummaryProps) {
     const handleToggle = useToggleDisclosure();
     const {
         ariaControls,
@@ -46,21 +67,59 @@ export function DisclosureSummary({children: renderFunction, qa}: DisclosureSumm
         expanded,
         disabled,
         onSummaryKeyDown: onKeyDown,
+        size: disclosureSize,
+        summary: disclosureSummary,
+        arrowPosition: disclosureArrowPosition,
     } = useDisclosureAttributes();
-    const props = {onClick: handleToggle, ariaControls, id, expanded, disabled, qa, onKeyDown};
+    const props: DisclosureSummaryRenderFunctionProps = {
+        onClick: handleToggle,
+        ariaControls,
+        id,
+        expanded,
+        disabled,
+        qa,
+        onKeyDown,
+        justifyContent,
+        width,
+        size: size ?? disclosureSize,
+        summary: summary === undefined ? disclosureSummary : summary,
+        arrowPosition: arrowPosition ?? disclosureArrowPosition,
+    };
 
-    return renderFunction(props, <DefaultDisclosureSummary {...props} />);
+    const defaultDisclosureSummaryJsx = <DefaultDisclosureSummary {...props} />;
+
+    if (renderFunction) {
+        return renderFunction(props, defaultDisclosureSummaryJsx);
+    }
+
+    return defaultDisclosureSummaryJsx;
 }
 
 export const DefaultDisclosureSummary = React.forwardRef<
     HTMLButtonElement,
     DisclosureSummaryRenderFunctionProps
 >(function DefaultDisclosureSummary(
-    {onClick, ariaControls, id, expanded, disabled, qa, onKeyDown, className},
+    {
+        onClick,
+        ariaControls,
+        id,
+        expanded,
+        disabled,
+        qa,
+        onKeyDown,
+        className,
+        width,
+        justifyContent,
+        size: sizeProp,
+        summary: summaryProp,
+        arrowPosition: arrowPositionProp,
+    },
     ref,
 ) {
     const {size, summary, arrowPosition} = useDisclosureAttributes();
-    let arrowMod = arrowPosition;
+    const mergedSize = sizeProp ?? size;
+    const mergedSummary = summaryProp === undefined ? summary : summaryProp;
+    let arrowMod = arrowPositionProp ?? arrowPosition;
 
     if (arrowMod === 'left') {
         warnAboutPhysicalValues();
@@ -75,7 +134,11 @@ export const DefaultDisclosureSummary = React.forwardRef<
         <button
             type="button"
             aria-expanded={expanded}
-            className={b('trigger', {disabled, arrow: arrowMod}, className)}
+            className={b(
+                'trigger',
+                {disabled, arrow: arrowMod, width, 'justify-content': justifyContent},
+                className,
+            )}
             aria-controls={ariaControls}
             id={id}
             onClick={onClick}
@@ -85,12 +148,13 @@ export const DefaultDisclosureSummary = React.forwardRef<
             ref={ref}
         >
             <ArrowToggle
-                size={ComponentSizeToIconSizeMap[size]}
+                size={ComponentSizeToIconSizeMap[mergedSize]}
                 direction={expanded ? 'top' : 'bottom'}
             />
-            {summary}
+            {mergedSummary}
         </button>
     );
 });
 
+DisclosureSummary.Default = DefaultDisclosureSummary;
 DisclosureSummary.displayName = 'DisclosureSummary';

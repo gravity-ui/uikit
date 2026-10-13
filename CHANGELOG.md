@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.51.0](https://github.com/gravity-ui/uikit/compare/v7.50.1...v7.51.0) (2026-10-06)
+
+
+### Features
+
+* **Dialog:** add disableTransition prop ([#2855](https://github.com/gravity-ui/uikit/issues/2855)) ([c1ae095](https://github.com/gravity-ui/uikit/commit/c1ae095bd2f2d14890ed05de5849b1a8fb3eb6d0))
+* **HelpMark:** use Sheet on mobile ([#2850](https://github.com/gravity-ui/uikit/issues/2850)) ([9af7139](https://github.com/gravity-ui/uikit/commit/9af71390e6cb96e3d9775ab6df507ecbdefccba2))
+* **theme:** support external default props ([#2841](https://github.com/gravity-ui/uikit/issues/2841)) ([a36619a](https://github.com/gravity-ui/uikit/commit/a36619aaf378b8f6e91ce8ad952a85ab81f03525))
+
+
+### Bug Fixes
+
+* **useForkRef:** do not use cleanup functions for React versions earlier than 19 ([#2868](https://github.com/gravity-ui/uikit/issues/2868)) ([16b2257](https://github.com/gravity-ui/uikit/commit/16b22579129993c48c67687c4ed0a3520656cb96))
+
 ## [7.50.1](https://github.com/gravity-ui/uikit/compare/v7.50.0...v7.50.1) (2026-09-23)
 
 

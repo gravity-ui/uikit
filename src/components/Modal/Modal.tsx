@@ -104,6 +104,8 @@ export interface ModalProps
     contentOverflow?: 'visible' | 'auto';
     floatingRef?: React.RefObject<HTMLDivElement | null>;
     disableHeightTransition?: boolean;
+    /** Skip opening and closing animations. Height transitions are unchanged. */
+    disableTransition?: boolean;
 }
 
 const b = block('modal');
@@ -139,6 +141,7 @@ function ModalComponent(rawProps: ModalProps) {
         qa,
         floatingRef,
         disableHeightTransition = false,
+        disableTransition = false,
         ...restProps
     } = useDefaultProps('Modal', rawProps);
     useLayer({open, type: 'modal'});
@@ -228,7 +231,11 @@ function ModalComponent(rawProps: ModalProps) {
 
     const {isMounted, status} = useFloatingTransition({
         context,
-        duration: TRANSITION_DURATION,
+        duration: {
+            open: disableTransition ? 0 : TRANSITION_DURATION,
+            close: TRANSITION_DURATION,
+        },
+        skipTransitionOut: disableTransition,
         onTransitionIn,
         onTransitionInComplete: handleTransitionInComplete,
         onTransitionOut,
@@ -283,7 +290,14 @@ function ModalComponent(rawProps: ModalProps) {
                     <FloatingOverlay
                         ref={overlayRef}
                         style={{...style, ...(mobile ? {overflow: 'hidden'} : {})}}
-                        className={b({open, mobile}, className)}
+                        className={b(
+                            {
+                                open,
+                                mobile,
+                                'disable-transition': disableTransition,
+                            },
+                            className,
+                        )}
                         data-qa={qa}
                         data-floating-ui-status={status}
                         lockScroll={!disableBodyScrollLock}

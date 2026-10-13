@@ -343,7 +343,11 @@ describe('Sheet', () => {
             expect(upperOnOpenChange).not.toHaveBeenCalled();
             expect(lowerOnOpenChange).not.toHaveBeenCalled();
             expect(screen.getByRole('dialog', {name: 'Upper sheet'})).toBeInTheDocument();
-            expect(screen.getByRole('dialog', {name: 'Lower sheet'})).toBeInTheDocument();
+            expect(
+                screen.getByRole('dialog', {name: 'Lower sheet', hidden: true}),
+            ).toBeInTheDocument();
+            // Only the upper sheet's visually hidden dismiss buttons stay accessible
+            expect(screen.getAllByRole('button', {name: 'Close'})).toHaveLength(2);
             expect(getLayersCount()).toBe(2);
         });
 

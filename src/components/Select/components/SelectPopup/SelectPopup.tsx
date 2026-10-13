@@ -34,17 +34,29 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
+            sheetContentProps,
         },
         ref,
-    ) =>
-        mobile ? (
+    ) => {
+        const sheetContentRef = React.useRef<HTMLDivElement>(null);
+
+        return mobile ? (
+            // The sheet traps focus, so keys go to its focused content instead of the control
             <Sheet
                 qa={SelectQa.SHEET}
                 className={sheetClassName}
                 visible={Boolean(open)}
                 onClose={handleClose}
+                initialFocus={sheetContentRef}
             >
-                {children}
+                <div
+                    {...sheetContentProps}
+                    ref={sheetContentRef}
+                    className={b('sheet-content')}
+                    tabIndex={-1}
+                >
+                    {children}
+                </div>
             </Sheet>
         ) : (
             <Popup
@@ -63,7 +75,8 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             >
                 {children}
             </Popup>
-        ),
+        );
+    },
 );
 
 SelectPopup.displayName = 'SelectPopup';

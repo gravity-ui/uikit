@@ -120,7 +120,7 @@ ThemeProvider он всегда scoped, даже при `scoped={false}`:
 `Container size="l"`. Для сохранения прежнего порога задайте
 `config.breakpoints.l = 1080` у LayoutProvider или `layout.config.breakpoints.l = 1080` у Provider.
 
-Замените `Container gutters={false}` на `gutters={0}`. Нулевые отступы работают
+Замените `Container gutters={false}` на `gutters="0"`. Нулевые отступы работают
 также в базовой и адаптивной теме контейнера. Для ненулевых отступов темы используйте spacing-токены, как описано в руководстве по миграции layout.
 
 ## Минимальная версия React 18
@@ -668,8 +668,8 @@ const {lang} = getConfig(); // 'ru'
 удалён: `spacing` у `Box`, `Flex` и `Card`, сокращения `Flex` (`space`, `gapRow`, `centerContent`, `grow`, `basis`,
 `shrink`), `space` и `spaceRow` у `Row`, `spaceRow` у `Container` (теперь `rowGap`) и пропсы размеров `Col`.
 
-- Числа в `gap` у `Flex` и в `gutters` у `Container` раньше были шагами шкалы отступов, теперь это пиксели: замените
-  `gap={2}` на `gap="spacing-2"`.
+- Числовые значения отступов и размеров, включая `0`, больше не поддерживаются. Для нуля используйте `"0"`. Замените шаги шкалы, например
+  `gap={2}`, на `gap="spacing-2"`, а размеры в пикселях, например `width={200}`, на `width="200px"`.
 - `box-sizing: border-box` компоненты больше не задают: задайте его в `style` или своём CSS там, где на него опирались
   размеры.
 - Вместо имён брейкпоинтов в `maxWidth` используйте `Container size="l"`.

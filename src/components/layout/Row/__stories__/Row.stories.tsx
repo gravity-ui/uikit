@@ -56,8 +56,8 @@ export const ZeroSpacings = {
         </Row>
     ),
     args: {
-        gap: {xs: 0, m: 'spacing-2'},
-        rowGap: {xs: 'spacing-5', m: 0},
+        gap: {xs: '0', m: 'spacing-2'},
+        rowGap: {xs: 'spacing-5', m: '0'},
     },
 } satisfies Story;
 

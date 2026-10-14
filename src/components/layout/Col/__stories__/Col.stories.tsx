@@ -80,7 +80,7 @@ export const Static = {
 export const Dynamic = {
     render: ({gap, rowGap}) => (
         <LayoutPresenter>
-            <Container rowGap="spacing-5" gutters={0}>
+            <Container rowGap="spacing-5" gutters="0">
                 <Row {...{gap, rowGap}}>
                     <ColPresenter size={[1, {l: 12}]} />
                     <ColPresenter size={[1, {l: 12}]} />

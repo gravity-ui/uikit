@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {useCollapseChildren, useForkRef, useResizeObserver} from '../../hooks';
+import {useCollapseChildren, useForkRef, useLayoutEffect, useResizeObserver} from '../../hooks';
 import type {PopupPlacement} from '../Popup';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
@@ -38,6 +38,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
     const listRef = React.useRef<HTMLOListElement>(null);
     const containerRef = useForkRef(ref, listRef);
     const menuRef = React.useRef<HTMLLIElement>(null);
+    const currentItemRef = React.useRef<HTMLLIElement>(null);
     const endContentRef = React.useRef<HTMLLIElement>(null);
 
     const items: React.ReactElement<any>[] = [];
@@ -82,6 +83,19 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         recalculate();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [childrenHash, separatorHash, props.itemComponent]);
+
+    useLayoutEffect(() => {
+        const list = listRef.current;
+        const currentItem = currentItemRef.current;
+        if (!calculated || !list || !currentItem) return;
+
+        // Inline items do not shrink automatically to the remaining space as flex items do.
+        const occupiedWidth = Array.from(list.children).reduce((width, child) => {
+            return child === currentItem ? width : width + child.getBoundingClientRect().width;
+        }, 0);
+        const availableWidth = Math.max(0, list.clientWidth - occupiedWidth);
+        currentItem.style.setProperty('--_current-max-width', `${availableWidth}px`);
+    });
 
     let contents = items;
     if (items.length > visibleItemsCount) {
@@ -140,8 +154,14 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             {contents.map((child, index) => {
                 const key = child.key ?? index;
                 const isCurrent = index === contents.length - 1;
-
                 const {'data-breadcrumbs-menu-item': isMenu, ...childProps} = child.props;
+                let itemRef: React.Ref<HTMLLIElement> | undefined;
+                if (isMenu) {
+                    itemRef = menuRef;
+                } else if (isCurrent) {
+                    itemRef = currentItemRef;
+                }
+
                 let item: React.ReactNode;
                 if (isMenu) {
                     item = child;
@@ -165,7 +185,7 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
                 }
                 return (
                     <li
-                        ref={isMenu ? menuRef : undefined}
+                        ref={itemRef}
                         key={isMenu ? 'menu' : `item-${key}`}
                         className={b('item', {
                             calculating: isCurrent && !calculated,

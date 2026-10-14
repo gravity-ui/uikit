@@ -4,9 +4,9 @@
 $block: '.#{variables.$ns}breadcrumbs';
 
 #{$block} {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
+    display: block;
+    min-width: 0;
+    white-space: nowrap;
 
     list-style-type: none;
     margin: 0;
@@ -14,9 +14,9 @@ $block: '.#{variables.$ns}breadcrumbs';
 
     &__item {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 100%;
 
         height: 24px;
         white-space: nowrap;
@@ -24,6 +24,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &_current {
             box-sizing: content-box;
+            max-width: var(--_current-max-width, 100%);
             font-weight: var(--g-text-accent-font-weight);
             min-width: 25px;
 
@@ -34,6 +35,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &_calculating {
             min-width: auto;
+            max-width: 100%;
 
             #{$block}__link {
                 overflow: visible;
@@ -42,6 +44,8 @@ $block: '.#{variables.$ns}breadcrumbs';
     }
 
     &__link {
+        display: inline-block;
+        max-width: 100%;
         cursor: default;
         position: relative;
         text-decoration: none;
@@ -75,13 +79,16 @@ $block: '.#{variables.$ns}breadcrumbs';
     }
 
     &__divider {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        vertical-align: middle;
         color: var(--g-color-text-secondary);
         padding: 0 var(--g-spacing-2);
     }
 
     &__menu {
+        display: inline-flex;
+        vertical-align: middle;
         margin-inline: calc(-1 * var(--g-spacing-2));
 
         &-popup {

@@ -5,9 +5,9 @@ type Props = Pick<BreadcrumbsProps, 'separator'>;
 
 export function BreadcrumbsSeparator({separator}: Props) {
     return (
-        <div aria-hidden={true} className={b('divider')}>
+        <span aria-hidden={true} className={b('divider')}>
             {separator ?? '/'}
-        </div>
+        </span>
     );
 }
 

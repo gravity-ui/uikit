@@ -29,7 +29,7 @@ export const TestBreadcrumbsWithLinkItems = (props: Omit<BreadcrumbsProps, 'chil
 
 export const TestBreadcrumbsCollapsed = (props: Omit<BreadcrumbsProps, 'children'>) => {
     return (
-        <Box overflow="hidden" width={200}>
+        <Box overflow="hidden" width="200px">
             <Breadcrumbs showRoot {...props}>
                 <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
                 <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>

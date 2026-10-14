@@ -168,8 +168,7 @@ export interface SizingProps {
 
 export type SpacingValue =
     | `spacing-${'half' | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
-    | (string & {})
-    | (number & {});
+    | (string & {});
 
 export interface SpacingProps {
     /** The margin for all four sides of the element. */

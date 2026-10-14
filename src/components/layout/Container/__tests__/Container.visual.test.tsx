@@ -43,7 +43,7 @@ test('size caps content width excluding gutters and borders and fits a smaller p
 }) => {
     const component = await mount(
         <div data-qa="sized-parent" style={{width: 1200}}>
-            <Container qa="sized-container" size="l" gutters={20} borderWidth={2}>
+            <Container qa="sized-container" size="l" gutters="20px" borderWidth={2}>
                 Content
             </Container>
         </div>,
@@ -62,7 +62,7 @@ test('size caps content width excluding gutters and borders and fits a smaller p
     expect(containerBox.x - parentBox.x).toBeCloseTo(88, 1);
     await component.update(
         <div data-qa="sized-parent" style={{width: 320}}>
-            <Container qa="sized-container" size="l" gutters={20} borderWidth={2}>
+            <Container qa="sized-container" size="l" gutters="20px" borderWidth={2}>
                 Content
             </Container>
         </div>,

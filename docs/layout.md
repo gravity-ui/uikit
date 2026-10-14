@@ -60,8 +60,14 @@ own styles (e.g. `--g-spacing-half` for the `0.5` step):
 }
 ```
 
-**3. The `spacing()` utility** — for one-off margins/paddings on any element without hand-writing
-class names. It returns a generated class name string:
+**3. The `spacing()` utility, deprecated** — retained for compatibility. For new code, use logical
+margin and padding props on `Box` or `Flex` with `spacing-*` tokens, or `--g-spacing-*` variables
+in custom CSS. For example, replace `spacing({mt: 2, px: 4})` on a `Box` with
+`marginBlockStart="spacing-2" paddingInline="spacing-4"`. Numbers in layout props are pixels,
+not spacing-scale steps. Logical props adapt to RTL; use physical CSS properties if the original
+left/right behavior must remain unchanged.
+
+The existing utility returns a generated class name string:
 
 ```tsx
 import {spacing} from '@gravity-ui/uikit';
@@ -72,7 +78,7 @@ import {spacing} from '@gravity-ui/uikit';
 </>;
 ```
 
-`sp` is a shorter alias: `import {sp} from '@gravity-ui/uikit'` → `sp({mr: 5})`.
+`sp` is a deprecated shorter alias: `import {sp} from '@gravity-ui/uikit'` → `sp({mr: 5})`.
 
 Supported keys (each takes a scale step):
 
@@ -89,8 +95,8 @@ Supported keys (each takes a scale step):
 
 You can pass a second argument to merge extra class names: `spacing({mr: 5}, myClassName)`.
 
-> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Grid`; the `spacing()`/`sp()`
-> utility for one-off offsets on an element; raw `--g-spacing-*` variables inside your own CSS.
+> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Grid`; logical margin/padding
+> props for offsets on `Box` or `Flex`; `--g-spacing-*` variables inside your own CSS.
 > Always use scale steps, never hard-coded pixels.
 
 ### Customization

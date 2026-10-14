@@ -70,7 +70,7 @@ interface PanelProps
 
 ### Replace `spacing`
 
-The `spacing` prop has been removed from `Box` and from `Card`, which is built on it. Replace it with explicit logical
+The `spacing` prop has been removed from `Box` and from `Flex` and `Card`, which are built on it. Replace it with explicit logical
 margin and padding props:
 
 | Old `spacing` key | New `Box` prop       |

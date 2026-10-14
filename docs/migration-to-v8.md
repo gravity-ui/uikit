@@ -120,7 +120,7 @@ The default `l` breakpoint changes from 1080px to 980px, including the width of
 `Container size="l"`. To retain the previous threshold, set
 `config.breakpoints.l = 1080` on LayoutProvider or `layout.config.breakpoints.l = 1080` on Provider.
 
-Replace `Container gutters={false}` with `gutters={0}`. Zero gutters also work
+Replace `Container gutters={false}` with `gutters="0"`. Zero gutters also work
 in the base and responsive container theme. Use spacing tokens for nonzero theme gutters, as described in the layout migration guide.
 
 ## React 18 minimum
@@ -670,8 +670,8 @@ Single-`x` sizes such as `xs` and `xl` keep their names.
 removed: `spacing` of `Box`, `Flex` and `Card`, the `Flex` shortcuts (`space`, `gapRow`, `centerContent`, `grow`,
 `basis`, `shrink`), `Row` `space` and `spaceRow`, `Container` `spaceRow` (now `rowGap`) and the `Col` size props.
 
-- Numbers in `Flex` `gap` and `Container` `gutters` were steps of the spacing scale and are pixels now: replace
-  `gap={2}` with `gap="spacing-2"`.
+- Numeric spacing and size values, including `0`, are no longer supported. Use `"0"` for zero. Replace spacing-scale values such as
+  `gap={2}` with `gap="spacing-2"`, and fixed pixel sizes such as `width={200}` with `width="200px"`.
 - The components no longer set `box-sizing: border-box`: set it in `style` or in your CSS where sizes relied on it.
 - `Container size="l"` replaces the breakpoint names in `maxWidth`.
 

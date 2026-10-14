@@ -53,11 +53,11 @@ export const UsingTextUtilities: StoryObj<{}> = {
 export const Ellipsis: Story = {
     render: (args) => (
         <Flex gap="spacing-5" direction="column">
-            <Flex gap="spacing-5" width={200} direction="column">
+            <Flex gap="spacing-5" width="200px" direction="column">
                 <Text variant="header-1">With fixed container size (ellipsis=true)</Text>
                 <Text {...args} ellipsis />
             </Flex>
-            <Flex gap="spacing-5" width={200} direction="column">
+            <Flex gap="spacing-5" width="200px" direction="column">
                 <Text variant="header-1">
                     With text utility and fixed container size (ellipsis=true)
                 </Text>

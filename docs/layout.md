@@ -63,8 +63,8 @@ own styles (e.g. `--g-spacing-half` for the `0.5` step):
 **3. The `spacing()` utility, deprecated** — retained for compatibility. For new code, use logical
 margin and padding props on `Box` or `Flex` with `spacing-*` tokens, or `--g-spacing-*` variables
 in custom CSS. For example, replace `spacing({mt: 2, px: 4})` on a `Box` with
-`marginBlockStart="spacing-2" paddingInline="spacing-4"`. Numbers in layout props are pixels,
-not spacing-scale steps. Logical props adapt to RTL; use physical CSS properties if the original
+`marginBlockStart="spacing-2" paddingInline="spacing-4"`. Use CSS strings such as `"8px"` for fixed lengths;
+numeric spacing and size values are not supported, including `0`. Use the string `"0"` for zero. Logical props adapt to RTL; use physical CSS properties if the original
 left/right behavior must remain unchanged.
 
 The existing utility returns a generated class name string:
@@ -215,8 +215,8 @@ import {Row, Col} from '@gravity-ui/uikit';
 - `columnGap` sets horizontal spacing;
 - `rowGap` sets vertical spacing.
 
-All gaps accept responsive objects, `spacing-*` tokens, CSS lengths, and numbers as pixels.
-For example, `gap="spacing-2"` uses the spacing scale, while `gap={2}` means `2px`.
+All gaps accept responsive objects, `spacing-*` tokens, and CSS length strings.
+For example, `gap="spacing-2"` uses the spacing scale, while `gap="2px"` means `2px`.
 Use `gap` alone, or separate `rowGap` and `columnGap` for different axis values. These props map
 directly to CSS; mixing shorthand and longhands makes precedence depend on declaration order and
 can cause conflicts during React updates.
@@ -276,13 +276,13 @@ padding, width, and spacing between rows.
 **Props**
 
 - `gutters` sets logical horizontal padding, defaulting to the layout theme. It accepts responsive
-  objects, `spacing-*` tokens, CSS lengths, and numbers in pixels;
+  objects, `spacing-*` tokens, and CSS length strings;
 - `size` caps the content width at the configured breakpoint width. Gutters and borders are added
   outside that cap. For example, `size="l"` uses `layout.breakpoints.l`;
-- `maxWidth` accepts a CSS length or number in pixels, not a breakpoint name. Explicit `maxWidth`,
+- `maxWidth` accepts a CSS length string, not a breakpoint name. Explicit `maxWidth`,
   `maxInlineSize`, or `style.maxInlineSize` overrides the `size` cap;
 - `rowGap` sets `margin-block-start` between adjacent direct-child `Row` elements, defaulting to
-  the layout theme. It accepts responsive objects, spacing tokens, CSS lengths, and pixel values;
+  the layout theme. It accepts responsive objects, spacing tokens, and CSS length strings;
 - all other `Box` style props are supported. Flex container alignment and gap props are not.
 
 Like `Box` and `Flex`, `Container` does not set `box-sizing`. With the default `content-box`,
@@ -302,7 +302,7 @@ import {Container} from '@gravity-ui/uikit';
 </Container>;
 ```
 
-Set `gutters={0}` to disable gutters. The theme configuration uses `gutters` and
+Set `gutters="0"` to disable gutters. The theme configuration uses `gutters` and
 `rowGap` too. All three components support polymorphic `as`, native props, and refs.
 The standard `paddingInline` style prop is also supported and overrides theme defaults. Explicit
 `gutters` takes precedence over `paddingInline`.

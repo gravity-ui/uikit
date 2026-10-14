@@ -7,9 +7,9 @@ import type {FlexProps} from '../../Flex/Flex';
 interface BoxProps extends FlexProps<'div'> {
     style?: React.CSSProperties;
     children?: React.ReactNode;
-    minHeight?: number;
-    w?: number | string;
-    h?: number | string;
+    minHeight?: string;
+    w?: string;
+    h?: string;
     bc?: React.CSSProperties['borderColor'];
     bgc?: React.CSSProperties['backgroundColor'];
 }
@@ -29,7 +29,7 @@ export function Box({
             inlineSize={w}
             blockSize={h}
             minBlockSize={minHeight}
-            padding={5}
+            padding="5px"
             style={{
                 boxSizing: 'border-box',
                 border: `2px dashed ${bc}`,

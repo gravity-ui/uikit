@@ -2,7 +2,7 @@ import {renderWithoutProviders as render, screen} from '../../../../../test-util
 import {Container, LayoutProvider} from '../../../../index';
 import type {LayoutTheme} from '../../../../index';
 
-test.each([0, '0px'] as const)(
+test.each(['0', '0px'] as const)(
     'zero gutters (%s) override theme and preserve className',
     (gutters) => {
         render(
@@ -11,17 +11,19 @@ test.each([0, '0px'] as const)(
             </LayoutProvider>,
         );
         expect(screen.getByTestId('container')).toHaveClass('g-container', 'custom');
-        expect(screen.getByTestId('container')).toHaveStyle({paddingInline: '0px'});
+        expect(screen.getByTestId('container')).toHaveStyle({
+            paddingInline: gutters,
+        });
     },
 );
 
 test.each<[string, LayoutTheme, string]>([
     ['defaults', {}, 'calc(var(--g-spacing-base) * 3)'],
-    ['base zero', {components: {container: {gutters: 0}}}, '0px'],
+    ['base zero', {components: {container: {gutters: '0'}}}, '0'],
     [
         'responsive zero',
-        {components: {container: {gutters: 'spacing-3', media: {xs: {gutters: 0}}}}},
-        '0px',
+        {components: {container: {gutters: 'spacing-3', media: {xs: {gutters: '0'}}}}},
+        '0',
     ],
 ])('inherits %s gutters from the theme', (_name, config, paddingInline) => {
     render(

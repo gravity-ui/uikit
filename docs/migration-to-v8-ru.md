@@ -28,6 +28,7 @@
    grep -rnE "extraProps|onKeyPress|iconSize|arrowPosition|side=\"(left|right)\"|\berror=|xxs|xxl" src
    # Layout-компоненты
    grep -rnE "\b(spacing|space|spaceRow|gap|gapRow|rowGap|columnGap|maxWidth|gutters|grow|basis|shrink)=|\bcenterContent\b|<Col\b[^>]*\b(s|m|l|xl|xxl)=" src
+   grep -rnE "\b(spacing|sp)[[:space:]]*\(" src
    # Темы и виды Button
    grep -rnE "(normal|outlined|flat)-contrast|--g-color-base-light|styles/themes|g-theme-" src
    ```
@@ -668,14 +669,50 @@ const {lang} = getConfig(); // 'ru'
 удалён: `spacing` у `Box`, `Flex` и `Card`, сокращения `Flex` (`space`, `gapRow`, `centerContent`, `grow`, `basis`,
 `shrink`), `space` и `spaceRow` у `Row`, `spaceRow` у `Container` (теперь `rowGap`) и пропсы размеров `Col`.
 
-- Числовые значения отступов и размеров, включая `0`, больше не поддерживаются. Для нуля используйте `"0"`. Замените шаги шкалы, например
-  `gap={2}`, на `gap="spacing-2"`, а размеры в пикселях, например `width={200}`, на `width="200px"`.
+- Пропсы отступов и размеров теперь используют `SpacingValue`: spacing-токены или CSS-строки, без чисел, включая `0`.
+  Замените шаги шкалы Flex из v7, например `gap={2}`, на `gap="spacing-2"`, размеры в пикселях, например `width={200}`,
+  на `width="200px"`, а нулевые длины — на `"0"`.
 - `box-sizing: border-box` компоненты больше не задают: задайте его в `style` или своём CSS там, где на него опирались
   размеры.
 - Вместо имён брейкпоинтов в `maxWidth` используйте `Container size="l"`.
 
 Часть изменений TypeScript не поймает, они видны только на экране: пройдите по
 [гайду миграции layout](../src/components/layout/migration-guide.md) (на английском).
+
+### Значения отступов и размеров
+
+Это относится к промежуткам, внешним и внутренним отступам, inset-пропсам, ширине и высоте (включая min/max-варианты),
+отступам контейнера и промежуткам между рядами в теме, а также размерам треков Grid. Замените числа и внутри
+адаптивных объектов и кортежей. Хелперы Grid `minmax` и `fitContent`, а также фрагмент треков в `repeat`
+принимают такие же строковые значения:
+
+```diff
+- <Box width={{xs: '100%', l: 640}} padding={[0, 16]} />
++ <Box width={{xs: '100%', l: '640px'}} padding={['0', '16px']} />
+- <Container gutters={0} rowGap={2} />
++ <Container gutters="0" rowGap="2px" />
+- <Grid columns={repeat(2, minmax(0, '1fr'))} gap={2} />
++ <Grid columns={repeat(2, minmax('0', '1fr'))} gap="2px" />
+```
+
+Строка без единиц, например `"16"`, не является CSS-длиной: используйте `"16px"` или spacing-токен. Строка `"0"` допустима.
+Числа в `Col.size`, `flexGrow` и первом аргументе `repeat` по-прежнему работают; нативный React `style`
+также сохраняет обычное поведение числовых значений.
+
+### Устаревшие утилиты spacing
+
+`spacing()` и её алиас `sp()` помечены deprecated, но остаются доступны с прежними аргументами — шагами шкалы.
+Замените генерируемые классы отступов логическими пропсами внешних и внутренних отступов у `Box` или `Flex`:
+
+```diff
+- <Box className={spacing({mt: 2, px: 4})} />
++ <Box marginBlockStart="spacing-2" paddingInline="spacing-4" />
+```
+
+Для промежутков между дочерними элементами используйте `gap` у `Flex` или `Grid`, для других элементов — переменные
+`--g-spacing-*` в своём CSS. Логические пропсы учитывают RTL: сохраните физические CSS-свойства, если прежнее
+поведение left/right было намеренным. После миграции вызовов удалите неиспользуемые импорты `spacing`/`sp`.
+Линтеры с правилом `no-deprecated` могут начать отмечать оставшиеся вызовы.
 
 ## Проп `error` у TextInput, PasswordInput, TextArea и Select
 

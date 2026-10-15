@@ -14,6 +14,7 @@ The layout update gives `Box`, `Flex`, `Container`, `Row`, and `Col` responsive 
 8. Check usages that set the same CSS property through both a layout prop and `style`.
 9. Review `Box`/`Flex` sizes that relied on `border-box`; set `box-sizing` explicitly where needed.
 10. Declare the native props used by interfaces that extend `BoxProps` and the other layout props types.
+11. Replace deprecated `spacing()`/`sp()` calls with logical margin/padding props or custom CSS.
 
 ## Spacing values and CSS units
 
@@ -32,6 +33,11 @@ This differs from the old `Flex` API, where numeric and numeric-string `gap`, `g
 ```
 
 The same rule applies to `gap`, `columnGap`, `rowGap`, margins, paddings, insets, sizes, and `Grid` track sizes. Convert existing numeric `Box` sizes to CSS strings, for example `width={200}` to `width="200px"`.
+
+These props use `SpacingValue` consistently, including values inside responsive maps and tuples and the
+`minmax`/`fitContent` helpers and track fragments passed to `repeat`. Convert `padding={[0, 16]}` to
+`padding={['0', '16px']}` and `minmax(0, '1fr')` to `minmax('0', '1fr')`. Other numeric values such as `Col.size`,
+`flexGrow`, and the first argument of `repeat` remain supported; native React `style` is unchanged.
 
 All style props accept responsive objects. Values use mobile-first fallback: a value remains active until a larger configured breakpoint overrides it.
 
@@ -96,6 +102,11 @@ margin and padding props:
 ```
 
 The new props are logical and therefore adapt to RTL. If an old `ml` or `mr` usage intentionally targeted a physical side, set the physical CSS property through `style`.
+
+The separate `spacing()` utility and its alias `sp()` are deprecated, but still accept their existing scale-step
+arguments. Replace `className={spacing({mt: 2, px: 4})}` with
+`marginBlockStart="spacing-2" paddingInline="spacing-4"` on Box or Flex, and remove unused imports. For other
+elements, use `--g-spacing-*` variables in custom CSS; for spacing between children, use `gap` on Flex or Grid.
 
 ### New style props
 

@@ -28,6 +28,7 @@ removal date for `/legacy` is promised: plan the migration away from them.
    grep -rnE "extraProps|onKeyPress|iconSize|arrowPosition|side=\"(left|right)\"|\berror=|xxs|xxl" src
    # Layout components
    grep -rnE "\b(spacing|space|spaceRow|gap|gapRow|rowGap|columnGap|maxWidth|gutters|grow|basis|shrink)=|\bcenterContent\b|<Col\b[^>]*\b(s|m|l|xl|xxl)=" src
+   grep -rnE "\b(spacing|sp)[[:space:]]*\(" src
    # Themes and Button views
    grep -rnE "(normal|outlined|flat)-contrast|--g-color-base-light|styles/themes|g-theme-" src
    ```
@@ -670,13 +671,48 @@ Single-`x` sizes such as `xs` and `xl` keep their names.
 removed: `spacing` of `Box`, `Flex` and `Card`, the `Flex` shortcuts (`space`, `gapRow`, `centerContent`, `grow`,
 `basis`, `shrink`), `Row` `space` and `spaceRow`, `Container` `spaceRow` (now `rowGap`) and the `Col` size props.
 
-- Numeric spacing and size values, including `0`, are no longer supported. Use `"0"` for zero. Replace spacing-scale values such as
-  `gap={2}` with `gap="spacing-2"`, and fixed pixel sizes such as `width={200}` with `width="200px"`.
+- Spacing and size props now use `SpacingValue`: spacing tokens or CSS strings, without numbers, including `0`.
+  Replace v7 Flex spacing-scale values such as `gap={2}` with `gap="spacing-2"`, fixed pixel sizes such as `width={200}`
+  with `width="200px"`, and zero lengths with `"0"`.
 - The components no longer set `box-sizing: border-box`: set it in `style` or in your CSS where sizes relied on it.
 - `Container size="l"` replaces the breakpoint names in `maxWidth`.
 
 Some of these changes compile without type errors and show only on screen: go through the
 [layout migration guide](../src/components/layout/migration-guide.md).
+
+### Spacing and size values
+
+This applies to gaps, margins, paddings, insets, widths and heights (including their min/max variants),
+container theme gutters and row gaps, and Grid track sizes. Convert numbers inside responsive maps and tuples too.
+The Grid helpers `minmax` and `fitContent`, and the track fragment passed to `repeat`, use the same string values:
+
+```diff
+- <Box width={{xs: '100%', l: 640}} padding={[0, 16]} />
++ <Box width={{xs: '100%', l: '640px'}} padding={['0', '16px']} />
+- <Container gutters={0} rowGap={2} />
++ <Container gutters="0" rowGap="2px" />
+- <Grid columns={repeat(2, minmax(0, '1fr'))} gap={2} />
++ <Grid columns={repeat(2, minmax('0', '1fr'))} gap="2px" />
+```
+
+A unitless string such as `"16"` is not a CSS length: use `"16px"` or a spacing token. The string `"0"` is valid.
+Other numeric values such as `Col.size`, `flexGrow`, and the first argument of `repeat` still work; native React `style`
+also keeps its normal numeric-value behavior.
+
+### Deprecated spacing utilities
+
+`spacing()` and its alias `sp()` are deprecated, but remain available with their existing scale-step arguments.
+Replace generated spacing classes with logical margin and padding props on `Box` or `Flex`:
+
+```diff
+- <Box className={spacing({mt: 2, px: 4})} />
++ <Box marginBlockStart="spacing-2" paddingInline="spacing-4" />
+```
+
+For spacing between children, use `gap` on `Flex` or `Grid`; for other elements, use `--g-spacing-*` variables
+in custom CSS. Logical props follow RTL: keep physical CSS properties if the old left/right behavior was intentional.
+Remove unused `spacing`/`sp` imports after migrating their calls. Linters with a `no-deprecated` rule may now report
+remaining calls.
 
 ## TextInput, PasswordInput, TextArea, and Select `error`
 

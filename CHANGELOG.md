@@ -1,5 +1,17 @@
 # Changelog
 
+## [8.1.0-beta.1](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.1...v8.1.0-beta.1) (2026-10-15)
+
+
+### Features
+
+* **Layout:** remove number type from SpacingValue type ([#2908](https://github.com/gravity-ui/uikit/issues/2908)) ([be01d44](https://github.com/gravity-ui/uikit/commit/be01d4466bc76fd0db7b9c9ac37292ebcc427a5d))
+
+
+### Bug Fixes
+
+* **layout:** remove the redundant CSS property types ([#2905](https://github.com/gravity-ui/uikit/issues/2905)) ([52c8ecb](https://github.com/gravity-ui/uikit/commit/52c8ecba4d79d8231977cae5d778f3108c16436b))
+
 ## [7.51.1](https://github.com/gravity-ui/uikit/compare/v7.51.0...v7.51.1) (2026-10-15)
 
 

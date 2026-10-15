@@ -57,6 +57,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 disablePortal={disablePortal}
                 returnFocus={controlRef}
                 floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}
+                floatingStyles={typeof width === 'number' ? {width, minWidth: width} : undefined}
                 id={id}
                 onTransitionIn={onAfterOpen}
                 onTransitionOutComplete={onAfterClose}

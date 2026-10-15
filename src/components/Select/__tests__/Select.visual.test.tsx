@@ -1,9 +1,11 @@
 import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
+import {expect} from '@playwright/experimental-ct-react';
 
 import type {MountFixture} from '~playwright/core';
 import {test} from '~playwright/core';
 
 import {Select} from '../Select';
+import {SelectQa} from '../constants';
 import type {SelectOption, SelectProps} from '../types';
 
 import {
@@ -29,6 +31,26 @@ test.describe('Select', {tag: '@Select'}, () => {
     const defaultProps: SelectProps = {
         placeholder: 'Placeholder',
     };
+
+    test('updates the width of an open virtualized popup', async ({mount, page}) => {
+        const options = Array.from({length: 100}, (_, index) => ({
+            value: String(index),
+            content: `Option ${index}`,
+        }));
+        const component = await mount(
+            <Select open options={options} popupWidth={180} width={140} />,
+        );
+        const popup = page.getByTestId(SelectQa.POPUP);
+
+        await expect(popup).toHaveCSS('width', '180px');
+        await expect(page.getByTestId(SelectQa.LIST)).toHaveClass(/virtualized/);
+
+        await component.update(<Select open options={options} popupWidth={280} width={140} />);
+        await expect(popup).toHaveCSS('width', '280px');
+
+        await component.update(<Select open options={options} popupWidth={160} width={140} />);
+        await expect(popup).toHaveCSS('width', '160px');
+    });
 
     test('smoke empty', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<SelectProps>(

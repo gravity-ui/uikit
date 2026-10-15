@@ -59,7 +59,6 @@ export type MediaProps<T> = {
     '3xl': T;
 };
 
-// TODO BREAKING CHANGE: xxl -> 2xl, xxxl -> 3xl
 export type MediaType = keyof MediaProps<string>;
 
 export type AdaptiveProp<T> = T | MediaPartial<T>;

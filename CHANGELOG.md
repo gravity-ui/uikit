@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.51.1](https://github.com/gravity-ui/uikit/compare/v7.51.0...v7.51.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **Sheet:** follow viewport resizes without jumps ([#2878](https://github.com/gravity-ui/uikit/issues/2878)) ([248000b](https://github.com/gravity-ui/uikit/commit/248000b333632e2ef95764a2ff92acf34b5f4ee9))
+
 ## [7.51.0](https://github.com/gravity-ui/uikit/compare/v7.50.1...v7.51.0) (2026-10-06)
 
 

@@ -122,7 +122,7 @@ ThemeProvider он всегда scoped, даже при `scoped={false}`:
 `config.breakpoints.l = 1080` у LayoutProvider или `layout.config.breakpoints.l = 1080` у Provider.
 
 Замените `Container gutters={false}` на `gutters="0"`. Нулевые отступы работают
-также в базовой и адаптивной теме контейнера. Для ненулевых отступов темы используйте spacing-токены, как описано в руководстве по миграции layout.
+также в базовой и адаптивной теме контейнера. Для ненулевых отступов темы используйте spacing-токены, как описано в [руководстве по миграции layout](migration-layout-v8.md#container-row-and-col) (на английском).
 
 ## Минимальная версия React 18
 
@@ -679,7 +679,7 @@ const {lang} = getConfig(); // 'ru'
 - Вместо имён брейкпоинтов в `maxWidth` используйте `Container size="l"`.
 
 Часть изменений TypeScript не поймает, они видны только на экране: пройдите по
-[гайду миграции layout](../src/components/layout/migration-guide.md) (на английском).
+[гайду миграции layout](migration-layout-v8.md) (на английском).
 
 ### Значения отступов и размеров
 

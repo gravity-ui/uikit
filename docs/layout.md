@@ -306,7 +306,7 @@ Set `gutters="0"` to disable gutters. The theme configuration uses `gutters` and
 `rowGap` too. All three components support polymorphic `as`, native props, and refs.
 The standard `paddingInline` style prop is also supported and overrides theme defaults. Explicit
 `gutters` takes precedence over `paddingInline`.
-See the [migration guide](../src/components/layout/migration-guide.md) for the removed spacing props.
+See the [migration guide](migration-layout-v8.md) for the removed spacing props.
 
 ## Flex
 

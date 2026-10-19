@@ -24,14 +24,14 @@ to the section of the [README](../src/components/Select/README.md) that describe
 
 `@gravity-ui/uikit/virtualizer` needs `@tanstack/react-virtual` — it is an optional peer dependency
 of the package, so it has to be installed alongside it. A `Select` without the wrapper renders every
-option as a row, and above 150 of them says so in a development warning.
+option as a row, and above 150 of them says so in a development warning. To decide which `Select`s
+to wrap, see [Which Selects to virtualize](#which-selects-to-virtualize).
 
 The width of the popup follows from the same place. A list that virtualized itself by the old
 threshold was as wide as the control, and never narrower than 100px; a list that is not virtualized
 is as wide as its widest option (see [Popup width](../src/components/Select/README.md#popup-width)). So a long list left
-without the wrapper can come out wider than it used to. Wrapping it in `ListVirtualizer` brings the
-old rule back as it was; `popupWidth="fit"` also pins the popup to the control, but it drops the
-100px floor along with it, which shows on a control narrower than that.
+without the wrapper can come out wider than it used to. To keep the width of the control, set
+`popupWidth="fit"`; it has no 100px floor, which shows on a control narrower than that.
 
 ```diff
 - <Select options={[{value: 'msk', content: <City id="msk" />, text: 'Moscow'}]} />
@@ -76,6 +76,18 @@ are up to it, and the elements it returns need keys when they hold state:
 - <Select renderSelectedOption={renderOne} />
 + <Select renderSelectedOptions={(options) => options.map(renderOne)} />
 ```
+
+## Which Selects to virtualize
+
+`virtualizationThreshold` defaulted to `50` in v7, so every `Select` with 50 options or more was
+virtualized without any prop.
+
+The wrapper is needed where a `Select` can get more than 150 options:
+
+| The options                                                         | What to do                             |
+| :------------------------------------------------------------------ | :------------------------------------- |
+| Up to 150: a literal array, an enum, a dictionary of a known size   | Nothing                                |
+| More than 150, or no upper bound: data from the backend, from users | Wrap the `Select` in `ListVirtualizer` |
 
 ## The data
 

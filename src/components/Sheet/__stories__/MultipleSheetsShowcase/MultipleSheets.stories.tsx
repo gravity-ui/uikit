@@ -17,15 +17,15 @@ export default {
 } as Meta;
 
 export const MultipleSheets: StoryFn<SheetProps> = (args: SheetProps) => {
-    const [visible, setVisible] = React.useState(false);
-    const [moreContentVisible, setMoreContentVisible] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [moreContentOpen, setMoreContentOpen] = React.useState(false);
 
     return (
         <div className={b()}>
-            <Button className={b('show-btn')} onClick={() => setVisible(true)}>
+            <Button className={b('show-btn')} onClick={() => setOpen(true)}>
                 Show modal
             </Button>
-            <Sheet {...args} visible={visible} id="main" onOpenChange={setVisible}>
+            <Sheet {...args} open={open} id="main" onOpenChange={setOpen}>
                 <img
                     src="https://avatars.githubusercontent.com/u/107542106"
                     width="100%"
@@ -35,7 +35,7 @@ export const MultipleSheets: StoryFn<SheetProps> = (args: SheetProps) => {
                     size="xl"
                     width="max"
                     className={b('show-btn')}
-                    onClick={() => setMoreContentVisible(true)}
+                    onClick={() => setMoreContentOpen(true)}
                 >
                     Show one more modal
                 </Button>
@@ -43,8 +43,8 @@ export const MultipleSheets: StoryFn<SheetProps> = (args: SheetProps) => {
             <Sheet
                 {...args}
                 id="more-content"
-                visible={moreContentVisible}
-                onOpenChange={setMoreContentVisible}
+                open={moreContentOpen}
+                onOpenChange={setMoreContentOpen}
             >
                 <div className={b('text')}>
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam consequatur
@@ -56,7 +56,7 @@ export const MultipleSheets: StoryFn<SheetProps> = (args: SheetProps) => {
                         size="xl"
                         width="max"
                         className={b('show-btn')}
-                        onClick={() => setMoreContentVisible(false)}
+                        onClick={() => setMoreContentOpen(false)}
                     >
                         Close
                     </Button>

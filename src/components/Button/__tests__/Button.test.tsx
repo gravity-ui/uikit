@@ -14,6 +14,10 @@ const qaId = 'button-component';
 const buttonViews: ButtonView[] = [
     'normal',
     'action',
+    'contrast',
+    'contrast-inverted',
+    'contrast-light',
+    'contrast-dark',
     'outlined',
     'outlined-info',
     'outlined-danger',
@@ -22,9 +26,6 @@ const buttonViews: ButtonView[] = [
     'flat-info',
     'flat-danger',
     'flat-secondary',
-    'normal-contrast',
-    'outlined-contrast',
-    'flat-contrast',
 ];
 
 const buttonPins: ButtonPin[] = [

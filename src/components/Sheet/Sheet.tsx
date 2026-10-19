@@ -41,8 +41,10 @@ export type SheetOpenChangeReason =
 
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
-    /** @deprecated Use onOpenChange for dismissal requests or onTransitionOutComplete for exit cleanup */
-    onClose?: () => void;
+    /** Controlled open state; without it the sheet closes itself on dismissal */
+    open?: boolean;
+    /** Initial open state of an uncontrolled sheet */
+    defaultOpen?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
     /** Called when the opening transition starts */
@@ -53,8 +55,6 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     onTransitionOut?: () => void;
     /** Called when the closing transition completes */
     onTransitionOutComplete?: () => void;
-    /** Show/hide sheet */
-    visible: boolean;
     /** Disables closing the sheet on Escape */
     disableEscapeKeyDown?: boolean;
     /** Disables closing the sheet by clicking the veil */
@@ -91,13 +91,13 @@ const openModalSheets: Array<() => HTMLElement | null> = [];
 function SheetComponent(rawProps: SheetProps) {
     const {
         children,
-        onClose,
+        open,
+        defaultOpen,
         onOpenChange,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
         onTransitionOutComplete,
-        visible,
         disableEscapeKeyDown,
         disableOutsideClick,
         modal = true,
@@ -117,8 +117,13 @@ function SheetComponent(rawProps: SheetProps) {
         qa,
     } = useDefaultProps('Sheet', rawProps);
     const {t} = i18n.useTranslation();
-    const {requestedOpen, immediate, requestDismiss} = useSheetDismiss({
-        visible,
+    const {
+        open: isOpen,
+        immediate,
+        requestDismiss,
+    } = useSheetDismiss({
+        open,
+        defaultOpen,
         onOpenChange,
         disableEscapeKeyDown,
         disableOutsideClick,
@@ -141,7 +146,7 @@ function SheetComponent(rawProps: SheetProps) {
     const isNested = useFloatingParentNodeId() !== null;
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent) => {
-            if (event.key !== KeyCode.ESCAPE || !modal || !requestedOpen) {
+            if (event.key !== KeyCode.ESCAPE || !modal || !isOpen) {
                 return;
             }
 
@@ -154,23 +159,19 @@ function SheetComponent(rawProps: SheetProps) {
                 handleEscapeKeyDown(event.nativeEvent);
             }
         },
-        [floatingNodeId, handleEscapeKeyDown, modal, requestedOpen, tree],
+        [floatingNodeId, handleEscapeKeyDown, modal, isOpen, tree],
     );
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
-        open: requestedOpen,
+        open: isOpen,
         // FloatingFocusManager reports its visually hidden dismiss buttons here
-        onOpenChange: (open, event) => {
-            if (!open) {
+        onOpenChange: (nextOpen, event) => {
+            if (!nextOpen) {
                 requestDismiss({reason: 'dismiss', event});
             }
         },
     });
-    const handleExitComplete = React.useCallback(() => {
-        onClose?.();
-        onTransitionOutComplete?.();
-    }, [onClose, onTransitionOutComplete]);
     const {isMounted, status} = useFloatingTransition({
         context,
         duration: SHEET_TRANSITION_DURATION_MS,
@@ -178,14 +179,14 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
-        onTransitionOutComplete: handleExitComplete,
+        onTransitionOutComplete,
     });
 
     // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
     // useDismiss only coordinates within one tree. Release the layer when closing starts.
     // Non-modal sheets stay out of the stack and do not handle Escape.
     useLayer({
-        open: requestedOpen && modal,
+        open: isOpen && modal,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,

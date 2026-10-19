@@ -26,6 +26,22 @@ SANDBOX-->
 
 <!--/GITHUB_BLOCK-->
 
+## Tooltip
+
+Use `tooltipProps` to configure the underlying [`ActionTooltip`](../ActionTooltip/README.md),
+for example its placement or portal behavior:
+
+```tsx
+<ClipboardButton text="Some text to copy" tooltipProps={{placement: 'top', disablePortal: true}} />
+```
+
+Supported properties are `onOpenChange`, `strategy`, `placement`, `offset`, `disabled`,
+`container`, `disablePortal`, and the `DOMProps` (`className`, `style`) and `QAProps` (`qa`) properties.
+
+Set `tooltipProps.disabled` to `true` to disable the tooltip. `hasTooltip={false}` and the copy
+feedback timeout also disable it, even when `tooltipProps.disabled` is `false`. Use
+`tooltipInitialText`, `tooltipSuccessText`, and `timeout` to configure copy feedback.
+
 ## Properties
 
 The `ClipboardButton` properties are inherited from the `Button` [properties](../Button/README.md#properties).
@@ -38,5 +54,6 @@ The `ClipboardButton` properties are inherited from the `Button` [properties](..
 | timeout            | Time before the state switches back to normal after the button is clicked |          `number`          |   `1000`    |
 | tooltipInitialText | Text shown before copying                                                 |          `string`          |  `"Copy"`   |
 | tooltipSuccessText | Text shown after copying                                                  |          `string`          | `"Copied!"` |
+| tooltipProps       | Tooltip configuration. See [supported properties](#tooltip).              |          `object`          |             |
 | icon               | Custom icon                                                               |     `React.ReactNode`      |             |
 | iconPosition       | Position of icon                                                          | `start          \|    end` |   `start`   |

@@ -20,7 +20,9 @@ export type CardTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | '
 export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 
-export interface CardProps extends Omit<BoxProps<'div'>, 'as' | 'onClick'> {
+export interface CardProps
+    extends Omit<BoxProps, 'as'>,
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     children: React.ReactNode;
     /** Card click handler. Available for type: 'selection', 'action' */
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -77,7 +79,6 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(ra
 
     return (
         <Box
-            ref={ref}
             role={roles[type]}
             className={b(
                 {
@@ -91,11 +92,12 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(ra
                 },
                 className,
             )}
-            onClick={handleClick as BoxProps['onClick']}
+            onClick={handleClick}
             onKeyDown={isClickable ? onKeyDown : undefined}
             tabIndex={isClickable ? 0 : undefined}
             aria-checked={isTypeSelection ? selected : undefined}
             {...restProps}
+            ref={ref}
         >
             {children}
         </Box>

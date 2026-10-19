@@ -29,7 +29,7 @@ export const TestBreadcrumbsWithLinkItems = (props: Omit<BreadcrumbsProps, 'chil
 
 export const TestBreadcrumbsCollapsed = (props: Omit<BreadcrumbsProps, 'children'>) => {
     return (
-        <Box overflow="hidden" width={200}>
+        <Box overflow="hidden" width="200px">
             <Breadcrumbs showRoot {...props}>
                 <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
                 <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
@@ -57,17 +57,17 @@ export const TestBreadcrumbsWithCustomIcons = (props: Omit<BreadcrumbsProps, 'ch
     return (
         <Breadcrumbs {...props}>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <House /> uikit
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Flame /> components
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Rocket style={{minWidth: 16}} /> Breadcrumbs
                 </Flex>
             </Breadcrumbs.Item>

@@ -3,12 +3,8 @@
 import * as React from 'react';
 
 import {useLayoutEffect} from '../../hooks';
-import {PrivateLayoutProvider} from '../layout/LayoutProvider/LayoutProvider';
-import type {PrivateLayoutProviderProps} from '../layout/LayoutProvider/LayoutProvider';
 import {block} from '../utils/cn';
 
-import type {DefaultPropsMap} from './DefaultPropsProvider';
-import {DefaultPropsProvider} from './DefaultPropsProvider';
 import {ThemeContext} from './ThemeContext';
 import {ThemeSettingsContext} from './ThemeSettingsContext';
 import type {ThemeSettings} from './ThemeSettingsContext';
@@ -21,21 +17,17 @@ import {
 } from './constants';
 import {updateBodyClassName, updateBodyDirection} from './dom-helpers';
 import type {Direction, RealTheme, Theme, ThemeContextProps} from './types';
-import type {LangOptions} from './useLang';
-import {LangContext, defaultLangOptions} from './useLang';
 import {useSystemTheme} from './useSystemTheme';
 
 const b = block(ROOT_CLASSNAME);
 
-export interface ThemeProviderProps extends React.PropsWithChildren<{}>, Partial<LangOptions> {
+export interface ThemeProviderProps extends React.PropsWithChildren<{}> {
     theme?: Theme;
     systemLightTheme?: RealTheme;
     systemDarkTheme?: RealTheme;
     direction?: Direction;
     scoped?: boolean;
     rootClassName?: string;
-    layout?: Omit<PrivateLayoutProviderProps, 'children'>;
-    defaultProps?: DefaultPropsMap;
 }
 
 export function ThemeProvider({
@@ -46,14 +38,9 @@ export function ThemeProvider({
     scoped: scopedProp = false,
     rootClassName = '',
     children,
-    layout,
-    lang,
-    fallbackLang,
-    defaultProps,
 }: ThemeProviderProps) {
     const parentThemeState = React.useContext(ThemeContext);
     const systemThemeState = React.useContext(ThemeSettingsContext);
-    const langOptionsState = React.useContext(LangContext);
 
     const hasParentProvider = parentThemeState !== undefined;
     const scoped = hasParentProvider || scopedProp;
@@ -99,36 +86,20 @@ export function ThemeProvider({
         [systemLightTheme, systemDarkTheme],
     );
 
-    const langOptionsFinal =
-        lang || fallbackLang
-            ? {
-                  ...defaultLangOptions,
-                  ...langOptionsState,
-                  ...(lang ? {lang} : undefined),
-                  ...(fallbackLang ? {fallbackLang} : undefined),
-              }
-            : langOptionsState;
+    const content = scoped ? (
+        <div className={b({theme: themeValue}, rootClassName)} dir={direction}>
+            {children}
+        </div>
+    ) : (
+        children
+    );
+
     return (
-        <PrivateLayoutProvider {...layout}>
-            <DefaultPropsProvider defaultProps={defaultProps}>
-                <ThemeContext.Provider value={contextValue}>
-                    <ThemeSettingsContext.Provider value={themeSettingsContext}>
-                        <LangContext.Provider value={langOptionsFinal}>
-                            {scoped ? (
-                                <div
-                                    className={b({theme: themeValue}, rootClassName)}
-                                    dir={direction}
-                                >
-                                    {children}
-                                </div>
-                            ) : (
-                                children
-                            )}
-                        </LangContext.Provider>
-                    </ThemeSettingsContext.Provider>
-                </ThemeContext.Provider>
-            </DefaultPropsProvider>
-        </PrivateLayoutProvider>
+        <ThemeContext.Provider value={contextValue}>
+            <ThemeSettingsContext.Provider value={themeSettingsContext}>
+                {content}
+            </ThemeSettingsContext.Provider>
+        </ThemeContext.Provider>
     );
 }
 

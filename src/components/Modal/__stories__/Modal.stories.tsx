@@ -38,7 +38,7 @@ export const Default: StoryFn<ModalProps> = (props) => {
     );
 
     return (
-        <Flex gap={3} direction="column" alignItems="center">
+        <Flex gap="spacing-3" direction="column" alignItems="center">
             <Modal {...props} open={openSmall} onOpenChange={setOpenSmall}>
                 <div style={{padding: 10}}>Modal content</div>
             </Modal>
@@ -68,7 +68,13 @@ export const Default: StoryFn<ModalProps> = (props) => {
                 disableTransition
                 aria-labelledby={titleId}
             >
-                <Flex direction="column" gap="6" spacing={{p: 6}} maxWidth="420px">
+                <Flex
+                    direction="column"
+                    gap="spacing-6"
+                    padding="spacing-6"
+                    maxWidth="420px"
+                    style={{boxSizing: 'border-box'}}
+                >
                     <Text variant="subheader-3" id={titleId}>
                         Modal without transition
                     </Text>

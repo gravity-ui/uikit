@@ -30,6 +30,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             children,
             className,
             sheetClassName,
+            sheetTitle,
             disablePortal,
             virtualized,
             mobile,
@@ -38,15 +39,26 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
         },
         ref,
     ) => {
+        const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
         const sheetContentRef = React.useRef<HTMLDivElement>(null);
+
+        React.useEffect(() => {
+            setAnchorElement(ref && typeof ref !== 'function' ? ref.current : null);
+        }, [ref]);
+
+        const handleOpenChange = (isOpen: boolean) => {
+            if (!isOpen) handleClose();
+        };
 
         return mobile ? (
             // The sheet traps focus, so keys go to its focused content instead of the control
             <Sheet
                 qa={SelectQa.SHEET}
                 className={sheetClassName}
-                visible={Boolean(open)}
-                onClose={handleClose}
+                title={sheetTitle}
+                open={Boolean(open)}
+                onOpenChange={handleOpenChange}
+                onTransitionOutComplete={onAfterClose}
                 initialFocus={sheetContentRef}
             >
                 <div
@@ -62,10 +74,10 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             <Popup
                 className={b(null, className)}
                 qa={SelectQa.POPUP}
-                anchorRef={ref as React.RefObject<HTMLDivElement>}
+                anchorElement={anchorElement}
                 placement={placement}
                 open={open}
-                onClose={handleClose}
+                onOpenChange={handleOpenChange}
                 disablePortal={disablePortal}
                 returnFocus={controlRef}
                 floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}

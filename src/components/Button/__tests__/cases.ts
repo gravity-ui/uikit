@@ -19,6 +19,10 @@ export const loadingCases: CasesWithName<ButtonProps['loading']> = [['loading', 
 export const viewsCases: CasesWithName<ButtonProps['view']> = [
     ['normal', 'normal'],
     ['action', 'action'],
+    ['contrast', 'contrast'],
+    ['contrast-inverted', 'contrast-inverted'],
+    ['contrast-light', 'contrast-light'],
+    ['contrast-dark', 'contrast-dark'],
     ['outlined', 'outlined'],
     ['outlined-info', 'outlined-info'],
     ['outlined-success', 'outlined-success'],
@@ -35,9 +39,6 @@ export const viewsCases: CasesWithName<ButtonProps['view']> = [
     ['flat-danger', 'flat-danger'],
     ['flat-utility', 'flat-utility'],
     ['flat-action', 'flat-action'],
-    ['normal-contrast', 'normal-contrast'],
-    ['outlined-contrast', 'outlined-contrast'],
-    ['flat-contrast', 'flat-contrast'],
 ];
 
 export const pinsCases: CasesWithName<ButtonProps['pin']> = [

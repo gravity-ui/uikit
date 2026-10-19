@@ -3,7 +3,6 @@
 $block: '.#{variables.$ns}modal';
 $modal-default-border-radius: 5px;
 $modal-transition-duration: 150ms;
-$modal-height-transition: height 350ms ease-in-out;
 $modal-opacity-transition: opacity $modal-transition-duration ease-out;
 $modal-transform-transition: transform $modal-transition-duration ease-out;
 
@@ -45,8 +44,6 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         clip-path: inset(0 round var(--g-modal-border-radius, #{$modal-default-border-radius}));
         outline: none;
 
-        transition: $modal-height-transition;
-
         &_has-scroll {
             min-width: 0;
             overflow: auto;
@@ -82,7 +79,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
     }
     &[data-floating-ui-status='open'] #{$block}__content,
     &[data-floating-ui-status='close'] #{$block}__content {
-        transition: $modal-height-transition, $modal-transform-transition;
+        transition: $modal-transform-transition;
     }
 
     &_mobile {
@@ -115,7 +112,7 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
             transition: none;
 
             #{$block}__content {
-                transition: $modal-height-transition;
+                transition: none;
             }
         }
     }

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {MenuItem} from '../lab/Menu';
+import {MenuItem} from '../Menu';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 import type {PolymorphicOverloadProps} from '../utils/polymorphic';

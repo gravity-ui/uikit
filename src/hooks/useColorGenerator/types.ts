@@ -12,8 +12,6 @@ export type GenerateColorProps = {
 
 export type UseColorGeneratorProps = {
     seed: string;
-    /** @deprecated Theme is resolved automatically from context. This field has no effect. */
-    theme?: ThemeType;
 };
 
 export interface ColorDetails {

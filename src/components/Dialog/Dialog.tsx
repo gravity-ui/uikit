@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 
-import type {ModalCloseReason, ModalProps} from '../Modal';
+import type {ModalProps} from '../Modal';
 import {Modal} from '../Modal';
-import {MobileContext, useMobile} from '../mobile';
+import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, QAProps} from '../types';
 import {block} from '../utils/cn';
@@ -26,23 +26,12 @@ export interface DialogProps extends AriaLabelingProps, QAProps {
     open: boolean;
     children: React.ReactNode;
     onOpenChange?: ModalProps['onOpenChange'];
-    onEnterKeyDown?: (event: KeyboardEvent) => void;
-    onEscapeKeyDown?: ModalProps['onEscapeKeyDown'];
-    onOutsideClick?: ModalProps['onOutsideClick'];
-    onClose: (
-        event: MouseEvent | KeyboardEvent,
-        reason: ModalCloseReason | 'closeButtonClick',
-    ) => void;
     onTransitionIn?: ModalProps['onTransitionIn'];
     onTransitionInComplete?: ModalProps['onTransitionInComplete'];
     onTransitionOut?: ModalProps['onTransitionOut'];
     onTransitionOutComplete?: ModalProps['onTransitionOutComplete'];
     className?: string;
     modalClassName?: string;
-    /**
-     * @deprecated Use combination of props "maxWidth: <size>" and "fullWidth: true" instead
-     */
-    size?: 's' | 'm' | 'l';
     maxWidth?: 's' | 'm' | 'l';
     fullWidth?: boolean;
     container?: HTMLElement;
@@ -54,8 +43,7 @@ export interface DialogProps extends AriaLabelingProps, QAProps {
     disableOutsideClick?: boolean;
     keepMounted?: boolean;
     hasCloseButton?: boolean;
-    disableHeightTransition?: boolean;
-    /** Skip opening and closing animations. Height transitions are unchanged. */
+    /** Skip opening and closing animations. */
     disableTransition?: boolean;
 }
 
@@ -70,20 +58,14 @@ export function Dialog(rawProps: DialogProps) {
         initialFocus,
         returnFocus,
         keepMounted = false,
-        size,
         maxWidth,
         fullWidth,
         contentOverflow = 'visible',
         className,
         modalClassName,
         hasCloseButton = true,
-        disableHeightTransition = false,
         disableTransition,
-        onEscapeKeyDown,
-        onEnterKeyDown,
         onOpenChange,
-        onOutsideClick,
-        onClose,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
@@ -91,13 +73,12 @@ export function Dialog(rawProps: DialogProps) {
         qa,
         ...restProps
     } = useDefaultProps('Dialog', rawProps);
-    const mobileModals = React.useContext(MobileContext).__experimentalMobileModals ?? false;
-    const mobile = useMobile() && mobileModals;
+    const mobile = useMobile();
     const handleCloseButtonClick = React.useCallback(
         (event: React.MouseEvent) => {
-            onClose(event.nativeEvent, 'closeButtonClick');
+            onOpenChange?.(false, event.nativeEvent, 'click');
         },
-        [onClose],
+        [onOpenChange],
     );
 
     const footerAutoFocusRef = React.useRef<HTMLElement | null>(null);
@@ -106,10 +87,7 @@ export function Dialog(rawProps: DialogProps) {
         const result: DialogPrivateContextProps = {
             onTooltipEscapeKeyDown: (event: KeyboardEvent) => {
                 onOpenChange?.(false, event, 'escape-key');
-                onEscapeKeyDown?.(event);
-                onClose?.(event, 'escapeKeyDown');
             },
-            disableHeightTransition: disableHeightTransition || !open || mobile,
             mobile,
         };
 
@@ -119,15 +97,7 @@ export function Dialog(rawProps: DialogProps) {
         }
 
         return result;
-    }, [
-        initialFocus,
-        onEscapeKeyDown,
-        onClose,
-        onOpenChange,
-        open,
-        disableHeightTransition,
-        mobile,
-    ]);
+    }, [initialFocus, onOpenChange, mobile]);
 
     let initialFocusValue: ModalProps['initialFocus'];
     if (typeof initialFocus === 'string') {
@@ -148,10 +118,7 @@ export function Dialog(rawProps: DialogProps) {
             initialFocus={initialFocusValue}
             returnFocus={returnFocus}
             keepMounted={keepMounted}
-            onEscapeKeyDown={onEscapeKeyDown}
-            onOutsideClick={onOutsideClick}
-            onClose={onClose}
-            onEnterKeyDown={onEnterKeyDown}
+            onOpenChange={onOpenChange}
             onTransitionIn={onTransitionIn}
             onTransitionInComplete={onTransitionInComplete}
             onTransitionOut={onTransitionOut}
@@ -159,17 +126,14 @@ export function Dialog(rawProps: DialogProps) {
             className={b('modal', {mobile}, modalClassName)}
             container={container}
             qa={qa}
-            disableHeightTransition
             disableTransition={disableTransition}
         >
             <div
                 className={b(
                     {
-                        size,
                         mobile,
                         'max-width': maxWidth,
                         'full-width': mobile ? true : fullWidth,
-                        'has-close': hasCloseButton,
                         'has-scroll': mobile ? true : contentOverflow === 'auto',
                     },
                     className,

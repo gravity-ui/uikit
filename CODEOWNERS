@@ -12,6 +12,7 @@
 /src/components/Checkbox @zamkovskaya
 /src/components/ClipboardButton @Raubzeug
 /src/components/ClipboardIcon @Raubzeug
+/src/components/ColorPicker @Estasie
 /src/components/ControlLabel @korvin89
 /src/components/CopyToClipboard @ogonkov
 /src/components/DefinitionList @Raubzeug
@@ -20,6 +21,7 @@
 /src/components/Divider @v4dyar4
 /src/components/Drawer @skoptenco
 #/src/components/DropdownMenu @axtk
+/src/components/FileDropZone @dvortsovs
 /src/components/FilePreview @mournfulCoroner
 /src/components/HelpMark @Raubzeug
 /src/components/Hotkey @d3m1d0v
@@ -37,7 +39,6 @@
 /src/components/controls/PasswordInput @NasgulNexus
 /src/components/PinInput @amje
 /src/components/PlaceholderContainer @Marginy605
-/src/components/legacy/Popover @kseniya57
 /src/components/Popover @amje
 /src/components/Popup @amje
 /src/components/Portal @amje
@@ -48,7 +49,6 @@
 /src/components/Stepper @bityutskiyAO
 /src/components/User @DakEnviy
 /src/components/UserLabel @DakEnviy
-/src/components/useList @IsaevAlexandr
 /src/components/Select @korvin89
 /src/components/Sheet @mournfulCoroner
 /src/components/Skeleton @ogonkov
@@ -56,21 +56,17 @@
 /src/components/Spin @ogonkov
 /src/components/Stories @DarkGenius
 /src/components/Switch @zamkovskaya
-/src/components/Table @Raubzeug
+/src/components/legacy/Table @Raubzeug
 /src/components/tabs @sofiushko
 /src/components/Text @IsaevAlexandr
-/src/components/TreeList @IsaevAlexandr
-/src/components/TreeSelect @IsaevAlexandr
 /src/components/controls/TextArea @korvin89
 /src/components/controls/TextInput @korvin89
 /src/components/Toaster @ogonkov
 /src/components/Tooltip @amje
 /src/components/layout @IsaevAlexandr
 
-/src/components/lab/ColorPicker @Estasie
-/src/components/lab/FileDropZone @dvortsovs
-
 /src/hooks/useActionHandlers @ogonkov
+/src/hooks/useDropZone @dvortsovs
 /src/hooks/useFileInput @korvin89
 /src/hooks/useForkRef @ValeraS
 #/src/hooks/useIntersection @imechoim
@@ -78,8 +74,6 @@
 /src/hooks/useOutsideClick @NikitaCG
 /src/hooks/useViewportSize @NikitaCG
 /src/hooks/useUniqId @ValeraS
-
-/src/hooks/lab/useDropZone @dvortsovs
 
 # Allow everyone to update dependencies
 

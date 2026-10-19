@@ -100,7 +100,7 @@ test.describe('Modal', {tag: '@Modal'}, () => {
         await page.setViewportSize({width: 390, height: 844});
 
         await mount(
-            <MobileProvider mobile __experimentalMobileModals>
+            <MobileProvider mobile>
                 <Modal open qa={ModalQa.content}>
                     Mobile modal content
                 </Modal>
@@ -130,7 +130,7 @@ test.describe('modal animations', () => {
                 page,
             }) => {
                 await mount(
-                    <MobileProvider mobile={mobile} __experimentalMobileModals>
+                    <MobileProvider mobile={mobile}>
                         <Modal open disableTransition={disableTransition} qa={ModalQa.content}>
                             Modal content
                         </Modal>
@@ -144,7 +144,7 @@ test.describe('modal animations', () => {
                 );
                 await expect(overlay.locator('.g-modal__content')).toHaveCSS(
                     'transition-property',
-                    disableTransition ? 'height' : 'height, transform',
+                    disableTransition ? 'none' : 'transform',
                 );
             });
         }
@@ -154,7 +154,7 @@ test.describe('modal animations', () => {
             page,
         }) => {
             const component = await mount(
-                <MobileProvider mobile={mobile} __experimentalMobileModals>
+                <MobileProvider mobile={mobile}>
                     <Modal open keepMounted disableTransition qa={ModalQa.content}>
                         Modal content
                     </Modal>
@@ -164,7 +164,7 @@ test.describe('modal animations', () => {
             await expect(overlay).toHaveAttribute('data-floating-ui-status', 'open');
             await expect(overlay).toHaveCSS('transition-duration', '0s');
             await component.update(
-                <MobileProvider mobile={mobile} __experimentalMobileModals>
+                <MobileProvider mobile={mobile}>
                     <Modal open={false} keepMounted disableTransition qa={ModalQa.content}>
                         Modal content
                     </Modal>
@@ -173,7 +173,7 @@ test.describe('modal animations', () => {
             await expect(overlay).toHaveAttribute('data-floating-ui-status', 'unmounted');
             await expect(overlay).toBeHidden();
             await component.update(
-                <MobileProvider mobile={mobile} __experimentalMobileModals>
+                <MobileProvider mobile={mobile}>
                     <Modal open keepMounted disableTransition qa={ModalQa.content}>
                         Modal content
                     </Modal>

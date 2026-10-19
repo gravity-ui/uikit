@@ -32,7 +32,7 @@ function FocusSheet({
         <React.Fragment>
             <button onClick={() => setVisible(true)}>Open</button>
             <Sheet
-                visible={visible}
+                open={visible}
                 title="Example"
                 onOpenChange={(open, event, reason) => {
                     onOpenChange?.(open, event, reason);
@@ -66,7 +66,7 @@ function StackedSheets({
 
     const childSheet = (
         <Sheet
-            visible={childVisible}
+            open={childVisible}
             title="Child"
             onOpenChange={(open, _event, reason) => {
                 onOpenChange('child', reason);
@@ -81,7 +81,7 @@ function StackedSheets({
         <React.Fragment>
             <button onClick={() => setParentVisible(true)}>Open parent</button>
             <Sheet
-                visible={parentVisible}
+                open={parentVisible}
                 title="Parent"
                 onOpenChange={(open, _event, reason) => {
                     onOpenChange('parent', reason);
@@ -143,7 +143,7 @@ function SheetInModal({
             >
                 <button onClick={() => setSheetVisible(true)}>Open sheet</button>
                 <Sheet
-                    visible={sheetVisible}
+                    open={sheetVisible}
                     title="Inside modal"
                     onOpenChange={(open, _event, reason) => {
                         onSheetOpenChange(reason);
@@ -245,10 +245,10 @@ describe('Sheet focus management', () => {
     });
 
     describe('accessible dismissal', () => {
-        test('closes a legacy sheet through the hidden dismiss control', async () => {
+        test('closes an uncontrolled sheet through the hidden dismiss control', async () => {
             const onClose = jest.fn();
             render(
-                <Sheet visible onClose={onClose}>
+                <Sheet defaultOpen onTransitionOutComplete={onClose}>
                     Content
                 </Sheet>,
             );
@@ -297,7 +297,7 @@ describe('Sheet focus management', () => {
             configure({lang: Lang.Ru});
 
             try {
-                render(<Sheet visible>Content</Sheet>);
+                render(<Sheet defaultOpen>Content</Sheet>);
 
                 await waitFor(() =>
                     expect(screen.getAllByRole('button', {name: 'Закрыть'})).toHaveLength(2),
@@ -642,7 +642,7 @@ describe('Sheet focus management', () => {
                     useHistory={() => history}
                     useLocation={() => location}
                 >
-                    <Sheet visible id="example">
+                    <Sheet defaultOpen id="example">
                         Content
                     </Sheet>
                 </MobileProvider>,

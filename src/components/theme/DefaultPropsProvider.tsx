@@ -21,7 +21,7 @@ import type {DialogProps} from '../Dialog';
 import type {DisclosureProps} from '../Disclosure';
 import type {DividerProps} from '../Divider';
 import type {DrawerProps} from '../Drawer';
-import type {DropdownMenuProps} from '../DropdownMenu';
+import type {FileDropZoneProps} from '../FileDropZone';
 import type {FilePreviewProps} from '../FilePreview';
 import type {HelpMarkProps} from '../HelpMark';
 import type {HotkeyProps} from '../Hotkey';
@@ -29,7 +29,7 @@ import type {IconProps} from '../Icon';
 import type {LabelProps} from '../Label';
 import type {LinkProps} from '../Link';
 import type {LoaderProps} from '../Loader';
-import type {MenuProps} from '../Menu';
+import type {MenuItemProps, MenuProps, MenuTriggerProps} from '../Menu';
 import type {ModalProps} from '../Modal';
 import type {NumberInputProps} from '../NumberInput';
 import type {OverlayProps} from '../Overlay';
@@ -51,20 +51,18 @@ import type {SliderProps} from '../Slider';
 import type {SpinProps} from '../Spin';
 import type {StepperProps} from '../Stepper';
 import type {SwitchProps} from '../Switch';
-import type {TableColumnSetupProps} from '../TableColumnSetup';
 import type {TextProps} from '../Text';
 import type {TocProps} from '../Toc';
 import type {TooltipProps} from '../Tooltip';
+import type {TooltipDelayGroupProps} from '../Tooltip/TooltipDelayGroup';
 import type {UserProps} from '../User';
 import type {UserLabelProps} from '../UserLabel';
 import type {PasswordInputProps} from '../controls/PasswordInput';
 import type {TextAreaProps} from '../controls/TextArea';
 import type {TextInputProps} from '../controls/TextInput';
-import type {
-    MenuItemProps as LabMenuItemProps,
-    MenuProps as LabMenuProps,
-    MenuTriggerProps as LabMenuTriggerProps,
-} from '../lab/Menu';
+import type {DropdownMenuProps} from '../legacy/DropdownMenu';
+import type {MenuProps as MenuLegacyProps} from '../legacy/Menu';
+import type {TableColumnSetupProps} from '../legacy/TableColumnSetup/types';
 import type {TabListProps, TabPanelProps, TabProps, TabProviderProps} from '../tabs';
 
 export interface DefaultPropsMap {
@@ -88,6 +86,7 @@ export interface DefaultPropsMap {
     Divider?: Partial<DividerProps>;
     Drawer?: Partial<DrawerProps>;
     DropdownMenu?: Partial<DropdownMenuProps<any>>;
+    FileDropZone?: Partial<FileDropZoneProps>;
     FilePreview?: Partial<FilePreviewProps>;
     HelpMark?: Partial<HelpMarkProps>;
     Hotkey?: Partial<HotkeyProps>;
@@ -95,7 +94,7 @@ export interface DefaultPropsMap {
     Label?: Partial<LabelProps>;
     Link?: Partial<LinkProps>;
     Loader?: Partial<LoaderProps>;
-    Menu?: Partial<MenuProps>;
+    MenuLegacy?: Partial<MenuLegacyProps>;
     Modal?: Partial<ModalProps>;
     NumberInput?: Partial<NumberInputProps>;
     Overlay?: Partial<OverlayProps>;
@@ -111,28 +110,29 @@ export interface DefaultPropsMap {
     Radio?: Partial<RadioProps>;
     RadioGroup?: Partial<RadioGroupProps>;
     SegmentedRadioGroup?: Partial<SegmentedRadioGroupProps<any>>;
-    Select?: Partial<SelectProps<any>>;
+    Select?: Partial<SelectProps<any, any>>;
     Sheet?: Partial<SheetProps>;
     Skeleton?: Partial<SkeletonProps>;
     Slider?: Partial<SliderProps<any>>;
     Spin?: Partial<SpinProps>;
     Stepper?: Partial<StepperProps>;
     Switch?: Partial<SwitchProps>;
-    TableColumnSetup?: Partial<TableColumnSetupProps>;
     Tab?: Partial<TabProps>;
     TabList?: Partial<TabListProps>;
     TabPanel?: Partial<TabPanelProps>;
     TabProvider?: Partial<TabProviderProps>;
+    TableColumnSetup?: Partial<TableColumnSetupProps>;
     Text?: Partial<TextProps<any>>;
     TextArea?: Partial<TextAreaProps>;
     TextInput?: Partial<TextInputProps>;
     Toc?: Partial<TocProps>;
     Tooltip?: Partial<TooltipProps>;
+    TooltipDelayGroup?: Partial<TooltipDelayGroupProps>;
     User?: Partial<UserProps>;
     UserLabel?: Partial<UserLabelProps>;
-    unstable_Menu?: Partial<LabMenuProps>;
-    unstable_MenuItem?: Partial<LabMenuItemProps>;
-    unstable_MenuTrigger?: Partial<LabMenuTriggerProps>;
+    Menu?: Partial<MenuProps>;
+    MenuItem?: Partial<MenuItemProps>;
+    MenuTrigger?: Partial<MenuTriggerProps>;
 }
 
 /** @deprecated Use `DefaultPropsMap` instead. */

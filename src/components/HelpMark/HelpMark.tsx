@@ -21,10 +21,9 @@ const b = block('help-mark');
 type IconSize = keyof typeof ICON_SIZE_MAP;
 
 export interface HelpMarkProps extends QAProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
-    // TODO BREAKING CHANGE: Consider renaming to "size"
-    iconSize?: IconSize;
+    size?: IconSize;
     popoverProps?: Omit<PopoverProps, 'children'>;
-    sheetProps?: Omit<SheetProps, 'children' | 'visible'>;
+    sheetProps?: Omit<SheetProps, 'children' | 'open' | 'defaultOpen'>;
     children?: React.ReactNode;
 }
 
@@ -34,7 +33,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
             children,
             qa,
             className,
-            iconSize = 'm',
+            size = 'm',
             popoverProps,
             sheetProps,
             onClick,
@@ -42,7 +41,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
         } = useDefaultProps('HelpMark', rawProps);
 
         const mobile = useMobile();
-        const [sheetVisible, setSheetVisible] = React.useState(false);
+        const [sheetOpen, setSheetOpen] = React.useState(false);
         const {onOpenChange: onSheetOpenChange, ...restSheetProps} = sheetProps ?? {};
 
         const handleMobileButtonClick = React.useCallback<
@@ -51,17 +50,17 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
             (event) => {
                 onClick?.(event);
 
-                if (!event.defaultPrevented && !sheetVisible) {
-                    setSheetVisible(true);
+                if (!event.defaultPrevented && !sheetOpen) {
+                    setSheetOpen(true);
                     onSheetOpenChange?.(true, event.nativeEvent);
                 }
             },
-            [onClick, onSheetOpenChange, sheetVisible],
+            [onClick, onSheetOpenChange, sheetOpen],
         );
 
         const handleSheetOpenChange = React.useCallback<NonNullable<SheetProps['onOpenChange']>>(
             (open, event, reason) => {
-                setSheetVisible(open);
+                setSheetOpen(open);
                 onSheetOpenChange?.(open, event, reason);
             },
             [onSheetOpenChange],
@@ -72,13 +71,13 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
                 {...restProps}
                 ref={ref}
                 type="button"
-                className={b({size: iconSize}, className)}
+                className={b({size}, className)}
                 data-qa={qa}
-                aria-expanded={mobile ? sheetVisible : undefined}
+                aria-expanded={mobile ? sheetOpen : undefined}
                 aria-haspopup={mobile ? 'dialog' : undefined}
                 onClick={mobile ? handleMobileButtonClick : onClick}
             >
-                <Icon data={CircleQuestion} size={ICON_SIZE_MAP[iconSize]} className={b('icon')} />
+                <Icon data={CircleQuestion} size={ICON_SIZE_MAP[size]} className={b('icon')} />
             </button>
         );
 
@@ -88,7 +87,7 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
                     {button}
                     <Sheet
                         {...restSheetProps}
-                        visible={sheetVisible}
+                        open={sheetOpen}
                         onOpenChange={handleSheetOpenChange}
                     >
                         <div className={b('sheet-content')}>{children}</div>

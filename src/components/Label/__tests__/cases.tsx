@@ -13,4 +13,4 @@ export const themeCases: Cases<LabelProps['theme']> = [
     'unknown',
     'clear',
 ];
-export const sizeCases: Cases<LabelProps['size']> = ['xxs', 'xs', 's', 'm'];
+export const sizeCases: Cases<LabelProps['size']> = ['2xs', 'xs', 's', 'm'];

@@ -5,8 +5,9 @@ import * as React from 'react';
 import {Ellipsis} from '@gravity-ui/icons';
 
 import {Button} from '../../Button';
-import {DropdownMenu} from '../../DropdownMenu';
 import {Icon} from '../../Icon';
+import {Menu, MenuDivider, MenuItem} from '../../Menu';
+import {isComponentType} from '../../Menu/utils';
 import {block} from '../../utils/cn';
 import i18n from '../i18n';
 import type {ActionsPanelItem} from '../types';
@@ -21,6 +22,29 @@ type Props = {
     actions: ActionsPanelItem[];
     maxRowActions?: number;
 };
+
+type DropdownItem = ActionsPanelItem['menu']['item'];
+
+function renderMenuItems(items: (DropdownItem | DropdownItem[])[]): React.ReactNode[] {
+    const nodes: React.ReactNode[] = [];
+    let previousWasGroup = false;
+
+    items.forEach((entry, index) => {
+        const isGroup = Array.isArray(entry);
+        const group = isGroup ? entry : [entry];
+
+        if (nodes.length && (isGroup || previousWasGroup)) {
+            nodes.push(<MenuDivider key={`divider-${index}`} />);
+        }
+
+        group.forEach((item, itemIndex) => {
+            nodes.push(<MenuItem key={`${index}-${itemIndex}`} {...item} />);
+        });
+        previousWasGroup = isGroup;
+    });
+
+    return nodes;
+}
 
 export const CollapseActions = ({actions, maxRowActions}: Props) => {
     const {buttonActions, dropdownItems, parentRef, offset, visibilityMap, showDropdown} =
@@ -40,22 +64,18 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                     const attr = {[OBSERVER_TARGET_ATTR]: id};
                     const invisible = visibilityMap[id] === false;
 
-                    const node = Array.isArray(action.dropdown.item.items) ? (
-                        <DropdownMenu
+                    const submenu = React.Children.toArray(action.menu.item.children).find(
+                        (child) => isComponentType(child, 'Menu'),
+                    );
+                    const node = submenu ? (
+                        <Menu
                             size="s"
-                            items={action.dropdown.item.items}
-                            renderSwitcher={({onClick}) => (
-                                <Button
-                                    view="flat-contrast"
-                                    size="m"
-                                    {...action.button.props}
-                                    onClick={onClick}
-                                />
-                            )}
-                            onSwitcherClick={action.button.props.onClick}
-                        />
+                            trigger={<Button view="flat" size="m" {...action.button.props} />}
+                        >
+                            {submenu.props.children}
+                        </Menu>
                     ) : (
-                        <Button view="flat-contrast" size="m" {...action.button.props} />
+                        <Button view="flat" size="m" {...action.button.props} />
                     );
                     return (
                         <div className={b('button-action-wrapper', {invisible})} {...attr} key={id}>
@@ -66,20 +86,16 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
             </div>
             {showDropdown && (
                 <div className={b('menu-wrapper')}>
-                    <DropdownMenu
+                    <Menu
                         size="s"
-                        items={dropdownItems}
-                        renderSwitcher={({onClick}) => (
-                            <Button
-                                view="flat-contrast"
-                                size="m"
-                                aria-label={t('label_more')}
-                                onClick={onClick}
-                            >
+                        trigger={
+                            <Button view="flat" size="m" aria-label={t('label_more')}>
                                 <Icon data={Ellipsis} />
                             </Button>
-                        )}
-                    />
+                        }
+                    >
+                        {renderMenuItems(dropdownItems)}
+                    </Menu>
                 </div>
             )}
         </div>

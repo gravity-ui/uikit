@@ -6,13 +6,13 @@ import {Sheet} from '../Sheet';
 
 import {QASheet} from './constants';
 
-export const TestSheet = (props: Partial<Omit<SheetProps, 'visible' | 'onOpenChange'>>) => {
-    const [visible, setVisible] = React.useState(false);
+export const TestSheet = (props: Partial<Omit<SheetProps, 'open' | 'onOpenChange'>>) => {
+    const [open, setOpen] = React.useState(false);
 
     return (
         <div>
-            <button onClick={() => setVisible(true)}>Show modal</button>
-            <Sheet {...props} visible={visible} onOpenChange={setVisible} qa={QASheet.content}>
+            <button onClick={() => setOpen(true)}>Show modal</button>
+            <Sheet {...props} open={open} onOpenChange={setOpen} qa={QASheet.content}>
                 <div
                     style={{
                         minHeight: 100,
@@ -40,7 +40,7 @@ export function FocusTestSheet({
     const [nestedVisible, setNestedVisible] = React.useState(false);
 
     const nestedSheet = (
-        <Sheet visible={nestedVisible} title="Nested" onClose={() => setNestedVisible(false)}>
+        <Sheet open={nestedVisible} title="Nested" onOpenChange={setNestedVisible}>
             <button>Nested action</button>
         </Sheet>
     );
@@ -49,7 +49,7 @@ export function FocusTestSheet({
         <React.Fragment>
             <button onClick={() => setVisible(true)}>Open sheet</button>
             <button>Background action</button>
-            <Sheet visible={visible} title="Parent" modal={modal} onClose={() => setVisible(false)}>
+            <Sheet open={visible} title="Parent" modal={modal} onOpenChange={setVisible}>
                 <button>First action</button>
                 <button onClick={() => setNestedVisible(true)}>Open nested sheet</button>
                 <button>Last action</button>
@@ -69,7 +69,7 @@ export function FocusTestSheetInModal() {
             <button onClick={() => setModalOpen(true)}>Open modal</button>
             <Modal open={modalOpen} onOpenChange={setModalOpen} aria-label="Modal">
                 <button onClick={() => setSheetVisible(true)}>Open sheet in modal</button>
-                <Sheet visible={sheetVisible} title="Inside modal" onOpenChange={setSheetVisible}>
+                <Sheet open={sheetVisible} title="Inside modal" onOpenChange={setSheetVisible}>
                     <button>First sheet action</button>
                     <button>Last sheet action</button>
                 </Sheet>

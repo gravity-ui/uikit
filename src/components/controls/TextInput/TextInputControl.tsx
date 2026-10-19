@@ -31,7 +31,6 @@ export function TextInputControl(props: Props) {
         onBlur,
         onKeyDown,
         onKeyUp,
-        onKeyPress,
     } = props;
 
     return (
@@ -53,7 +52,6 @@ export function TextInputControl(props: Props) {
             onBlur={onBlur}
             onKeyDown={onKeyDown}
             onKeyUp={onKeyUp}
-            onKeyPress={onKeyPress}
             disabled={disabled ?? controlProps.disabled}
             readOnly={readOnly ?? controlProps.readOnly}
         />

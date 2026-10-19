@@ -196,7 +196,6 @@ SANDBOX-->
 | fallbackImgUrl  | Резервное изображение, отображаемое в случае ошибки. |      `string`      |                       |
 | sizes           | HTML-атрибут `sizes` для `img`.                      |      `string`      |                       |
 | srcSet          | HTML-атрибут `srcSet` для `img`.                     |      `string`      |                       |
-| alt             | HTML-атрибут `alt` для `img`.                        |      `string`      |      props.title      |
 | loading         | HTML-атрибут `loading` для `img`.                    | `'eager'` `'lazy'` |                       |
 | withImageBorder | Добавляет обводку по умолчанию для изображения       |     `boolean`      |                       |
 

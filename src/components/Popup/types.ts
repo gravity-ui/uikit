@@ -8,8 +8,6 @@ export type PopupPlacement = AutoPlacement | Placement | Placement[];
 
 export type PopupAnchorElement = Element | VirtualElement;
 
-export type PopupAnchorRef = React.RefObject<PopupAnchorElement | null>;
-
 type RemoveFunction<T> = T extends Function ? never : T;
 
 // floating-ui not exports `OffsetValue` type, so use this workarround

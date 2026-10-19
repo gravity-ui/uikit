@@ -1,7 +1,12 @@
 import * as React from 'react';
 
 import {Select} from '..';
-import type {SelectOption, SelectOptionGroup, SelectProps, SelectRenderControlProps} from '..';
+import type {
+    SelectOptionGroupProps,
+    SelectOptionProps,
+    SelectProps,
+    SelectRenderControlProps,
+} from '..';
 import {act, render} from '../../../../test-utils/utils';
 import {MobileProvider} from '../../mobile';
 import {selectControlBlock, selectControlButtonBlock, selectListBlock} from '../constants';
@@ -20,14 +25,22 @@ export const DEFAULT_OPTIONS = generateOptions([
     ['python', 'Python'],
     ['ruby', 'Ruby'],
 ]);
-export const GROUPED_OPTIONS: SelectOptionGroup[] = [
+export const GROUPED_OPTIONS: SelectOptionGroupProps[] = [
     {label: 'Group 1', options: DEFAULT_OPTIONS.slice(0, 2)},
     {label: 'Group 2', options: DEFAULT_OPTIONS.slice(2)},
 ];
-export const QUICK_SEARCH_OPTIONS = generateOptions(40);
-export const GROUPED_QUICK_SEARCH_OPTIONS: SelectOptionGroup[] = [
-    {label: 'Group 1', options: generateOptions(40).slice(0, 20)},
-    {label: 'Group 2', options: generateOptions(40).slice(20)},
+/** The typeahead of the core searches by prefix, so the options differ from the first letters */
+export const TYPEAHEAD_OPTIONS = generateOptions([
+    ['ada', 'Ada'],
+    ['java', 'Java'],
+    ['js', 'JavaScript'],
+    ['python', 'Python'],
+    ['ruby', 'Ruby'],
+    ['rust', 'Rust'],
+]);
+export const GROUPED_TYPEAHEAD_OPTIONS: SelectOptionGroupProps[] = [
+    {label: 'Group 1', options: TYPEAHEAD_OPTIONS.slice(0, 3)},
+    {label: 'Group 2', options: TYPEAHEAD_OPTIONS.slice(3)},
 ];
 
 export const ControlledSelect = (props: Partial<SelectProps>) => {
@@ -69,7 +82,7 @@ export const timeout = (ms: number) => {
     });
 };
 
-export function generateOptions(args: number | [string, string][]): SelectOption[] {
+export function generateOptions(args: number | [string, string][]): SelectOptionProps[] {
     if (typeof args === 'number') {
         return Array.from({length: args}, (_, i) => ({
             value: `val${i + 1}`,
@@ -83,10 +96,14 @@ export function generateOptions(args: number | [string, string][]): SelectOption
 export const generateOptionsGroups = (
     groupsCount: number,
     optionsCount: number,
-): SelectOptionGroup[] => {
+): SelectOptionGroupProps[] => {
     return Array.from({length: groupsCount}, (_, i) => ({
         label: `Group ${i + 1}`,
-        options: generateOptions(optionsCount),
+        // The values are unique across the groups: the list keys the rows by them
+        options: generateOptions(optionsCount).map((option) => ({
+            ...option,
+            value: `group-${i + 1}-${option.value}`,
+        })),
     }));
 };
 

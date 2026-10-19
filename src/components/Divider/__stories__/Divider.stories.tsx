@@ -146,9 +146,9 @@ export const WithContent: Story = {
         <Showcase>
             <Flex
                 direction={args.orientation === 'horizontal' ? 'column' : 'row'}
-                height={args.orientation === 'vertical' ? 200 : undefined}
-                width={400}
-                gap={5}
+                height={args.orientation === 'vertical' ? '200px' : undefined}
+                width="400px"
+                gap="spacing-5"
             >
                 {alignCases.map((align, index) => (
                     <Divider {...args} align={align} key={index}>

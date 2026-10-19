@@ -8,21 +8,21 @@
 стилей не нужно: вы задаёте переменные, а компоненты используют их значения.
 
 ```tsx
-import {ThemeProvider, Button} from '@gravity-ui/uikit';
+import {Provider, Button} from '@gravity-ui/uikit';
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
 
 export const App = () => (
-  <ThemeProvider theme="system">
+  <Provider theme="system">
     <Button view="action">Branded button</Button>
-  </ThemeProvider>
+  </Provider>
 );
 ```
 
 ## Как работает темизация
 
 Все переменные находятся на корневом классе `.g-root`, который `ThemeProvider` по умолчанию
-назначает элементу `<body>`; цель можно изменить prop `scoped`. Цветовые переменные дополнительно
+назначает элементу `<body>` без родительской темы; `scoped` создаёт локальный корень. Цветовые переменные дополнительно
 задаются на классе конкретной темы `.g-root_theme_{themeName}`, поэтому переключение темы заменяет
 один набор значений другим.
 
@@ -47,32 +47,130 @@ UIKit поставляет четыре встроенные темы:
 | `light-hc` | Светлая высококонтрастная тема для доступности |
 | `dark-hc`  | Тёмная высококонтрастная тема для доступности  |
 
-Выберите тему через `ThemeProvider`:
+Выберите тему приложения через `Provider`:
 
 ```tsx
-<ThemeProvider theme="dark">{...}</ThemeProvider>
+<Provider theme="dark">{...}</Provider>
 ```
 
 Значение по умолчанию — `"system"`: оно следует системному предпочтению цветовой схемы и
 преобразуется в `light` или `dark`. Управлять тем, во что преобразуется `system`, можно через
-`systemLightTheme` / `systemDarkTheme`. Для чтения и переключения темы во время выполнения
-используйте хуки `useTheme` / `useThemeValue`.
+`systemLightTheme` / `systemDarkTheme`. Читайте запрошенную и вычисленную тему через
+`useTheme` / `useThemeValue`; переключайте её обновлением пропа `theme`.
+
+## Провайдеры
+
+`Provider` — общий провайдер приложения. Вложенные Provider всегда работают в режиме scoped,
+даже при `scoped={false}`, и наследуют незаданные настройки темы, языка, layout и defaults компонентов.
+Мобильные настройки используют собственные defaults. Для изменения одной функции можно использовать
+отдельный провайдер. Все перечисленные компоненты и типы пропсов экспортируются из `@gravity-ui/uikit`.
+
+### Provider
+
+`ProviderProps` объединяет пропсы темы ниже, `lang` и `fallbackLang`, мобильные пропсы ниже,
+`children` и следующие настройки:
+
+| Проп           | Тип                                     | Поведение                                                    |
+| -------------- | --------------------------------------- | ------------------------------------------------------------ |
+| `layout`       | `Omit<LayoutProviderProps, 'children'>` | Конфигурация layout и media queries                          |
+| `defaultProps` | `DefaultPropsMap`                       | Defaults компонентов; явно переданные пропсы имеют приоритет |
+
+Он объединяет `LayoutProvider`, `DefaultPropsProvider`, `ThemeProvider`, `LangProvider` и
+`MobileProvider` и подключает приватную общую группу задержки тултипов. Настройте её через
+`defaultProps={{TooltipDelayGroup: {skipDelay: 500}}}`. Вложенные Provider и области темы используют ту же группу.
+
+### ThemeProvider
+
+`ThemeProviderProps` принимает `children` и следующие необязательные пропсы:
+
+| Проп               | Тип         | Значение без родительской темы                          |
+| ------------------ | ----------- | ------------------------------------------------------- |
+| `theme`            | `Theme`     | `system`                                                |
+| `systemLightTheme` | `RealTheme` | `light`                                                 |
+| `systemDarkTheme`  | `RealTheme` | `dark`                                                  |
+| `direction`        | `Direction` | `ltr`                                                   |
+| `scoped`           | `boolean`   | `false`; внутри другой темы всегда `true`               |
+| `rootClassName`    | `string`    | Пустая строка; добавляется к body или локальной обёртке |
+
+Читайте запрошенную тему через `useTheme`, вычисленную — через `useThemeValue`, системные соответствия —
+через `useThemeSettings`, направление — через `useDirection`. Для переключения обновляйте проп `theme`.
+Локальные переопределения описаны в [Локальных темах](#локальные-темы).
+
+### LangProvider
+
+`LangProviderProps` принимает `children`, `lang` и `fallbackLang`. Доступны встроенные `en` и `ru`
+и пользовательские языки, зарегистрированные через i18n API. Вложенный провайдер наследует незаданные
+опции. Если без родительского языкового контекста задана одна опция, вторая получает значение `en`.
+Без обеих опций провайдер передаёт родительский контекст; если его нет, `useLang` читает глобальные
+настройки `configure`.
+
+```tsx
+<LangProvider lang="ru" fallbackLang="en">
+  <LocalizedContent />
+</LangProvider>
+```
+
+### LayoutProvider
+
+`LayoutProviderProps` принимает `children`, `config` (частичный `LayoutTheme`) и `initialMediaQuery`
+(имя breakpoint для начального/SSR-рендера). Вложенный провайдер наследует тему и активный breakpoint,
+включая начальный breakpoint родителя при SSR. `config` объединяется с родительской темой, не изменяя
+её. Явно переданные настройки переопределяют унаследованные; собственные breakpoints вычисляют
+локальный активный breakpoint. Без родительского провайдера начальный breakpoint — `xs`.
+DOM-обёртку не добавляет. См. [Layout](layout-ru.md).
+
+```tsx
+<LayoutProvider config={layoutConfig}>
+  <ResponsiveContent />
+</LayoutProvider>
+```
+
+### MobileProvider и мобильные настройки
+
+Существующий публичный `MobileProvider` сохраняется. `Provider` принимает все его настройки
+напрямую с теми же значениями по умолчанию:
+
+| Проп          | Тип                                      | Значение по умолчанию          |
+| ------------- | ---------------------------------------- | ------------------------------ |
+| `mobile`      | `boolean`                                | `false`                        |
+| `platform`    | `Platform` (`browser`, `ios`, `android`) | `Platform.BROWSER`             |
+| `useHistory`  | `MobileProviderProps['useHistory']`      | История с пустыми действиями   |
+| `useLocation` | `MobileProviderProps['useLocation']`     | Пустые pathname, search и hash |
+
+`useHistory` поддерживает history v4/v5: `back` преобразуется в `goBack`, если `goBack` отсутствует.
+`mobile` переключает `.g-root_mobile` на body через `MobileProvider` и читается через `useMobile`;
+платформу читает `usePlatform`. Каждый Provider использует собственные мобильные defaults, включая
+вложенные Provider и Provider с явным `scoped`. Мобильные настройки и хуки роутера не наследуются;
+передавайте их явно, если они нужны. Режим scoped относится к теме и направлению; мобильный класс
+по-прежнему управляется на body.
+`Modal` и `Dialog` используют мобильный рендеринг при включённом `mobile`.
+
+```tsx
+import {Platform, Provider} from '@gravity-ui/uikit';
+
+<Provider mobile platform={Platform.IOS}>
+  <App />
+</Provider>;
+```
+
+Используйте MobileProvider для отдельного мобильного контекста; его работа с классом body не меняется.
+Смена локальной темы сохраняет текущий мобильный контекст.
 
 ## Значения свойств компонентов по умолчанию
 
-Используйте `ThemeProvider.defaultProps`, чтобы задать общие значения свойств компонентов UIKit:
+Используйте `Provider.defaultProps`, чтобы задать общие значения свойств компонентов UIKit:
 
 ```tsx
 import type {DefaultPropsMap} from '@gravity-ui/uikit';
-import {Button, ThemeProvider} from '@gravity-ui/uikit';
+import {Button, Provider} from '@gravity-ui/uikit';
 
 const defaultProps = {
   Button: {size: 'l', view: 'outlined'},
 } satisfies DefaultPropsMap;
 
-<ThemeProvider defaultProps={defaultProps}>
+<Provider defaultProps={defaultProps}>
   <Button>Большая контурная кнопка</Button>
-</ThemeProvider>;
+</Provider>;
 ```
 
 `DefaultPropsProvider` позволяет переопределить значения для части дерева без создания ещё одной
@@ -293,26 +391,31 @@ import {Text} from '@gravity-ui/uikit';
 
 ## Создание пользовательской темы
 
-Определите тему с нуля или расширьте встроенную тему SCSS-миксинами:
+Тема — это набор значений `--g-*` на классе `.g-root_theme_{name}`. Чтобы добавить тему, сгенерируйте полный набор
+токенов (см. ниже) и задайте его на классе своей темы:
 
-```scss
-@use '@gravity-ui/uikit/styles/themes';
-
-// Start from the light theme, then override
+```css
+/* my-theme.css — импортируется после styles.css */
 .g-root_theme_custom {
-  @include themes.g-theme-light;
-
-  // your overrides
   --g-color-base-brand: rgb(117, 155, 255);
+  /* …полный набор токенов… */
 }
 ```
 
-Доступные миксины: `themes.g-theme-light`, `themes.g-theme-dark`, `themes.g-theme-light-hc`,
-`themes.g-theme-dark-hc`. Затем передайте имя темы в provider:
+Затем передайте имя темы в provider:
 
 ```tsx
-<ThemeProvider theme="custom">{...}</ThemeProvider>
+<Provider theme="custom">{...}</Provider>
 ```
+
+Если нужно только перекрасить одну из встроенных тем, новую тему не объявляйте: переопределите брендовые токены на
+классе встроенной темы (`.g-root_theme_light` / `.g-root_theme_dark`), как показано в разделе [Брендинг](#брендинг)
+выше.
+
+> **Генерируйте полный набор токенов, а не пишите его вручную.** Используйте
+> [веб-инструмент Themer](https://gravity-ui.com/themer) или
+> [`@gravity-ui/uikit-themer`](https://github.com/gravity-ui/uikit-themer) (см. ниже): если переопределить только
+> несколько токенов, выделение, фокус, ссылки и цвета `*-contrast` останутся с исходным акцентом.
 
 ### Ребрендинг: делайте его полностью
 
@@ -330,7 +433,7 @@ import {Text} from '@gravity-ui/uikit';
   виде библиотеки для программного создания тем или подключения к сборке.
 
   ```shell
-  npm install @gravity-ui/uikit-themer
+  npm install @gravity-ui/uikit-themer@^2
   ```
 
   ```ts
@@ -351,23 +454,34 @@ import {Text} from '@gravity-ui/uikit';
   Всегда используйте `updateBaseColor`, а не редактируйте токены вручную: тогда приватная палитра
   пересчитается, и тема останется внутренне согласованной.
 
-- **SCSS-миксины** — расширьте встроенную тему, как показано выше, и добавьте переопределения.
-
 Какой бы способ вы ни выбрали, импортируйте сгенерированный файл темы **после `styles.css`**, чтобы
 он победил в каскаде. `ThemeProvider` автоматически активирует его классом темы. Храните определение
 бренда в одном файле темы и не заменяйте `--g-*` по всему проекту через search-and-replace.
 
 ### Локальные темы
 
-Чтобы применить другую тему только к части интерфейса, например сделать тёмный toolbar в светлом
-приложении, вложите provider с prop `scoped`. Он локально задаёт класс темы и обновляет React-контекст
-для потомков, не меняя глобальный корень:
+Вложите `ThemeProvider` в `Provider`, чтобы задать другую тему для отдельной области. Он автоматически
+создаёт локальный `div` с `.g-root`, классом темы и `dir` и обновляет React-контекст потомков.
+Вложенный ThemeProvider никогда не меняет глобальный корень, даже при `scoped={false}`.
 
 ```tsx
-<ThemeProvider scoped theme="dark">
-  <Toolbar />
-</ThemeProvider>
+import {Provider, ThemeProvider} from '@gravity-ui/uikit';
+
+<Provider theme="light">
+  <Page />
+  <ThemeProvider theme="dark">
+    <Toolbar />
+  </ThemeProvider>
+</Provider>;
 ```
 
-Для области только на CSS, без обновления контекста, примените класс из
-`getRootClassName({theme: 'dark'})`.
+Незаданные тема, направление и соответствия системной темы наследуются от ближайшего родителя.
+Области можно вкладывать друг в друга. Порталы, включая попапы и диалоги, сохраняют локальную тему
+и направление при рендеринге в `document.body` или пользовательский контейнер. Область темы
+не сбрасывает язык, layout, defaults компонентов, мобильные настройки и группу задержки тултипов.
+
+Без родительской темы `ThemeProvider` по умолчанию задаёт тему и направление для `body`;
+передайте `scoped`, чтобы создать локальный корень. Самостоятельный ThemeProvider настраивает только
+темизацию: остальные провайдеры и группа задержки тултипов в него не входят.
+
+Для области только с CSS (без обновления контекста) используйте класс из `getRootClassName({theme: 'dark'})`.

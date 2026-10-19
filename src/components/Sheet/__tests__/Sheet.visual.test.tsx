@@ -59,6 +59,7 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
                 themes: ['light'],
             });
         } finally {
+            // The override survives page teardown and can affect the next test in this worker.
             await cdpSession.send('Emulation.setSafeAreaInsetsOverride', {
                 insets: {top: 0, left: 0, right: 0, bottom: 0},
             });
@@ -120,7 +121,7 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
         });
     });
 
-    createSmokeScenarios<Partial<Omit<SheetProps, 'visible' | 'onClose'>>>(
+    createSmokeScenarios<Partial<Omit<SheetProps, 'open' | 'defaultOpen' | 'onOpenChange'>>>(
         {},
         {
             hideTopBar: hideTopBarCases,

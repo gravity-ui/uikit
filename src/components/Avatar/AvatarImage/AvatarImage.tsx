@@ -11,7 +11,6 @@ export const AvatarImage = ({
     fallbackImgUrl,
     sizes,
     srcSet,
-    alt,
     loading,
     withImageBorder,
     size,
@@ -36,8 +35,8 @@ export const AvatarImage = ({
             src={fallbackImgUrl && isErrored ? fallbackImgUrl : imgUrl}
             sizes={sizes}
             srcSet={srcSet}
-            alt={alt}
             onError={handleError}
+            alt=""
         />
     );
 };

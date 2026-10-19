@@ -1,5 +1,7 @@
 export * from './ThemeContext';
 export * from './ThemeProvider';
+export * from './Provider';
+export * from './LangProvider';
 export * from './ThemeSettingsContext';
 export * from './useTheme';
 export * from './useThemeValue';

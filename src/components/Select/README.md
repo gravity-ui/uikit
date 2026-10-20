@@ -651,7 +651,11 @@ SANDBOX-->
 
 ## Accessible name
 
-The trigger needs a name: `label`, `aria-label`, `aria-labelledby` or a `<label htmlFor>` pointing at the `id` of the `Select`. `label` names the trigger and stays out of its value; a placeholder is not a name. With `renderControl` the label is not drawn, so name the custom control yourself.
+The trigger needs a name: `label`, `aria-label`, `aria-labelledby` or a `<label htmlFor>` pointing at the `id` of the `Select`. `label` names the trigger and stays out of its value; a placeholder is not a name. With `renderControl` the label is not drawn, so name the custom control yourself. The list of options is named the same way as the trigger.
+
+## Mobile sheet
+
+On mobile the options open in a [`Sheet`](../Sheet/README.md) titled with `label`. The sheet hides the trigger and takes the focus: without a filter it focuses the active option, so the arrows, `Enter` and the search by the first letters work at once; with a filter it focuses itself rather than the input, so the on-screen keyboard stays closed until the user moves to the filter.
 
 ## Advanced usage
 

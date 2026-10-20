@@ -1,17 +1,14 @@
 import {expect, test} from '~playwright/core';
 
-import {Select} from '../../Select';
-import {MobileProvider} from '../../mobile';
-
-import {FocusTestSheet, FocusTestSheetInModal, TestSheet} from './helpers';
+import {SheetInModal, StackedSheets, TestSheet} from './helpers';
 
 test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
     test('focuses the sheet, traps Tab in both directions, and restores focus after Escape', async ({
         mount,
         page,
     }) => {
-        await mount(<FocusTestSheet />);
-        const trigger = page.getByRole('button', {name: 'Open sheet', exact: true});
+        await mount(<StackedSheets />);
+        const trigger = page.getByRole('button', {name: 'Open parent'});
         const background = page.getByRole('button', {name: 'Background action'});
         await trigger.click();
         const dialog = page.getByRole('dialog', {name: 'Parent'});
@@ -33,11 +30,12 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
     });
 
     test('closes through the visually hidden dismiss control', async ({mount, page}) => {
-        await mount(<FocusTestSheet />);
-        const trigger = page.getByRole('button', {name: 'Open sheet', exact: true});
+        await mount(<StackedSheets />);
+        const trigger = page.getByRole('button', {name: 'Open parent'});
         await trigger.click();
         const dialog = page.getByRole('dialog', {name: 'Parent'});
-        await expect(dialog).toBeVisible();
+        // The initial focus lands a frame later and would take the focus back
+        await expect(dialog).toBeFocused();
 
         await page.getByRole('button', {name: 'Close'}).first().focus();
         await page.keyboard.press('Enter');
@@ -54,24 +52,24 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
             mount,
             page,
         }) => {
-            await mount(<FocusTestSheet sibling={sibling} />);
-            const trigger = page.getByRole('button', {name: 'Open sheet', exact: true});
+            await mount(<StackedSheets sibling={sibling} />);
+            const trigger = page.getByRole('button', {name: 'Open parent'});
             await trigger.click();
-            const nestedTrigger = page.getByRole('button', {name: 'Open nested sheet'});
-            await nestedTrigger.click();
-            const nested = page.getByRole('dialog', {name: 'Nested'});
-            const nestedAction = nested.getByRole('button', {name: 'Nested action'});
+            const childTrigger = page.getByRole('button', {name: 'Open child'});
+            await childTrigger.click();
+            const child = page.getByRole('dialog', {name: 'Child'});
+            const childAction = child.getByRole('button', {name: 'Child action'});
 
-            await expect(nested).toBeFocused();
+            await expect(child).toBeFocused();
             await page.keyboard.press('Tab');
-            await expect(nestedAction).toBeFocused();
+            await expect(childAction).toBeFocused();
             await page.keyboard.press('Tab');
-            await expect(nestedAction).toBeFocused();
+            await expect(childAction).toBeFocused();
 
             await page.keyboard.press('Escape');
 
-            await expect(nested).toHaveCount(0);
-            await expect(nestedTrigger).toBeFocused();
+            await expect(child).toHaveCount(0);
+            await expect(childTrigger).toBeFocused();
             await expect(page.getByRole('dialog', {name: 'Parent'})).toBeVisible();
 
             await page.keyboard.press('Escape');
@@ -81,15 +79,28 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
         });
     }
 
-    test('keeps focus outside when modal is disabled', async ({mount, page}) => {
-        await mount(<FocusTestSheet modal={false} />);
-        const trigger = page.getByRole('button', {name: 'Open sheet', exact: true});
+    test('leaves focus outside with disableModal and still closes on Escape', async ({
+        mount,
+        page,
+    }) => {
+        const calls: Array<[string, string | undefined]> = [];
+        await mount(
+            <StackedSheets
+                disableModal
+                onOpenChange={(sheet, reason) => calls.push([sheet, reason])}
+            />,
+        );
+        const trigger = page.getByRole('button', {name: 'Open parent'});
         await trigger.click();
+        await expect(page.getByRole('dialog', {name: 'Parent'})).toBeVisible();
         await expect(trigger).toBeFocused();
         await page.keyboard.press('Tab');
         await expect(page.getByRole('button', {name: 'Background action'})).toBeFocused();
+
         await page.keyboard.press('Escape');
-        await expect(page.getByRole('dialog', {name: 'Parent'})).toBeVisible();
+
+        await expect(page.getByRole('dialog', {name: 'Parent'})).toHaveCount(0);
+        await expect.poll(() => calls).toEqual([['parent', 'escape-key']]);
     });
 
     test('does not draw a focus ring around a sheet that takes focus itself', async ({
@@ -109,12 +120,12 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
         mount,
         page,
     }) => {
-        await mount(<FocusTestSheetInModal />);
+        await mount(<SheetInModal />);
         const modalTrigger = page.getByRole('button', {name: 'Open modal'});
         await modalTrigger.click();
         const modal = page.getByRole('dialog', {name: 'Modal'});
         await expect(modal).toBeFocused();
-        const sheetTrigger = page.getByRole('button', {name: 'Open sheet in modal'});
+        const sheetTrigger = page.getByRole('button', {name: 'Open sheet'});
         await sheetTrigger.click();
         const sheet = page.getByRole('dialog', {name: 'Inside modal'});
         const first = sheet.getByRole('button', {name: 'First sheet action'});
@@ -138,35 +149,5 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
 
         await expect(modal).toHaveCount(0);
         await expect(modalTrigger).toBeFocused();
-    });
-
-    test('selects an option of the mobile Select with the keyboard', async ({mount, page}) => {
-        await mount(
-            <MobileProvider mobile>
-                <Select
-                    placeholder="Select type"
-                    options={[
-                        {value: 'bug', content: 'Bug'},
-                        {value: 'task', content: 'Task'},
-                    ]}
-                />
-            </MobileProvider>,
-        );
-        const trigger = page.getByRole('combobox');
-        await trigger.click();
-        const dialog = page.getByRole('dialog');
-        const list = dialog.getByRole('combobox');
-        await expect(list).toBeFocused();
-
-        await page.keyboard.press('ArrowDown');
-
-        const taskId = await dialog.getByRole('option', {name: 'Task'}).getAttribute('id');
-        await expect(list).toHaveAttribute('aria-activedescendant', taskId ?? '');
-
-        await page.keyboard.press('Enter');
-
-        await expect(dialog).toHaveCount(0);
-        await expect(trigger).toHaveText('Task');
-        await expect(trigger).toBeFocused();
     });
 });

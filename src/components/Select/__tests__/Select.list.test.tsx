@@ -767,7 +767,8 @@ describe('Select on the List core', () => {
 
     describe('the popup that is closing', () => {
         test('the list it still holds is no longer the one the trigger talks to', async () => {
-            const {trigger, user} = await openSelect({}, true);
+            // Without a filter the list in the sheet takes the focus itself and never talks to the trigger
+            const {trigger, user} = await openSelect({filterable: true}, true);
             expect(trigger).toHaveAttribute('aria-activedescendant', optionDomId('js'));
 
             await user.keyboard('{Escape}');

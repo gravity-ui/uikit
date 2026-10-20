@@ -57,10 +57,12 @@ type SelectListProps = {
     loading?: boolean;
     onLoadMore?: () => void;
     id: string;
-    /** The trigger names the list: its text is the value or the placeholder of the Select */
+    /** The ids that name the trigger, or the trigger itself: its text is the value or the placeholder */
     labelledBy: string;
     focusOwner?: ListFocusOwner;
     activeItemId?: string;
+    /** Gets the element of the active option: the sheet focuses it when the list owns the focus */
+    activeItemRef?: React.Ref<HTMLElement>;
     onActiveItemUpdate: (id: string | null) => void;
 };
 
@@ -95,6 +97,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             labelledBy,
             focusOwner,
             activeItemId,
+            activeItemRef,
             onActiveItemUpdate,
         } = props;
 
@@ -263,6 +266,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                             className: selectListBlock('item'),
                             style,
                             'data-qa': isItemActive ? SelectQa.ACTIVE_ITEM : undefined,
+                            ref: isItemActive ? activeItemRef : undefined,
                         })}
                         {...getItemViewProps()}
                         {...(selectionStyle === 'none' && {selectionStyle})}
@@ -272,6 +276,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                 );
             },
             [
+                activeItemRef,
                 getItemHeight,
                 getOptionGroupHeight,
                 getOptionHeight,

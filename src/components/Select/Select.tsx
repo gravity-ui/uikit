@@ -128,6 +128,10 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     // One owner for two elements: the trigger and the filter input. The list is mounted only while
     // the popup is open, so the owner is connected exactly then
     const focusOwner = useListFocusOwner();
+    // The mobile sheet hides the trigger, and without a filter there is no input left to own the
+    // list: the list takes the focus itself, and the sheet is a dialog with a listbox in it
+    const listOwnsFocus = mobile && !filterable;
+    const activeItemRef = React.useRef<HTMLElement | null>(null);
     // Virtualization is opt-in from the outside: <ListVirtualizer> around the Select. The context
     // reaches the list through the portal of the popup; the Select needs to know about it for the
     // width of the popup and for the modifier of the list
@@ -286,6 +290,18 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     const uniqId = useUniqId();
     const selectId = id ?? uniqId;
     const popupId = `select-popup-${selectId}`;
+    const labelId = useUniqId();
+    // `aria-labelledby` overrides `aria-label`, so the trigger references itself to keep it in the
+    // name. A custom control does not render the label
+    const triggerLabelledBy =
+        label && !renderControl
+            ? [props['aria-label'] && selectId, props['aria-labelledby'], labelId]
+                  .filter(Boolean)
+                  .join(' ')
+            : props['aria-labelledby'];
+    // The list repeats the references of the trigger instead of pointing at it: a name is not
+    // computed through two references in a row, so the label of the trigger would be lost
+    const listLabelledBy = triggerLabelledBy || selectId;
 
     const [activeItemId, setActiveItemId] = useActiveItemId({
         options: filteredOptions,
@@ -317,20 +333,6 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         },
         [open, toggleOpen],
     );
-
-    // The sheet hides the control, so its focused content repeats the combobox semantics
-    const {onKeyDown: handleSheetContentKeyDown, ...sheetContentProps} = focusOwner.getInputProps({
-        'aria-labelledby': selectId,
-        'aria-haspopup': 'listbox',
-        onKeyDown: handleControlKeyDown,
-    });
-
-    const handleSheetKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        // Keys from the filter reach the list through its own props, and the sheet handles Escape
-        if (e.target === e.currentTarget && e.key !== KeyCode.ESCAPE) {
-            handleSheetContentKeyDown?.(e);
-        }
-    };
 
     const handleFilterKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLElement>) => {
         if (e.key === KeyCode.ENTER) {
@@ -382,11 +384,12 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                     loading={props.loading}
                     onLoadMore={props.onLoadMore}
                     id={popupId}
-                    labelledBy={selectId}
+                    labelledBy={listLabelledBy}
                     // The Sheet and the Popup keep the list mounted while they animate out: a list
                     // the Select has already closed must not keep the keyboard of the trigger
-                    focusOwner={open ? focusOwner : undefined}
+                    focusOwner={open && !listOwnsFocus ? focusOwner : undefined}
                     activeItemId={activeItemId}
+                    activeItemRef={activeItemRef}
                     onActiveItemUpdate={handleActiveItemUpdate}
                 />
             );
@@ -427,6 +430,8 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                     selectedCount={selectedValues.length}
                     popupId={popupId}
                     selectId={selectId}
+                    labelId={labelId}
+                    labelledBy={triggerLabelledBy}
                     focusOwner={focusOwner}
                     hasCounter={multiple && hasCounter}
                     renderCounter={renderCounter}
@@ -446,7 +451,9 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                 virtualized={virtualized}
                 mobile={mobile}
                 placement={popupPlacement}
-                sheetContentProps={{...sheetContentProps, onKeyDown: handleSheetKeyDown}}
+                // The keyboard acts on the active row right away; with a filter the sheet focuses
+                // itself, since focusing the input would open the on-screen keyboard
+                sheetInitialFocus={listOwnsFocus ? activeItemRef : undefined}
                 onAfterOpen={
                     filterable
                         ? () => {

@@ -1,77 +1,138 @@
 import * as React from 'react';
 
 import {Modal} from '../../Modal';
-import type {SheetProps} from '../Sheet';
+import type {SheetOpenChangeReason, SheetProps} from '../Sheet';
 import {Sheet} from '../Sheet';
 
 import {QASheet} from './constants';
 
-export const TestSheet = (props: Partial<Omit<SheetProps, 'open' | 'onOpenChange'>>) => {
+export interface TestSheetProps extends Partial<Omit<SheetProps, 'open'>> {
+    /** Keeps the sheet open when it asks to close */
+    rejectDismissal?: boolean;
+}
+
+export const TestSheet = ({
+    children,
+    onOpenChange,
+    rejectDismissal = false,
+    ...props
+}: TestSheetProps) => {
     const [open, setOpen] = React.useState(false);
 
     return (
         <div>
             <button onClick={() => setOpen(true)}>Show modal</button>
-            <Sheet {...props} open={open} onOpenChange={setOpen} qa={QASheet.content}>
-                <div
-                    style={{
-                        minHeight: 100,
-                        border: '1px solid tomato',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                >
-                    Sheet content
-                </div>
+            <Sheet
+                {...props}
+                open={open}
+                onOpenChange={(nextOpen, event, reason) => {
+                    onOpenChange?.(nextOpen, event, reason);
+
+                    if (!rejectDismissal) {
+                        setOpen(nextOpen);
+                    }
+                }}
+                qa={QASheet.content}
+            >
+                {children ?? (
+                    <div
+                        style={{
+                            minHeight: 100,
+                            border: '1px solid tomato',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        Sheet content
+                    </div>
+                )}
             </Sheet>
         </div>
     );
 };
 
-export function FocusTestSheet({
-    modal = true,
-    sibling = false,
-}: {
-    modal?: boolean;
+export interface StackedSheetsProps {
+    /** Renders the child sheet next to the parent one instead of inside it */
     sibling?: boolean;
-}) {
-    const [visible, setVisible] = React.useState(false);
-    const [nestedVisible, setNestedVisible] = React.useState(false);
+    /** `disableModal` of the parent sheet */
+    disableModal?: boolean;
+    onOpenChange?: (sheet: 'parent' | 'child', reason?: SheetOpenChangeReason) => void;
+}
 
-    const nestedSheet = (
-        <Sheet open={nestedVisible} title="Nested" onOpenChange={setNestedVisible}>
-            <button>Nested action</button>
+export function StackedSheets({sibling = false, disableModal, onOpenChange}: StackedSheetsProps) {
+    const [parentOpen, setParentOpen] = React.useState(false);
+    const [childOpen, setChildOpen] = React.useState(false);
+
+    const childSheet = (
+        <Sheet
+            open={childOpen}
+            title="Child"
+            onOpenChange={(open, _event, reason) => {
+                onOpenChange?.('child', reason);
+                setChildOpen(open);
+            }}
+        >
+            <button>Child action</button>
         </Sheet>
     );
 
     return (
         <React.Fragment>
-            <button onClick={() => setVisible(true)}>Open sheet</button>
+            <button onClick={() => setParentOpen(true)}>Open parent</button>
             <button>Background action</button>
-            <Sheet open={visible} title="Parent" modal={modal} onOpenChange={setVisible}>
+            <Sheet
+                open={parentOpen}
+                title="Parent"
+                disableModal={disableModal}
+                onOpenChange={(open, _event, reason) => {
+                    onOpenChange?.('parent', reason);
+                    setParentOpen(open);
+                }}
+            >
                 <button>First action</button>
-                <button onClick={() => setNestedVisible(true)}>Open nested sheet</button>
+                <button onClick={() => setChildOpen(true)}>Open child</button>
                 <button>Last action</button>
-                {!sibling && nestedSheet}
+                {!sibling && childSheet}
             </Sheet>
-            {sibling && nestedSheet}
+            {sibling && childSheet}
         </React.Fragment>
     );
 }
 
-export function FocusTestSheetInModal() {
+export interface SheetInModalProps {
+    children?: React.ReactNode;
+    onModalOpenChange?: (reason?: string) => void;
+    onSheetOpenChange?: (reason?: SheetOpenChangeReason) => void;
+}
+
+export function SheetInModal({children, onModalOpenChange, onSheetOpenChange}: SheetInModalProps) {
     const [modalOpen, setModalOpen] = React.useState(false);
-    const [sheetVisible, setSheetVisible] = React.useState(false);
+    const [sheetOpen, setSheetOpen] = React.useState(false);
 
     return (
         <React.Fragment>
             <button onClick={() => setModalOpen(true)}>Open modal</button>
-            <Modal open={modalOpen} onOpenChange={setModalOpen} aria-label="Modal">
-                <button onClick={() => setSheetVisible(true)}>Open sheet in modal</button>
-                <Sheet open={sheetVisible} title="Inside modal" onOpenChange={setSheetVisible}>
+            <Modal
+                open={modalOpen}
+                aria-label="Modal"
+                onOpenChange={(open, _event, reason) => {
+                    onModalOpenChange?.(reason);
+                    setModalOpen(open);
+                }}
+            >
+                <button onClick={() => setSheetOpen(true)}>Open sheet</button>
+                <Sheet
+                    open={sheetOpen}
+                    title="Inside modal"
+                    onOpenChange={(open, _event, reason) => {
+                        onSheetOpenChange?.(reason);
+                        setSheetOpen(open);
+                    }}
+                >
                     <button>First sheet action</button>
                     <button>Last sheet action</button>
+                    {children}
                 </Sheet>
             </Modal>
         </React.Fragment>

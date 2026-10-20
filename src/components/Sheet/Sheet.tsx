@@ -32,12 +32,7 @@ import i18n from './i18n';
 
 import './Sheet.scss';
 
-export type SheetOpenChangeReason =
-    | 'escape-key'
-    | 'outside-press'
-    | 'swipe'
-    | 'navigation'
-    | 'dismiss';
+export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
 
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
@@ -59,12 +54,14 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     disableEscapeKeyDown?: boolean;
     /** Disables closing the sheet by clicking the veil */
     disableOutsideClick?: boolean;
-    /** Manages focus and acts like a modal dialog. Pass `false` to opt out */
-    modal?: boolean;
-    /** Index of the tabbable element or ref to focus on open. The sheet itself by default */
+    /** Disables modal focus management: the sheet neither traps focus nor hides the page behind it */
+    disableModal?: boolean;
+    /** Index of the tabbable element or ref to focus on open. By default a modal sheet focuses itself and a sheet with `disableModal` leaves focus where it is */
     initialFocus?: FloatingFocusManagerProps['initialFocus'];
     /** Element to return focus to, or `false` to disable it */
     returnFocus?: FloatingFocusManagerProps['returnFocus'];
+    /** Do not add a11y dismiss buttons when managing focus */
+    disableVisuallyHiddenDismiss?: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
     id?: string;
     /** Title of the sheet window */
@@ -100,9 +97,10 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete,
         disableEscapeKeyDown,
         disableOutsideClick,
-        modal = true,
+        disableModal = false,
         initialFocus,
         returnFocus,
+        disableVisuallyHiddenDismiss,
         id,
         title,
         className,
@@ -146,7 +144,7 @@ function SheetComponent(rawProps: SheetProps) {
     const isNested = useFloatingParentNodeId() !== null;
     const handleKeyDown = React.useCallback(
         (event: React.KeyboardEvent) => {
-            if (event.key !== KeyCode.ESCAPE || !modal || !isOpen) {
+            if (event.key !== KeyCode.ESCAPE || !isOpen) {
                 return;
             }
 
@@ -159,16 +157,17 @@ function SheetComponent(rawProps: SheetProps) {
                 handleEscapeKeyDown(event.nativeEvent);
             }
         },
-        [floatingNodeId, handleEscapeKeyDown, modal, isOpen, tree],
+        [floatingNodeId, handleEscapeKeyDown, isOpen, tree],
     );
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
         open: isOpen,
-        // FloatingFocusManager reports its visually hidden dismiss buttons here
+        // FloatingFocusManager reports its visually hidden dismiss buttons here, without a reason,
+        // as in Modal
         onOpenChange: (nextOpen, event) => {
             if (!nextOpen) {
-                requestDismiss({reason: 'dismiss', event});
+                requestDismiss({event});
             }
         },
     });
@@ -184,9 +183,8 @@ function SheetComponent(rawProps: SheetProps) {
 
     // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
     // useDismiss only coordinates within one tree. Release the layer when closing starts.
-    // Non-modal sheets stay out of the stack and do not handle Escape.
     useLayer({
-        open: isOpen && modal,
+        open: isOpen,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,
@@ -197,7 +195,7 @@ function SheetComponent(rawProps: SheetProps) {
     const getOverlay = React.useCallback(() => overlayRef.current, []);
 
     useLayoutEffect(() => {
-        if (!isMounted || !modal) {
+        if (!isMounted || disableModal) {
             return undefined;
         }
 
@@ -206,7 +204,7 @@ function SheetComponent(rawProps: SheetProps) {
         return () => {
             openModalSheets.splice(openModalSheets.indexOf(getOverlay), 1);
         };
-    }, [getOverlay, isMounted, modal]);
+    }, [disableModal, getOverlay, isMounted]);
 
     // A modal sheet hides the rest of the page from assistive technology. Sheets opened
     // in the same commit would hide each other, so a sheet keeps the ones above it.
@@ -242,13 +240,17 @@ function SheetComponent(rawProps: SheetProps) {
                     >
                         <FloatingFocusManager
                             context={context}
-                            disabled={!modal}
-                            // Focusing a text field on open would show the on-screen keyboard
-                            initialFocus={initialFocus ?? refs.floating}
+                            modal={!disableModal}
+                            // Focusing a text field on open would show the on-screen keyboard.
+                            // A non-modal sheet leaves focus where it is, as a non-modal Popup does
+                            initialFocus={initialFocus ?? (disableModal ? -1 : refs.floating)}
                             returnFocus={returnFocus}
+                            closeOnFocusOut={false}
                             getInsideElements={getSheetsAbove}
                             restoreFocus
-                            visuallyHiddenDismiss={t('close')}
+                            visuallyHiddenDismiss={
+                                disableVisuallyHiddenDismiss ? false : t('close')
+                            }
                         >
                             <SheetContentContainer
                                 id={id}
@@ -256,7 +258,6 @@ function SheetComponent(rawProps: SheetProps) {
                                 contentClassName={contentClassName}
                                 swipeAreaClassName={swipeAreaClassName}
                                 title={title}
-                                modal={modal}
                                 presenceStatus={status}
                                 allowHideOnContentScroll={allowHideOnContentScroll}
                                 hideTopBar={hideTopBar}

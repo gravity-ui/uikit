@@ -1,4 +1,7 @@
+import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '../../../../test-utils/utils';
+import {MobileProvider} from '../../mobile';
 
 import {ControlledSelect, renderControl, setup} from './utils';
 
@@ -31,6 +34,22 @@ describe('Select label', () => {
 
         const combobox = screen.getByRole('combobox', {name: 'Fruit'});
         expect(combobox).not.toHaveAttribute('aria-labelledby');
+    });
+
+    test.each([
+        {name: 'popup', mobile: false},
+        {name: 'sheet', mobile: true},
+    ])('names the list of the $name by the same references', async ({mobile}) => {
+        render(
+            <MobileProvider mobile={mobile}>
+                <span id="fruit-caption">Fruit</span>
+                <ControlledSelect label="Fruit:" aria-labelledby="fruit-caption" />
+            </MobileProvider>,
+        );
+
+        await userEvent.click(screen.getByRole('combobox', {name: 'Fruit Fruit:'}));
+
+        screen.getByRole('listbox', {name: 'Fruit Fruit:'});
     });
 
     test('does not name a custom control', () => {

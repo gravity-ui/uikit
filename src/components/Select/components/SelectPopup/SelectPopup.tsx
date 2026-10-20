@@ -35,12 +35,11 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
-            sheetContentProps,
+            sheetInitialFocus,
         },
         ref,
     ) => {
         const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
-        const sheetContentRef = React.useRef<HTMLDivElement>(null);
 
         React.useEffect(() => {
             setAnchorElement(ref && typeof ref !== 'function' ? ref.current : null);
@@ -51,7 +50,6 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
         };
 
         return mobile ? (
-            // The sheet traps focus, so keys go to its focused content instead of the control
             <Sheet
                 qa={SelectQa.SHEET}
                 className={sheetClassName}
@@ -59,16 +57,9 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 open={Boolean(open)}
                 onOpenChange={handleOpenChange}
                 onTransitionOutComplete={onAfterClose}
-                initialFocus={sheetContentRef}
+                initialFocus={sheetInitialFocus}
             >
-                <div
-                    {...sheetContentProps}
-                    ref={sheetContentRef}
-                    className={b('sheet-content')}
-                    tabIndex={-1}
-                >
-                    {children}
-                </div>
+                {children}
             </Sheet>
         ) : (
             <Popup

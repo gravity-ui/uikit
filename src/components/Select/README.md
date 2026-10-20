@@ -580,7 +580,7 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 </ListVirtualizer>;
 ```
 
-The wrapper does not have to stand next to the `Select`. One wrapper with `minItemsCount={50}` next to the theme `Provider` virtualizes every `Select` of 50 options and more, the way v7 did by default, and leaves the shorter ones as they are: every option a DOM row, the popup as wide as the widest option. The `Select` counts all of its options, without the group headers and without the filter, so typing does not switch the list — v7 compared its threshold with the options the filter left.
+The wrapper does not have to stand next to the `Select`: one wrapper with `minItemsCount` at the root of the app covers every `Select` below it. A `Select` of fewer options renders as if there were no wrapper — every option a DOM row, the popup as wide as the widest option. The `Select` counts all of its options, without the group headers and without the filter, so typing does not switch the list.
 
 ```tsx
 import {Provider} from '@gravity-ui/uikit';
@@ -593,7 +593,17 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 </Provider>;
 ```
 
-A wrapper around a single `Select` changes only what it is given, the rest comes from the one at the root: `<ListVirtualizer overscan={20}>` keeps the threshold of 50, `minItemsCount={0}` virtualizes that `Select` whatever its size, and `minItemsCount={Infinity}` keeps it plain.
+To change the settings for one `Select`, put a second wrapper right around it. It changes only what it is given and takes the rest from the one at the root: `overscan={20}` keeps the threshold, `minItemsCount={0}` virtualizes that `Select` whatever the number of its options, and `minItemsCount={Infinity}` keeps it plain.
+
+```tsx
+import {Select} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+// Under the wrapper at the root: this Select is virtualized whatever the number of its options
+<ListVirtualizer minItemsCount={0}>
+  <Select options={options} />
+</ListVirtualizer>;
+```
 
 The code of the virtualizer is a chunk of its own, and it is not loaded for the shorter `Select`s. A `Select` that is going to be virtualized starts loading it on mount; a popup opened before it arrives shows its first options until the window takes over, and scrolls to the selected one then.
 

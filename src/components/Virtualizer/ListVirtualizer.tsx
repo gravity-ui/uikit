@@ -19,10 +19,8 @@ const DEFAULT_OVERSCAN = 5;
 type LazyRootModule = {default: React.ComponentType<ListVirtualizedRootProps>};
 
 /**
- * The root of the list under virtualization, loaded on its first render: tanstack is not a part of
- * the chunk that imports ListVirtualizer. A module that has already loaded (the Select preloads it
- * on mount) is handed to React.lazy synchronously — a thenable that resolves inside `then` does not
- * suspend, so the fallback of the list is not shown for a code that is already there
+ * Loaded on its first render, so tanstack is not in the chunk that imports ListVirtualizer. A module
+ * already loaded is handed over in `then` itself: React.lazy does not suspend on such a thenable
  */
 const LazyVirtualizedListRoot = React.lazy(() => {
     const loaded = getLoadedVirtualizedListRoot();
@@ -37,8 +35,7 @@ const LazyVirtualizedListRoot = React.lazy(() => {
 });
 
 function preloadVirtualizedListRoot() {
-    // A failure, after the retries of the loader, is reported by the list that renders the root,
-    // through the nearest error boundary
+    // A failure reaches the error boundary of the list that renders the root
     loadVirtualizedListRoot().catch(() => {});
 }
 
@@ -108,9 +105,7 @@ export function ListVirtualizer<T = any>({
     minItemsCount,
     overscan,
 }: ListVirtualizerProps<T>) {
-    // A prop that is not given comes from the wrapper above, as the theme of a nested
-    // ThemeProvider does; the defaults are those of the outermost wrapper. A List resets the
-    // context for the lists in its rows, so a wrapper there starts from the defaults
+    // A prop not given comes from the wrapper above, as in a nested ThemeProvider
     const outerVirtualization = React.useContext(ListVirtualizationContext);
     const value = React.useMemo<ListVirtualizationContextValue>(
         () => ({

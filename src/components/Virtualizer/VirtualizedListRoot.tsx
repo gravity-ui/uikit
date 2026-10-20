@@ -9,10 +9,7 @@ import type {VirtualizerApi} from './Virtualizer';
 
 const subscribeToNothing = () => () => {};
 
-/**
- * False on the server and while the page hydrates, true after that and in a render on the client
- * alone: the window needs a viewport to be measured against
- */
+/** False on the server and while the page hydrates: the window needs a viewport */
 function useViewportAvailable() {
     return React.useSyncExternalStore(
         subscribeToNothing,
@@ -22,11 +19,9 @@ function useViewportAvailable() {
 }
 
 /**
- * The root renderer of the list under virtualization: tanstack is pulled in here only, and
- * ListVirtualizer loads this module as a chunk of its own. The list root and the scroll container
- * are one element; a row is wrapped in a positioned role="presentation" div and measured through
- * it. On the server the first rows are rendered instead of an empty window, and the hydration
- * matches them before the window takes over
+ * The root renderer of the list under virtualization, a chunk of its own: tanstack is pulled in here
+ * only. The list root and the scroll container are one element; a row is wrapped in a positioned
+ * role="presentation" div and measured through it
  */
 export function VirtualizedListRoot({
     containerProps,

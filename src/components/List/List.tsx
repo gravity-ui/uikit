@@ -218,8 +218,7 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
 
     let content: React.ReactNode;
     if (virtualization) {
-        // The first rows in the root itself, scrolling like the window does: what the list shows
-        // while the code of the window loads, and what the server renders
+        // The first rows while the window loads and on the server, scrolling like the window
         const fallback = (
             <div {...containerProps} style={{...containerProps.style, overflow: 'auto'}}>
                 {list.visibleIds

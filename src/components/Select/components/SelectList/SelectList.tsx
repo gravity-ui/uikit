@@ -61,10 +61,7 @@ type SelectListProps = {
     selectedKeys: string[];
     selectionStyle?: AnySelectProps['selectionStyle'];
     size: NonNullable<AnySelectProps['size']>;
-    /**
-     * The layer the Select decided for, by all of its options: null keeps the list plain however
-     * many rows the filter leaves in it
-     */
+    /** Decided by the Select from all of its options: null keeps the list plain */
     virtualization: ListVirtualizationContextValue | null;
 };
 
@@ -139,11 +136,9 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
         );
 
         /**
-         * The decision of the Select reaches the List as it is: the threshold is already met, and
-         * the List must not count the rows the filter left. The height a row comes out as is also
-         * its estimate under virtualization: the estimate of the outer `ListVirtualizer` is
-         * re-wrapped here, since the type of an option row never leaves the Select and the
-         * consumer has nothing to write it against
+         * The decision of the Select goes down as is (threshold 0): the List must not recount the
+         * rows the filter left. The height a row comes out as is also its estimate: the estimate of
+         * the outer `ListVirtualizer` is re-wrapped, the type of an option row never leaves the Select
          */
         const virtualization = React.useMemo<ListVirtualizationContextValue | null>(() => {
             if (!selectVirtualization) {

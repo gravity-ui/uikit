@@ -5,10 +5,8 @@ import type * as VirtualizedListRoot from './VirtualizedListRoot';
 type VirtualizedListRootModule = typeof VirtualizedListRoot;
 
 /**
- * The waits before the second and the third request of a chunk that failed to load: a dropped
- * connection or a busy server often lets it through a moment later. A loop of new requests on every
- * render is what React.lazy would get instead — its rejection is kept for good, so the attempts
- * belong here, before it sees one
+ * The waits before the second and the third request of a chunk that failed to load. The retries
+ * belong here: React.lazy keeps a rejection for good, and a new lazy root per render would loop
  */
 const RETRY_DELAYS = [500, 2000];
 
@@ -28,12 +26,9 @@ function importRoot(retryDelays: readonly number[]): Promise<VirtualizedListRoot
 }
 
 /**
- * Loads the root of the virtualized list — and tanstack with it — as a chunk of its own: one
- * request for the lifetime of the page, every call after the first returns the same promise. A
- * request that fails is repeated twice; if the last one fails too, the promise rejects and the error
- * reaches the error boundary of the list that renders the root.
- * The CommonJS build loads it with `require` (build-utils/transform-dynamic-import.js); the
- * extension is what the CommonJS build, checked as `nodenext`, asks of a dynamic import
+ * Loads the root, tanstack included, as a chunk of its own: one promise for the page, a failed
+ * request repeated twice. CommonJS loads it with `require` (build-utils/transform-dynamic-import.js);
+ * `nodenext` asks for the extension
  */
 export function loadVirtualizedListRoot(): Promise<VirtualizedListRootModule> {
     if (!pendingModule) {

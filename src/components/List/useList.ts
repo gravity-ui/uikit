@@ -212,8 +212,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         ],
     );
 
-    // Decided by the rows, section headers included: below the threshold of the wrapper the list
-    // is a plain one, ARIA included
+    // By the rows, section headers included
     const virtualization = useListVirtualization(rows.length);
     const virtualized = virtualization !== null;
 
@@ -328,10 +327,8 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         [registry],
     );
 
-    // A window that replaces rows already on screen — the first rows while its code loaded or the
-    // page hydrated, a plain list that crossed the threshold — is a new root scrolled to the top:
-    // the active row the list kept in view is brought into it again, wherever it was. The first
-    // window of a list mounts before the list syncs to its active row, so nothing is in view yet
+    // A window mounted in place of rows on screen (the first rows, a hydrated page, a crossed
+    // threshold) starts at the top: the active row the list kept in view is brought back into it
     const setScrollToIndex = React.useCallback(
         (scrollToIndex: ListScrollToIndex | null) => {
             scrollToIndexRef.current = scrollToIndex;

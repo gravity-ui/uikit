@@ -14,21 +14,14 @@ export type ListEstimateItemSize<T = any> = number | ((ctx: ListItemContext<T>) 
  */
 export type ListScrollToIndex = (index: number) => void;
 
-/**
- * The rows a virtualized list shows as plain DOM while the window cannot be rendered yet: the chunk
- * of the layer is loading, or the markup comes from the server. Enough to fill a tall popup of the
- * smallest rows — the rest of the list appears with the window
- */
+/** The rows rendered as plain DOM until the window can be: enough to fill a tall popup */
 export const LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT = 50;
 
 /** Props the core passes to the root renderer of the virtualization layer (it renders the list root) */
 export interface ListVirtualizedRootProps {
     /** Props of the list root from getContainerProps — the list root and the scroll container are one element */
     containerProps: ListContainerDOMProps;
-    /**
-     * The first rows in a plain root: what the root renders where the viewport cannot be measured —
-     * on the server and until the page is hydrated
-     */
+    /** The first rows in a plain root: rendered on the server and until the page is hydrated */
     fallback: React.ReactNode;
     /** The estimated height of a row by its index in `rowIds` (the consumer's estimate/default already resolved) */
     getItemSize: (index: number) => number;
@@ -42,10 +35,7 @@ export interface ListVirtualizedRootProps {
     renderRow: (id: string) => React.ReactNode;
     /** The row ids in display order (options and section headers) */
     rowIds: string[];
-    /**
-     * Called by the root with its scroll once the window is mounted, and with null when it is gone:
-     * the core scrolls to the active row through it
-     */
+    /** Called by the root with its scroll when the window mounts, with null when it unmounts */
     setScrollToIndex: (scrollToIndex: ListScrollToIndex | null) => void;
 }
 
@@ -68,9 +58,8 @@ export const ListVirtualizationContext = React.createContext<ListVirtualizationC
 );
 
 /**
- * Whether a list of `itemsCount` rows is virtualized: the layer above it, if its threshold is met.
- * The one place the decision is made — a list below `minItemsCount` renders as if there were no
- * wrapper, so every reader of the context asks here instead of checking the context itself
+ * The layer above a list of `itemsCount` rows, if its threshold is met, otherwise null. The one place
+ * the decision is made: the readers of the context ask here instead of checking it themselves
  */
 export function useListVirtualization(itemsCount: number): ListVirtualizationContextValue | null {
     const virtualization = React.useContext(ListVirtualizationContext);

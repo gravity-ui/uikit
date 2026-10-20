@@ -4,12 +4,18 @@ import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
-import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {ListDndContext} from '../DndContext';
 import {List} from '../List';
 import type {ListDndAdapter, ListDndProps, ListItemContext, ListItemHelpers} from '../types';
 
-import {FRUITS, GROUPS, createTracker, getSectionHeader, mockLayout} from './helpers';
+import {
+    FRUITS,
+    GROUPS,
+    createTracker,
+    getSectionHeader,
+    mockLayout,
+    preloadListVirtualizer,
+} from './helpers';
 
 /** Stable per-id ref callbacks — the obligation of an adapter */
 function createStableRefs(onRef: (id: string, element: HTMLElement | null) => void) {
@@ -24,9 +30,7 @@ function createStableRefs(onRef: (id: string, element: HTMLElement | null) => vo
     };
 }
 
-// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
-// once instead of their first rows
-beforeAll(() => loadVirtualizedListRoot());
+preloadListVirtualizer();
 
 describe('List: dnd layer', () => {
     describe('adapter props: composition into the rows and the root', () => {

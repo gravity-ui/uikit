@@ -2,8 +2,8 @@ import userEvent from '@testing-library/user-event';
 
 import {act, render, screen} from '../../../../test-utils/utils';
 import {List} from '../../List/List';
-import {LIST_VIRTUALIZATION_FALLBACK_ROWS} from '../../List/VirtualizationContext';
-import {mockLayout} from '../../List/__tests__/helpers';
+import {LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT} from '../../List/VirtualizationContext';
+import {mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import type {ListProps} from '../../List/types';
 import {ListVirtualizer} from '../ListVirtualizer';
 import type {ListVirtualizerProps} from '../ListVirtualizer';
@@ -65,10 +65,10 @@ describe('ListVirtualizer: the chunk of the window', () => {
 
         expect(loadSpy).toHaveBeenCalledTimes(1);
         const firstRows = screen.getAllByRole('option');
-        expect(firstRows).toHaveLength(LIST_VIRTUALIZATION_FALLBACK_ROWS);
+        expect(firstRows).toHaveLength(LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT);
         expect(firstRows[0]).toHaveAccessibleName('Item 1');
-        expect(firstRows[LIST_VIRTUALIZATION_FALLBACK_ROWS - 1]).toHaveAccessibleName(
-            `Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS}`,
+        expect(firstRows[LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT - 1]).toHaveAccessibleName(
+            `Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT}`,
         );
         // Already numbered as the rows of the whole list, and scrolling as the window will
         expect(firstRows[0]).toHaveAttribute('aria-setsize', '200');
@@ -82,7 +82,7 @@ describe('ListVirtualizer: the chunk of the window', () => {
         });
 
         const windowRows = screen.getAllByRole('option');
-        expect(windowRows.length).toBeLessThan(LIST_VIRTUALIZATION_FALLBACK_ROWS);
+        expect(windowRows.length).toBeLessThan(LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT);
         expect(windowRows[0]).toHaveAccessibleName('Item 1');
         expect(windowRows[0]).toHaveAttribute('aria-setsize', '200');
         expect(getSizer()).toHaveStyle({height: `${items.length * ROW_HEIGHT}px`});
@@ -90,7 +90,7 @@ describe('ListVirtualizer: the chunk of the window', () => {
 });
 
 describe('ListVirtualizer: minItemsCount', () => {
-    beforeAll(() => loader.loadVirtualizedListRoot());
+    preloadListVirtualizer();
 
     test('without minItemsCount every list is virtualized, as before', () => {
         render(<VirtualizedList items={createItems(3)} />);
@@ -173,7 +173,7 @@ describe('ListVirtualizer: minItemsCount', () => {
 });
 
 describe('ListVirtualizer: a wrapper inside another one', () => {
-    beforeAll(() => loader.loadVirtualizedListRoot());
+    preloadListVirtualizer();
 
     // The outer wrapper sets everything a nested one could take from it
     function NestedList({

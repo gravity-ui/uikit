@@ -6,11 +6,10 @@ import {fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {Virtualizer} from '../../Virtualizer/Virtualizer';
 import type {VirtualizerApi} from '../../Virtualizer/Virtualizer';
-import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
-import {GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
+import {GROUPS, getSectionHeader, mockLayout, preloadListVirtualizer, scrollTo} from './helpers';
 
 const VIEWPORT_HEIGHT = 400;
 const ROW_HEIGHT = 36;
@@ -37,9 +36,7 @@ function renderVirtualized(listProps?: Partial<ListProps<string>>) {
     return render(<VirtualizedList {...listProps} />);
 }
 
-// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
-// once instead of their first rows
-beforeAll(() => loadVirtualizedListRoot());
+preloadListVirtualizer();
 
 describe('List: virtualization layer', () => {
     describe('windowing', () => {

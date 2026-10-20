@@ -11,7 +11,7 @@ import {warnOnce} from '../utils/warn';
 import {ListDndContext} from './DndContext';
 import {ListSectionHeader} from './SectionHeader';
 import {
-    LIST_VIRTUALIZATION_FALLBACK_ROWS,
+    LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT,
     ListVirtualizationContext,
 } from './VirtualizationContext';
 import {composeItemProps} from './composeItemProps';
@@ -223,7 +223,7 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         const fallback = (
             <div {...containerProps} style={{...containerProps.style, overflow: 'auto'}}>
                 {list.visibleIds
-                    .slice(0, LIST_VIRTUALIZATION_FALLBACK_ROWS)
+                    .slice(0, LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT)
                     .map((id) => renderRow(id))}
             </div>
         );

@@ -15,7 +15,8 @@ const DEFAULT_MEASURE = true;
 const DEFAULT_MIN_ITEMS_COUNT = 0;
 const DEFAULT_OVERSCAN = 5;
 
-type RootModule = {default: React.ComponentType<ListVirtualizedRootProps>};
+/** What React.lazy resolves the root to */
+type LazyRootModule = {default: React.ComponentType<ListVirtualizedRootProps>};
 
 /**
  * The root of the list under virtualization, loaded on its first render: tanstack is not a part of
@@ -27,16 +28,17 @@ const LazyVirtualizedListRoot = React.lazy(() => {
     const loaded = getLoadedVirtualizedListRoot();
     if (loaded) {
         const resolved = {
-            then: (resolve: (module: RootModule) => void) =>
+            then: (resolve: (module: LazyRootModule) => void) =>
                 resolve({default: loaded.VirtualizedListRoot}),
         };
-        return resolved as unknown as Promise<RootModule>;
+        return resolved as unknown as Promise<LazyRootModule>;
     }
     return loadVirtualizedListRoot().then((module) => ({default: module.VirtualizedListRoot}));
 });
 
 function preloadVirtualizedListRoot() {
-    // A failure is reported by the list that renders the root, through the nearest error boundary
+    // A failure, after the retries of the loader, is reported by the list that renders the root,
+    // through the nearest error boundary
     loadVirtualizedListRoot().catch(() => {});
 }
 
@@ -109,17 +111,18 @@ export function ListVirtualizer<T = any>({
     // A prop that is not given comes from the wrapper above, as the theme of a nested
     // ThemeProvider does; the defaults are those of the outermost wrapper. A List resets the
     // context for the lists in its rows, so a wrapper there starts from the defaults
-    const outer = React.useContext(ListVirtualizationContext);
+    const outerVirtualization = React.useContext(ListVirtualizationContext);
     const value = React.useMemo<ListVirtualizationContextValue>(
         () => ({
             Root: LazyVirtualizedListRoot,
-            estimateItemSize: estimateItemSize ?? outer?.estimateItemSize,
-            measure: measure ?? outer?.measure ?? DEFAULT_MEASURE,
-            minItemsCount: minItemsCount ?? outer?.minItemsCount ?? DEFAULT_MIN_ITEMS_COUNT,
-            overscan: overscan ?? outer?.overscan ?? DEFAULT_OVERSCAN,
+            estimateItemSize: estimateItemSize ?? outerVirtualization?.estimateItemSize,
+            measure: measure ?? outerVirtualization?.measure ?? DEFAULT_MEASURE,
+            minItemsCount:
+                minItemsCount ?? outerVirtualization?.minItemsCount ?? DEFAULT_MIN_ITEMS_COUNT,
+            overscan: overscan ?? outerVirtualization?.overscan ?? DEFAULT_OVERSCAN,
             preload: preloadVirtualizedListRoot,
         }),
-        [estimateItemSize, measure, minItemsCount, overscan, outer],
+        [estimateItemSize, measure, minItemsCount, overscan, outerVirtualization],
     );
     return (
         <ListVirtualizationContext.Provider value={value}>

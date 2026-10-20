@@ -1,8 +1,8 @@
 import userEvent from '@testing-library/user-event';
 
-import {act, render, screen} from '../../../../test-utils/utils';
-import {LIST_VIRTUALIZATION_FALLBACK_ROWS} from '../../List/VirtualizationContext';
-import {mockLayout} from '../../List/__tests__/helpers';
+import {act, render, screen, within} from '../../../../test-utils/utils';
+import {LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT} from '../../List/VirtualizationContext';
+import {mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import type {ListVirtualizerProps} from '../../Virtualizer/ListVirtualizer';
 import * as loader from '../../Virtualizer/loadVirtualizedListRoot';
@@ -23,6 +23,45 @@ const VIEWPORT = 100;
 const MIN_ITEMS_COUNT = 50;
 
 mockLayout({viewport: VIEWPORT, row: ROW_HEIGHT});
+
+let offsetTopSpy: jest.SpyInstance;
+
+beforeEach(() => {
+    // jsdom has no layout: a row of a plain list is as far from the top as its position says, a
+    // row of the window — as far as the inline `top` of its wrapper
+    offsetTopSpy = jest
+        .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
+        .mockImplementation(function (this: HTMLElement) {
+            if (this.style.top) {
+                return Number.parseInt(this.style.top, 10);
+            }
+            // eslint-disable-next-line testing-library/no-node-access
+            const parent = this.parentElement;
+            if (!parent) {
+                return 0;
+            }
+            // eslint-disable-next-line testing-library/no-node-access
+            return Array.prototype.indexOf.call(parent.children, this) * ROW_HEIGHT;
+        });
+});
+
+afterEach(() => {
+    offsetTopSpy.mockRestore();
+});
+
+// The scroll that shows the option of the given number at the bottom of the viewport
+const scrollTopFor = (option: number) => option * ROW_HEIGHT - VIEWPORT;
+
+// The list of the Select with the given id: two of them are open in a test below
+const getListOf = (id: string) => {
+    const list = screen
+        .getAllByTestId(SelectQa.LIST)
+        .find(({id: listId}) => listId === `select-popup-${id}`);
+    if (!list) {
+        throw new Error(`No list of the Select "${id}"`);
+    }
+    return list;
+};
 
 // One wrapper above the whole app, the way v7 virtualized a Select of 50 options and more
 function renderWithRootWrapper(props: Partial<SelectProps>) {
@@ -57,57 +96,52 @@ afterEach(() => {
  * opens the popup before the chunk has loaded; the ones after it load the chunk up front
  */
 describe('Select under ListVirtualizer: the chunk of the window', () => {
-    let offsetTopSpy: jest.SpyInstance;
+    test('the selected option is in view once the window replaces the first rows', async () => {
+        // One selected option lies past the first rows, the other one among them
+        render(
+            <MobileProvider mobile={false}>
+                <ListVirtualizer minItemsCount={MIN_ITEMS_COUNT}>
+                    <ControlledSelect
+                        id="past"
+                        options={generateOptions(300)}
+                        value={['val200']}
+                        defaultOpen
+                    />
+                    <ControlledSelect
+                        id="among"
+                        options={generateOptions(300)}
+                        value={['val30']}
+                        defaultOpen
+                    />
+                </ListVirtualizer>
+            </MobileProvider>,
+        );
 
-    beforeEach(() => {
-        // jsdom has no layout: a row of the first rows is as far from the top as its position
-        // says, a row of the window — as far as the inline `top` of its wrapper
-        offsetTopSpy = jest
-            .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
-            .mockImplementation(function (this: HTMLElement) {
-                if (this.style.top) {
-                    return Number.parseInt(this.style.top, 10);
-                }
-                // eslint-disable-next-line testing-library/no-node-access
-                const parent = this.parentElement;
-                if (!parent) {
-                    return 0;
-                }
-                // eslint-disable-next-line testing-library/no-node-access
-                return Array.prototype.indexOf.call(parent.children, this) * ROW_HEIGHT;
-            });
-    });
-
-    afterEach(() => {
-        offsetTopSpy.mockRestore();
-    });
-
-    test('a selected option past the first rows is scrolled to once the window loads', async () => {
-        renderWithRootWrapper({
-            options: generateOptions(300),
-            value: ['val200'],
-            defaultOpen: true,
-        });
-
-        const list = screen.getByTestId(SelectQa.LIST);
-        expect(screen.getAllByRole('option')).toHaveLength(LIST_VIRTUALIZATION_FALLBACK_ROWS);
-        expect(screen.queryByRole('option', {name: 'Value 200'})).not.toBeInTheDocument();
+        const firstRows = getListOf('past');
+        expect(within(firstRows).getAllByRole('option')).toHaveLength(
+            LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT,
+        );
+        expect(
+            within(firstRows).queryByRole('option', {name: 'Value 200'}),
+        ).not.toBeInTheDocument();
+        expect(getListOf('among').scrollTop).toBe(scrollTopFor(30));
 
         await act(async () => {
             await loader.loadVirtualizedListRoot();
         });
 
-        expect(screen.getAllByRole('option').length).toBeLessThan(
-            LIST_VIRTUALIZATION_FALLBACK_ROWS,
+        // A new root: the window, scrolled to each selected option rather than to the top
+        expect(getListOf('past')).not.toBe(firstRows);
+        expect(within(getListOf('past')).getAllByRole('option').length).toBeLessThan(
+            LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT,
         );
-        expect(screen.getByRole('option', {name: 'Value 200'})).toBeInTheDocument();
-        expect(screen.getByTestId(SelectQa.LIST)).not.toBe(list);
-        expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(200 * ROW_HEIGHT - VIEWPORT);
+        expect(getListOf('past').scrollTop).toBe(scrollTopFor(200));
+        expect(getListOf('among').scrollTop).toBe(scrollTopFor(30));
     });
 });
 
 describe('Select under ListVirtualizer: minItemsCount', () => {
-    beforeAll(() => loader.loadVirtualizedListRoot());
+    preloadListVirtualizer();
 
     test('a Select of fewer options renders a plain list', async () => {
         await openWithRootWrapper({options: generateOptions(MIN_ITEMS_COUNT - 1)});
@@ -173,6 +207,30 @@ describe('Select under ListVirtualizer: minItemsCount', () => {
         expect(screen.getAllByRole('option')[0]).not.toHaveAttribute('aria-setsize');
     });
 
+    test('a list that crosses the threshold keeps the selected option in view', () => {
+        const renderSelect = (count: number) => (
+            <MobileProvider mobile={false}>
+                <ListVirtualizer minItemsCount={MIN_ITEMS_COUNT}>
+                    <ControlledSelect
+                        options={generateOptions(count)}
+                        value={['val30']}
+                        defaultOpen
+                    />
+                </ListVirtualizer>
+            </MobileProvider>
+        );
+        const {rerender} = render(renderSelect(MIN_ITEMS_COUNT - 10));
+
+        expect(screen.getByTestId(SelectQa.LIST)).not.toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+        expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(scrollTopFor(30));
+
+        // More options arrive, as from `onLoadMore`: the plain list gives way to the window
+        rerender(renderSelect(MIN_ITEMS_COUNT + 10));
+
+        expect(screen.getByTestId(SelectQa.LIST)).toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+        expect(screen.getByTestId(SelectQa.LIST).scrollTop).toBe(scrollTopFor(30));
+    });
+
     test('a virtualized Select loads the chunk on mount, before it opens', () => {
         renderWithRootWrapper({options: generateOptions(MIN_ITEMS_COUNT)});
 
@@ -188,7 +246,7 @@ describe('Select under ListVirtualizer: minItemsCount', () => {
 });
 
 describe('Select under ListVirtualizer: a wrapper around one Select', () => {
-    beforeAll(() => loader.loadVirtualizedListRoot());
+    preloadListVirtualizer();
 
     function renderUnderNestedWrapper(
         nestedProps: Omit<ListVirtualizerProps, 'children'>,

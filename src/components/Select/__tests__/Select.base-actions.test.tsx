@@ -4,10 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
 import {act, cleanup, render, screen} from '../../../../test-utils/utils';
-import {mockLayout} from '../../List/__tests__/helpers';
+import {mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {TYPEAHEAD_TIMEOUT} from '../../List/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
-import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {MobileProvider} from '../../mobile';
 
 import {
@@ -30,9 +29,7 @@ const toggleSelectPopup = async () => {
     await user.click(selectControl);
 };
 
-// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
-// once instead of their first rows
-beforeAll(() => loadVirtualizedListRoot());
+preloadListVirtualizer();
 
 describe('Select base actions', () => {
     describe('open popup by', () => {

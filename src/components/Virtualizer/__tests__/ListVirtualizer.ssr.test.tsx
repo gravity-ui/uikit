@@ -4,7 +4,7 @@
 import {renderToString} from 'react-dom/server';
 
 import {List} from '../../List/List';
-import {LIST_VIRTUALIZATION_FALLBACK_ROWS} from '../../List/VirtualizationContext';
+import {LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT} from '../../List/VirtualizationContext';
 import {Provider} from '../../theme/Provider';
 import {ListVirtualizer} from '../ListVirtualizer';
 import {loadVirtualizedListRoot} from '../loadVirtualizedListRoot';
@@ -38,10 +38,10 @@ describe('ListVirtualizer: server rendering', () => {
     test('while the chunk loads, the first rows are rendered', () => {
         const html = getServerMarkup();
 
-        expect(countOptions(html)).toBe(LIST_VIRTUALIZATION_FALLBACK_ROWS);
+        expect(countOptions(html)).toBe(LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT);
         expect(html).toContain('>Item 1<');
-        expect(html).toContain(`>Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS}<`);
-        expect(html).not.toContain(`>Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS + 1}<`);
+        expect(html).toContain(`>Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT}<`);
+        expect(html).not.toContain(`>Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT + 1}<`);
         expect(html).toContain('aria-setsize="200"');
     });
 
@@ -50,9 +50,9 @@ describe('ListVirtualizer: server rendering', () => {
 
         const html = getServerMarkup();
 
-        expect(countOptions(html)).toBe(LIST_VIRTUALIZATION_FALLBACK_ROWS);
+        expect(countOptions(html)).toBe(LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT);
         expect(html).toContain('>Item 1<');
-        expect(html).not.toContain(`>Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS + 1}<`);
+        expect(html).not.toContain(`>Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT + 1}<`);
         // Rendered by the root itself rather than the fallback of the boundary
         expect(html).not.toContain('<!--$!-->');
     });

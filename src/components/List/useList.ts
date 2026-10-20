@@ -56,27 +56,27 @@ type ListActivationOrigin = 'keyboard' | 'pointer' | 'focus';
 
 /** The list core (internal) */
 export interface ListInstance<T> {
-    getContainerProps(overrides?: ListPropsOverrides): ListContainerDOMProps;
-    visibleIds: string[];
-    getItemContext(id: string): ListItemContext<T>;
-    getItemProps(id: string, overrides?: ListPropsOverrides): ListItemDOMProps;
+    /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
+    dnd: ListDndAdapter<T> | null;
+    /** draggingId or dropTarget present */
+    dragActive: boolean;
     getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
-    role: ListRole;
+    getContainerProps(overrides?: ListPropsOverrides): ListContainerDOMProps;
+    getItemContext(id: string): ListItemContext<T>;
+    /** Everything getItemProps depends on that is not in ctx */
+    getItemMemoKey(id: string): string;
+    getItemProps(id: string, overrides?: ListPropsOverrides): ListItemDOMProps;
     /**
      * Rows the virtualizer must keep mounted: the tab stop (focus/Tab order) and section
      * headers (aria-describedby targets)
      */
     persistedRowIndexes: readonly number[];
-    /** Everything getItemProps depends on that is not in ctx */
-    getItemMemoKey(id: string): string;
-    /** draggingId or dropTarget present */
-    dragActive: boolean;
-    /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
-    dnd: ListDndAdapter<T> | null;
+    role: ListRole;
     /** For the root of the virtualization layer to call, see ListVirtualizedRootProps */
     setScrollToIndex: (scrollToIndex: ListScrollToIndex | null) => void;
     /** The layer this list renders through, or null: see useListVirtualization */
     virtualization: ListVirtualizationContextValue | null;
+    visibleIds: string[];
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -303,10 +303,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const scrollToIndexRef = React.useRef<ListScrollToIndex | null>(null);
 
-    // A row the list had to show before the window of the virtualization layer was there: only
-    // the first rows were in the DOM, and the row was not one of them
-    const missedScrollIdRef = React.useRef<string | null>(null);
-
     /**
      * A root that does not scroll has only the page to show the row with, and only a key of the
      * list itself is a reason to move the page
@@ -319,7 +315,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             }
             const element = registry.getElement(id);
             const row = latestRef.current.rowById.get(id);
-            missedScrollIdRef.current = null;
             if (scrollToIndexRef.current && row) {
                 scrollToIndexRef.current(row.index);
             } else if (element) {
@@ -327,26 +322,22 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (gesture && !isScrollContainer(container)) {
                     element.scrollIntoView?.({block: 'nearest'});
                 }
-            } else {
-                missedScrollIdRef.current = id;
             }
             activeInViewRef.current = true;
         },
         [registry],
     );
 
-    // The window mounts after the first rows when its code is still loading or the page hydrates:
-    // the scroll it could not do then is done now, if the row is still the active one
+    // A window that replaces rows already on screen — the first rows while its code loaded or the
+    // page hydrated, a plain list that crossed the threshold — is a new root scrolled to the top:
+    // the active row the list kept in view is brought into it again, wherever it was. The first
+    // window of a list mounts before the list syncs to its active row, so nothing is in view yet
     const setScrollToIndex = React.useCallback(
         (scrollToIndex: ListScrollToIndex | null) => {
             scrollToIndexRef.current = scrollToIndex;
-            const missedId = missedScrollIdRef.current;
-            if (
-                scrollToIndex &&
-                missedId !== null &&
-                missedId === latestRef.current.effectiveActiveId
-            ) {
-                scrollToRow(missedId, {gesture: false});
+            const activeId = latestRef.current.effectiveActiveId;
+            if (scrollToIndex && activeId !== undefined && activeInViewRef.current) {
+                scrollToRow(activeId, {gesture: false});
             }
         },
         [scrollToRow],
@@ -932,17 +923,17 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const visibleIds = React.useMemo(() => rows.map((row) => row.id), [rows]);
 
     return {
-        getContainerProps,
-        visibleIds,
-        getItemContext,
-        getItemProps,
-        getCellProps,
-        role,
-        persistedRowIndexes,
-        getItemMemoKey,
-        dragActive,
         dnd,
+        dragActive,
+        getCellProps,
+        getContainerProps,
+        getItemContext,
+        getItemMemoKey,
+        getItemProps,
+        persistedRowIndexes,
+        role,
         setScrollToIndex,
         virtualization,
+        visibleIds,
     };
 }

@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
-import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {List} from '../List';
 import type {ListItemContext, ListItemHelpers, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';
@@ -16,6 +15,7 @@ import {
     getSectionHeader,
     mockLayout,
     mockTabbableDisplayCheck,
+    preloadListVirtualizer,
 } from './helpers';
 
 mockTabbableDisplayCheck();
@@ -64,9 +64,7 @@ function TriggerHarness({
     );
 }
 
-// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
-// once instead of their first rows
-beforeAll(() => loadVirtualizedListRoot());
+preloadListVirtualizer();
 
 describe('List: role model x focus strategy', () => {
     describe('axes matrix: container and row semantics', () => {

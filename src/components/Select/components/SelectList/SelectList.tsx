@@ -33,39 +33,39 @@ import {SelectLoadingIndicator} from './SelectLoadingIndicator';
 import './SelectList.scss';
 
 type SelectListProps = {
-    mobile: boolean;
-    /** The keys of the selected values: the ids of their rows */
-    selectedKeys: string[];
-    onSelectedUpdate: (keys: string[]) => void;
-    /** An option was applied: the selection has already changed by then */
-    onOptionAction: () => void;
-    getKey: SelectValueKeyGetter;
-    renderOption?: AnySelectProps['renderOption'];
-    renderOptionGroup?: AnySelectProps['renderOptionGroup'];
-    selectionStyle?: AnySelectProps['selectionStyle'];
-    getOptionText?: AnySelectProps['getOptionText'];
-    getOptionHeight?: AnySelectProps['getOptionHeight'];
-    getOptionGroupHeight?: AnySelectProps['getOptionGroupHeight'];
-    size: NonNullable<AnySelectProps['size']>;
+    activeItemId?: string;
     flattenOptions: FlattenOption[];
+    focusOwner?: ListFocusOwner;
+    getKey: SelectValueKeyGetter;
+    getOptionGroupHeight?: AnySelectProps['getOptionGroupHeight'];
+    getOptionHeight?: AnySelectProps['getOptionHeight'];
+    getOptionText?: AnySelectProps['getOptionText'];
     /** The group an option came from — the flat list of options no longer says it by itself */
     groupOfOption?: Map<AnySelectOption, GroupTitleItem>;
     /** The groups that came with options: only such a group can be left empty by the filter */
     groupsWithOptions?: Set<GroupTitleItem>;
+    id: string;
+    /** The trigger names the list: its text is the value or the placeholder of the Select */
+    labelledBy: string;
+    loading?: boolean;
+    mobile: boolean;
     multiple?: boolean;
+    onActiveItemUpdate: (id: string | null) => void;
+    onLoadMore?: () => void;
+    /** An option was applied: the selection has already changed by then */
+    onOptionAction: () => void;
+    onSelectedUpdate: (keys: string[]) => void;
+    renderOption?: AnySelectProps['renderOption'];
+    renderOptionGroup?: AnySelectProps['renderOptionGroup'];
+    /** The keys of the selected values: the ids of their rows */
+    selectedKeys: string[];
+    selectionStyle?: AnySelectProps['selectionStyle'];
+    size: NonNullable<AnySelectProps['size']>;
     /**
      * The layer the Select decided for, by all of its options: null keeps the list plain however
      * many rows the filter leaves in it
      */
     virtualization: ListVirtualizationContextValue | null;
-    loading?: boolean;
-    onLoadMore?: () => void;
-    id: string;
-    /** The trigger names the list: its text is the value or the placeholder of the Select */
-    labelledBy: string;
-    focusOwner?: ListFocusOwner;
-    activeItemId?: string;
-    onActiveItemUpdate: (id: string | null) => void;
 };
 
 const getItemChildren = (node: SelectListNode) =>

@@ -2,9 +2,8 @@ import userEvent from '@testing-library/user-event';
 
 import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
 import {render, screen} from '../../../../test-utils/utils';
-import {getSectionHeader, mockLayout} from '../../List/__tests__/helpers';
+import {getSectionHeader, mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
-import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
 import {SelectQa, VIRTUALIZATION_HINT_OPTIONS_COUNT} from '../constants';
@@ -34,9 +33,7 @@ const openSelect = async (props: Parameters<typeof setup>[0] = {}, mobile?: bool
     return {user, trigger};
 };
 
-// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
-// once instead of their first rows
-beforeAll(() => loadVirtualizedListRoot());
+preloadListVirtualizer();
 
 describe('Select on the List core', () => {
     describe('aria wiring', () => {

@@ -19,7 +19,7 @@ export type ListScrollToIndex = (index: number) => void;
  * of the layer is loading, or the markup comes from the server. Enough to fill a tall popup of the
  * smallest rows — the rest of the list appears with the window
  */
-export const LIST_VIRTUALIZATION_FALLBACK_ROWS = 50;
+export const LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT = 50;
 
 /** Props the core passes to the root renderer of the virtualization layer (it renders the list root) */
 export interface ListVirtualizedRootProps {

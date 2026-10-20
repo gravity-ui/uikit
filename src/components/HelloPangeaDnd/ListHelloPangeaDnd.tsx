@@ -190,8 +190,7 @@ function ListHelloPangeaDndComponent<T>({
     });
 
     const autoId = useUniqId();
-    // The virtual mode follows ListVirtualizer: it has to stand outside the wrapper. The list is
-    // flat, so its rows are the items — the same count the List inside decides by
+    // The virtual mode follows ListVirtualizer: it has to stand outside the wrapper
     const virtual = useListVirtualization(items.length) !== null;
     const registry = useRowRegistry(state.draggingId);
 

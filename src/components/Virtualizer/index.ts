@@ -1,4 +1,5 @@
-export {Virtualizer} from './Virtualizer';
+// Not a re-export of './Virtualizer': see VirtualizerExport
+export {Virtualizer} from './VirtualizerExport';
 export type {
     VirtualizerProps,
     VirtualizerItem,

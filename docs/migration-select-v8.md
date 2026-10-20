@@ -24,13 +24,14 @@ to the section of the [README](../src/components/Select/README.md) that describe
 
 `@gravity-ui/uikit/virtualizer` needs `@tanstack/react-virtual` — it is an optional peer dependency
 of the package, so it has to be installed alongside it. A `Select` without the wrapper renders every
-option as a row, and above 150 of them says so in a development warning. To decide which `Select`s
-to wrap, see [Which Selects to virtualize](#which-selects-to-virtualize).
+option as a row, and above 150 of them says so in a development warning. The default of v7 comes back
+with one wrapper for the whole app; see [Which Selects to virtualize](#which-selects-to-virtualize).
 
 The width of the popup follows from the same place. A list that virtualized itself by the old
 threshold was as wide as the control, and never narrower than 100px; a list that is not virtualized
 is as wide as its widest option (see [Popup width](../src/components/Select/README.md#popup-width)). So a long list left
-without the wrapper can come out wider than it used to. To keep the width of the control, set
+without the wrapper can come out wider than it used to. The wrapper at the root keeps the old width
+along with the old threshold. To keep the width of the control without virtualizing, set
 `popupWidth="fit"`; it has no 100px floor, which shows on a control narrower than that.
 
 ```diff
@@ -80,9 +81,31 @@ are up to it, and the elements it returns need keys when they hold state:
 ## Which Selects to virtualize
 
 `virtualizationThreshold` defaulted to `50` in v7, so every `Select` with 50 options or more was
-virtualized without any prop.
+virtualized without any prop. One wrapper next to the theme `Provider` does the same for the whole
+app, without a change to a single `Select`:
 
-The wrapper is needed where a `Select` can get more than 150 options:
+```tsx
+import {Provider} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+<Provider theme="light">
+  <ListVirtualizer minItemsCount={50}>
+    <App />
+  </ListVirtualizer>
+</Provider>;
+```
+
+A `Select` of fewer options renders as if there were no wrapper: every option a DOM row, the popup
+as wide as its widest option. A longer one is virtualized, and its popup is as wide as the control,
+never narrower than 100px — as in v7. The code of the virtualizer is a chunk of its own: it is not
+in the bundle of the app and is loaded when the first `Select` that needs it mounts. One thing is
+different: the threshold counts all of the options, without the group headers and without the filter,
+while v7 compared it with the options the filter left — typing no longer switches the list.
+
+Wrapping single `Select`s is for the special cases: an app that cannot have a wrapper at its root, or
+a `Select` that needs a threshold or settings of its own. The closest wrapper is the one a `Select`
+follows, so a `ListVirtualizer` around one `Select` overrides the one at the root. Without a wrapper
+at the root, the wrapper is needed where a `Select` can get more than 150 options:
 
 | The options                                                         | What to do                             |
 | :------------------------------------------------------------------ | :------------------------------------- |

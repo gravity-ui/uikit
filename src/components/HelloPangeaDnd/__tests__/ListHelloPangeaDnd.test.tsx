@@ -10,6 +10,7 @@ import {mockLayout, mockTabbableDisplayCheck} from '../../List/__tests__/helpers
 import type {ListItemContext, ListItemHelpers, ListProps} from '../../List/types';
 import {Modal} from '../../Modal';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {ListHelloPangeaDnd} from '../ListHelloPangeaDnd';
 import type {ListHelloPangeaDndProps} from '../ListHelloPangeaDnd';
 import {useListHelloPangeaDnd} from '../useListHelloPangeaDnd';
@@ -128,6 +129,10 @@ function Playlist(
         </ListHelloPangeaDnd>
     );
 }
+
+// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
+// once instead of their first rows
+beforeAll(() => loadVirtualizedListRoot());
 
 describe('ListHelloPangeaDnd', () => {
     describe('everything by default: the wrapper and role="grid"', () => {

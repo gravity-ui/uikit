@@ -6,6 +6,7 @@ import {fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {Virtualizer} from '../../Virtualizer/Virtualizer';
 import type {VirtualizerApi} from '../../Virtualizer/Virtualizer';
+import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
@@ -35,6 +36,10 @@ function VirtualizedList(listProps: Partial<ListProps<string>>) {
 function renderVirtualized(listProps?: Partial<ListProps<string>>) {
     return render(<VirtualizedList {...listProps} />);
 }
+
+// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
+// once instead of their first rows
+beforeAll(() => loadVirtualizedListRoot());
 
 describe('List: virtualization layer', () => {
     describe('windowing', () => {

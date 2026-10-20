@@ -6,8 +6,8 @@ import {eventBroker} from '../utils/event-broker';
 import {warnOnce} from '../utils/warn';
 
 import {ListDndContext} from './DndContext';
-import {ListVirtualizationContext} from './VirtualizationContext';
-import type {ListScrollToIndex} from './VirtualizationContext';
+import {useListVirtualization} from './VirtualizationContext';
+import type {ListScrollToIndex, ListVirtualizationContextValue} from './VirtualizationContext';
 import {navigateCells} from './cellNavigation';
 import {composeItemProps} from './composeItemProps';
 import {
@@ -73,8 +73,10 @@ export interface ListInstance<T> {
     dragActive: boolean;
     /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
     dnd: ListDndAdapter<T> | null;
-    /** For the root of the virtualization layer to fill, see ListVirtualizedRootProps */
-    scrollToIndexRef: React.MutableRefObject<ListScrollToIndex | null>;
+    /** For the root of the virtualization layer to call, see ListVirtualizedRootProps */
+    setScrollToIndex: (scrollToIndex: ListScrollToIndex | null) => void;
+    /** The layer this list renders through, or null: see useListVirtualization */
+    virtualization: ListVirtualizationContextValue | null;
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -111,8 +113,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // Cell navigation is roving-only: in activedescendant the arrows belong to the input
     const cellNavigation = role === 'grid' && focusStrategy === 'roving';
     const direction = useDirection();
-
-    const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
     const dndFromContext = React.useContext(ListDndContext);
     if (props.dnd && dndFromContext && props.dnd !== dndFromContext) {
@@ -212,6 +212,11 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         ],
     );
 
+    // Decided by the rows, section headers included: below the threshold of the wrapper the list
+    // is a plain one, ARIA included
+    const virtualization = useListVirtualization(rows.length);
+    const virtualized = virtualization !== null;
+
     const {selectedSet, toggleSelection, extendSelection, selectAllOptions} = useListSelection<T>(
         props,
         {rows, rowById},
@@ -298,6 +303,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
 
     const scrollToIndexRef = React.useRef<ListScrollToIndex | null>(null);
 
+    // A row the list had to show before the window of the virtualization layer was there: only
+    // the first rows were in the DOM, and the row was not one of them
+    const missedScrollIdRef = React.useRef<string | null>(null);
+
     /**
      * A root that does not scroll has only the page to show the row with, and only a key of the
      * list itself is a reason to move the page
@@ -310,6 +319,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             }
             const element = registry.getElement(id);
             const row = latestRef.current.rowById.get(id);
+            missedScrollIdRef.current = null;
             if (scrollToIndexRef.current && row) {
                 scrollToIndexRef.current(row.index);
             } else if (element) {
@@ -317,10 +327,29 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
                 if (gesture && !isScrollContainer(container)) {
                     element.scrollIntoView?.({block: 'nearest'});
                 }
+            } else {
+                missedScrollIdRef.current = id;
             }
             activeInViewRef.current = true;
         },
         [registry],
+    );
+
+    // The window mounts after the first rows when its code is still loading or the page hydrates:
+    // the scroll it could not do then is done now, if the row is still the active one
+    const setScrollToIndex = React.useCallback(
+        (scrollToIndex: ListScrollToIndex | null) => {
+            scrollToIndexRef.current = scrollToIndex;
+            const missedId = missedScrollIdRef.current;
+            if (
+                scrollToIndex &&
+                missedId !== null &&
+                missedId === latestRef.current.effectiveActiveId
+            ) {
+                scrollToRow(missedId, {gesture: false});
+            }
+        },
+        [scrollToRow],
     );
 
     const syncedActiveIdRef = React.useRef<string | undefined>(undefined);
@@ -913,6 +942,7 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
         getItemMemoKey,
         dragActive,
         dnd,
-        scrollToIndexRef,
+        setScrollToIndex,
+        virtualization,
     };
 }

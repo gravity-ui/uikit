@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {List} from '../List';
 
 import {ComboboxHarness, GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
@@ -24,6 +25,10 @@ async function shiftClick(user: ReturnType<typeof userEvent.setup>, element: HTM
     await user.click(element);
     await user.keyboard('{/Shift}');
 }
+
+// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
+// once instead of their first rows
+beforeAll(() => loadVirtualizedListRoot());
 
 describe('List: range selection (selection layer)', () => {
     describe('Shift+click', () => {

@@ -171,11 +171,12 @@ peer-зависимости: вместе с пакетом они больше 
 ### Опции рисует новый List
 
 - `virtualizationThreshold` удалён, а вместе с ним и поведение по умолчанию: в v7 виртуализировался каждый `Select` с
-  50 опциями и больше. Теперь рендерятся все опции, если `Select` не обёрнут в `ListVirtualizer` из
-  `@gravity-ui/uikit/virtualizer`. Как решить, какие `Select` оборачивать, — в
-  [гайде Select](migration-select-v8.md#which-selects-to-virtualize) (на английском).
+  50 опциями и больше. Теперь рендерятся все опции, если над `Select` нет `ListVirtualizer` из
+  `@gravity-ui/uikit/virtualizer`. Одна обёртка рядом с `Provider` темы возвращает поведение v7 для всего приложения —
+  `<ListVirtualizer minItemsCount={50}>`; порог теперь считает опции без учёта фильтра. Как оборачивать отдельные
+  `Select`, — в [гайде Select](migration-select-v8.md#which-selects-to-virtualize) (на английском).
 - Попап `Select` с 50 опциями и больше без обёртки теперь, как и у более коротких, растёт до самой широкой опции, а не
-  остаётся шириной с контрол. Чтобы сохранить ширину контрола, задайте `popupWidth="fit"`.
+  остаётся шириной с контрол. Обёртка выше сохраняет прежнюю ширину; без неё задайте `popupWidth="fit"`.
 - Поле `text` у опции (`SelectOptionProps`) удалено: текст опции берётся из `getOptionText`.
 - `renderFilter` больше не получает `value` и `onKeyDown`: оба — в `inputProps`.
 - `renderOption` всегда получает `isItemActive`, а `itemHeight` несёт новые высоты строк.

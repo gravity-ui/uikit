@@ -1,0 +1,172 @@
+import userEvent from '@testing-library/user-event';
+
+import {act, render, screen} from '../../../../test-utils/utils';
+import {List} from '../../List/List';
+import {LIST_VIRTUALIZATION_FALLBACK_ROWS} from '../../List/VirtualizationContext';
+import {mockLayout} from '../../List/__tests__/helpers';
+import type {ListProps} from '../../List/types';
+import {ListVirtualizer} from '../ListVirtualizer';
+import * as loader from '../loadVirtualizedListRoot';
+
+const VIEWPORT_HEIGHT = 400;
+const ROW_HEIGHT = 36;
+
+mockLayout({viewport: VIEWPORT_HEIGHT, row: ROW_HEIGHT});
+
+const createItems = (count: number) =>
+    Array.from({length: count}, (_, index) => `Item ${index + 1}`);
+
+function VirtualizedList({
+    minItemsCount,
+    ...listProps
+}: Partial<ListProps<string>> & {items: string[]; minItemsCount?: number}) {
+    return (
+        <ListVirtualizer estimateItemSize={ROW_HEIGHT} minItemsCount={minItemsCount}>
+            <List aria-label="Logs" style={{maxHeight: VIEWPORT_HEIGHT}} {...listProps} />
+        </ListVirtualizer>
+    );
+}
+
+// The sizer of the window: the first child of the root, as tall as the whole list
+const getSizer = () =>
+    // eslint-disable-next-line testing-library/no-node-access
+    screen.getByRole('listbox').firstElementChild as HTMLElement;
+
+let loadSpy: jest.SpyInstance;
+
+beforeEach(() => {
+    loadSpy = jest.spyOn(loader, 'loadVirtualizedListRoot');
+});
+
+afterEach(() => {
+    loadSpy.mockRestore();
+});
+
+/**
+ * The chunk is loaded once per module registry — once per test file. These tests come first and
+ * see it before it has loaded; the ones after them load it up front
+ */
+describe('ListVirtualizer: the chunk of the window', () => {
+    test('a list below minItemsCount renders plain rows and does not load the chunk', () => {
+        render(<VirtualizedList items={createItems(49)} minItemsCount={50} />);
+
+        const options = screen.getAllByRole('option');
+        expect(options).toHaveLength(49);
+        expect(options[0]).not.toHaveAttribute('aria-setsize');
+        expect(screen.getByRole('listbox')).not.toHaveStyle({overflow: 'auto'});
+        expect(loadSpy).not.toHaveBeenCalled();
+        expect(loader.getLoadedVirtualizedListRoot()).toBeUndefined();
+    });
+
+    test('until the chunk loads the list shows its first rows, then the window', async () => {
+        const items = createItems(200);
+        render(<VirtualizedList items={items} />);
+
+        expect(loadSpy).toHaveBeenCalledTimes(1);
+        const firstRows = screen.getAllByRole('option');
+        expect(firstRows).toHaveLength(LIST_VIRTUALIZATION_FALLBACK_ROWS);
+        expect(firstRows[0]).toHaveAccessibleName('Item 1');
+        expect(firstRows[LIST_VIRTUALIZATION_FALLBACK_ROWS - 1]).toHaveAccessibleName(
+            `Item ${LIST_VIRTUALIZATION_FALLBACK_ROWS}`,
+        );
+        // Already numbered as the rows of the whole list, and scrolling as the window will
+        expect(firstRows[0]).toHaveAttribute('aria-setsize', '200');
+        expect(screen.getByRole('listbox')).toHaveStyle({
+            overflow: 'auto',
+            maxHeight: `${VIEWPORT_HEIGHT}px`,
+        });
+
+        await act(async () => {
+            await loader.loadVirtualizedListRoot();
+        });
+
+        const windowRows = screen.getAllByRole('option');
+        expect(windowRows.length).toBeLessThan(LIST_VIRTUALIZATION_FALLBACK_ROWS);
+        expect(windowRows[0]).toHaveAccessibleName('Item 1');
+        expect(windowRows[0]).toHaveAttribute('aria-setsize', '200');
+        expect(getSizer()).toHaveStyle({height: `${items.length * ROW_HEIGHT}px`});
+    });
+});
+
+describe('ListVirtualizer: minItemsCount', () => {
+    beforeAll(() => loader.loadVirtualizedListRoot());
+
+    test('without minItemsCount every list is virtualized, as before', () => {
+        render(<VirtualizedList items={createItems(3)} />);
+
+        expect(screen.getAllByRole('option')[0]).toHaveAttribute('aria-setsize', '3');
+        expect(getSizer()).toHaveStyle({height: `${3 * ROW_HEIGHT}px`});
+    });
+
+    test('a list of minItemsCount rows and more is virtualized', () => {
+        const {rerender} = render(<VirtualizedList items={createItems(50)} minItemsCount={50} />);
+
+        const options = screen.getAllByRole('option');
+        expect(options.length).toBeLessThan(50);
+        expect(options[0]).toHaveAttribute('aria-setsize', '50');
+        expect(getSizer()).toHaveStyle({height: `${50 * ROW_HEIGHT}px`});
+
+        rerender(<VirtualizedList items={createItems(5000)} minItemsCount={50} />);
+
+        expect(screen.getAllByRole('option')[0]).toHaveAttribute('aria-setsize', '5000');
+        expect(screen.queryByRole('option', {name: 'Item 100'})).not.toBeInTheDocument();
+    });
+
+    test('section headers count as rows', () => {
+        interface Row {
+            id: string;
+            label: string;
+            options?: Row[];
+        }
+        const groups: Row[] = [
+            {id: 'a', label: 'A', options: createItems(24).map((label) => ({id: label, label}))},
+            {id: 'b', label: 'B', options: [{id: 'last', label: 'Last'}]},
+        ];
+
+        // 25 options and 2 headers
+        render(
+            <ListVirtualizer estimateItemSize={ROW_HEIGHT} minItemsCount={27}>
+                <List<Row>
+                    aria-label="Groups"
+                    style={{maxHeight: VIEWPORT_HEIGHT}}
+                    items={groups}
+                    getItemChildren={(row) => row.options}
+                    getItemContent={(row) => row.label}
+                />
+            </ListVirtualizer>,
+        );
+
+        expect(screen.getAllByRole('option')[0]).toHaveAttribute('aria-setsize', '25');
+    });
+
+    test('crossing the threshold keeps the active row and the selection', async () => {
+        const {rerender} = render(
+            <VirtualizedList items={createItems(10)} minItemsCount={20} selectionMode="single" />,
+        );
+        const user = userEvent.setup();
+        await user.click(screen.getByRole('option', {name: 'Item 3'}));
+
+        const before = screen.getByRole('option', {name: 'Item 3'});
+        expect(before).not.toHaveAttribute('aria-setsize');
+        expect(before).toHaveAttribute('aria-selected', 'true');
+        expect(before).toHaveAttribute('data-active');
+
+        rerender(
+            <VirtualizedList items={createItems(30)} minItemsCount={20} selectionMode="single" />,
+        );
+
+        const after = screen.getByRole('option', {name: 'Item 3'});
+        expect(after).toHaveAttribute('aria-setsize', '30');
+        expect(after).toHaveAttribute('aria-selected', 'true');
+        expect(after).toHaveAttribute('data-active');
+
+        rerender(
+            <VirtualizedList items={createItems(10)} minItemsCount={20} selectionMode="single" />,
+        );
+
+        const back = screen.getByRole('option', {name: 'Item 3'});
+        expect(back).not.toHaveAttribute('aria-setsize');
+        expect(back).toHaveAttribute('aria-selected', 'true');
+        expect(back).toHaveAttribute('data-active');
+    });
+});

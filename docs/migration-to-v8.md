@@ -171,12 +171,13 @@ test ids and CSS, and [staying on the legacy List](migration-from-legacy-list.md
 ### Options drawn by the new List
 
 - `virtualizationThreshold` is removed, and with it the default: v7 virtualized every `Select` with 50 options or
-  more. Now every option is rendered unless the `Select` is wrapped in `ListVirtualizer` from
-  `@gravity-ui/uikit/virtualizer`. To decide which `Select`s to wrap, see
-  [Which Selects to virtualize](migration-select-v8.md#which-selects-to-virtualize).
+  more. Now every option is rendered unless the `Select` is under `ListVirtualizer` from
+  `@gravity-ui/uikit/virtualizer`. One wrapper next to the theme `Provider` brings the v7 behavior back for the whole
+  app — `<ListVirtualizer minItemsCount={50}>`; the threshold now counts the options without the filter. To wrap
+  single `Select`s instead, see [Which Selects to virtualize](migration-select-v8.md#which-selects-to-virtualize).
 - A `Select` with 50 options or more left without the wrapper gets a popup that grows to its widest option, as the
-  shorter ones always did, instead of keeping the width of the control. To keep the width of the control, set
-  `popupWidth="fit"`.
+  shorter ones always did, instead of keeping the width of the control. The wrapper above keeps the old width; without
+  it, set `popupWidth="fit"`.
 - The `text` field of an option (`SelectOptionProps`) is removed: the text of an option comes from `getOptionText`.
 - `renderFilter` no longer receives `value` and `onKeyDown`: both are in `inputProps`.
 - `renderOption` always receives `isItemActive`, and `itemHeight` carries the new row heights.

@@ -7,6 +7,7 @@ import {act, cleanup, render, screen} from '../../../../test-utils/utils';
 import {mockLayout} from '../../List/__tests__/helpers';
 import {TYPEAHEAD_TIMEOUT} from '../../List/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {MobileProvider} from '../../mobile';
 
 import {
@@ -28,6 +29,10 @@ const toggleSelectPopup = async () => {
     const selectControl = screen.getByTestId(TEST_QA);
     await user.click(selectControl);
 };
+
+// The window of ListVirtualizer is a chunk of its own: loaded up front, the lists mount it at
+// once instead of their first rows
+beforeAll(() => loadVirtualizedListRoot());
 
 describe('Select base actions', () => {
     describe('open popup by', () => {

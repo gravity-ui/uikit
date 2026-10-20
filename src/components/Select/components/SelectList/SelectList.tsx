@@ -53,7 +53,11 @@ type SelectListProps = {
     /** The groups that came with options: only such a group can be left empty by the filter */
     groupsWithOptions?: Set<GroupTitleItem>;
     multiple?: boolean;
-    virtualized?: boolean;
+    /**
+     * The layer the Select decided for, by all of its options: null keeps the list plain however
+     * many rows the filter leaves in it
+     */
+    virtualization: ListVirtualizationContextValue | null;
     loading?: boolean;
     onLoadMore?: () => void;
     id: string;
@@ -87,7 +91,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             selectedKeys,
             getKey,
             multiple,
-            virtualized,
+            virtualization: selectVirtualization,
             mobile,
             loading,
             onLoadMore,
@@ -135,28 +139,31 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
         );
 
         /**
-         * The height a row comes out as is also its estimate under virtualization: the estimate of
-         * the outer `ListVirtualizer` is re-wrapped here, since the type of an option row never
-         * leaves the Select and the consumer has nothing to write it against
+         * The decision of the Select reaches the List as it is: the threshold is already met, and
+         * the List must not count the rows the filter left. The height a row comes out as is also
+         * its estimate under virtualization: the estimate of the outer `ListVirtualizer` is
+         * re-wrapped here, since the type of an option row never leaves the Select and the
+         * consumer has nothing to write it against
          */
-        const outerVirtualization = React.useContext(ListVirtualizationContext);
         const virtualization = React.useMemo<ListVirtualizationContextValue | null>(() => {
-            if (!outerVirtualization) {
+            if (!selectVirtualization) {
                 return null;
             }
 
-            if (outerVirtualization.estimateItemSize !== undefined) {
+            if (selectVirtualization.estimateItemSize !== undefined) {
                 warnOnce(
                     '[Select] `estimateItemSize` of `ListVirtualizer` is not used by the Select: the height of a row comes from `getOptionHeight`/`getOptionGroupHeight` and the size of the Select.',
                 );
             }
 
             return {
-                ...outerVirtualization,
+                ...selectVirtualization,
+                minItemsCount: 0,
                 estimateItemSize: (ctx: ListItemContext<SelectListNode>) =>
                     getItemHeight(ctx.item, ctx.index),
             };
-        }, [outerVirtualization, getItemHeight]);
+        }, [selectVirtualization, getItemHeight]);
+        const virtualized = virtualization !== null;
 
         const handleItemAction = React.useCallback(
             (_id: string, node: SelectListNode) => {
@@ -282,37 +289,29 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             ],
         );
 
-        const list = (
-            <List<SelectListNode>
-                ref={ref}
-                id={id}
-                qa={SelectQa.LIST}
-                className={selectListBlock({size, virtualized, mobile, multiple})}
-                aria-labelledby={labelledBy}
-                size={getItemViewSize(size, mobile)}
-                items={nodes}
-                getItemId={getItemId}
-                getItemChildren={getItemChildren}
-                getItemDisabled={getItemDisabled}
-                getItemTextValue={getItemTextValue}
-                focusOwner={focusOwner}
-                selectionMode={multiple ? 'multiple' : 'single'}
-                selectedIds={selectedKeys}
-                onSelectedUpdate={onSelectedUpdate}
-                activeItemId={activeItemId ?? null}
-                onActiveItemUpdate={onActiveItemUpdate}
-                onItemAction={handleItemAction}
-                renderItem={renderItem}
-            />
-        );
-
-        if (!virtualization) {
-            return list;
-        }
-
         return (
             <ListVirtualizationContext.Provider value={virtualization}>
-                {list}
+                <List<SelectListNode>
+                    ref={ref}
+                    id={id}
+                    qa={SelectQa.LIST}
+                    className={selectListBlock({size, virtualized, mobile, multiple})}
+                    aria-labelledby={labelledBy}
+                    size={getItemViewSize(size, mobile)}
+                    items={nodes}
+                    getItemId={getItemId}
+                    getItemChildren={getItemChildren}
+                    getItemDisabled={getItemDisabled}
+                    getItemTextValue={getItemTextValue}
+                    focusOwner={focusOwner}
+                    selectionMode={multiple ? 'multiple' : 'single'}
+                    selectedIds={selectedKeys}
+                    onSelectedUpdate={onSelectedUpdate}
+                    activeItemId={activeItemId ?? null}
+                    onActiveItemUpdate={onActiveItemUpdate}
+                    onItemAction={handleItemAction}
+                    renderItem={renderItem}
+                />
             </ListVirtualizationContext.Provider>
         );
     },

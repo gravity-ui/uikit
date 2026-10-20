@@ -87,8 +87,11 @@ const THRESHOLD_OPTIONS = Object.fromEntries(
 );
 
 // One wrapper above the app: a Select of 50 options and more is virtualized and its popup is as
-// wide as the control, a shorter one stays plain — the way v7 did with `virtualizationThreshold`
+// wide as the control, a shorter one stays plain — the way v7 did with `virtualizationThreshold`.
+// The code panel shows the source of the story rather than the rendered JSX: that one would carry the
+// 5000 options inline, and the panel takes seconds to draw them
 export const VirtualizationThreshold = {
+    parameters: {docs: {source: {type: 'code'}}},
     render: (args) => (
         <ListVirtualizer minItemsCount={50}>
             <Flex gap="spacing-4" wrap>

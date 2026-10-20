@@ -87,7 +87,7 @@ A wrapper inside another one changes only what it is given and takes the rest fr
 
 ### Loading on demand
 
-The code of the window — `@tanstack/react-virtual` included — is a chunk of its own: importing `ListVirtualizer` does not bring it into the bundle of the app. The chunk is loaded when the first list long enough for `minItemsCount` renders, and a `Select` that is going to be virtualized starts loading it on mount, before its popup opens. Until the chunk arrives, the list shows its first rows in the same root: the page is not left empty, and the window replaces them as soon as it can be rendered, scrolled to the active row the list was showing. A request of the chunk that fails is repeated twice; if the chunk still does not load, the error reaches the nearest error boundary of the list.
+The code of the window — `@tanstack/react-virtual` included — is a chunk of its own: importing `ListVirtualizer` does not bring it into the bundle of the app. The chunk is loaded when the first list long enough for `minItemsCount` renders, and a `Select` that is going to be virtualized starts loading it on mount, before its popup opens. Until the chunk arrives, the list shows its first rows in the same root: the page is not left empty, and the window replaces them as soon as it can be rendered, scrolled to the active row the list was showing. If the chunk fails to load, the error reaches the nearest error boundary of the list.
 
 > [!NOTE]
 > In server-rendered HTML a virtualized list has its first rows: there is no viewport to measure the window against, so the window takes over after hydration. The rest of the rows are not in the markup — leave a list unvirtualized when all of its content has to be there.

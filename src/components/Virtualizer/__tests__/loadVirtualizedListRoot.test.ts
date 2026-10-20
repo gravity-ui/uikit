@@ -21,13 +21,8 @@ function loadFreshLoader(): typeof LoaderModule {
 }
 
 beforeEach(() => {
-    jest.useFakeTimers();
     mockFailures = 0;
     mockRequests = 0;
-});
-
-afterEach(() => {
-    jest.useRealTimers();
 });
 
 describe('loadVirtualizedListRoot', () => {
@@ -43,37 +38,16 @@ describe('loadVirtualizedListRoot', () => {
         expect(mockRequests).toBe(1);
     });
 
-    test('a request that fails is repeated after a pause', async () => {
+    test('a request that fails rejects the promise for good', async () => {
         const loader = loadFreshLoader();
-        mockFailures = 2;
+        mockFailures = 1;
 
         const promise = loader.loadVirtualizedListRoot();
-        await jest.advanceTimersByTimeAsync(499);
-        expect(mockRequests).toBe(1);
+        await expect(promise).rejects.toThrow('ChunkLoadError');
 
-        await jest.advanceTimersByTimeAsync(1);
-        expect(mockRequests).toBe(2);
-
-        await jest.advanceTimersByTimeAsync(2000);
-        const module = await promise;
-        expect(mockRequests).toBe(3);
-        expect(module.VirtualizedListRoot).toEqual(expect.any(Function));
-        expect(loader.getLoadedVirtualizedListRoot()).toBe(module);
-    });
-
-    test('after the third failure the promise rejects and stays rejected', async () => {
-        const loader = loadFreshLoader();
-        mockFailures = 3;
-
-        const promise = loader.loadVirtualizedListRoot();
-        const rejection = expect(promise).rejects.toThrow('ChunkLoadError');
-        await jest.advanceTimersByTimeAsync(500 + 2000);
-        await rejection;
-
-        expect(mockRequests).toBe(3);
         expect(loader.getLoadedVirtualizedListRoot()).toBeUndefined();
-        // React.lazy keeps the rejection of its own anyway: no new requests behind its back
+        // React.lazy keeps its rejection anyway: no new requests behind its back
         expect(loader.loadVirtualizedListRoot()).toBe(promise);
-        expect(mockRequests).toBe(3);
+        expect(mockRequests).toBe(1);
     });
 });

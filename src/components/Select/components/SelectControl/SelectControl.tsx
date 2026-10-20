@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import {ChevronDown, TriangleExclamation} from '@gravity-ui/icons';
 
-import {useUniqId} from '../../../../hooks';
 import {Alert} from '../../../Alert';
 import {Icon} from '../../../Icon';
 import type {ListFocusOwner} from '../../../List';
@@ -53,6 +52,10 @@ type ControlProps = {
     open: boolean;
     popupId: string;
     selectId: string;
+    /** The id of the label element */
+    labelId: string;
+    /** The `aria-labelledby` of the default control: the Select names its list by the same ids */
+    labelledBy?: string;
     /**
      * The focus owner of the list (`useListFocusOwner`): the trigger is one of its two elements,
      * the filter input is the other. Optional — without it the trigger keeps the combobox props of
@@ -84,6 +87,8 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         hasClear,
         popupId,
         selectId,
+        labelId,
+        labelledBy,
         focusOwner,
         renderCounter,
         hasCounter,
@@ -94,7 +99,6 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
     const showPlaceholder = Boolean(placeholder && !hasValue);
 
     const direction = useDirection();
-    const labelId = useUniqId();
 
     const [isDisabledButtonAnimation, setIsDisabledButtonAnimation] = React.useState(false);
 
@@ -191,13 +195,6 @@ export const SelectControl = React.forwardRef<HTMLButtonElement, ControlProps>((
         'aria-controls': open ? popupId : undefined,
         disabled,
     };
-
-    // `aria-labelledby` overrides `aria-label`, so the trigger references itself to keep it in the name
-    const labelledBy = label
-        ? [triggerProps['aria-label'] && selectId, triggerProps['aria-labelledby'], labelId]
-              .filter(Boolean)
-              .join(' ')
-        : triggerProps['aria-labelledby'];
 
     const {t} = i18n.useTranslation();
 

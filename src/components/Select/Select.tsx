@@ -162,8 +162,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
 
-    // Group headers are rows of the list but not options. The filter is left out: the list keeps
-    // its mode while the user types
+    // Options without the group headers and without the filter: typing does not switch the list
     const optionsCount = React.useMemo(
         () =>
             (options as FlattenOption[]).reduce(
@@ -172,14 +171,9 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
             ),
         [options],
     );
-    // Virtualization is opt-in from the outside: <ListVirtualizer> around the Select, or one above
-    // the whole app with a `minItemsCount`. The context reaches the list through the portal of the
-    // popup; the Select decides for it, for the width of the popup and for the modifier of the list
     const virtualization = useListVirtualization(optionsCount);
     const virtualized = virtualization !== null;
 
-    // The code of the window loads while the popup is still closed: by the time it opens, the list
-    // renders the window right away instead of its first rows
     React.useEffect(() => {
         virtualization?.preload();
     }, [virtualization]);

@@ -4,6 +4,7 @@ import {act, render, screen} from '../../../../test-utils/utils';
 import {LIST_VIRTUALIZATION_FALLBACK_ROWS} from '../../List/VirtualizationContext';
 import {mockLayout} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
+import type {ListVirtualizerProps} from '../../Virtualizer/ListVirtualizer';
 import * as loader from '../../Virtualizer/loadVirtualizedListRoot';
 import {MobileProvider} from '../../mobile';
 import {SelectQa} from '../constants';
@@ -182,6 +183,70 @@ describe('Select under ListVirtualizer: minItemsCount', () => {
     test('a plain Select does not load the chunk', async () => {
         await openWithRootWrapper({options: generateOptions(MIN_ITEMS_COUNT - 1)});
 
+        expect(loadSpy).not.toHaveBeenCalled();
+    });
+});
+
+describe('Select under ListVirtualizer: a wrapper around one Select', () => {
+    beforeAll(() => loader.loadVirtualizedListRoot());
+
+    function renderUnderNestedWrapper(
+        nestedProps: Omit<ListVirtualizerProps, 'children'>,
+        props: Partial<SelectProps>,
+    ) {
+        return render(
+            <MobileProvider mobile={false}>
+                <ListVirtualizer minItemsCount={MIN_ITEMS_COUNT}>
+                    <ListVirtualizer {...nestedProps}>
+                        <ControlledSelect {...props} />
+                    </ListVirtualizer>
+                </ListVirtualizer>
+            </MobileProvider>,
+        );
+    }
+
+    async function openUnderNestedWrapper(
+        nestedProps: Omit<ListVirtualizerProps, 'children'>,
+        props: Partial<SelectProps>,
+    ) {
+        const utils = renderUnderNestedWrapper(nestedProps, props);
+        await userEvent.setup().click(screen.getByTestId(TEST_QA));
+        return utils;
+    }
+
+    test('changes only what it is given and keeps the threshold of the root', async () => {
+        const root = await openWithRootWrapper({options: generateOptions(500)});
+        const rootRows = screen.getAllByRole('option').length;
+        root.unmount();
+
+        const nested = await openUnderNestedWrapper(
+            {overscan: 20},
+            {options: generateOptions(500)},
+        );
+        // The window starts at the top: 15 more rows below it, an overscan of 20 instead of 5
+        expect(screen.getAllByRole('option').length - rootRows).toBe(15);
+        nested.unmount();
+
+        await openUnderNestedWrapper({overscan: 20}, {options: generateOptions(10)});
+        expect(screen.getByTestId(SelectQa.LIST)).not.toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+    });
+
+    test('minItemsCount={0} virtualizes a Select of any size', async () => {
+        await openUnderNestedWrapper({minItemsCount: 0}, {options: generateOptions(10)});
+
+        expect(screen.getByTestId(SelectQa.LIST)).toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+        expect(screen.getAllByRole('option')[0]).toHaveAttribute('aria-setsize', '10');
+    });
+
+    test('minItemsCount={Infinity} keeps a Select plain and does not load the chunk', async () => {
+        renderUnderNestedWrapper({minItemsCount: Infinity}, {options: generateOptions(500)});
+
+        expect(loadSpy).not.toHaveBeenCalled();
+
+        await userEvent.setup().click(screen.getByTestId(TEST_QA));
+
+        expect(screen.getByTestId(SelectQa.LIST)).not.toHaveClass(SELECT_LIST_VIRTUALIZED_CLASS);
+        expect(screen.getAllByRole('option')).toHaveLength(500);
         expect(loadSpy).not.toHaveBeenCalled();
     });
 });

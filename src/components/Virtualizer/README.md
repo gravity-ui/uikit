@@ -77,7 +77,13 @@ root.render(
 );
 ```
 
-A `List` counts its rows, section headers included. A `Select` counts its options without the group headers and without the filter, so typing into the filter does not switch the list from one mode to the other. The closest wrapper is the one a list follows: a `ListVirtualizer` around a single list overrides the one at the root.
+A `List` counts its rows, section headers included. A `Select` counts its options without the group headers and without the filter, so typing into the filter does not switch the list from one mode to the other.
+
+A wrapper inside another one changes only what it is given and takes the rest from the one above, the way a nested theme `Provider` does. Around a single list under the root wrapper:
+
+- `<ListVirtualizer overscan={20}>` keeps the threshold of the root and changes the buffer;
+- `<ListVirtualizer minItemsCount={0}>` virtualizes the list whatever its size;
+- `<ListVirtualizer minItemsCount={Infinity}>` keeps it plain, and the chunk is not loaded for it.
 
 ### Loading on demand
 
@@ -116,3 +122,5 @@ The rest of the props go to the scroll container element.
 | measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)                                               |          `boolean`          |          `true`           |
 | minItemsCount    | A list of fewer rows renders as if there were no wrapper; a `Select` counts its options, without the group headers and without the filter |          `number`           |            `0`            |
 | overscan         | The buffer of rows outside of the visible window                                                                                          |          `number`           |            `5`            |
+
+A wrapper inside another one takes the props it is not given from the one above: the defaults in the table are those of the outermost wrapper.

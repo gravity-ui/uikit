@@ -103,9 +103,11 @@ different: the threshold counts all of the options, without the group headers an
 while v7 compared it with the options the filter left — typing no longer switches the list.
 
 Wrapping single `Select`s is for the special cases: an app that cannot have a wrapper at its root, or
-a `Select` that needs a threshold or settings of its own. The closest wrapper is the one a `Select`
-follows, so a `ListVirtualizer` around one `Select` overrides the one at the root. Without a wrapper
-at the root, the wrapper is needed where a `Select` can get more than 150 options:
+a `Select` that needs a threshold or settings of its own. A `ListVirtualizer` around one `Select`
+changes only what it is given and takes the rest from the one at the root: `overscan={20}` keeps the
+threshold of 50, `minItemsCount={0}` virtualizes that `Select` whatever its size, and
+`minItemsCount={Infinity}` keeps it plain. Without a wrapper at the root, the wrapper is needed where
+a `Select` can get more than 150 options:
 
 | The options                                                         | What to do                             |
 | :------------------------------------------------------------------ | :------------------------------------- |

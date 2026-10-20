@@ -6,6 +6,7 @@ import {LIST_VIRTUALIZATION_FALLBACK_ROWS} from '../../List/VirtualizationContex
 import {mockLayout} from '../../List/__tests__/helpers';
 import type {ListProps} from '../../List/types';
 import {ListVirtualizer} from '../ListVirtualizer';
+import type {ListVirtualizerProps} from '../ListVirtualizer';
 import * as loader from '../loadVirtualizedListRoot';
 
 const VIEWPORT_HEIGHT = 400;
@@ -168,5 +169,48 @@ describe('ListVirtualizer: minItemsCount', () => {
         expect(back).not.toHaveAttribute('aria-setsize');
         expect(back).toHaveAttribute('aria-selected', 'true');
         expect(back).toHaveAttribute('data-active');
+    });
+});
+
+describe('ListVirtualizer: a wrapper inside another one', () => {
+    beforeAll(() => loader.loadVirtualizedListRoot());
+
+    // The outer wrapper sets everything a nested one could take from it
+    function NestedList({
+        items,
+        ...nestedProps
+    }: Omit<ListVirtualizerProps, 'children'> & {items: string[]}) {
+        return (
+            <ListVirtualizer estimateItemSize={ROW_HEIGHT * 2} measure={false} minItemsCount={50}>
+                <ListVirtualizer {...nestedProps}>
+                    <List aria-label="Logs" style={{maxHeight: VIEWPORT_HEIGHT}} items={items} />
+                </ListVirtualizer>
+            </ListVirtualizer>
+        );
+    }
+
+    test('takes what it is not given from the wrapper above', () => {
+        const {rerender} = render(<NestedList items={createItems(49)} overscan={1} />);
+
+        // The threshold of the outer wrapper
+        expect(screen.getAllByRole('option')).toHaveLength(49);
+        expect(screen.getAllByRole('option')[0]).not.toHaveAttribute('aria-setsize');
+
+        rerender(<NestedList items={createItems(60)} overscan={1} />);
+
+        // Its estimate, and its measure={false}: the measured 36px would correct the sizer
+        expect(screen.getAllByRole('option')[0]).toHaveAttribute('aria-setsize', '60');
+        expect(getSizer()).toHaveStyle({height: `${60 * ROW_HEIGHT * 2}px`});
+    });
+
+    test('its own props win over the ones above', () => {
+        const {rerender} = render(<NestedList items={createItems(10)} minItemsCount={0} />);
+
+        expect(screen.getAllByRole('option')[0]).toHaveAttribute('aria-setsize', '10');
+
+        rerender(<NestedList items={createItems(60)} minItemsCount={Infinity} />);
+
+        expect(screen.getAllByRole('option')).toHaveLength(60);
+        expect(screen.getAllByRole('option')[0]).not.toHaveAttribute('aria-setsize');
     });
 });

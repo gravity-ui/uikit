@@ -593,6 +593,8 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 </Provider>;
 ```
 
+A wrapper around a single `Select` changes only what it is given, the rest comes from the one at the root: `<ListVirtualizer overscan={20}>` keeps the threshold of 50, `minItemsCount={0}` virtualizes that `Select` whatever its size, and `minItemsCount={Infinity}` keeps it plain.
+
 The code of the virtualizer is a chunk of its own, and it is not loaded for the shorter `Select`s. A `Select` that is going to be virtualized starts loading it on mount; a popup opened before it arrives shows its first options until the window takes over, and scrolls to the selected one then.
 
 Things to keep in mind about a virtualized `Select`:

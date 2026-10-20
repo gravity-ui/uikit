@@ -11,6 +11,8 @@ import type {
 
 import {getLoadedVirtualizedListRoot, loadVirtualizedListRoot} from './loadVirtualizedListRoot';
 
+const DEFAULT_MEASURE = true;
+const DEFAULT_MIN_ITEMS_COUNT = 0;
 const DEFAULT_OVERSCAN = 5;
 
 type RootModule = {default: React.ComponentType<ListVirtualizedRootProps>};
@@ -45,22 +47,25 @@ export interface ListVirtualizerProps<T = any> {
     /**
      * The estimated height of a row before it is rendered: a constant or a function of the row
      * context — `(ctx) => (ctx.item.description ? 56 : 36)`; section headers arrive with
-     * `ctx.kind === 'section'`. default — based on the `size` of the list
+     * `ctx.kind === 'section'`. default — the one of the wrapper above, otherwise based on the
+     * `size` of the list
      */
     estimateItemSize?: ListEstimateItemSize<T>;
     /**
      * Measure the actual row heights after mount (ResizeObserver); turning it off is an
-     * optimization for rows known to be identical. default true
+     * optimization for rows known to be identical. default — the one of the wrapper above,
+     * otherwise true
      */
     measure?: boolean;
     /**
      * A list of fewer rows renders as if there were no wrapper — every row in the DOM, and the
      * chunk of the virtualizer is not loaded for it. A `List` counts its rows, section headers
      * included; a `Select` counts its options without the group headers and without the filter, so
-     * typing does not switch the list. default 0 — every list is virtualized
+     * typing does not switch the list. `Infinity` keeps the lists under the wrapper plain.
+     * default — the one of the wrapper above, otherwise 0: every list is virtualized
      */
     minItemsCount?: number;
-    /** The buffer of rows outside the window. default 5 */
+    /** The buffer of rows outside the window. default — the one of the wrapper above, otherwise 5 */
     overscan?: number;
 }
 
@@ -78,6 +83,11 @@ export interface ListVirtualizerProps<T = any> {
  * lists and `Select`s of 50 rows or more and leaves the shorter ones as they
  * are.
  *
+ * A wrapper inside another one changes only what it is given, the rest comes
+ * from the one above: `<ListVirtualizer overscan={20}>` around a single
+ * `Select` keeps the threshold of the root. `minItemsCount={0}` virtualizes
+ * that `Select` whatever its size, `minItemsCount={Infinity}` never does.
+ *
  * SSR: on the server the virtualizer does not know the viewport size, so the
  * HTML gets the first rows of the list; the window replaces them after
  * hydration.
@@ -92,20 +102,24 @@ export interface ListVirtualizerProps<T = any> {
 export function ListVirtualizer<T = any>({
     children,
     estimateItemSize,
-    measure = true,
-    minItemsCount = 0,
-    overscan = DEFAULT_OVERSCAN,
+    measure,
+    minItemsCount,
+    overscan,
 }: ListVirtualizerProps<T>) {
+    // A prop that is not given comes from the wrapper above, as the theme of a nested
+    // ThemeProvider does; the defaults are those of the outermost wrapper. A List resets the
+    // context for the lists in its rows, so a wrapper there starts from the defaults
+    const outer = React.useContext(ListVirtualizationContext);
     const value = React.useMemo<ListVirtualizationContextValue>(
         () => ({
             Root: LazyVirtualizedListRoot,
-            estimateItemSize,
-            measure,
-            minItemsCount,
-            overscan,
+            estimateItemSize: estimateItemSize ?? outer?.estimateItemSize,
+            measure: measure ?? outer?.measure ?? DEFAULT_MEASURE,
+            minItemsCount: minItemsCount ?? outer?.minItemsCount ?? DEFAULT_MIN_ITEMS_COUNT,
+            overscan: overscan ?? outer?.overscan ?? DEFAULT_OVERSCAN,
             preload: preloadVirtualizedListRoot,
         }),
-        [estimateItemSize, measure, minItemsCount, overscan],
+        [estimateItemSize, measure, minItemsCount, overscan, outer],
     );
     return (
         <ListVirtualizationContext.Provider value={value}>

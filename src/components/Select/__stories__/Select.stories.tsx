@@ -73,42 +73,6 @@ export const PopupWidth = {
     render: (args) => <SelectPopupWidthShowcase {...args} />,
 } satisfies Story;
 
-const THRESHOLD_OPTIONS_COUNTS = [10, 49, 50, 5000];
-
-// The first option is longer than the control: the popup of a plain list grows to it
-const THRESHOLD_OPTIONS = Object.fromEntries(
-    THRESHOLD_OPTIONS_COUNTS.map((count) => [
-        count,
-        Array.from({length: count}, (_, index) => ({
-            value: `val${index + 1}`,
-            content: index === 0 ? 'An option longer than the control' : `Value ${index + 1}`,
-        })),
-    ]),
-);
-
-// One wrapper above the app: a Select of 50 options and more is virtualized and its popup is as
-// wide as the control, a shorter one stays plain — the way v7 did with `virtualizationThreshold`.
-// The code panel shows the source of the story rather than the rendered JSX: that one would carry the
-// 5000 options inline, and the panel takes seconds to draw them
-export const VirtualizationThreshold = {
-    parameters: {docs: {source: {type: 'code'}}},
-    render: (args) => (
-        <ListVirtualizer minItemsCount={50}>
-            <Flex gap="spacing-4" wrap>
-                {THRESHOLD_OPTIONS_COUNTS.map((count) => (
-                    <Select
-                        key={count}
-                        {...args}
-                        title={`${count} options`}
-                        placeholder={`${count} options`}
-                        options={THRESHOLD_OPTIONS[count]}
-                    />
-                ))}
-            </Flex>
-        </ListVirtualizer>
-    ),
-} satisfies Story;
-
 export const UseSelectOptions = {
     render: () => <UseSelectOptionsShowcase />,
     parameters: {

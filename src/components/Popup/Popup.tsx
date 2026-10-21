@@ -306,7 +306,7 @@ function PopupComponent(rawProps: PopupProps) {
             return autoUpdate(elements.reference, elements.floating, update);
         }
         return undefined;
-    }, [isMounted, elements, update]);
+    }, [open, isMounted, elements, update]);
 
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 

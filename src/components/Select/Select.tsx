@@ -454,6 +454,8 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                 // The keyboard acts on the active row right away; with a filter the sheet focuses
                 // itself, since focusing the input would open the on-screen keyboard
                 sheetInitialFocus={listOwnsFocus ? activeItemRef : undefined}
+                // The sheet is named like the trigger: without a label it has no title
+                sheetLabelledBy={listLabelledBy}
                 onAfterOpen={
                     filterable
                         ? () => {

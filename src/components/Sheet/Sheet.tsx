@@ -18,12 +18,12 @@ import type {FloatingFocusManagerProps} from '@floating-ui/react';
 
 import {KeyCode} from '../../constants';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
-import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
-import type {QAProps} from '../types';
-import {useLayer} from '../utils/layer-manager';
+import type {AriaLabelingProps, QAProps} from '../types';
+import {layerManager, useLayer} from '../utils/layer-manager';
+import {LayerContext, getLayerElement} from '../utils/layer-manager/LayerContext';
 
 import {SheetContentContainer} from './SheetContent';
 import {SHEET_TRANSITION_DURATION_MS, sheetBlock} from './constants';
@@ -34,7 +34,10 @@ import './Sheet.scss';
 
 export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
 
-export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
+export interface SheetProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        AriaLabelingProps,
+        QAProps {
     children?: React.ReactNode;
     /** Controlled open state; without it the sheet closes itself on dismissal */
     open?: boolean;
@@ -82,9 +85,6 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     alwaysFullHeight?: boolean;
 }
 
-// Modal sheets in the order they opened, see getSheetsAbove
-const openModalSheets: Array<() => HTMLElement | null> = [];
-
 function SheetComponent(rawProps: SheetProps) {
     const {
         children,
@@ -113,6 +113,10 @@ function SheetComponent(rawProps: SheetProps) {
         container,
         disablePortal,
         qa,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledBy,
+        'aria-describedby': ariaDescribedBy,
+        'aria-details': ariaDetails,
     } = useDefaultProps('Sheet', rawProps);
     const {t} = i18n.useTranslation();
     const {
@@ -181,41 +185,23 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete,
     });
 
+    // The overlay also holds the visually hidden dismiss buttons next to the dialog
+    const overlayRef = React.useRef<HTMLDivElement>(null);
+    const getOverlay = React.useCallback(() => getLayerElement(overlayRef.current), []);
+
     // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
     // useDismiss only coordinates within one tree. Release the layer when closing starts.
-    useLayer({
+    const layer = useLayer({
         open: isOpen,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,
+        getElement: getOverlay,
     });
 
-    // The overlay also holds the visually hidden dismiss buttons next to the dialog
-    const overlayRef = React.useRef<HTMLDivElement>(null);
-    const getOverlay = React.useCallback(() => overlayRef.current, []);
-
-    useLayoutEffect(() => {
-        if (!isMounted || disableModal) {
-            return undefined;
-        }
-
-        openModalSheets.push(getOverlay);
-
-        return () => {
-            openModalSheets.splice(openModalSheets.indexOf(getOverlay), 1);
-        };
-    }, [disableModal, getOverlay, isMounted]);
-
-    // A modal sheet hides the rest of the page from assistive technology. Sheets opened
-    // in the same commit would hide each other, so a sheet keeps the ones above it.
-    const getSheetsAbove = React.useCallback(() => {
-        const index = openModalSheets.indexOf(getOverlay);
-
-        return openModalSheets
-            .slice(index + 1)
-            .map((getElement) => getElement())
-            .filter((element): element is HTMLElement => element !== null);
-    }, [getOverlay]);
+    // A modal sheet hides the rest of the page from assistive technology, but not the layers
+    // above it: they may have opened in the same update, before the sheet hid the page
+    const getLayersAbove = React.useCallback(() => layerManager.getElementsAbove(layer), [layer]);
 
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([role]);
@@ -246,7 +232,7 @@ function SheetComponent(rawProps: SheetProps) {
                             initialFocus={initialFocus ?? (disableModal ? -1 : refs.floating)}
                             returnFocus={returnFocus}
                             closeOnFocusOut={false}
-                            getInsideElements={getSheetsAbove}
+                            getInsideElements={getLayersAbove}
                             restoreFocus
                             visuallyHiddenDismiss={
                                 disableVisuallyHiddenDismiss ? false : t('close')
@@ -254,10 +240,20 @@ function SheetComponent(rawProps: SheetProps) {
                         >
                             <SheetContentContainer
                                 id={id}
-                                content={children}
+                                content={
+                                    <LayerContext.Provider value={layer}>
+                                        {children}
+                                    </LayerContext.Provider>
+                                }
                                 contentClassName={contentClassName}
                                 swipeAreaClassName={swipeAreaClassName}
                                 title={title}
+                                labelingProps={{
+                                    'aria-label': ariaLabel ?? title,
+                                    'aria-labelledby': ariaLabelledBy,
+                                    'aria-describedby': ariaDescribedBy,
+                                    'aria-details': ariaDetails,
+                                }}
                                 presenceStatus={status}
                                 allowHideOnContentScroll={allowHideOnContentScroll}
                                 hideTopBar={hideTopBar}

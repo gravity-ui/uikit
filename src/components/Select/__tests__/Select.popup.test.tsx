@@ -358,7 +358,6 @@ describe('Select popup', () => {
             </MobileProvider>,
         );
         const user = userEvent.setup();
-        // The dialog takes focus after its own transition; opening the sheet earlier would lose it
         await waitFor(() => expect(screen.getByRole('dialog')).toHaveFocus());
         await user.click(screen.getByTestId(TEST_QA));
         await waitFor(() => expect(screen.getByRole('option', {name: 'JavaScript'})).toHaveFocus());

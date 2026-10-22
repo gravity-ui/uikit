@@ -2,8 +2,10 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Lang, configure} from '../../../utils/configure';
+import {Drawer} from '../../Drawer';
+import {Modal} from '../../Modal';
 import {Popup} from '../../Popup';
 import {getLayersCount} from '../../utils/layer-manager';
 import {Sheet} from '../Sheet';
@@ -63,7 +65,6 @@ async function setupSheetInModal(children?: React.ReactNode) {
     );
 
     await click(user, 'Open modal');
-    // The modal takes focus after its own transition; opening the sheet earlier would lose it
     await waitFor(() => expect(screen.getByRole('dialog')).toHaveFocus());
     await click(user, 'Open sheet');
     await expectSheetFocused('Inside modal');
@@ -305,6 +306,30 @@ describe('Sheet focus management', () => {
             await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
         });
     });
+
+    test.each([
+        {name: 'Modal', Overlay: Modal},
+        {name: 'Drawer', Overlay: Drawer},
+    ])(
+        'keeps the focus and the accessibility tree when opened along with a $name',
+        async ({name, Overlay}) => {
+            const onTransitionInComplete = jest.fn();
+            render(
+                <Overlay open aria-label={name} onTransitionInComplete={onTransitionInComplete}>
+                    <Sheet open title="Inside">
+                        <button>Sheet action</button>
+                    </Sheet>
+                </Overlay>,
+            );
+
+            await waitFor(() => expect(onTransitionInComplete).toHaveBeenCalled());
+            // The overlay may start managing the focus at the end of its own transition
+            await act(() => new Promise((resolve) => setTimeout(resolve, 50)));
+
+            expect(screen.getByRole('dialog', {name: 'Inside'})).toHaveFocus();
+            expect(screen.queryByRole('dialog', {name})).not.toBeInTheDocument();
+        },
+    );
 
     describe('inside a Modal', () => {
         test('dismisses only the sheet when Escape reaches the document from outside of it', async () => {

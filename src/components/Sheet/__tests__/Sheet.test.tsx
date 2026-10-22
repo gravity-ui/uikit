@@ -74,6 +74,27 @@ describe('Sheet', () => {
             expect(screen.getByRole('dialog')).toHaveAttribute('aria-label', title);
         });
 
+        test('is named by aria-label or aria-labelledby without a title', () => {
+            const {rerender} = render(
+                <Sheet open aria-label="Filters">
+                    Content
+                </Sheet>,
+            );
+
+            expect(screen.getByRole('dialog', {name: 'Filters'})).toBeInTheDocument();
+
+            rerender(
+                <React.Fragment>
+                    <span id="sheet-caption">Sorting</span>
+                    <Sheet open aria-labelledby="sheet-caption">
+                        Content
+                    </Sheet>
+                </React.Fragment>,
+            );
+
+            expect(screen.getByRole('dialog', {name: 'Sorting'})).toBeInTheDocument();
+        });
+
         test('keeps only the upper one of the sheets opened together accessible', () => {
             render(
                 <React.Fragment>

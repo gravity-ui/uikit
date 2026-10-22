@@ -52,6 +52,14 @@ describe('Select label', () => {
         screen.getByRole('listbox', {name: 'Fruit Fruit:'});
     });
 
+    test('names the sheet like the trigger without a label', async () => {
+        setup({'aria-label': 'Fruit'}, true);
+
+        await userEvent.click(screen.getByRole('combobox', {name: 'Fruit'}));
+
+        expect(await screen.findByRole('dialog', {name: 'Fruit'})).toBeInTheDocument();
+    });
+
     test('does not name a custom control', () => {
         setup({label: 'Fruit:', renderControl});
 

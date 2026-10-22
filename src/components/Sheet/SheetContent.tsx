@@ -7,6 +7,7 @@ import {useMergeRefs} from '@floating-ui/react';
 
 import type {UseFloatingTransitionResult} from '../../hooks/private/useFloatingTransition';
 import {MobileContext} from '../mobile';
+import type {AriaLabelingProps} from '../types';
 import {warnOnce} from '../utils/warn';
 
 import {SheetContentArea, SheetSwipeArea, SheetVeil} from './components';
@@ -49,6 +50,8 @@ interface SheetContentBaseProps {
     presenceStatus: SheetPresenceStatus;
     id?: string;
     title?: string;
+    /** The name and the description of the dialog */
+    labelingProps?: AriaLabelingProps;
     contentClassName?: string;
     swipeAreaClassName?: string;
     hideTopBar?: boolean;
@@ -70,6 +73,7 @@ export function SheetContent(props: SheetContentProps) {
         swipeAreaClassName,
         hideTopBar,
         title,
+        labelingProps,
         presenceStatus,
         requestDismiss,
         floatingRef,
@@ -433,7 +437,7 @@ export function SheetContent(props: SheetContentProps) {
             <div
                 ref={handleSheetRef}
                 className={sheetBlock('sheet', {'with-transition': withTransition})}
-                {...getFloatingProps({'aria-label': title})}
+                {...getFloatingProps(labelingProps)}
             >
                 {!hideTopBar && (
                     <div

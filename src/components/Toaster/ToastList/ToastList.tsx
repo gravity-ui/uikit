@@ -18,9 +18,7 @@ export function ToastList(props: ToastListProps) {
     const classNames = React.useMemo(
         () =>
             mobile
-                ? getCSSTransitionClassNames(block('toast-animation-mobile'), {
-                      feature: alternateAnimationFunction ? 'alternate-animation-timing-fn' : false,
-                  })
+                ? getCSSTransitionClassNames(block('toast-animation-mobile'))
                 : getCSSTransitionClassNames(block('toast-animation-desktop'), {
                       feature: alternateAnimationFunction ? 'alternate-animation-timing-fn' : false,
                   }),

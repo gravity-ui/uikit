@@ -15,24 +15,23 @@ const DEFAULT_MEASURE = true;
 const DEFAULT_MIN_ITEMS_COUNT = 0;
 const DEFAULT_OVERSCAN = 5;
 
-/** What React.lazy resolves the root to */
-type LazyRootModule = {default: React.ComponentType<ListVirtualizedRootProps>};
+/** Loaded on its first render, so tanstack is not in the chunk that imports ListVirtualizer */
+const LazyVirtualizedListRoot = React.lazy(() =>
+    loadVirtualizedListRoot().then((module) => ({default: module.VirtualizedListRoot})),
+);
 
 /**
- * Loaded on its first render, so tanstack is not in the chunk that imports ListVirtualizer. A module
- * already loaded is handed over in `then` itself: React.lazy does not suspend on such a thenable
+ * A root already loaded (the Select preloads it on mount) is rendered as is: React.lazy would still
+ * suspend on its first render, and the first rows would show for a moment
  */
-const LazyVirtualizedListRoot = React.lazy(() => {
+function VirtualizedListRootLoader(props: ListVirtualizedRootProps) {
     const loaded = getLoadedVirtualizedListRoot();
-    if (loaded) {
-        const resolved = {
-            then: (resolve: (module: LazyRootModule) => void) =>
-                resolve({default: loaded.VirtualizedListRoot}),
-        };
-        return resolved as unknown as Promise<LazyRootModule>;
-    }
-    return loadVirtualizedListRoot().then((module) => ({default: module.VirtualizedListRoot}));
-});
+    return loaded ? (
+        <loaded.VirtualizedListRoot {...props} />
+    ) : (
+        <LazyVirtualizedListRoot {...props} />
+    );
+}
 
 function preloadVirtualizedListRoot() {
     // A failure reaches the error boundary of the list that renders the root
@@ -109,7 +108,7 @@ export function ListVirtualizer<T = any>({
     const outerVirtualization = React.useContext(ListVirtualizationContext);
     const value = React.useMemo<ListVirtualizationContextValue>(
         () => ({
-            Root: LazyVirtualizedListRoot,
+            Root: VirtualizedListRootLoader,
             estimateItemSize: estimateItemSize ?? outerVirtualization?.estimateItemSize,
             measure: measure ?? outerVirtualization?.measure ?? DEFAULT_MEASURE,
             minItemsCount:

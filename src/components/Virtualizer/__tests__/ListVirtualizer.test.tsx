@@ -113,7 +113,7 @@ describe('ListVirtualizer: minItemsCount', () => {
         expect(screen.queryByRole('option', {name: 'Item 100'})).not.toBeInTheDocument();
     });
 
-    test('section headers count as rows', () => {
+    test('section headers count towards minItemsCount', () => {
         interface Row {
             id: string;
             label: string;
@@ -123,10 +123,9 @@ describe('ListVirtualizer: minItemsCount', () => {
             {id: 'a', label: 'A', options: createItems(24).map((label) => ({id: label, label}))},
             {id: 'b', label: 'B', options: [{id: 'last', label: 'Last'}]},
         ];
-
-        // 25 options and 2 headers
-        render(
-            <ListVirtualizer estimateItemSize={ROW_HEIGHT} minItemsCount={27}>
+        // 25 options and 2 headers: 27 rows
+        const renderGroups = (minItemsCount: number) => (
+            <ListVirtualizer estimateItemSize={ROW_HEIGHT} minItemsCount={minItemsCount}>
                 <List<Row>
                     aria-label="Groups"
                     style={{maxHeight: VIEWPORT_HEIGHT}}
@@ -134,10 +133,18 @@ describe('ListVirtualizer: minItemsCount', () => {
                     getItemChildren={(row) => row.options}
                     getItemContent={(row) => row.label}
                 />
-            </ListVirtualizer>,
+            </ListVirtualizer>
         );
 
+        const {rerender} = render(renderGroups(27));
+
+        // Virtualized; `aria-setsize` numbers the options only
         expect(screen.getAllByRole('option')[0]).toHaveAttribute('aria-setsize', '25');
+
+        rerender(renderGroups(28));
+
+        expect(screen.getAllByRole('option')).toHaveLength(25);
+        expect(screen.getAllByRole('option')[0]).not.toHaveAttribute('aria-setsize');
     });
 
     test('crossing the threshold keeps the active row and the selection', async () => {

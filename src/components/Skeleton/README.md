@@ -84,3 +84,9 @@ Use `variant="text"` to render a skeleton that inherits `font-size` and `line-he
 | `size`      | Preset height (and width for `'circle'`/`'square'` variants). Also controls the border-radius token for `'rect'`/`'square'`. |   `'xs'` \| `'s'` \| `'m'` \| `'l'` \| `'xl'`    |            |
 | `width`     | Custom width. Alias for `style.width`                                                                                        |               `number` \| `string`               |            |
 | `height`    | Custom height. Alias for `style.height`                                                                                      |               `number` \| `string`               |            |
+
+## CSS API
+
+| Name                            | Description                                                                         |
+| :------------------------------ | :---------------------------------------------------------------------------------- |
+| `--g-skeleton-background-color` | Skeleton background color, also used as the end color of the `'gradient'` animation |

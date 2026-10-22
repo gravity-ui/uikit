@@ -60,8 +60,37 @@ function TrackList({tracks}) {
 
 The root of the `List` becomes the scroll container, so limiting its height is up to you — otherwise the window degenerates into the full list. The details of the layer are in the [Virtualization](../List/README.md#virtualization) section of the List.
 
+### One wrapper for the whole app
+
+The wrapper is a context provider: it covers every `List` and `Select` below it, the popups of the `Select`s included. With `minItemsCount` it can stand once next to the theme `Provider` and virtualize only the long lists — a list of fewer rows renders as if there were no wrapper, every row in the DOM.
+
+```tsx
+import {Provider} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+root.render(
+  <Provider theme="light">
+    <ListVirtualizer minItemsCount={50}>
+      <App />
+    </ListVirtualizer>
+  </Provider>,
+);
+```
+
+A `List` counts its rows, section headers included. A `Select` counts its options without the group headers and without the filter, so typing into the filter does not switch the list from one mode to the other.
+
+A wrapper inside another one changes only what it is given and takes the rest from the one above, the way a nested theme `Provider` does. Around a single list under the root wrapper:
+
+- `<ListVirtualizer overscan={20}>` keeps the threshold of the root and changes the buffer;
+- `<ListVirtualizer minItemsCount={0}>` virtualizes the list whatever its size;
+- `<ListVirtualizer minItemsCount={Infinity}>` keeps it plain, and the chunk is not loaded for it.
+
+### Loading on demand
+
+The code of the window — `@tanstack/react-virtual` included — is a chunk of its own: importing `ListVirtualizer` does not bring it into the bundle of the app. The chunk is loaded when the first list long enough for `minItemsCount` renders, and a `Select` that is going to be virtualized starts loading it on mount, before its popup opens. Until the chunk arrives, the list shows its first rows in the same root: the page is not left empty, and the window replaces them as soon as it can be rendered, scrolled to the active row the list was showing. If the chunk fails to load, the error reaches the nearest error boundary of the list.
+
 > [!NOTE]
-> A virtualized list is empty in server-rendered HTML: there is no viewport to measure against, so the rows appear only after hydration. Leave a list unvirtualized when its content has to be in the markup itself.
+> In server-rendered HTML a virtualized list has its first rows: there is no viewport to measure the window against, so the window takes over after hydration. The rest of the rows are not in the markup — leave a list unvirtualized when all of its content has to be there.
 
 ## Properties
 
@@ -86,9 +115,12 @@ The rest of the props go to the scroll container element.
 
 ### ListVirtualizer
 
-| Name             | Description                                                                                      |            Type             |          Default          |
-| :--------------- | :----------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
-| children         | The `<List>` inside                                                                              |         `ReactNode`         |                           |
-| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context | `number \| (ctx) => number` | by the `size` of the list |
-| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)      |          `boolean`          |          `true`           |
-| overscan         | The buffer of rows outside of the visible window                                                 |          `number`           |            `5`            |
+| Name             | Description                                                                                                                               |            Type             |          Default          |
+| :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
+| children         | The `<List>` inside                                                                                                                       |         `ReactNode`         |                           |
+| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context                                          | `number \| (ctx) => number` | by the `size` of the list |
+| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)                                               |          `boolean`          |          `true`           |
+| minItemsCount    | A list of fewer rows renders as if there were no wrapper; a `Select` counts its options, without the group headers and without the filter |          `number`           |            `0`            |
+| overscan         | The buffer of rows outside of the visible window                                                                                          |          `number`           |            `5`            |
+
+A wrapper inside another one takes the props it is not given from the one above: the defaults in the table are those of the outermost wrapper.

@@ -122,7 +122,7 @@ The default `l` breakpoint changes from 1080px to 980px, including the width of
 `config.breakpoints.l = 1080` on LayoutProvider or `layout.config.breakpoints.l = 1080` on Provider.
 
 Replace `Container gutters={false}` with `gutters="0"`. Zero gutters also work
-in the base and responsive container theme. Use spacing tokens for nonzero theme gutters, as described in the layout migration guide.
+in the base and responsive container theme. Use spacing tokens for nonzero theme gutters, as described in the [layout migration guide](migration-layout-v8.md#container-row-and-col).
 
 ## React 18 minimum
 
@@ -170,10 +170,14 @@ test ids and CSS, and [staying on the legacy List](migration-from-legacy-list.md
 
 ### Options drawn by the new List
 
-- `virtualizationThreshold` is removed: wrap the `Select` in `ListVirtualizer` from `@gravity-ui/uikit/virtualizer`.
-  Without it every option is rendered.
-- A `Select` that `virtualizationThreshold` used to virtualize now gets a popup as wide as its widest option: wrap it
-  in `ListVirtualizer` or set `popupWidth="fit"`.
+- `virtualizationThreshold` is removed, and with it the default: v7 virtualized every `Select` with 50 options or
+  more. Now every option is rendered unless the `Select` is under `ListVirtualizer` from
+  `@gravity-ui/uikit/virtualizer`. One wrapper next to the theme `Provider` brings the v7 behavior back for the whole
+  app — `<ListVirtualizer minItemsCount={50}>`; the threshold now counts the options without the filter. To wrap
+  single `Select`s instead, see [Which Selects to virtualize](migration-select-v8.md#which-selects-to-virtualize).
+- A `Select` with 50 options or more left without the wrapper gets a popup that grows to its widest option, as the
+  shorter ones always did, instead of keeping the width of the control. The wrapper above keeps the old width; without
+  it, set `popupWidth="fit"`.
 - The `text` field of an option (`SelectOptionProps`) is removed: the text of an option comes from `getOptionText`.
 - `renderFilter` no longer receives `value` and `onKeyDown`: both are in `inputProps`.
 - `renderOption` always receives `isItemActive`, and `itemHeight` carries the new row heights.
@@ -678,7 +682,7 @@ removed: `spacing` of `Box`, `Flex` and `Card`, the `Flex` shortcuts (`space`, `
 - `Container size="l"` replaces the breakpoint names in `maxWidth`.
 
 Some of these changes compile without type errors and show only on screen: go through the
-[layout migration guide](../src/components/layout/migration-guide.md).
+[layout migration guide](migration-layout-v8.md).
 
 ### Spacing and size values
 

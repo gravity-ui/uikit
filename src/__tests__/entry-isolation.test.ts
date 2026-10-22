@@ -94,7 +94,8 @@ function packageName(source: string) {
 }
 
 function resolveRelative(source: string, importer: string) {
-    const base = path.resolve(path.dirname(importer), source);
+    // A `.js` specifier names the TypeScript source, as it does for tsc
+    const base = path.resolve(path.dirname(importer), source.replace(/\.js$/, ''));
     const candidates = [
         `${base}.ts`,
         `${base}.tsx`,

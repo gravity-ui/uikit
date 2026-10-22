@@ -6,7 +6,14 @@ import {fireEvent, render, screen} from '../../../../test-utils/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {List} from '../List';
 
-import {ComboboxHarness, GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
+import {
+    ComboboxHarness,
+    GROUPS,
+    getSectionHeader,
+    mockLayout,
+    preloadListVirtualizer,
+    scrollTo,
+} from './helpers';
 import type {Project} from './helpers';
 
 const LETTERS = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot'];
@@ -24,6 +31,8 @@ async function shiftClick(user: ReturnType<typeof userEvent.setup>, element: HTM
     await user.click(element);
     await user.keyboard('{/Shift}');
 }
+
+preloadListVirtualizer();
 
 describe('List: range selection (selection layer)', () => {
     describe('Shift+click', () => {

@@ -6,8 +6,10 @@ const {task, src, dest, series, parallel} = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
+const ts = require('typescript');
 
 const {sassFunctions} = require('./build-utils/sass-functions');
+const {createDynamicImportTransformer} = require('./build-utils/transform-dynamic-import');
 
 const {version} = require('./package.json');
 
@@ -33,6 +35,10 @@ async function compileTs(modules = false) {
         tsProject.customTransformers.transformScssImports,
         tsProject.customTransformers.transformLocalModules,
     ];
+    // The ESM build keeps `import()` for the bundlers to split; CommonJS loads with `require`
+    const codeTransformers = modules
+        ? transformers
+        : [...transformers, createDynamicImportTransformer(ts)];
     return new Promise((resolve) => {
         src([
             'src/**/*.{ts,tsx}',
@@ -48,7 +54,7 @@ async function compileTs(modules = false) {
             .pipe(
                 tsProject({
                     customTransformers: {
-                        before: transformers,
+                        before: codeTransformers,
                         afterDeclarations: transformers,
                     },
                 }),

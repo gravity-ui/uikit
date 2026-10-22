@@ -8,7 +8,14 @@ import {ListDndContext} from '../DndContext';
 import {List} from '../List';
 import type {ListDndAdapter, ListDndProps, ListItemContext, ListItemHelpers} from '../types';
 
-import {FRUITS, GROUPS, createTracker, getSectionHeader, mockLayout} from './helpers';
+import {
+    FRUITS,
+    GROUPS,
+    createTracker,
+    getSectionHeader,
+    mockLayout,
+    preloadListVirtualizer,
+} from './helpers';
 
 /** Stable per-id ref callbacks — the obligation of an adapter */
 function createStableRefs(onRef: (id: string, element: HTMLElement | null) => void) {
@@ -22,6 +29,8 @@ function createStableRefs(onRef: (id: string, element: HTMLElement | null) => vo
         return ref;
     };
 }
+
+preloadListVirtualizer();
 
 describe('List: dnd layer', () => {
     describe('adapter props: composition into the rows and the root', () => {

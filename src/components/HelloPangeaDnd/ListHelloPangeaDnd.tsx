@@ -16,7 +16,7 @@ import type {
 import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import {useUniqId} from '../../hooks/useUniqId';
 import {ListDndContext} from '../List/DndContext';
-import {ListVirtualizationContext} from '../List/VirtualizationContext';
+import {useListVirtualization} from '../List/VirtualizationContext';
 import {moveItem} from '../List/moveItem';
 import type {ListDndAdapter, ListItemContext, ListItemHelpers} from '../List/types';
 import {defaultGetItemId} from '../List/utils';
@@ -191,7 +191,7 @@ function ListHelloPangeaDndComponent<T>({
 
     const autoId = useUniqId();
     // The virtual mode follows ListVirtualizer: it has to stand outside the wrapper
-    const virtual = React.useContext(ListVirtualizationContext) !== null;
+    const virtual = useListVirtualization(items.length) !== null;
     const registry = useRowRegistry(state.draggingId);
 
     const kit = React.useMemo<HelloPangeaKitContextValue>(() => {

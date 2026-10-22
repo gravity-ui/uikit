@@ -122,7 +122,7 @@ ThemeProvider он всегда scoped, даже при `scoped={false}`:
 `config.breakpoints.l = 1080` у LayoutProvider или `layout.config.breakpoints.l = 1080` у Provider.
 
 Замените `Container gutters={false}` на `gutters="0"`. Нулевые отступы работают
-также в базовой и адаптивной теме контейнера. Для ненулевых отступов темы используйте spacing-токены, как описано в руководстве по миграции layout.
+также в базовой и адаптивной теме контейнера. Для ненулевых отступов темы используйте spacing-токены, как описано в [руководстве по миграции layout](migration-layout-v8.md#container-row-and-col) (на английском).
 
 ## Минимальная версия React 18
 
@@ -170,10 +170,13 @@ peer-зависимости: вместе с пакетом они больше 
 
 ### Опции рисует новый List
 
-- `virtualizationThreshold` удалён: оберните `Select` в `ListVirtualizer` из `@gravity-ui/uikit/virtualizer`. Без
-  обёртки рендерятся все опции.
-- Попап `Select`, который раньше виртуализировался по `virtualizationThreshold`, теперь шириной с самую широкую опцию:
-  оберните `Select` в `ListVirtualizer` или задайте `popupWidth="fit"`.
+- `virtualizationThreshold` удалён, а вместе с ним и поведение по умолчанию: в v7 виртуализировался каждый `Select` с
+  50 опциями и больше. Теперь рендерятся все опции, если над `Select` нет `ListVirtualizer` из
+  `@gravity-ui/uikit/virtualizer`. Одна обёртка рядом с `Provider` темы возвращает поведение v7 для всего приложения —
+  `<ListVirtualizer minItemsCount={50}>`; порог теперь считает опции без учёта фильтра. Как оборачивать отдельные
+  `Select`, — в [гайде Select](migration-select-v8.md#which-selects-to-virtualize) (на английском).
+- Попап `Select` с 50 опциями и больше без обёртки теперь, как и у более коротких, растёт до самой широкой опции, а не
+  остаётся шириной с контрол. Обёртка выше сохраняет прежнюю ширину; без неё задайте `popupWidth="fit"`.
 - Поле `text` у опции (`SelectOptionProps`) удалено: текст опции берётся из `getOptionText`.
 - `renderFilter` больше не получает `value` и `onKeyDown`: оба — в `inputProps`.
 - `renderOption` всегда получает `isItemActive`, а `itemHeight` несёт новые высоты строк.
@@ -677,7 +680,7 @@ const {lang} = getConfig(); // 'ru'
 - Вместо имён брейкпоинтов в `maxWidth` используйте `Container size="l"`.
 
 Часть изменений TypeScript не поймает, они видны только на экране: пройдите по
-[гайду миграции layout](../src/components/layout/migration-guide.md) (на английском).
+[гайду миграции layout](migration-layout-v8.md) (на английском).
 
 ### Значения отступов и размеров
 

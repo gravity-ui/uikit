@@ -102,7 +102,7 @@ Spread `handleProps` rather than the `dragHandleProps` of the library: besides t
 
 ### Virtualization
 
-Put `ListVirtualizer` **outside** the wrapper: the wrapper reads the virtualization of the list and switches the `Droppable` to the virtual mode.
+Put `ListVirtualizer` **outside** the wrapper: the wrapper reads the virtualization of the list and switches the `Droppable` to the virtual mode. Under a `minItemsCount` it counts its `items` the way the list counts its rows, so a list below the threshold keeps the standard mode.
 
 ```tsx
 import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';

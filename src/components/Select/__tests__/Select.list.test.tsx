@@ -2,7 +2,7 @@ import userEvent from '@testing-library/user-event';
 
 import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
 import {render, screen} from '../../../../test-utils/utils';
-import {getSectionHeader, mockLayout} from '../../List/__tests__/helpers';
+import {getSectionHeader, mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
@@ -32,6 +32,8 @@ const openSelect = async (props: Parameters<typeof setup>[0] = {}, mobile?: bool
 
     return {user, trigger};
 };
+
+preloadListVirtualizer();
 
 describe('Select on the List core', () => {
     describe('aria wiring', () => {

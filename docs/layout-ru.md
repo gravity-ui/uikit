@@ -313,7 +313,7 @@ import {Container} from '@gravity-ui/uikit';
 `gutters` и `rowGap`. Все три компонента поддерживают `as`, нативные props и refs.
 Стандартный style prop `paddingInline` также поддерживается и переопределяет значения темы.
 Явно заданный `gutters` имеет приоритет над `paddingInline`.
-Удалённые spacing props описаны в [руководстве по миграции](../src/components/layout/migration-guide.md).
+Удалённые spacing props описаны в [руководстве по миграции](migration-layout-v8.md) (на английском).
 
 ## Flex
 

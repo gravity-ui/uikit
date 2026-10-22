@@ -35,6 +35,8 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
+            sheetInitialFocus,
+            sheetLabelledBy,
         },
         ref,
     ) => {
@@ -56,6 +58,8 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 open={Boolean(open)}
                 onOpenChange={handleOpenChange}
                 onTransitionOutComplete={onAfterClose}
+                initialFocus={sheetInitialFocus}
+                aria-labelledby={sheetLabelledBy}
             >
                 {children}
             </Sheet>

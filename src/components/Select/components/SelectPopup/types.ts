@@ -1,6 +1,7 @@
 import type * as React from 'react';
 
 import type {PopupPlacement} from '../../../Popup';
+import type {SheetProps} from '../../../Sheet';
 import type {SelectProps} from '../../types';
 
 export type SelectPopupProps = {
@@ -19,4 +20,8 @@ export type SelectPopupProps = {
     id?: string;
     onAfterOpen?: () => void;
     onAfterClose?: () => void;
+    /** The element the mobile sheet focuses on open: the sheet itself by default */
+    sheetInitialFocus?: SheetProps['initialFocus'];
+    /** The ids that name the mobile sheet */
+    sheetLabelledBy?: string;
 };

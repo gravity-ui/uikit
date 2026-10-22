@@ -37,7 +37,8 @@ import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
-import {useLayer} from '../utils/layer-manager';
+import {layerManager, useLayer} from '../utils/layer-manager';
+import {LayerContext, getLayerElement} from '../utils/layer-manager/LayerContext';
 
 import {PopupArrow} from './PopupArrow';
 import {FLOATING_OFFSET, OVERFLOW_PADDING, TRANSITION_DURATION} from './constants';
@@ -166,7 +167,6 @@ function PopupComponent(rawProps: PopupProps) {
         onTransitionOutComplete,
         ...restProps
     } = useDefaultProps('Popup', rawProps);
-    useLayer({open, type: 'popup', enabled: !disableLayer});
 
     const contentRef = React.useRef<HTMLDivElement>(null);
     const [arrowElement, setArrowElement] = React.useState<HTMLElement | null>(null);
@@ -211,6 +211,10 @@ function PopupComponent(rawProps: PopupProps) {
             roundByDPRMiddleware(),
         ],
     });
+
+    const getFloating = React.useCallback(() => getLayerElement(refs.floating.current), [refs]);
+    const layer = useLayer({open, type: 'popup', enabled: !disableLayer, getElement: getFloating});
+    const getLayersAbove = React.useCallback(() => layerManager.getElementsAbove(layer), [layer]);
 
     React.useEffect(() => {
         if (anchorElement !== undefined && anchorElement !== refs.reference.current) {
@@ -271,6 +275,7 @@ function PopupComponent(rawProps: PopupProps) {
                         visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : t('close')}
                         guards={modal || !disablePortal}
                         order={focusOrder}
+                        getInsideElements={getLayersAbove}
                     >
                         <div
                             ref={handleFloatingRef}
@@ -312,7 +317,9 @@ function PopupComponent(rawProps: PopupProps) {
                                         styles={middlewareData.arrowStyles}
                                     />
                                 )}
-                                {children}
+                                <LayerContext.Provider value={layer}>
+                                    {children}
+                                </LayerContext.Provider>
                             </div>
                         </div>
                     </FloatingFocusManager>

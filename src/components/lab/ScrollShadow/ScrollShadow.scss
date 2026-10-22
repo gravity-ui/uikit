@@ -2,62 +2,78 @@
 @use '../../../../styles/mixins';
 
 $block: '.#{variables.$ns}scroll-shadow';
-$root: '.#{variables.$ns}root';
-
-#{$root}_theme_light,
-#{$root}_theme_light-hc {
-    --_--scroll-shadow-default-color: var(--g-color-sfx-shadow);
-}
-
-#{$root}_theme_dark,
-#{$root}_theme_dark-hc {
-    --_--scroll-shadow-default-color: var(--g-color-base-background);
-}
 
 #{$block} {
     --_--size: var(--g-scroll-shadow-size, 24px);
-    --_--color: var(
-        --g-scroll-shadow-color,
-        var(--_--scroll-shadow-default-color, var(--g-color-sfx-shadow))
-    );
-    --_--top-color: transparent;
-    --_--right-color: transparent;
-    --_--bottom-color: transparent;
-    --_--left-color: transparent;
+    --_--top-size: 0px;
+    --_--right-size: 0px;
+    --_--bottom-size: 0px;
+    --_--left-size: 0px;
+    --_--scrollbar-width: 0px;
+    --_--scrollbar-height: 0px;
 
     overflow: auto;
-    box-shadow:
-        inset 0 var(--_--size) var(--_--size) calc(var(--_--size) * -1) var(--_--top-color),
-        inset calc(var(--_--size) * -1) 0 var(--_--size) calc(var(--_--size) * -1)
-            var(--_--right-color),
-        inset 0 calc(var(--_--size) * -1) var(--_--size) calc(var(--_--size) * -1)
-            var(--_--bottom-color),
-        inset var(--_--size) 0 var(--_--size) calc(var(--_--size) * -1) var(--_--left-color);
-    transition: box-shadow 0.15s ease-out;
+    // The first two layers keep classic scrollbar tracks opaque. The last two
+    // intersect so content fades on both axes, including opaque descendants.
+    &_top,
+    &_right,
+    &_bottom,
+    &_left {
+        mask-image:
+            linear-gradient(#000 0 0), linear-gradient(#000 0 0),
+            linear-gradient(
+                to bottom,
+                transparent,
+                #000 var(--_--top-size),
+                #000 calc(100% - var(--_--bottom-size)),
+                transparent
+            ),
+            linear-gradient(
+                to right,
+                transparent,
+                #000 var(--_--left-size),
+                #000 calc(100% - var(--_--right-size)),
+                transparent
+            );
+    }
+    mask-size:
+        var(--_--scrollbar-width) 100%,
+        100% var(--_--scrollbar-height),
+        100% 100%,
+        100% 100%;
+    mask-position:
+        right top,
+        left bottom,
+        center,
+        center;
+    mask-repeat: no-repeat;
+    mask-composite: add, add, intersect;
+
+    &:dir(rtl) {
+        mask-position:
+            left top,
+            left bottom,
+            center,
+            center;
+    }
 
     &:focus-visible {
         @include mixins.focus-outline();
     }
 
-    &[data-scroll-shadow-top] {
-        --_--top-color: var(--_--color);
+    &_top {
+        --_--top-size: var(--_--size);
     }
 
-    &[data-scroll-shadow-right] {
-        --_--right-color: var(--_--color);
+    &_right {
+        --_--right-size: var(--_--size);
     }
 
-    &[data-scroll-shadow-bottom] {
-        --_--bottom-color: var(--_--color);
+    &_bottom {
+        --_--bottom-size: var(--_--size);
     }
 
-    &[data-scroll-shadow-left] {
-        --_--left-color: var(--_--color);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    #{$block} {
-        transition: none;
+    &_left {
+        --_--left-size: var(--_--size);
     }
 }

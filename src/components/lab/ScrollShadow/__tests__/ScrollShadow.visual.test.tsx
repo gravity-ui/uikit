@@ -145,6 +145,20 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
             });
 
             await expectScreenshot({themes: ['light']});
+
+            const scroller = root.locator('[data-qa="shadow"]');
+            await scroller.evaluate((element, mode) => {
+                const node = element as HTMLDivElement;
+                node.scrollLeft =
+                    ((mode === 'vertical-rl' ? -1 : 1) * (node.scrollWidth - node.clientWidth)) / 2;
+                node.scrollTop =
+                    ((mode === 'sideways-lr' ? -1 : 1) * (node.scrollHeight - node.clientHeight)) /
+                    2;
+                node.dispatchEvent(new Event('scroll', {bubbles: true}));
+            }, writingMode);
+            for (const edge of ['top', 'right', 'bottom', 'left']) {
+                await expect(scroller).toHaveClass(new RegExp(`g-scroll-shadow_${edge}`));
+            }
         });
     }
 

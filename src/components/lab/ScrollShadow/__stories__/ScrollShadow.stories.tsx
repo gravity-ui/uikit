@@ -39,7 +39,7 @@ export const Default: Story = {
             {...args}
             className="scroll-shadow-stories__vertical"
             aria-label="Scrollable list"
-            data-qa="scroll-shadow-story"
+            qa="scroll-shadow-story"
             role="region"
         >
             <VerticalContent />

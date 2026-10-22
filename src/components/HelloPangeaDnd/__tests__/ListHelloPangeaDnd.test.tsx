@@ -6,7 +6,11 @@ import {DragDropContext} from '@hello-pangea/dnd';
 import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {Lang, configure} from '../../../utils/configure';
 import {List} from '../../List';
-import {mockLayout, mockTabbableDisplayCheck} from '../../List/__tests__/helpers';
+import {
+    mockLayout,
+    mockTabbableDisplayCheck,
+    preloadListVirtualizer,
+} from '../../List/__tests__/helpers';
 import type {ListItemContext, ListItemHelpers, ListProps} from '../../List/types';
 import {Modal} from '../../Modal';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
@@ -128,6 +132,8 @@ function Playlist(
         </ListHelloPangeaDnd>
     );
 }
+
+preloadListVirtualizer();
 
 describe('ListHelloPangeaDnd', () => {
     describe('everything by default: the wrapper and role="grid"', () => {

@@ -494,7 +494,7 @@ You can manage the popup width with the `popupWidth` property. The available val
 
 Points to note about the default behavior:
 
-- The popup width is equal to the width of the widest option, but not wider than `90vw`. This does not apply in case you use [virtualization](#virtualized-list).
+- The popup width is equal to the width of the widest option, but not wider than `90vw`. This does not apply to a [virtualized](#virtualized-list) `Select`.
 
 - Narrow options are stretched to fit the width of the control.
 
@@ -580,7 +580,34 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 </ListVirtualizer>;
 ```
 
-Things to keep in mind:
+The wrapper does not have to stand next to the `Select`: one wrapper with `minItemsCount` at the root of the app covers every `Select` below it. A `Select` of fewer options renders as if there were no wrapper — every option a DOM row, the popup as wide as the widest option. The `Select` counts all of its options, without the group headers and without the filter, so typing does not switch the list.
+
+```tsx
+import {Provider} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+<Provider theme="light">
+  <ListVirtualizer minItemsCount={50}>
+    <App />
+  </ListVirtualizer>
+</Provider>;
+```
+
+To change the settings for one `Select`, put a second wrapper right around it. It changes only what it is given and takes the rest from the one at the root: `overscan={20}` keeps the threshold, `minItemsCount={0}` virtualizes that `Select` whatever the number of its options, and `minItemsCount={Infinity}` keeps it plain.
+
+```tsx
+import {Select} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+// Under the wrapper at the root: this Select is virtualized whatever the number of its options
+<ListVirtualizer minItemsCount={0}>
+  <Select options={options} />
+</ListVirtualizer>;
+```
+
+The code of the virtualizer is a chunk of its own, and it is not loaded for the shorter `Select`s. A `Select` that is going to be virtualized starts loading it on mount; a popup opened before it arrives shows its first options until the window takes over, and scrolls to the selected one then.
+
+Things to keep in mind about a virtualized `Select`:
 
 - The popup width no longer gets adjusted to the length of the longest option.
 
@@ -588,7 +615,7 @@ Things to keep in mind:
 
 - The height of a row before it is rendered is taken from [getOptionHeight](#rendering-options-with-different-heights) and the `size` of the `Select`; the `estimateItemSize` of the wrapper is not used, since the type of an option row does not leave the `Select` — passing it writes a warning in development. The `measure` and `overscan` properties of the wrapper work as [described](https://github.com/gravity-ui/uikit/blob/main/src/components/List/README.md#virtualization) for the `List`.
 
-- On the server the virtualizer does not know the size of the viewport and produces an empty window: the options appear after hydration.
+- A popup rendered on the server gets its first options instead of the window — there is no viewport to measure it against — and the window takes over after hydration.
 
 - The wrapper covers the list of this `Select`, the one [renderPopup](#rendering-options-list) puts on the page included. A list inside a row of it, or a `Select` placed in such a row, renders every row of its own instead: the virtualization of a list does not reach what its rows draw.
 

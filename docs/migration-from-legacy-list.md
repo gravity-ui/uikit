@@ -193,7 +193,7 @@ The legacy list was driven from an external element by forwarding its `onKeyDown
 - `@gravity-ui/uikit/virtualizer` needs `@tanstack/react-virtual`, an optional peer dependency: install it next to the package. `react-window` and `react-virtualized-auto-sizer` are needed by the legacy entry point only.
 - The heights are measured. `estimateItemSize` of the wrapper — a number or a function of the row context, by the `size` of the list by default — is only the guess used before a row is rendered, so rows of different heights need no function like `itemHeight`.
 - The wrapper makes the root scroll; limiting its height is still up to you, in any way CSS allows. The legacy requirement — `itemsHeight` or a parent with `display: flex` — is gone.
-- A virtualized list is empty in server-rendered HTML: the rows appear after hydration.
+- In server-rendered HTML a virtualized list has its first rows only: the window takes over after hydration.
 
 ## Filtering
 

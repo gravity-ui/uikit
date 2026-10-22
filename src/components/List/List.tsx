@@ -10,7 +10,10 @@ import {warnOnce} from '../utils/warn';
 
 import {ListDndContext} from './DndContext';
 import {ListSectionHeader} from './SectionHeader';
-import {ListVirtualizationContext} from './VirtualizationContext';
+import {
+    LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT,
+    ListVirtualizationContext,
+} from './VirtualizationContext';
 import {composeItemProps} from './composeItemProps';
 import type {
     ListCellDOMProps,
@@ -149,8 +152,8 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         selectionMode,
         containerProps: extraContainerProps,
     } = props;
-    const virtualization = React.useContext(ListVirtualizationContext);
     const list = useList(props);
+    const {virtualization} = list;
     const renderItem = props.renderItem ?? list.dnd?.renderItem;
 
     const listRef = React.useRef(list);
@@ -213,23 +216,39 @@ function ListComponent<T>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
         ref: ref ?? undefined,
     });
 
-    const content = virtualization ? (
-        <virtualization.Root
-            containerProps={containerProps}
-            rowIds={list.visibleIds}
-            persistedIndexes={list.persistedRowIndexes}
-            renderRow={renderRow}
-            getItemSize={getItemSize}
-            measure={virtualization.measure}
-            overscan={virtualization.overscan}
-            scrollToIndexRef={list.scrollToIndexRef}
-        />
-    ) : (
-        <div {...containerProps}>
-            {list.visibleIds.map((id) => renderRow(id))}
-            {list.dnd?.placeholder}
-        </div>
-    );
+    let content: React.ReactNode;
+    if (virtualization) {
+        // The first rows while the window loads and on the server, scrolling like the window
+        const fallback = (
+            <div {...containerProps} style={{...containerProps.style, overflow: 'auto'}}>
+                {list.visibleIds
+                    .slice(0, LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT)
+                    .map((id) => renderRow(id))}
+            </div>
+        );
+        content = (
+            <React.Suspense fallback={fallback}>
+                <virtualization.Root
+                    containerProps={containerProps}
+                    fallback={fallback}
+                    rowIds={list.visibleIds}
+                    persistedIndexes={list.persistedRowIndexes}
+                    renderRow={renderRow}
+                    getItemSize={getItemSize}
+                    measure={virtualization.measure}
+                    overscan={virtualization.overscan}
+                    setScrollToIndex={list.setScrollToIndex}
+                />
+            </React.Suspense>
+        );
+    } else {
+        content = (
+            <div {...containerProps}>
+                {list.visibleIds.map((id) => renderRow(id))}
+                {list.dnd?.placeholder}
+            </div>
+        );
+    }
 
     // The virtualization and the dnd adapter of this list are its own: a list (or a Select)
     // rendered inside a row must not inherit them — the wrapper of the outer list knows nothing of

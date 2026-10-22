@@ -6,8 +6,8 @@ import {eventBroker} from '../utils/event-broker';
 import {warnOnce} from '../utils/warn';
 
 import {ListDndContext} from './DndContext';
-import {ListVirtualizationContext} from './VirtualizationContext';
-import type {ListScrollToIndex} from './VirtualizationContext';
+import {useListVirtualization} from './VirtualizationContext';
+import type {ListScrollToIndex, ListVirtualizationContextValue} from './VirtualizationContext';
 import {navigateCells} from './cellNavigation';
 import {composeItemProps} from './composeItemProps';
 import {
@@ -56,25 +56,27 @@ type ListActivationOrigin = 'keyboard' | 'pointer' | 'focus';
 
 /** The list core (internal) */
 export interface ListInstance<T> {
-    getContainerProps(overrides?: ListPropsOverrides): ListContainerDOMProps;
-    visibleIds: string[];
-    getItemContext(id: string): ListItemContext<T>;
-    getItemProps(id: string, overrides?: ListPropsOverrides): ListItemDOMProps;
+    /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
+    dnd: ListDndAdapter<T> | null;
+    /** draggingId or dropTarget present */
+    dragActive: boolean;
     getCellProps(overrides?: ListPropsOverrides): ListCellDOMProps;
-    role: ListRole;
+    getContainerProps(overrides?: ListPropsOverrides): ListContainerDOMProps;
+    getItemContext(id: string): ListItemContext<T>;
+    /** Everything getItemProps depends on that is not in ctx */
+    getItemMemoKey(id: string): string;
+    getItemProps(id: string, overrides?: ListPropsOverrides): ListItemDOMProps;
     /**
      * Rows the virtualizer must keep mounted: the tab stop (focus/Tab order) and section
      * headers (aria-describedby targets)
      */
     persistedRowIndexes: readonly number[];
-    /** Everything getItemProps depends on that is not in ctx */
-    getItemMemoKey(id: string): string;
-    /** draggingId or dropTarget present */
-    dragActive: boolean;
-    /** The dnd adapter in effect: the `dnd` prop or, without it, the one of ListDndContext */
-    dnd: ListDndAdapter<T> | null;
-    /** For the root of the virtualization layer to fill, see ListVirtualizedRootProps */
-    scrollToIndexRef: React.MutableRefObject<ListScrollToIndex | null>;
+    role: ListRole;
+    /** For the root of the virtualization layer to call, see ListVirtualizedRootProps */
+    setScrollToIndex: (scrollToIndex: ListScrollToIndex | null) => void;
+    /** The layer this list renders through, or null: see useListVirtualization */
+    virtualization: ListVirtualizationContextValue | null;
+    visibleIds: string[];
 }
 
 const NAVIGATION_COMMANDS: Record<string, ListNavigationCommand> = {
@@ -111,8 +113,6 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     // Cell navigation is roving-only: in activedescendant the arrows belong to the input
     const cellNavigation = role === 'grid' && focusStrategy === 'roving';
     const direction = useDirection();
-
-    const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
     const dndFromContext = React.useContext(ListDndContext);
     if (props.dnd && dndFromContext && props.dnd !== dndFromContext) {
@@ -211,6 +211,10 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             getItemTextValue,
         ],
     );
+
+    // By the rows, section headers included
+    const virtualization = useListVirtualization(rows.length);
+    const virtualized = virtualization !== null;
 
     const {selectedSet, toggleSelection, extendSelection, selectAllOptions} = useListSelection<T>(
         props,
@@ -321,6 +325,19 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
             activeInViewRef.current = true;
         },
         [registry],
+    );
+
+    // A window mounted in place of rows on screen (the first rows, a hydrated page, a crossed
+    // threshold) starts at the top: the active row the list kept in view is brought back into it
+    const setScrollToIndex = React.useCallback(
+        (scrollToIndex: ListScrollToIndex | null) => {
+            scrollToIndexRef.current = scrollToIndex;
+            const activeId = latestRef.current.effectiveActiveId;
+            if (scrollToIndex && activeId !== undefined && activeInViewRef.current) {
+                scrollToRow(activeId, {gesture: false});
+            }
+        },
+        [scrollToRow],
     );
 
     const syncedActiveIdRef = React.useRef<string | undefined>(undefined);
@@ -903,16 +920,17 @@ export function useList<T>(props: ListProps<T>): ListInstance<T> {
     const visibleIds = React.useMemo(() => rows.map((row) => row.id), [rows]);
 
     return {
-        getContainerProps,
-        visibleIds,
-        getItemContext,
-        getItemProps,
-        getCellProps,
-        role,
-        persistedRowIndexes,
-        getItemMemoKey,
-        dragActive,
         dnd,
-        scrollToIndexRef,
+        dragActive,
+        getCellProps,
+        getContainerProps,
+        getItemContext,
+        getItemMemoKey,
+        getItemProps,
+        persistedRowIndexes,
+        role,
+        setScrollToIndex,
+        virtualization,
+        visibleIds,
     };
 }

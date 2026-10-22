@@ -6,7 +6,7 @@ import {KeyCode} from '../../constants';
 import {useControlledState, useFocusWithin, useForkRef, useUniqId} from '../../hooks';
 import {useOpenState} from '../../hooks/useSelect/useOpenState';
 import {useListFocusOwner} from '../List';
-import {ListVirtualizationContext} from '../List/VirtualizationContext';
+import {useListVirtualization} from '../List/VirtualizationContext';
 import {OuterAdditionalContent} from '../controls/common/OuterAdditionalContent/OuterAdditionalContent';
 import {useMobile} from '../mobile';
 import {useDefaultProps} from '../theme/useDefaultProps';
@@ -128,10 +128,6 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
     // One owner for two elements: the trigger and the filter input. The list is mounted only while
     // the popup is open, so the owner is connected exactly then
     const focusOwner = useListFocusOwner();
-    // Virtualization is opt-in from the outside: <ListVirtualizer> around the Select. The context
-    // reaches the list through the portal of the popup; the Select needs to know about it for the
-    // width of the popup and for the modifier of the list
-    const virtualized = React.useContext(ListVirtualizationContext) !== null;
 
     const [value, setValueState] = useControlledState(propsValue, defaultValue, onUpdate);
     const getKey = React.useCallback(
@@ -165,6 +161,23 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         getOptionText,
     });
     const filteredOptions = getSelectFilteredOptions(options) as FlattenOption[];
+
+    // Options without the group headers and without the filter: typing does not switch the list
+    const optionsCount = React.useMemo(
+        () =>
+            (options as FlattenOption[]).reduce(
+                (count, option) => count + (isSelectGroupTitle(option) ? 0 : 1),
+                0,
+            ),
+        [options],
+    );
+    const virtualization = useListVirtualization(optionsCount);
+    const virtualized = virtualization !== null;
+
+    React.useEffect(() => {
+        virtualization?.preload();
+    }, [virtualization]);
+
     // Which group an option came from: flattening loses the boundary, filtering keeps the objects
     const groupOfOption = getGroupOfOption(options);
     const groupsWithOptions = getGroupsWithOptions(options);
@@ -225,21 +238,13 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
         );
     }
 
-    // Group headers are rows of the list but not options — the hint is about the options
-    const optionsCount = React.useMemo(
-        () =>
-            process.env.NODE_ENV === 'production'
-                ? 0
-                : filteredOptions.reduce(
-                      (count, option) => count + (isSelectGroupTitle(option) ? 0 : 1),
-                      0,
-                  ),
-        [filteredOptions],
-    );
-
-    if (!virtualized && optionsCount > VIRTUALIZATION_HINT_OPTIONS_COUNT) {
+    if (
+        process.env.NODE_ENV !== 'production' &&
+        !virtualized &&
+        optionsCount > VIRTUALIZATION_HINT_OPTIONS_COUNT
+    ) {
         warnOnce(
-            `[Select] The list renders ${VIRTUALIZATION_HINT_OPTIONS_COUNT}+ options as DOM rows at once. Wrap the Select in <ListVirtualizer> from '@gravity-ui/uikit/virtualizer' to render only the visible ones.`,
+            `[Select] The list renders ${VIRTUALIZATION_HINT_OPTIONS_COUNT}+ options as DOM rows at once. Wrap the Select in <ListVirtualizer> from '@gravity-ui/uikit/virtualizer' (or lower the \`minItemsCount\` of the one above it) to render only the visible ones.`,
         );
     }
 
@@ -356,7 +361,7 @@ export const Select = React.forwardRef<HTMLButtonElement, InnerSelectProps>(func
                     groupOfOption={groupOfOption}
                     groupsWithOptions={groupsWithOptions}
                     multiple={multiple}
-                    virtualized={virtualized}
+                    virtualization={virtualization}
                     onSelectedUpdate={handleSelectedUpdate}
                     onOptionAction={handleOptionAction}
                     renderOption={renderOption}

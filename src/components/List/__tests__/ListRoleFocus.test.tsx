@@ -15,6 +15,7 @@ import {
     getSectionHeader,
     mockLayout,
     mockTabbableDisplayCheck,
+    preloadListVirtualizer,
 } from './helpers';
 
 mockTabbableDisplayCheck();
@@ -62,6 +63,8 @@ function TriggerHarness({
         </React.Fragment>
     );
 }
+
+preloadListVirtualizer();
 
 describe('List: role model x focus strategy', () => {
     describe('axes matrix: container and row semantics', () => {

@@ -9,7 +9,7 @@ import type {VirtualizerApi} from '../../Virtualizer/Virtualizer';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
-import {GROUPS, getSectionHeader, mockLayout, scrollTo} from './helpers';
+import {GROUPS, getSectionHeader, mockLayout, preloadListVirtualizer, scrollTo} from './helpers';
 
 const VIEWPORT_HEIGHT = 400;
 const ROW_HEIGHT = 36;
@@ -35,6 +35,8 @@ function VirtualizedList(listProps: Partial<ListProps<string>>) {
 function renderVirtualized(listProps?: Partial<ListProps<string>>) {
     return render(<VirtualizedList {...listProps} />);
 }
+
+preloadListVirtualizer();
 
 describe('List: virtualization layer', () => {
     describe('windowing', () => {

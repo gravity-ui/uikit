@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as tabbable from 'tabbable';
 
 import {fireEvent, screen} from '../../../../test-utils/utils';
+import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
 import {List} from '../List';
 import type {ListItemContext, ListItemViewStateProps, ListProps} from '../types';
 import {useListFocusOwner} from '../useListFocusOwner';
@@ -58,6 +59,14 @@ export function mockTabbableDisplayCheck() {
         focusableSpy.mockRestore();
         tabbableSpy.mockRestore();
     });
+}
+
+/**
+ * The window of ListVirtualizer is a chunk of its own: loaded up front, the lists of the tests mount
+ * it at once instead of their first rows
+ */
+export function preloadListVirtualizer() {
+    beforeAll(() => loadVirtualizedListRoot());
 }
 
 /**

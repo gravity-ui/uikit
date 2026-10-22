@@ -85,6 +85,15 @@ const config: StorybookConfig = {
         // A dedicated `?raw` rule → the raw text of the module (after the
         // exclusion above babel no longer touches such imports)
         rules.unshift({resourceQuery: RAW_QUERY, type: 'asset/source'});
+        // A relative `.js` names the TypeScript source, as it does for tsc: a dynamic import has
+        // to carry the extension under `nodenext` (the lazy root of ListVirtualizer)
+        webpackConfig.resolve = {
+            ...webpackConfig.resolve,
+            extensionAlias: {
+                ...webpackConfig.resolve?.extensionAlias,
+                '.js': ['.tsx', '.ts', '.js'],
+            },
+        };
         return webpackConfig;
     },
 };

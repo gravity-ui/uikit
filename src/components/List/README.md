@@ -599,10 +599,21 @@ The wrapper covers one list: a list rendered inside a row of a virtualized list 
 its own, in flow. The same holds for a component with a list inside it — a `Select`, say — whatever
 row it is placed in.
 
+`minItemsCount` makes the wrapper a threshold: a list of fewer rows, section headers included,
+renders as if there were no wrapper — every row in the DOM and no virtualization ARIA. That is what
+lets a single wrapper stand at the root of the app and virtualize only the long lists. A list whose
+rows cross the threshold switches its mode and keeps the active row and the selection. A wrapper
+inside another one changes only the props it is given and takes the rest from the one above:
+`minItemsCount={0}` around one list virtualizes it whatever its size, `minItemsCount={Infinity}`
+keeps it plain.
+
+The code of the window is a chunk of its own, loaded when the first list that needs it renders.
+Until it arrives, the list shows its first rows in the same root, so the page is not left empty.
+
 > [!NOTE]
-> A virtualized list is empty in server-rendered HTML: there is no viewport to measure against, so
-> the rows appear only after hydration. Leave the list unvirtualized when its content has to be in
-> the markup itself.
+> In server-rendered HTML a virtualized list has its first rows: there is no viewport to measure the
+> window against, so the window takes over after hydration. The rest of the rows are not in the
+> markup — leave the list unvirtualized when all of its content has to be there.
 
 ```tsx
 import {List} from '@gravity-ui/uikit';
@@ -1017,12 +1028,15 @@ attribute is present or absent rather than set to `"false"`.
 The wrapper of the [virtualization](#virtualization) layer, imported from
 `@gravity-ui/uikit/virtualizer` (it needs `@tanstack/react-virtual` as an optional peer dependency).
 
-| Name             | Description                                                                                      |            Type             |          Default          |
-| :--------------- | :----------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
-| children         | The `<List>` inside                                                                              |         `ReactNode`         |                           |
-| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context | `number \| (ctx) => number` | by the `size` of the list |
-| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)      |          `boolean`          |          `true`           |
-| overscan         | The buffer of rows outside of the visible window                                                 |          `number`           |            `5`            |
+| Name             | Description                                                                                                                               |            Type             |          Default          |
+| :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------: | :-----------------------: |
+| children         | The `<List>` inside                                                                                                                       |         `ReactNode`         |                           |
+| estimateItemSize | The height estimate of a row before it is rendered — a constant or a function of the row context                                          | `number \| (ctx) => number` | by the `size` of the list |
+| measure          | Measure the actual heights of the rows after mount (rows of variable height out of the box)                                               |          `boolean`          |          `true`           |
+| minItemsCount    | A list of fewer rows renders as if there were no wrapper; a `Select` counts its options, without the group headers and without the filter |          `number`           |            `0`            |
+| overscan         | The buffer of rows outside of the visible window                                                                                          |          `number`           |            `5`            |
+
+A wrapper inside another one takes the props it is not given from the one above: the defaults in the table are those of the outermost wrapper.
 
 ### ListDndAdapter
 

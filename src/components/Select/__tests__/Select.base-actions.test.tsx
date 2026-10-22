@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
 import {act, cleanup, render, screen} from '../../../../test-utils/utils';
-import {mockLayout} from '../../List/__tests__/helpers';
+import {mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {TYPEAHEAD_TIMEOUT} from '../../List/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {MobileProvider} from '../../mobile';
@@ -28,6 +28,8 @@ const toggleSelectPopup = async () => {
     const selectControl = screen.getByTestId(TEST_QA);
     await user.click(selectControl);
 };
+
+preloadListVirtualizer();
 
 describe('Select base actions', () => {
     describe('open popup by', () => {

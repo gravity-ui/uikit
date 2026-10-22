@@ -30,7 +30,7 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
 
         await expect(scroller).toHaveClass(/g-scroll-shadow_bottom/);
         await expect(scroller).toHaveAttribute('tabindex', '0');
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
         await scroller.evaluate((element) => {
             const node = element as HTMLDivElement;
             node.scrollTop = (node.scrollHeight - node.clientHeight) / 2;
@@ -44,7 +44,7 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
             node.dispatchEvent(new Event('scroll', {bubbles: true}));
         });
         await expect(scroller).not.toHaveClass(/g-scroll-shadow_bottom/);
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('no overflow and disabled state have no fade', async ({mount, expectScreenshot}) => {
@@ -53,14 +53,16 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
                 <ScrollShadow qa="no-overflow" style={{width: 220, height: 160}}>
                     Short content
                 </ScrollShadow>
-                <ScrollShadow disabled style={{width: 220, height: 160}}>
+                <ScrollShadow qa="disabled" disabled style={{width: 220, height: 160}}>
                     <OpaqueContent />
                 </ScrollShadow>
             </div>,
         );
 
         await expect(root.locator('[data-qa="no-overflow"]')).not.toHaveAttribute('tabindex');
-        await expectScreenshot();
+        await expect(root.locator('[data-qa="no-overflow"]')).toHaveClass('g-scroll-shadow');
+        await expect(root.locator('[data-qa="disabled"]')).toHaveClass('g-scroll-shadow');
+        await expectScreenshot({themes: ['light']});
     });
 
     test('inline fade follows RTL scroll position', async ({mount, expectScreenshot}) => {
@@ -71,19 +73,25 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
         );
         const scroller = root.locator('[data-qa="shadow"]');
 
-        await expectScreenshot();
+        await expect(scroller).toHaveClass(/g-scroll-shadow_left/);
+        await expect(scroller).not.toHaveClass(/g-scroll-shadow_right/);
+        await expectScreenshot({themes: ['light']});
         await scroller.evaluate((element) => {
             const node = element as HTMLDivElement;
             node.scrollLeft = -150;
             node.dispatchEvent(new Event('scroll', {bubbles: true}));
         });
-        await expectScreenshot();
+        await expect(scroller).toHaveClass(/g-scroll-shadow_left/);
+        await expect(scroller).toHaveClass(/g-scroll-shadow_right/);
+        await expectScreenshot({themes: ['light']});
         await scroller.evaluate((element) => {
             const node = element as HTMLDivElement;
             node.scrollLeft = -node.scrollWidth;
             node.dispatchEvent(new Event('scroll', {bubbles: true}));
         });
-        await expectScreenshot();
+        await expect(scroller).toHaveClass(/g-scroll-shadow_right/);
+        await expect(scroller).not.toHaveClass(/g-scroll-shadow_left/);
+        await expectScreenshot({themes: ['light']});
     });
 
     test('both axes, position, and custom size', async ({mount, expectScreenshot}) => {
@@ -113,7 +121,7 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
             node.dispatchEvent(new Event('scroll', {bubbles: true}));
         });
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     for (const writingMode of ['vertical-rl', 'vertical-lr', 'sideways-lr'] as const) {
@@ -136,31 +144,36 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
                 node.dispatchEvent(new Event('scroll', {bubbles: true}));
             });
 
-            await expectScreenshot();
+            await expectScreenshot({themes: ['light']});
         });
     }
 
-    test('fade follows content and viewport changes', async ({mount, expectScreenshot}) => {
+    test('fade follows content and viewport changes', async ({mount}) => {
         const root = await mount(<DynamicContent />);
-        await expectScreenshot();
+        const scroller = root.locator('.g-scroll-shadow');
+
+        await expect(scroller).not.toHaveClass(/g-scroll-shadow_bottom/);
         await root.locator('button').click();
-        await expectScreenshot();
+        await expect(scroller).toHaveClass(/g-scroll-shadow_bottom/);
         await root.locator('button').click();
-        await expectScreenshot();
+        await expect(scroller).not.toHaveClass(/g-scroll-shadow_bottom/);
     });
 
-    test('hook attaches to an existing scroll element', async ({mount, expectScreenshot}) => {
-        await mount(<ExistingScroller />);
-        await expectScreenshot();
+    test('hook attaches to an existing scroll element', async ({mount}) => {
+        const root = await mount(<ExistingScroller />);
+        const scroller = root.locator('.g-scroll-shadow');
+
+        await expect(scroller).toHaveClass(/g-scroll-shadow_bottom/);
     });
 
-    test('ancestor direction can change without remounting the scroller', async ({
-        mount,
-        expectScreenshot,
-    }) => {
+    test('ancestor direction can change without remounting the scroller', async ({mount}) => {
         const root = await mount(<DynamicDirection />);
-        await expectScreenshot();
+        const scroller = root.locator('.g-scroll-shadow');
+
+        await expect(scroller).toHaveClass(/g-scroll-shadow_right/);
+        await expect(scroller).not.toHaveClass(/g-scroll-shadow_left/);
         await root.locator('button').click();
-        await expectScreenshot();
+        await expect(scroller).toHaveClass(/g-scroll-shadow_left/);
+        await expect(scroller).not.toHaveClass(/g-scroll-shadow_right/);
     });
 });

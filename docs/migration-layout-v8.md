@@ -222,7 +222,7 @@ After migration, run TypeScript and visual tests. TypeScript does not catch ever
 
 `Row` now uses CSS Grid with 12 equal tracks and native CSS gaps instead of negative margins and generated column padding. All three components accept `Box` style props, `as`, native element props, and refs. Explicit column sizing through `size` still supports responsive objects and tuples. Each unsized `Col` now spans all 12 tracks on its own row instead of sharing remaining space. Use explicit sizes to share a row, or use `Flex` for flexible widths. `Col` takes its width from the tracks of `Row`: outside a `Row` its `size` no longer sets a percentage width. The deprecated `Col` props `s`, `m`, `l`, `xl`, and `xxl` have been removed. Move them into `size`.
 
-If you used the previous default breakpoint mode without `fixBreakpoints`, move the former `s` value to `xs` so it also applies below 576px; see [Layout breakpoints and container gutters](../../../docs/migration-to-v8.md#layout-breakpoints-and-container-gutters):
+If you used the previous default breakpoint mode without `fixBreakpoints`, move the former `s` value to `xs` so it also applies below 576px; see [Layout breakpoints and container gutters](migration-to-v8.md#layout-breakpoints-and-container-gutters):
 
 ```diff
 - <Col s={12} m={6} l={4} />

@@ -51,7 +51,9 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
     id?: string;
     /** Title of the sheet window */
-    title?: string;
+    title?: React.ReactNode;
+    /** Keeps the title visible while scrolling if it fits within the visible content area */
+    stickyTitle?: boolean;
     /** Class name for the sheet window */
     className?: string;
     /** Class name for the sheet content */
@@ -82,6 +84,7 @@ function SheetComponent(rawProps: SheetProps) {
         disableOutsideClick,
         id,
         title,
+        stickyTitle,
         className,
         contentClassName,
         swipeAreaClassName,
@@ -161,6 +164,7 @@ function SheetComponent(rawProps: SheetProps) {
                             contentClassName={contentClassName}
                             swipeAreaClassName={swipeAreaClassName}
                             title={title}
+                            stickyTitle={stickyTitle}
                             presenceStatus={status}
                             allowHideOnContentScroll={allowHideOnContentScroll}
                             hideTopBar={hideTopBar}

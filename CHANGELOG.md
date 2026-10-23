@@ -1,5 +1,18 @@
 # Changelog
 
+## [8.0.0](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.2...v8.0.0) (2026-10-23)
+
+
+### chore
+
+* release 8.0.0 ([9689b2c](https://github.com/gravity-ui/uikit/commit/9689b2c730a4590e77797a9bcb50fe4ed4a6e120))
+
+
+### Features
+
+* **ListVirtualizer:** load the window lazily and add minItemsCount ([#2915](https://github.com/gravity-ui/uikit/issues/2915)) ([41b882d](https://github.com/gravity-ui/uikit/commit/41b882dc0b48753fb2f232dfb2f416ba1208938c))
+* **Skeleton:** add --g-skeleton-background-color CSS variable ([#2912](https://github.com/gravity-ui/uikit/issues/2912)) ([8846996](https://github.com/gravity-ui/uikit/commit/88469963ac14528aad8295c4dbb141cc32464aa3))
+
 ## [7.51.1](https://github.com/gravity-ui/uikit/compare/v7.51.0...v7.51.1) (2026-10-15)
 
 

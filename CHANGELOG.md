@@ -3,15 +3,18 @@
 ## [8.0.0](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.2...v8.0.0) (2026-10-23)
 
 
-### chore
+UIKit v8 introduces composable providers, a new list foundation, responsive layout APIs, and updated themes. This major release also removes deprecated APIs and moves older components to the legacy entry point.
 
-* release 8.0.0 ([9689b2c](https://github.com/gravity-ui/uikit/commit/9689b2c730a4590e77797a9bcb50fe4ed4a6e120))
+### Highlights
 
+- **Composable providers:** `Provider` combines theme, language, layout, component defaults, and mobile settings. Feature providers let you configure each independently.
+- **New List and stable Menu:** selection, virtualization, and drag-and-drop are separate list layers. `Menu` supports composable items and submenus.
+- **Responsive layouts:** new `Grid` and responsive style props for `Box`, `Flex`, `Container`, `Row`, and `Col`.
+- **Stable APIs:** `ColorPicker`, `FileDropZone`, and `useDropZone` move to the root entry point.
+- **More flexible Select:** non-string option values, custom selection indicators, mobile sheet titles, and rendering the whole selection with `renderSelectedOptions`.
+- **Contrast palettes:** `Button` gains `contrast`, `contrast-inverted`, `contrast-light`, and `contrast-dark` views, backed by Themer v2 semantic tokens.
 
-### Features
-
-* **ListVirtualizer:** load the window lazily and add minItemsCount ([#2915](https://github.com/gravity-ui/uikit/issues/2915)) ([41b882d](https://github.com/gravity-ui/uikit/commit/41b882dc0b48753fb2f232dfb2f416ba1208938c))
-* **Skeleton:** add --g-skeleton-background-color CSS variable ([#2912](https://github.com/gravity-ui/uikit/issues/2912)) ([8846996](https://github.com/gravity-ui/uikit/commit/88469963ac14528aad8295c4dbb141cc32464aa3))
+See full migration guide here: https://github.com/gravity-ui/uikit/blob/main/docs/migration-to-v8.md
 
 ## [7.51.1](https://github.com/gravity-ui/uikit/compare/v7.51.0...v7.51.1) (2026-10-15)
 

@@ -1,5 +1,21 @@
 # Changelog
 
+## [8.0.0](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.2...v8.0.0) (2026-10-23)
+
+
+UIKit v8 introduces composable providers, a new list foundation, responsive layout APIs, and updated themes. This major release also removes deprecated APIs and moves older components to the legacy entry point.
+
+### Highlights
+
+- **Composable providers:** `Provider` combines theme, language, layout, component defaults, and mobile settings. Feature providers let you configure each independently.
+- **New List and stable Menu:** selection, virtualization, and drag-and-drop are separate list layers. `Menu` supports composable items and submenus.
+- **Responsive layouts:** new `Grid` and responsive style props for `Box`, `Flex`, `Container`, `Row`, and `Col`.
+- **Stable APIs:** `ColorPicker`, `FileDropZone`, and `useDropZone` move to the root entry point.
+- **More flexible Select:** non-string option values, custom selection indicators, mobile sheet titles, and rendering the whole selection with `renderSelectedOptions`.
+- **Contrast palettes:** `Button` gains `contrast`, `contrast-inverted`, `contrast-light`, and `contrast-dark` views, backed by Themer v2 semantic tokens.
+
+See full migration guide here: https://github.com/gravity-ui/uikit/blob/main/docs/migration-to-v8.md
+
 ## [7.51.1](https://github.com/gravity-ui/uikit/compare/v7.51.0...v7.51.1) (2026-10-15)
 
 

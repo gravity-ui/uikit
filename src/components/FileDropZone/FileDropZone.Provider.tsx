@@ -82,22 +82,6 @@ export const FileDropZoneProvider = ({
         [onUpdate, onUpdateAccepted, onUpdateRejected],
     );
 
-    const getFilesFromItems = React.useCallback((items: DataTransferItem[]): File[] => {
-        const files: File[] = [];
-
-        for (const item of items) {
-            const file = item.getAsFile();
-
-            if (!file) {
-                continue;
-            }
-
-            files.push(file);
-        }
-
-        return files;
-    }, []);
-
     const handleDragEnter = React.useCallback(
         (event: DragEvent) => {
             const dataTransfer = event.dataTransfer;
@@ -122,18 +106,18 @@ export const FileDropZoneProvider = ({
 
             setIsInvalidDrag(false);
 
-            if (!dataTransfer?.items) {
+            if (!dataTransfer?.files) {
                 return;
             }
 
-            const files = getFilesFromItems(Array.from(dataTransfer.items));
+            const files = Array.from(dataTransfer.files);
             const {accepted, rejected} = getSeparatedFiles(files, {accept, multiple});
 
             if (accepted.length > 0 || rejected.length > 0) {
                 handleUpdate(accepted, rejected);
             }
         },
-        [accept, getFilesFromItems, handleUpdate, multiple],
+        [accept, handleUpdate, multiple],
     );
 
     const {isDraggingOver, getDroppableProps} = useDropZone({

@@ -1,3 +1,5 @@
+import type {DropZoneFileRejection} from './types';
+
 export const FILE_REJECTION_REASONS = {
     INVALID_TYPE: 'invalid-type',
     TOO_MANY_FILES: 'too-many-files',
@@ -124,7 +126,7 @@ export function getSeparatedItems(
 export function getSeparatedFiles(
     files: File[],
     options: ValidateOptions,
-): {accepted: File[]; rejected: Array<{file: File; reasons: FileRejectionReason[]}>} {
+): {accepted: File[]; rejected: DropZoneFileRejection[]} {
     const {accepted, rejected} = separateByValidation(
         files,
         (file) => ({type: file.type, name: file.name}),

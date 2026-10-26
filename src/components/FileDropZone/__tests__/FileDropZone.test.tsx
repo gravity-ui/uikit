@@ -319,6 +319,26 @@ describe('FileDropZone', () => {
             ]);
         });
 
+        test('ignores string items on drop in single-file mode', () => {
+            const onUpdate = jest.fn();
+            render(<FileDropZone accept={[]} onUpdate={onUpdate} qa="drop-zone" />);
+            const file = createFile('a.png', 'image/png');
+
+            fireEvent.drop(screen.getByTestId('drop-zone'), {
+                dataTransfer: {
+                    items: [
+                        {kind: 'string', type: 'text/uri-list', getAsFile: () => null},
+                        {kind: 'file', type: file.type, getAsFile: () => file},
+                    ],
+                    files: [file],
+                    dropEffect: 'none',
+                },
+            });
+
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
+        });
+
         test('accepts dropped file without MIME type by extension', () => {
             const onUpdate = jest.fn();
             render(<FileDropZone accept={['.csv']} onUpdate={onUpdate} qa="drop-zone" />);

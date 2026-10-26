@@ -132,12 +132,6 @@ class LayerManager {
             .filter((element): element is Element => Boolean(element));
     }
 
-    hasLayersAbove(config: LayerConfig) {
-        const index = this.stack.indexOf(config);
-
-        return index !== -1 && index < this.stack.length - 1;
-    }
-
     private addListeners() {
         document.addEventListener('keydown', this.handleDocumentKeyDown);
         document.addEventListener('click', this.handleDocumentClick, true);

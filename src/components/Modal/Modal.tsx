@@ -115,8 +115,9 @@ function ModalComponent(rawProps: ModalProps) {
     const hasScroll = mobile || contentOverflow === 'auto';
 
     const [isVisible, setIsVisible] = React.useState(false);
-    // A layer opened above while the modal was appearing, e.g. a sheet opened along with it, keeps the focus
-    const [hasLayersAboveOnOpen, setHasLayersAboveOnOpen] = React.useState(false);
+    // A layer above that holds the focus once the modal has appeared, e.g. a sheet opened along
+    // with it, keeps it. A layer that does not take the focus, such as a hint Popup, does not count
+    const [focusInLayerAbove, setFocusInLayerAbove] = React.useState(false);
 
     const floatingNodeId = useFloatingNodeId();
 
@@ -136,13 +137,17 @@ function ModalComponent(rawProps: ModalProps) {
 
     const handleTransitionInComplete = React.useCallback(() => {
         setIsVisible(true);
-        setHasLayersAboveOnOpen(layerManager.hasLayersAbove(layer));
+        setFocusInLayerAbove(
+            layerManager
+                .getElementsAbove(layer)
+                .some((element) => element.contains(document.activeElement)),
+        );
         onTransitionInComplete?.();
     }, [layer, onTransitionInComplete]);
 
     const handleTransitionOutComplete = React.useCallback(() => {
         setIsVisible(false);
-        setHasLayersAboveOnOpen(false);
+        setFocusInLayerAbove(false);
         onTransitionOutComplete?.();
     }, [onTransitionOutComplete]);
 
@@ -205,9 +210,7 @@ function ModalComponent(rawProps: ModalProps) {
                             context={context}
                             disabled={!isMounted || !isVisible}
                             modal={isMounted}
-                            initialFocus={
-                                hasLayersAboveOnOpen ? -1 : (initialFocus ?? refs.floating)
-                            }
+                            initialFocus={focusInLayerAbove ? -1 : (initialFocus ?? refs.floating)}
                             returnFocus={returnFocus}
                             getInsideElements={getLayersAbove}
                             visuallyHiddenDismiss={

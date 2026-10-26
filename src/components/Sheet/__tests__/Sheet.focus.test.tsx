@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Lang, configure} from '../../../utils/configure';
+import {Dialog} from '../../Dialog';
 import {Drawer} from '../../Drawer';
 import {Modal} from '../../Modal';
 import {Popup} from '../../Popup';
@@ -33,6 +34,25 @@ function PopupInSheet({onOpenChange}: {onOpenChange: (reason?: string) => void})
             >
                 <button>Popup action</button>
             </Popup>
+        </React.Fragment>
+    );
+}
+
+function DialogWithPopup({onTransitionInComplete}: {onTransitionInComplete: () => void}) {
+    const [open, setOpen] = React.useState(false);
+    const [anchor, setAnchor] = React.useState<HTMLButtonElement | null>(null);
+
+    return (
+        <React.Fragment>
+            <button onClick={() => setOpen(true)}>Open dialog</button>
+            <Dialog open={open} aria-label="Dialog" onTransitionInComplete={onTransitionInComplete}>
+                <Dialog.Body>
+                    <button ref={setAnchor}>Anchor</button>
+                    <Popup open={open} anchorElement={anchor}>
+                        Hint
+                    </Popup>
+                </Dialog.Body>
+            </Dialog>
         </React.Fragment>
     );
 }
@@ -330,6 +350,18 @@ describe('Sheet focus management', () => {
             expect(screen.queryByRole('dialog', {name})).not.toBeInTheDocument();
         },
     );
+
+    test('a Dialog with an open Popup inside focuses the dialog', async () => {
+        const onTransitionInComplete = jest.fn();
+        const user = userEvent.setup();
+        render(<DialogWithPopup onTransitionInComplete={onTransitionInComplete} />);
+
+        // The Popup is a layer above the dialog, but it does not take the focus
+        await click(user, 'Open dialog');
+        await waitFor(() => expect(onTransitionInComplete).toHaveBeenCalled());
+
+        await waitFor(() => expect(screen.getByRole('dialog', {name: 'Dialog'})).toHaveFocus());
+    });
 
     describe('inside a Modal', () => {
         test('dismisses only the sheet when Escape reaches the document from outside of it', async () => {

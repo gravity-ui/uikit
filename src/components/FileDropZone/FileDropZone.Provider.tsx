@@ -6,8 +6,8 @@ import {useDropZone} from '../../hooks/useDropZone';
 import type {UseDropZoneStateWithoutRef} from '../../hooks/useDropZone';
 
 import type {DropZoneFileRejection, FileDropZoneProps} from './types';
-import {getSeparatedItems} from './utils';
-import type {FileDropZoneAccept, FileRejection} from './utils';
+import {getSeparatedFiles, getSeparatedItems} from './utils';
+import type {FileDropZoneAccept} from './utils';
 
 interface FileDropZoneContextValue
     extends Pick<
@@ -98,26 +98,6 @@ export const FileDropZoneProvider = ({
         return files;
     }, []);
 
-    const getFileRejections = React.useCallback(
-        (items: FileRejection[]): DropZoneFileRejection[] => {
-            const fileRejections: DropZoneFileRejection[] = [];
-
-            for (const rejectionObject of items) {
-                const {item, reasons} = rejectionObject;
-                const file = item.getAsFile();
-
-                if (!file) {
-                    continue;
-                }
-
-                fileRejections.push({file, reasons});
-            }
-
-            return fileRejections;
-        },
-        [],
-    );
-
     const handleDragEnter = React.useCallback(
         (event: DragEvent) => {
             const dataTransfer = event.dataTransfer;
@@ -146,18 +126,14 @@ export const FileDropZoneProvider = ({
                 return;
             }
 
-            const {accepted, rejected} = getSeparatedItems(dataTransfer, {
-                accept,
-                multiple,
-            });
-            const acceptedItems = getFilesFromItems(accepted);
-            const rejectedItems = getFileRejections(rejected);
+            const files = getFilesFromItems(Array.from(dataTransfer.items));
+            const {accepted, rejected} = getSeparatedFiles(files, {accept, multiple});
 
-            if (acceptedItems.length > 0 || rejectedItems.length > 0) {
-                handleUpdate(acceptedItems, rejectedItems);
+            if (accepted.length > 0 || rejected.length > 0) {
+                handleUpdate(accepted, rejected);
             }
         },
-        [accept, getFileRejections, getFilesFromItems, handleUpdate, multiple],
+        [accept, getFilesFromItems, handleUpdate, multiple],
     );
 
     const {isDraggingOver, getDroppableProps} = useDropZone({
@@ -174,9 +150,17 @@ export const FileDropZoneProvider = ({
 
     const handleFileInputUpdate = React.useCallback(
         (files: File[]) => {
-            handleUpdate(files, []);
+            if (disabled) {
+                return;
+            }
+
+            const {accepted, rejected} = getSeparatedFiles(files, {accept, multiple});
+
+            if (accepted.length > 0 || rejected.length > 0) {
+                handleUpdate(accepted, rejected);
+            }
         },
-        [handleUpdate],
+        [accept, disabled, multiple, handleUpdate],
     );
 
     const {controlProps, triggerProps} = useFileInput({onUpdate: handleFileInputUpdate});

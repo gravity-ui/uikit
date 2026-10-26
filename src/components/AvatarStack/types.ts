@@ -3,6 +3,7 @@ import type * as React from 'react';
 import type {AvatarSize} from '../Avatar';
 
 export type AvatarStackOverlapSize = 's' | 'm' | 'l';
+export type AvatarStackMoreVariant = 'counter' | 'dots';
 
 export interface AvatarStackProps {
     /** Amount of avatars to be shown before more button. Default 3. */
@@ -40,6 +41,14 @@ export interface AvatarStackProps {
      * </AvatarStack>
      */
     renderMore?: (options: {count: number}) => React.ReactElement;
+    /**
+     * Variant of default control displaying extra data
+     * @example
+     * <AvatarStack moreVariant="dots">
+     *     <Avatar/>
+     * </AvatarStack>
+     */
+    moreVariant?: AvatarStackMoreVariant;
 }
 
 export type AvatarStackMoreProps = Pick<
@@ -49,6 +58,7 @@ export type AvatarStackMoreProps = Pick<
     count: number;
     size?: AvatarSize;
     borderColor?: string;
+    variant?: AvatarStackMoreVariant;
 };
 
 export type AvatarStackMoreButtonProps = Pick<React.HTMLProps<HTMLButtonElement>, 'onClick'> &

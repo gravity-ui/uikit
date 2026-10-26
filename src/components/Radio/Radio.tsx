@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {useRadio} from '../../hooks/private';
 import {ControlLabel} from '../ControlLabel';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {ControlProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -21,7 +22,8 @@ export interface RadioProps extends ControlProps, DOMProps, QAProps {
     title?: string;
 }
 
-export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Radio(props, ref) {
+export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Radio(rawProps, ref) {
+    const props = useDefaultProps('Radio', rawProps);
     const {size = 'm', disabled = false, content, children, title, style, className, qa} = props;
     const {checked, inputProps} = useRadio(props);
     const text = content || children;

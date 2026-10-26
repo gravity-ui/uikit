@@ -5,6 +5,7 @@ import * as React from 'react';
 import {useControlledState} from '../../hooks';
 import {useFormResetHandler} from '../../hooks/private';
 import {useDirection} from '../theme';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -18,7 +19,10 @@ import './Slider.scss';
 const b = block('slider');
 
 export const Slider = React.forwardRef(function Slider(
-    {
+    rawProps: SliderProps,
+    ref: React.ForwardedRef<HTMLDivElement>,
+) {
+    const {
         value,
         defaultValue,
         size = 'm',
@@ -49,9 +53,7 @@ export const Slider = React.forwardRef(function Slider(
         name,
         form,
         ...restProps
-    }: SliderProps,
-    ref: React.ForwardedRef<HTMLDivElement>,
-) {
+    } = useDefaultProps('Slider', rawProps);
     const direction = useDirection();
 
     const innerState = prepareSliderInnerState({

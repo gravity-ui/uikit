@@ -1,12 +1,23 @@
+import * as React from 'react';
+
 import {Gear} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {action} from 'storybook/actions';
 
 import {Showcase} from '../../../demo/Showcase';
 import {ShowcaseItem} from '../../../demo/ShowcaseItem';
+import {Button} from '../../Button';
 import {Icon as IconComponent} from '../../Icon';
+import {TextArea} from '../../controls/TextArea';
 import {Alert} from '../Alert';
-import {alignCases, cornersCases, layoutCases, themeCases, viewCases} from '../__tests__/cases';
+import {
+    alignCases,
+    cornersCases,
+    layoutCases,
+    sizeCases,
+    themeCases,
+    viewCases,
+} from '../__tests__/cases';
 import type {AlertProps} from '../types';
 
 export default {
@@ -21,6 +32,13 @@ export const Default: Story = {
         onClose: action('onClose'),
         title: 'Where will you go, hero?',
         message: 'Choose wisely: the end of the fairy tale depends on your decision',
+    },
+};
+
+export const TitleOnly: Story = {
+    args: {
+        ...Default.args,
+        message: undefined,
     },
 };
 
@@ -39,10 +57,33 @@ export const Theme: Story = {
     },
 };
 
+export const Size: Story = {
+    render: (args) => (
+        <Showcase>
+            {sizeCases.map((size, index) => (
+                <ShowcaseItem title={size} key={index}>
+                    <Alert {...args} size={size} />
+                </ShowcaseItem>
+            ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+        actions: [{text: 'First action'}],
+    },
+};
+
 export const CustomIcon: Story = {
     args: {
         ...Default.args,
         icon: <IconComponent size={16} data={Gear} />,
+    },
+};
+
+export const WithoutCloseBtn: Story = {
+    args: {
+        ...Default.args,
+        onClose: undefined,
     },
 };
 
@@ -84,6 +125,57 @@ export const Layout: Story = {
                     <Alert {...args} layout={layout} />
                 </ShowcaseItem>
             ))}
+        </Showcase>
+    ),
+    args: {
+        ...Default.args,
+        actions: [{text: 'First action'}, {text: 'Second action'}],
+    },
+};
+
+export const ContentWidth: Story = {
+    render: (args) => (
+        <div style={{width: 860}}>
+            <Alert
+                {...args}
+                message={
+                    <React.Fragment>
+                        <TextArea
+                            placeholder="Edit draft description"
+                            rows={3}
+                            controlProps={{'aria-label': 'Edit draft description'}}
+                        />
+                        <div style={{display: 'flex', gap: 16, marginTop: 8}}>
+                            <Button view="normal">Save</Button>
+                            <Button view="flat">Cancel</Button>
+                        </div>
+                    </React.Fragment>
+                }
+            />
+        </div>
+    ),
+    args: {
+        ...Default.args,
+        theme: 'info',
+        layout: 'horizontal',
+        title: 'Version 1 is not published yet',
+        onClose: undefined,
+    },
+};
+
+export const ActionsLayout: Story = {
+    render: (args) => (
+        <Showcase>
+            {layoutCases.map((layout, layoutIdx) =>
+                layoutCases.map((actionsLayout, actionsLayoutIdx) => (
+                    <ShowcaseItem
+                        title={`Layout: ${layout}, Actions layout: ${actionsLayout}`}
+                        key={layoutIdx + actionsLayoutIdx}
+                    >
+                        <Alert {...args} layout={layout} actionsLayout={actionsLayout} />
+                    </ShowcaseItem>
+                )),
+            )}
         </Showcase>
     ),
     args: {

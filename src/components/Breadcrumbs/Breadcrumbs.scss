@@ -24,10 +24,7 @@ $block: '.#{variables.$ns}breadcrumbs';
 
         &_current {
             box-sizing: content-box;
-            font-weight: var(--g-text-accent-font-weight);
-            overflow: hidden;
-            margin: -2px;
-            padding: 2px;
+            font-weight: var(--g-text-body-accent-font-weight);
             min-width: 25px;
 
             #{$block}__link {
@@ -36,7 +33,11 @@ $block: '.#{variables.$ns}breadcrumbs';
         }
 
         &_calculating {
-            overflow: visible;
+            min-width: auto;
+
+            #{$block}__link {
+                overflow: visible;
+            }
         }
     }
 
@@ -62,13 +63,15 @@ $block: '.#{variables.$ns}breadcrumbs';
         &:not([aria-disabled]) {
             cursor: pointer;
 
-            &:hover {
-                color: var(--g-color-text-link-hover);
+            @media (hover: hover) {
+                &:hover {
+                    color: var(--g-color-text-link-hover);
+                }
             }
         }
 
         &:focus-visible {
-            outline: 2px solid var(--g-color-line-focus);
+            @include mixins.focus-outline();
             outline-offset: 0;
         }
     }

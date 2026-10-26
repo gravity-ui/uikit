@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {useControlledState} from '../../../src/hooks';
+import {useControlledState} from '../../hooks';
 
 import type {AccordionProps, AccordionValue} from './types';
 

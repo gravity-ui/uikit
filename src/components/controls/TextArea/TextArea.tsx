@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {useControlledState, useForkRef, useUniqId} from '../../../hooks';
 import {useFormResetHandler} from '../../../hooks/private';
+import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {ClearButton, mapTextInputSizeToButtonSize} from '../common';
 import {OuterAdditionalContent} from '../common/OuterAdditionalContent/OuterAdditionalContent';
@@ -13,7 +14,7 @@ import type {
     InputControlSize,
     InputControlView,
 } from '../types';
-import {errorPropsMapper, getInputControlState, prepareAutoComplete} from '../utils';
+import {getInputControlState, prepareAutoComplete} from '../utils';
 
 import {TextAreaControl} from './TextAreaControl';
 
@@ -38,7 +39,8 @@ export type TextAreaSize = InputControlSize;
 export type TextAreaView = InputControlView;
 
 export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
-    function TextArea(props, ref) {
+    function TextArea(rawProps, ref) {
+        const props = useDefaultProps('TextArea', rawProps);
         const {
             view = 'normal',
             size = 'm',
@@ -49,9 +51,8 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             disabled,
             readOnly,
             hasClear = false,
-            error,
-            errorMessage: errorMessageProp,
-            validationState: validationStateProp,
+            errorMessage,
+            validationState,
             autoComplete,
             id: idProp,
             tabIndex,
@@ -63,12 +64,6 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
             onUpdate,
             onChange,
         } = props;
-
-        const {errorMessage, validationState} = errorPropsMapper({
-            error,
-            errorMessage: errorMessageProp,
-            validationState: validationStateProp,
-        });
 
         const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
         const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
@@ -131,6 +126,14 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
         };
 
         React.useEffect(() => {
+            if (!isClearControlVisible) {
+                if (hasVerticalScrollbar) {
+                    setHasVerticalScrollbar(false);
+                }
+
+                return;
+            }
+
             const control = innerControlRef.current;
 
             if (control) {
@@ -140,7 +143,7 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                     setHasVerticalScrollbar(currHasVerticalScrollbar);
                 }
             }
-        }, [inputValue, hasVerticalScrollbar]);
+        }, [inputValue, isClearControlVisible, hasVerticalScrollbar]);
 
         return (
             <span
@@ -154,14 +157,19 @@ export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
                         state,
                         pin: view === 'clear' ? undefined : pin,
                         'has-clear': isClearControlVisible,
-                        'has-scrollbar': hasVerticalScrollbar,
+                        'has-scrollbar': isClearControlVisible && hasVerticalScrollbar,
                     },
                     className,
                 )}
                 data-qa={qa}
             >
                 <span className={b('content')}>
-                    <TextAreaControl {...props} {...commonProps} controlRef={handleRef} />
+                    <TextAreaControl
+                        {...props}
+                        {...commonProps}
+                        controlRef={handleRef}
+                        inputValue={inputValue}
+                    />
                     {isClearControlVisible && (
                         <ClearButton
                             className={b('clear', {size})}

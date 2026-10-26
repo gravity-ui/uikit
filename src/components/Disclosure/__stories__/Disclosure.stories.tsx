@@ -11,7 +11,7 @@ import {Disclosure} from '../index';
 import './Disclosure.stories.scss';
 
 export default {
-    title: 'Components/Utils/Disclosure',
+    title: 'Components/Data Display/Disclosure',
     component: Disclosure,
     args: {
         children: 'Default content',
@@ -80,7 +80,7 @@ const CustomTemplate: StoryFn<DisclosureProps> = (args) => {
             <Disclosure {...args}>
                 <Disclosure.Summary>
                     {(_props, defaultButton) => (
-                        <Flex gap={4}>
+                        <Flex gap="spacing-4">
                             {defaultButton}
                             <Icon data={Check} size={14} />
                         </Flex>

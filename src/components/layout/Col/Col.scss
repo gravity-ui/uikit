@@ -1,15 +1,13 @@
 @use '../variables.scss' as v;
 
 #{v.$colBlock} {
-    // by default col takes all available space
-    flex: 1 0 0;
-    width: 100%;
+    // Unsized columns occupy a full row.
+    grid-column: span 12;
+    min-inline-size: 0;
 
-    @each $size, $value in v.$COL_SIZE {
+    @for $size from 1 through 12 {
         &_size_#{$size} {
-            box-sizing: border-box;
-            flex: 0 0 auto;
-            width: $value;
+            grid-column: span #{$size};
         }
     }
 }

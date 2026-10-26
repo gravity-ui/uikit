@@ -5,7 +5,7 @@ $block: '.#{variables.$ns}arrow-toggle';
 #{$block} {
     display: inline-block;
     vertical-align: middle;
-    transition: transform 0.1s ease-out;
+    transition: transform var(--g-arrow-toggle-transition-duration, 0.1s) ease-out;
 
     &_direction {
         &_bottom {

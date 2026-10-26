@@ -1,10 +1,10 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
-import {sizeCases} from '../../Button/__tests__/cases';
+import {test} from '~playwright/core';
+
 import type {AvatarStackProps} from '../types';
 
-import {maxCases, overlapSizeCases} from './cases';
+import {maxCases, moreVariantCases, overlapSizeCases, sizeCases} from './cases';
 import {TestAvatarStack, TestAvatarStackWithCustomMore} from './helpersPlaywright';
 import {AvatarStackStories} from './stories';
 
@@ -35,12 +35,13 @@ test.describe('AvatarStack', () => {
 
     const defaultProps: AvatarStackProps & {avatarCount?: number} = {};
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {
             size: sizeCases,
             overlapSize: overlapSizeCases,
             max: maxCases,
             avatarCount: [1],
+            moreVariant: moreVariantCases,
         });
 
         await mount(
@@ -61,7 +62,7 @@ test.describe('AvatarStack', () => {
         });
     });
 
-    smokeTest('with custom more', async ({mount, expectScreenshot}) => {
+    test('smoke with custom more', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, {});
 
         await mount(

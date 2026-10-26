@@ -45,7 +45,7 @@ export interface LayerExtendableProps {
 type ContentElement = Element | (VirtualElement & {contains?: (other: Node | null) => boolean});
 
 export interface LayerConfig extends LayerExtendableProps {
-    contentRefs?: Array<React.RefObject<ContentElement> | undefined>;
+    contentRefs?: Array<React.RefObject<ContentElement | null> | undefined>;
 }
 
 class LayerManager {
@@ -98,10 +98,6 @@ class LayerManager {
             componentId: 'LayerManager',
             eventId: 'layerschange',
             meta: {
-                /**
-                 * @deprecated use layers
-                 */
-                layersCount: this.getLayersCount(),
                 layers: this.getLayers(),
             },
         });

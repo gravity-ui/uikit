@@ -5,6 +5,10 @@ import {CircleQuestion} from '@gravity-ui/icons';
 import {Icon} from '../Icon';
 import {Popover} from '../Popover';
 import type {PopoverProps} from '../Popover';
+import {Sheet} from '../Sheet';
+import type {SheetProps} from '../Sheet';
+import {useMobile} from '../mobile';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -17,31 +21,89 @@ const b = block('help-mark');
 type IconSize = keyof typeof ICON_SIZE_MAP;
 
 export interface HelpMarkProps extends QAProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
-    // TODO BREAKING CHANGE: Consider renaming to "size"
-    iconSize?: IconSize;
+    size?: IconSize;
     popoverProps?: Omit<PopoverProps, 'children'>;
+    sheetProps?: Omit<SheetProps, 'children' | 'open' | 'defaultOpen'>;
     children?: React.ReactNode;
 }
 
-export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(function HelpMark(
-    {children, qa, className, iconSize = 'm', popoverProps, ...restProps},
-    ref,
-) {
-    return (
-        <Popover
-            content={<div className={b('popover')}>{children}</div>}
-            hasArrow
-            {...popoverProps}
-        >
+export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
+    function HelpMark(rawProps, ref) {
+        const {
+            children,
+            qa,
+            className,
+            size = 'm',
+            popoverProps,
+            sheetProps,
+            onClick,
+            ...restProps
+        } = useDefaultProps('HelpMark', rawProps);
+
+        const mobile = useMobile();
+        const [sheetOpen, setSheetOpen] = React.useState(false);
+        const {onOpenChange: onSheetOpenChange, ...restSheetProps} = sheetProps ?? {};
+
+        const handleMobileButtonClick = React.useCallback<
+            React.MouseEventHandler<HTMLButtonElement>
+        >(
+            (event) => {
+                onClick?.(event);
+
+                if (!event.defaultPrevented && !sheetOpen) {
+                    setSheetOpen(true);
+                    onSheetOpenChange?.(true, event.nativeEvent);
+                }
+            },
+            [onClick, onSheetOpenChange, sheetOpen],
+        );
+
+        const handleSheetOpenChange = React.useCallback<NonNullable<SheetProps['onOpenChange']>>(
+            (open, event, reason) => {
+                setSheetOpen(open);
+                onSheetOpenChange?.(open, event, reason);
+            },
+            [onSheetOpenChange],
+        );
+
+        const button = (
             <button
                 {...restProps}
                 ref={ref}
                 type="button"
-                className={b({size: iconSize}, className)}
+                className={b({size}, className)}
                 data-qa={qa}
+                aria-expanded={mobile ? sheetOpen : undefined}
+                aria-haspopup={mobile ? 'dialog' : undefined}
+                onClick={mobile ? handleMobileButtonClick : onClick}
             >
-                <Icon data={CircleQuestion} size={ICON_SIZE_MAP[iconSize]} className={b('icon')} />
+                <Icon data={CircleQuestion} size={ICON_SIZE_MAP[size]} className={b('icon')} />
             </button>
-        </Popover>
-    );
-});
+        );
+
+        if (mobile) {
+            return (
+                <React.Fragment>
+                    {button}
+                    <Sheet
+                        {...restSheetProps}
+                        open={sheetOpen}
+                        onOpenChange={handleSheetOpenChange}
+                    >
+                        <div className={b('sheet-content')}>{children}</div>
+                    </Sheet>
+                </React.Fragment>
+            );
+        }
+
+        return (
+            <Popover
+                content={<div className={b('popover')}>{children}</div>}
+                hasArrow
+                {...popoverProps}
+            >
+                {button}
+            </Popover>
+        );
+    },
+);

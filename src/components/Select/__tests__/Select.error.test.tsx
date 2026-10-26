@@ -1,3 +1,5 @@
+import userEvent from '@testing-library/user-event';
+
 import {render, screen} from '../../../../test-utils/utils';
 import {CONTROL_ERROR_MESSAGE_QA} from '../../controls/utils';
 import {Select} from '../Select';
@@ -5,19 +7,27 @@ import {Select} from '../Select';
 import {SELECT_CONTROL_BUTTON_ERROR_CLASS, TEST_QA, setup} from './utils';
 
 describe('Select error', () => {
+    test('sets aria-invalid on the combobox when validationState is invalid', () => {
+        const {getByTestId} = setup({validationState: 'invalid'});
+        const selectControl = getByTestId(TEST_QA);
+
+        expect(selectControl).toHaveAttribute('aria-invalid', 'true');
+    });
+
+    test('does not set aria-invalid when validationState is not invalid', () => {
+        const {getByTestId} = setup({});
+        const selectControl = getByTestId(TEST_QA);
+
+        expect(selectControl).not.toHaveAttribute('aria-invalid');
+    });
+
     test('render error appearance with invalid state and without errorMessage', () => {
         const {getByTestId} = setup({validationState: 'invalid'});
         const selectControl = getByTestId(TEST_QA);
 
         expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_ERROR_CLASS);
     });
-    test('render error message with error prop (if it is not an empty string)', () => {
-        render(<Select error="Some Error" />);
-
-        expect(screen.getByText('Some Error')).toBeVisible();
-    });
-
-    test('render error message with errorMessage prop (if it is not an empty string)', () => {
+    test('do not show error message without invalid state', () => {
         render(<Select errorMessage="Some Error with errorMessage prop" />);
 
         expect(screen.queryByText('Some Error with errorMessage prop')).not.toBeInTheDocument();
@@ -39,14 +49,8 @@ describe('Select error', () => {
         expect(screen.getByLabelText('Show popup with error info')).toBeInTheDocument();
     });
 
-    test('do not show error message without error/errorMessage prop', () => {
+    test('do not show error message without errorMessage prop', () => {
         render(<Select />);
-
-        expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
-    });
-
-    test('do not show error message if error prop value is an empty string', () => {
-        render(<Select error={''} />);
 
         expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
     });
@@ -57,15 +61,28 @@ describe('Select error', () => {
         expect(screen.queryByTestId(CONTROL_ERROR_MESSAGE_QA)).not.toBeInTheDocument();
     });
 
-    test('do not show error icon if error prop is an empty string', () => {
-        render(<Select error={''} errorPlacement="inside" />);
-
-        expect(screen.queryByLabelText('Show popup with error info')).not.toBeInTheDocument();
-    });
-
     test('do not show error icon if errorMessage prop is an empty string', () => {
         render(<Select errorMessage={''} errorPlacement="inside" />);
 
         expect(screen.queryByLabelText('Show popup with error info')).not.toBeInTheDocument();
+    });
+
+    test('opens inside error popover on hover', async () => {
+        const ERROR_MESSAGE = 'Test error message';
+
+        const {findByText, getByRole} = setup();
+        render(
+            <Select
+                validationState="invalid"
+                errorMessage={ERROR_MESSAGE}
+                errorPlacement="inside"
+            />,
+        );
+
+        await userEvent.hover(getByRole('button', {name: 'Show popup with error info'}));
+
+        const popoverElement = await findByText(ERROR_MESSAGE);
+
+        await expect(popoverElement).toBeInTheDocument();
     });
 });

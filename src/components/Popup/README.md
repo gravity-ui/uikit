@@ -4,35 +4,38 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Popup` positions floating content above the page, anchored to a reference element — the low-level primitive behind tooltips, popovers, and menus, built on [Floating UI](https://floating-ui.com). Its visibility is controlled with the `open` property; its children render inside the [`Portal`](../Portal) component unless you set the `disablePortal` property.
+
 ```tsx
 import {Popup} from '@gravity-ui/uikit';
 ```
-
-You can use a `Popup` to display floating content above the page. Technically, it is a wrapper around [Floating UI](https://floating-ui.com) with some default values. To manage `Popup` visibility, use the `open` property.
-The `Popup` child components are rendered inside the [`Portal`](../Portal) component. To disable this behavior, use the `disablePortal` property.
 
 ## Anchor
 
 To specify the anchor of a floating element, you can use the `anchorElement` property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {useState} from 'react';
+import {Button, Popup} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-const [buttonElement, setButtonElement] = React.useState(null);
-const [open, setOpen] = React.useState(false);
+export default function () {
+    const [buttonElement, setButtonElement] = useState<HTMLButtonElement | null>(null);
+    const [open, setOpen] = useState(false);
 
-<Button ref={setButtonElement} onClick={() => setOpen((prevOpen) => !prevOpen)}>
-  Toggle Popup
-</Button>
-<Popup anchorElement={buttonElement} open={open} placement="bottom">
-  Content
-</Popup>
-`}>
-    <UIKitExamples.PopupAnchorExample/>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+    return (
+        <>
+            <Button ref={setButtonElement} onClick={() => setOpen((prevOpen) => !prevOpen)}>
+                Toggle Popup
+            </Button>
+            <Popup anchorElement={buttonElement} open={open} placement="bottom">
+                <div style={{padding: 5}}>
+                    Content
+                </div>
+            </Popup>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -57,30 +60,77 @@ By default, `Popup` uses [flip middleware](https://floating-ui.com/docs/flip) to
 If the property is set to an array, the first element will be used as the default placement value, the rest will be used as [fallback placements](https://floating-ui.com/docs/flip#fallbackplacements).
 It is also acceptable to use the values `auto`, `auto-start`, `auto-end` to use [autoPlacement middleware](https://floating-ui.com/docs/autoPlacement) instead of flip.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Popup, PopupProps} from '@gravity-ui/uikit';
+import {CSSProperties, useState} from 'react';
 
-<ExampleBlock
-    code={`
-const [boxElement, setBoxElement] = React.useState(null);
+const anchorStyles: CSSProperties = {
+    margin: '40px 100px',
+    width: 320,
+    height: 140,
+    border: '2px dashed',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.5em',
+};
 
-<div ref={setBoxElement} />
-<Popup open anchorElement={boxElement} placement="top-start">Top Start</Popup>
-<Popup open anchorElement={boxElement} placement="top">Top</Popup>
-<Popup open anchorElement={boxElement} placement="top-end">Top End</Popup>
-<Popup open anchorElement={boxElement} placement="right-start">Right Start</Popup>
-<Popup open anchorElement={boxElement} placement="right">Right</Popup>
-<Popup open anchorElement={boxElement} placement="right-end">Right End</Popup>
-<Popup open anchorElement={boxElement} placement="bottom-end">Bottom End</Popup>
-<Popup open anchorElement={boxElement} placement="bottom">Bottom</Popup>
-<Popup open anchorElement={boxElement} placement="bottom-start">Bottom Start</Popup>
-<Popup open anchorElement={boxElement} placement="left-end">Left End</Popup>
-<Popup open anchorElement={boxElement} placement="left">Left</Popup>
-<Popup open anchorElement={boxElement} placement="left-start">Left Start</Popup>
-`}>
-    <UIKitExamples.PopupPlacementExample/>
-</ExampleBlock>
+function PopupInstance({children, ...props}: PopupProps) {
+    return (
+        <Popup open disablePortal {...props}>
+            <div style={{padding: 5}}>{children}</div>
+        </Popup>
+    );
+}
 
-LANDING_BLOCK-->
+export default function () {
+    const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(null);
+
+    return (
+        <div>
+            <div ref={setAnchorElement} style={anchorStyles}>
+                Anchor
+            </div>
+            <PopupInstance anchorElement={anchorElement} placement="top-start">
+                Top Start
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="top">
+                Top
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="top-end">
+                Top End
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="right-start">
+                Right Start
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="right">
+                Right
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="right-end">
+                Right End
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="bottom-end">
+                Bottom End
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="bottom">
+                Bottom
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="bottom-start">
+                Bottom Start
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="left-end">
+                Left End
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="left">
+                Left
+            </PopupInstance>
+            <PopupInstance anchorElement={anchorElement} placement="left-start">
+                Left Start
+            </PopupInstance>
+        </div>
+    );
+};
+SANDBOX-->
 
 ## Properties
 

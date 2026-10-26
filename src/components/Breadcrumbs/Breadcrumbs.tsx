@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 
-import {useForkRef, useResizeObserver} from '../../hooks';
+import {useCollapseChildren, useForkRef, useResizeObserver} from '../../hooks';
 import type {PopupPlacement} from '../Popup';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, Key, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -11,7 +12,7 @@ import {BreadcrumbsDropdownMenu} from './BreadcrumbsDropdownMenu';
 import {BreadcrumbsItem} from './BreadcrumbsItem';
 import type {BreadcrumbsItemInnerProps} from './BreadcrumbsItem';
 import {BreadcrumbsSeparator} from './BreadcrumbsSeparator';
-import {b} from './utils';
+import {b, getReactNodeHash} from './utils';
 
 import './Breadcrumbs.scss';
 
@@ -30,11 +31,13 @@ export interface BreadcrumbsProps extends DOMProps, AriaLabelingProps, QAProps {
 }
 
 export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
-    props: BreadcrumbsProps,
+    rawProps: BreadcrumbsProps,
     ref: React.Ref<HTMLOListElement>,
 ) {
+    const props = useDefaultProps('Breadcrumbs', rawProps);
     const listRef = React.useRef<HTMLOListElement>(null);
     const containerRef = useForkRef(ref, listRef);
+    const menuRef = React.useRef<HTMLLIElement>(null);
     const endContentRef = React.useRef<HTMLLIElement>(null);
 
     const items: React.ReactElement<any>[] = [];
@@ -47,103 +50,38 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         }
     });
 
-    const [visibleItemsCount, setVisibleItemsCount] = React.useState(items.length);
-    const [calculated, setCalculated] = React.useState(false);
-    const recalculate = (visibleItems: number) => {
-        const list = listRef.current;
-        if (!list) {
-            return;
-        }
-        const listItems = Array.from(list.children) as HTMLElement[];
-        const endElement = endContentRef.current;
-        if (endElement) {
-            listItems.pop();
-        }
-        if (listItems.length === 0) {
-            setCalculated(true);
-            return;
-        }
-        const containerWidth = list.offsetWidth - (endElement?.offsetWidth ?? 0);
-        let newVisibleItemsCount = 0;
-        let calculatedWidth = 0;
-        let maxItems = props.maxItems || Infinity;
+    const {
+        calculated,
+        recalculate,
+        visibleCount: visibleItemsCount,
+    } = useCollapseChildren({
+        containerRef: listRef,
+        preservedRefs: [menuRef, endContentRef],
+        direction: 'start',
+        minCount: 1,
+        maxCount:
+            typeof props.maxItems === 'number' && props.maxItems < items.length
+                ? props.maxItems - 1
+                : undefined,
+        childSelector: `.${b('item')}`,
+        getChildWidth: (child) => {
+            const width = child.getBoundingClientRect().width;
+            const maxWidth = child.dataset.current ? 200 : Infinity;
+            return Math.min(maxWidth, width);
+        },
+    });
 
-        let rootWidth = 0;
-        if (props.showRoot) {
-            const item = listItems.shift();
-            if (item) {
-                rootWidth = item.offsetWidth;
-                calculatedWidth += rootWidth;
-            }
-            newVisibleItemsCount++;
-        }
-
-        const hasMenu = items.length > visibleItems;
-        if (hasMenu) {
-            const item = listItems.shift();
-            if (item) {
-                calculatedWidth += item.offsetWidth;
-            }
-            maxItems--;
-        }
-
-        if (props.showRoot && calculatedWidth >= containerWidth) {
-            calculatedWidth -= rootWidth;
-            newVisibleItemsCount--;
-        }
-
-        const lastItem = listItems.pop();
-        if (lastItem) {
-            calculatedWidth += Math.min(lastItem.offsetWidth, 200);
-            if (calculatedWidth < containerWidth) {
-                newVisibleItemsCount++;
-            }
-        }
-
-        for (let i = listItems.length - 1; i >= 0; i--) {
-            const item = listItems[i];
-            calculatedWidth += item.offsetWidth;
-            if (calculatedWidth >= containerWidth) {
-                break;
-            }
-            newVisibleItemsCount++;
-        }
-
-        newVisibleItemsCount = Math.max(Math.min(maxItems, newVisibleItemsCount), 1);
-        if (newVisibleItemsCount === visibleItemsCount) {
-            setCalculated(true);
-        } else {
-            setVisibleItemsCount(newVisibleItemsCount);
-        }
-    };
-
-    const handleResize = React.useCallback(() => {
-        setVisibleItemsCount(items.length);
-        setCalculated(false);
-    }, [items.length]);
     useResizeObserver({
-        ref: listRef,
-        onResize: handleResize,
-    });
-    useResizeObserver({
-        ref: props.endContent ? endContentRef : undefined,
-        onResize: handleResize,
+        ref: endContentRef,
+        onResize: recalculate,
     });
 
-    const lastChildren = React.useRef<typeof props.children | null>(null);
-    React.useLayoutEffect(() => {
-        if (calculated && props.children !== lastChildren.current) {
-            lastChildren.current = props.children;
-            setVisibleItemsCount(items.length);
-            setCalculated(false);
-        }
-    }, [calculated, items.length, props.children]);
-
-    React.useLayoutEffect(() => {
-        if (!calculated) {
-            recalculate(visibleItemsCount);
-        }
-    });
+    const childrenHash = getReactNodeHash(props.children);
+    const separatorHash = getReactNodeHash(props.separator);
+    React.useEffect(() => {
+        recalculate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [childrenHash, separatorHash, props.itemComponent]);
 
     let contents = items;
     if (items.length > visibleItemsCount) {
@@ -191,50 +129,6 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
         contents.push(...breadcrumbs.slice(-endItems));
     }
 
-    const lastIndex = contents.length - 1;
-    const breadcrumbsItems = contents.map((child, index) => {
-        const isCurrent = index === lastIndex;
-        const key = child.key ?? index;
-
-        const {'data-breadcrumbs-menu-item': isMenu, ...childProps} = child.props;
-        let item: React.ReactNode;
-        if (isMenu) {
-            item = child;
-        } else {
-            const Component = props.itemComponent ?? BreadcrumbsItem;
-            const handleAction = () => {
-                if (typeof props.onAction === 'function') {
-                    props.onAction(key);
-                }
-            };
-            const innerProps: BreadcrumbsItemInnerProps = {
-                __current: isCurrent,
-                __disabled: props.disabled || childProps.disabled,
-                __onAction: handleAction,
-            };
-            item = (
-                <Component {...childProps} key={key} {...innerProps}>
-                    {childProps.children}
-                </Component>
-            );
-        }
-        return (
-            <li
-                key={isMenu ? 'menu' : `item-${key}`}
-                className={b('item', {calculating: isCurrent && !calculated, current: isCurrent})}
-            >
-                {item}
-                {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}
-            </li>
-        );
-    });
-    if (props.endContent) {
-        breadcrumbsItems.push(
-            <li key="end-content" ref={endContentRef} className={b('item')}>
-                {props.endContent}
-            </li>,
-        );
-    }
     return (
         <ol
             ref={containerRef}
@@ -243,7 +137,52 @@ export const Breadcrumbs = React.forwardRef(function Breadcrumbs(
             className={b(null, props.className)}
             style={props.style}
         >
-            {breadcrumbsItems}
+            {contents.map((child, index) => {
+                const key = child.key ?? index;
+                const isCurrent = index === contents.length - 1;
+
+                const {'data-breadcrumbs-menu-item': isMenu, ...childProps} = child.props;
+                let item: React.ReactNode;
+                if (isMenu) {
+                    item = child;
+                } else {
+                    const Component = props.itemComponent ?? BreadcrumbsItem;
+                    const handleAction = () => {
+                        if (typeof props.onAction === 'function') {
+                            props.onAction(key);
+                        }
+                    };
+                    const innerProps: BreadcrumbsItemInnerProps = {
+                        __current: isCurrent,
+                        __disabled: props.disabled || childProps.disabled,
+                        __onAction: handleAction,
+                    };
+                    item = (
+                        <Component {...childProps} key={key} {...innerProps}>
+                            {childProps.children}
+                        </Component>
+                    );
+                }
+                return (
+                    <li
+                        ref={isMenu ? menuRef : undefined}
+                        key={isMenu ? 'menu' : `item-${key}`}
+                        className={b('item', {
+                            calculating: isCurrent && !calculated,
+                            current: isCurrent,
+                        })}
+                        data-current={isCurrent ? isCurrent : undefined}
+                    >
+                        {item}
+                        {isCurrent ? null : <BreadcrumbsSeparator separator={props.separator} />}
+                    </li>
+                );
+            })}
+            {props.endContent && (
+                <li ref={endContentRef} className={b('item')}>
+                    {props.endContent}
+                </li>
+            )}
         </ol>
     );
 }) as unknown as BreadcrumbsComponent;

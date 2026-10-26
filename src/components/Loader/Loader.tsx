@@ -1,3 +1,4 @@
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {block} from '../utils/cn';
 
@@ -12,7 +13,8 @@ export interface LoaderProps extends QAProps {
     size?: LoaderSize;
 }
 
-export function Loader({size = 's', className, qa}: LoaderProps) {
+export function Loader(rawProps: LoaderProps) {
+    const {size = 's', className, qa} = useDefaultProps('Loader', rawProps);
     return (
         <div className={b({size}, className)} data-qa={qa}>
             <div className={b('left')} />

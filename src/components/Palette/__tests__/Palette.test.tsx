@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
 import {render, screen, within} from '../../../../test-utils/utils';
-import type {ButtonSize} from '../../Button/Button';
+import type {ButtonSize} from '../../Button';
 import type {PaletteOption} from '../Palette';
 import {Palette} from '../Palette';
 
@@ -151,5 +151,25 @@ describe('Palette', () => {
             const isSelected = $option.getAttribute('aria-pressed');
             expect(isSelected).toBe('false');
         });
+    });
+
+    test('in single mode an option replaces the value and a repeated click keeps it', async () => {
+        const user = userEvent.setup();
+        const onUpdate = jest.fn();
+
+        render(
+            <Palette
+                options={defaultOptions}
+                multiple={false}
+                defaultValue={[defaultOptions[0].value]}
+                onUpdate={onUpdate}
+            />,
+        );
+
+        await user.click(screen.getByText(defaultOptions[1].content as string));
+        expect(onUpdate).toHaveBeenLastCalledWith([defaultOptions[1].value]);
+
+        await user.click(screen.getByText(defaultOptions[1].content as string));
+        expect(onUpdate).toHaveBeenCalledTimes(1);
     });
 });

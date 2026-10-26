@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
 import {isOfType} from '../utils/isOfType';
 
@@ -13,7 +14,7 @@ import {b} from './constants';
 import './Disclosure.scss';
 
 export type DisclosureSize = 'm' | 'l' | 'xl';
-export type DisclosureArrowPosition = 'left' | 'right' | 'start' | 'end';
+export type DisclosureArrowPosition = 'start' | 'end';
 
 export interface DisclosureComposition {
     Summary: typeof DisclosureSummary;
@@ -49,7 +50,8 @@ const isDisclosureSummaryComponent = isOfType(DisclosureSummary);
 
 // @ts-expect-error this ts-error is appears when forwarding ref. It complains that DisclosureComposition props is not provided initially
 export const Disclosure: React.FunctionComponent<DisclosureProps> & DisclosureComposition =
-    React.forwardRef<HTMLDivElement, DisclosureProps>(function Disclosure(props, ref) {
+    React.forwardRef<HTMLDivElement, DisclosureProps>(function Disclosure(rawProps, ref) {
+        const props = useDefaultProps('Disclosure', rawProps);
         const {
             size = 'm',
             disabled = false,

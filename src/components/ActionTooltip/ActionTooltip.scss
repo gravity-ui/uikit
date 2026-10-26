@@ -1,4 +1,4 @@
-@use '../../../styles/mixins.scss';
+@use '../../../styles/mixins';
 @use '../variables';
 
 $block: '.#{variables.$ns}action-tooltip';
@@ -20,6 +20,7 @@ $block: '.#{variables.$ns}action-tooltip';
 
     &__hotkey {
         margin-inline-start: var(--g-spacing-2);
+        padding-block: 0;
     }
 
     &__description {

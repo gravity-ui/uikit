@@ -10,15 +10,13 @@ import {ClipboardButton} from '@gravity-ui/uikit';
 
 `ClipboardButton` — компонент, объединяющий [`CopyToClipboard`](../CopyToClipboard/README.md) и [`ClipboardIcon`](../ClipboardIcon/README.md). [`CopyToClipboard`](../CopyToClipboard/README.md) отправляет текст в буфер обмена и использует [`ClipboardIcon`](../ClipboardIcon/README.md) для отображения анимации во время копирования.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<ClipboardButton text="Some text to copy" />
-`}
->
-    <UIKit.ClipboardButton text="Some text to copy" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {ClipboardButton} from '@gravity-ui/uikit';
+
+export default function () {
+    return <ClipboardButton text="Some text to copy" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -27,6 +25,26 @@ LANDING_BLOCK-->
 ```
 
 <!--/GITHUB_BLOCK-->
+
+## Тултип
+
+Используйте `tooltipProps` для настройки вложенного [`ActionTooltip`](../ActionTooltip/README-ru.md),
+например его положения или отрисовки через портал:
+
+```tsx
+<ClipboardButton
+  text="Текст для копирования"
+  tooltipProps={{placement: 'top', disablePortal: true}}
+/>
+```
+
+Поддерживаются свойства `onOpenChange`, `strategy`, `placement`, `offset`, `disabled`,
+`container`, `disablePortal`, а также свойства `DOMProps` (`className`, `style`) и `QAProps` (`qa`).
+
+Установите `tooltipProps.disabled` в `true`, чтобы отключить тултип. `hasTooltip={false}` и таймаут
+обратной связи при копировании также отключают его, даже если `tooltipProps.disabled` равно `false`.
+Для настройки обратной связи при копировании используйте `tooltipInitialText`, `tooltipSuccessText`
+и `timeout`.
 
 ## Свойства
 
@@ -40,5 +58,6 @@ LANDING_BLOCK-->
 | timeout            | Время до возврата состояния в норму после клика по кнопке.                  |            `number`             |        `1000`         |
 | tooltipInitialText | Текст, отображаемый перед копированием.                                     |            `string`             |       `"Copy"`        |
 | tooltipSuccessText | Текст, отображаемый после копирования.                                      |            `string`             |      `"Copied!"`      |
+| tooltipProps       | Настройки тултипа. См. [поддерживаемые свойства](#тултип).                  |            `object`             |                       |
 | icon               | Пользовательская иконка.                                                    |        `React.ReactNode`        |                       |
 | iconPosition       | Расположение иконки.                                                        | `start          \|         end` |        `start`        |

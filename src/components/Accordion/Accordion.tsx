@@ -2,6 +2,9 @@
 
 import * as React from 'react';
 
+import type {DefaultPropsMap} from '../theme/DefaultPropsProvider';
+import {useDefaultProps} from '../theme/useDefaultProps';
+
 import {AccordionProvider} from './AccordionContext';
 import {AccordionItem} from './AccordionItem/AccordionItem';
 import {AccordionSummary} from './AccordionSummary/AccordionSummary';
@@ -12,9 +15,13 @@ import type {AccordionProps, AccordionValue} from './types';
 import './Accordion.scss';
 
 export const Accordion = React.forwardRef(function Accordion<Multiple extends boolean = false>(
-    props: AccordionProps<Multiple>,
+    rawProps: AccordionProps<Multiple>,
     ref: React.ForwardedRef<HTMLDivElement>,
 ) {
+    const props = useDefaultProps(
+        'Accordion',
+        rawProps as NonNullable<DefaultPropsMap['Accordion']>,
+    ) as AccordionProps<Multiple>;
     const {t} = i18n.useTranslation();
     const {
         size = 'm',

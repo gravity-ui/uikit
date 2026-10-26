@@ -16,15 +16,13 @@ import {PinInput} from '@gravity-ui/uikit';
 
 По умолчанию элементы ввода принимают только числовые значения. Чтобы разрешить ввод алфавитно-цифровых значений, установите свойство `type` в значение `"alphanumeric"`:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput type="alphanumeric" />
-`}
->
-    <UIKit.PinInput type="alphanumeric" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput type="alphanumeric" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -38,21 +36,20 @@ LANDING_BLOCK-->
 
 Данный компонент бывает 4 размеров: `s`, `m`, `l` и `xl`. Размер по умолчанию — `m`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput size="s" />
-<PinInput size="m" />
-<PinInput size="l" />
-<PinInput size="xl" />
-`}
->
-    <UIKit.PinInput size="s" />
-    <UIKit.PinInput size="m" />
-    <UIKit.PinInput size="l" />
-    <UIKit.PinInput size="xl" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <PinInput size="s" />
+            <PinInput size="m" />
+            <PinInput size="l" />
+            <PinInput size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -69,15 +66,13 @@ LANDING_BLOCK-->
 
 Если вы не хотите, чтобы пользователь взаимодействовал с компонентом, задайте свойство `disabled`:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput disabled />
-`}
->
-    <UIKit.PinInput disabled />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput disabled />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -89,15 +84,13 @@ LANDING_BLOCK-->
 
 Чтобы отобразить недопустимое состояние компонента, задайте значение `"invalid"` в свойстве `validationState`. Опционально можно задать текст сообщения об ошибке через свойство `errorMessage`.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput validationState="invalid" errorMessage="Incorrect PIN" />
-`}
->
-    <UIKit.PinInput validationState="invalid" errorMessage="Incorrect PIN" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput validationState="invalid" errorMessage="Incorrect PIN" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -111,15 +104,13 @@ LANDING_BLOCK-->
 
 По умолчанию заглушка в элементах ввода отсутствует. Можно добавить ее с помощью свойства `placeholder`:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput placeholder="😎" />
-`}
->
-    <UIKit.PinInput placeholder="😎" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput placeholder="😎" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -133,15 +124,13 @@ LANDING_BLOCK-->
 
 Если нужно маскировать введенные значения, используйте свойство `mask`, которое работает аналогично `<input type="password"/>`:
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<PinInput mask />
-`}
->
-    <UIKit.PinInput mask />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {PinInput} from '@gravity-ui/uikit';
+
+export default function () {
+    return <PinInput mask />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

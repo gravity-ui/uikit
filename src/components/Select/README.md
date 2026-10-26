@@ -4,11 +4,15 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Select` is a control that provides a list of options that a user can select.
+
 ```tsx
 import {Select} from '@gravity-ui/uikit';
 ```
 
-`Select` is a control that provides a list of options that a user can select.
+> [!NOTE]
+> In v8 the options are drawn by the new list. What changed for a consumer is collected in the
+> [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-select-v8.md).
 
 ## Options
 
@@ -18,52 +22,42 @@ Options to select.
 
 You can define options as an array of objects or as the children of a component. The first approach is useful for cases where options require complex preparation and, possibly, memorization. The second one is convenient when there are few options, and their configuration does not require complex calculations.
 
+In a React Server Component `Select.Option` and `Select.OptionGroup` are not reachable: use the named
+`SelectOption` and `SelectOptionGroup` instead. Their props types are `SelectOptionProps` and
+`SelectOptionGroupProps`.
+
 #### Flat list
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Flex, Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  placeholder="value"
-  options={[
+const options = [
     {value: 'val_1', content: 'Value 1'},
     {value: 'val_2', content: 'Value 2'},
     {value: 'val_3', content: 'Value 3'},
     {value: 'val_4', content: 'Value 4'},
-  ]}
-/>
-<Select placeholder="value">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <div>
-    Array of objects
-    <UIKit.Select placeholder="value"
-      options={[
-        {value: 'val_1', content: 'Value 1'},
-        {value: 'val_2', content: 'Value 2'},
-        {value: 'val_3', content: 'Value 3'},
-        {value: 'val_4', content: 'Value 4'},
-      ]}
-    />
-  </div>
-  <div>
-    Child nodes
-    <UIKit.Select placeholder="value">
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-</ExampleBlock>
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Flex gap="spacing-1" alignItems="center">
+                Array of objects
+                <Select placeholder="value" options={options} />
+            </Flex>
+            <Flex gap="spacing-1" alignItems="center">
+                Child nodes
+                <Select placeholder="value">
+                    <Select.Option value="val_1">Value 1</Select.Option>
+                    <Select.Option value="val_2">Value 2</Select.Option>
+                    <Select.Option value="val_3">Value 3</Select.Option>
+                    <Select.Option value="val_4">Value 4</Select.Option>
+                </Select>
+            </Flex>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -89,81 +83,101 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+#### The text of an option
+
+The text of an option is what the trigger shows for a selected option, what the filter matches and
+what the search by the first letters looks up. By default it is the content of the option when that
+is a string or a number, its children when those are, and its `value` otherwise — so an option that renders anything but a plain string needs
+`getOptionText`, or it will be searched and named by its value.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+import {Flex, Icon, Select, getSelectOptionText} from '@gravity-ui/uikit';
+
+<Select
+  options={cities}
+  renderOption={(option) => (
+    <Flex gap="spacing-1">
+      <Icon data={option.data.icon} />
+      {option.data.name}
+    </Flex>
+  )}
+  // The options of the list are not always the ones of a single shape: `getSelectOptionText` is
+  // the default, so the ones without `data` keep the text they had
+  getOptionText={(option) => option.data?.name ?? getSelectOptionText(option)}
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+`useSelectOptions` takes the same property: pass it there as well when the options are filtered
+outside of the component. Define the function outside the component or memoize it — it takes part in
+the memoization of the list, and a new function on every render rebuilds the rows.
+
+`getOptionText` replaces the `text` property of an option, which is gone: the text of an option is
+asked for rather than stored, so one function covers every option instead of a field repeated on
+each of them.
+
+The `value` of an option identifies its row, so the values have to be unique across the whole list,
+groups included (for a [non-string value](#non-string-values) — its key). The DOM `id` of the row is
+derived from it, and that id is what `aria-activedescendant` of the trigger points at — read it from
+there rather than building it by hand: the escaping of a value belongs to the list and is not a
+contract.
+
 #### Grouped list
 
-<!--LANDING_BLOCK
+A group header is a caption rather than an option: it carries `role="presentation"`, stays out of
+the keyboard walk and out of the count of `role="option"` rows, and describes the options under it
+through `aria-describedby`. A group whose `label` is empty draws a separating line instead of a
+header — as the first row of the list it has nothing to separate and takes no space at all. That is
+the default drawing of a group: `renderOptionGroup` and `getOptionGroupHeight` are asked first and
+render and measure whatever they like, empty label or not.
 
-<ExampleBlock
-    code={`
-<Select
-  placeholder="value"
-  options={[
+<!--SANDBOX
+import {Flex, Select} from '@gravity-ui/uikit';
+
+const groupedOptions = [
     {
-      label: 'Group 1',
-      options: [
-        {value: 'val_1', content: 'Value 1'},
-        {value: 'val_2', content: 'Value 2'},
-      ],
-    },
-    {
-      label: 'Group 2',
-      options: [
-        {value: 'val_3', content: 'Value 3'},
-        {value: 'val_4', content: 'Value 4'},
-      ],
-    },
-  ]}
-/>
-<Select placeholder="value">
-  <Select.OptionGroup label="Group 1">
-    <Select.Option value="val_1" content="Value 1" />
-    <Select.Option value="val_2" content="Value 2" />
-  </Select.OptionGroup>
-  <Select.OptionGroup label="Group 2">
-    <Select.Option value="val_3" content="Value 3" />
-    <Select.Option value="val_4" content="Value 4" />
-  </Select.OptionGroup>
-</Select>
-`}
->
-  <div>
-    Array of objects
-    <UIKit.Select
-      placeholder="value"
-      options={[
-        {
-          label: 'Group 1',
-          options: [
+        label: 'Group 1',
+        options: [
             {value: 'val_1', content: 'Value 1'},
             {value: 'val_2', content: 'Value 2'},
-          ],
-        },
-        {
-          label: 'Group 2',
-          options: [
+        ],
+    },
+    {
+        label: 'Group 2',
+        options: [
             {value: 'val_3', content: 'Value 3'},
             {value: 'val_4', content: 'Value 4'},
-          ],
-        },
-      ]}
-    />
-  </div>
-  <div>
-    Child nodes
-    <UIKit.Select placeholder="value">
-      <UIKit.Select.OptionGroup label="Group 1">
-        <UIKit.Select.Option value="val_1" content="Value 1" />
-        <UIKit.Select.Option value="val_2" content="Value 2" />
-      </UIKit.Select.OptionGroup>
-      <UIKit.Select.OptionGroup label="Group 2">
-        <UIKit.Select.Option value="val_3" content="Value 3" />
-        <UIKit.Select.Option value="val_4" content="Value 4" />
-      </UIKit.Select.OptionGroup>
-    </UIKit.Select>
-  </div>
-</ExampleBlock>
+        ],
+    },
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Flex gap="spacing-1" alignItems="center">
+                Array of objects
+                <Select placeholder="value" options={groupedOptions} />
+            </Flex>
+            <Flex gap="spacing-1" alignItems="center">
+                Child nodes
+                <Select placeholder="value">
+                    <Select.OptionGroup label="Group 1">
+                        <Select.Option value="val_1" content="Value 1" />
+                        <Select.Option value="val_2" content="Value 2" />
+                    </Select.OptionGroup>
+                    <Select.OptionGroup label="Group 2">
+                        <Select.Option value="val_3" content="Value 3" />
+                        <Select.Option value="val_4" content="Value 4" />
+                    </Select.OptionGroup>
+                </Select>
+            </Flex>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -207,31 +221,82 @@ LANDING_BLOCK-->
 
 You can define and store unique data in each option by using the `option.data` property. This can be useful when you need to enrich the data when using the `onUpdate` callback or, for example, when drawing your options with `renderOption`.
 
+### Non-string values
+
+The value of an option can be of any type: the type of `value`, `defaultValue` and `onUpdate` follows
+the options. The Select knows a value by a string key — the id of its row, the field of a form and
+the comparison of two values all use it. A string is its own key, another primitive is turned into
+one with `String()`, and an object needs `getValueKey`. Values with equal keys are one value: an
+object from a new response selects the option it matches. Define `getValueKey` outside the component
+or memoize it, as `getOptionText`.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+type City = {id: number; name: string};
+
+const getCityKey = (city: City) => String(city.id);
+
+<Select
+  options={cities.map((city) => ({value: city, content: city.name}))}
+  getValueKey={getCityKey}
+  onUpdate={(value) => setSelected(value)} // City[]
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+An object value has no text of its own: give the option a string `content` or pass `getOptionText`.
+A `Select.Option` child takes a string unless its type is named: `<Select.Option<unknown, number>
+value={1}>`; the Select itself takes the type from `value` or a typed `onUpdate={(value: number[]) =>
+…}`. A selected value with no option is shown by its key; keep its option in `options` or render it
+with `renderSelectedOptions`. A form submits keys, not values. In a union type `1`
+and `"1"` share a key and are one value.
+
+### Nullable values
+
+`''`, `null` and `undefined` mean no value unless an option declares them. Without an option such a
+value has no text, clear button or count, a form sends it as `''`, while `value` and `onUpdate` keep
+it as is. `0` and `false` are always values.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+// No value: the placeholder, no clear button
+<Select options={[{value: 'a', content: 'A'}]} value={['']} placeholder="Letter" hasClear />
+
+// A value: the text "Any", the clear button
+<Select
+  options={[{value: '', content: 'Any'}, {value: 'a', content: 'A'}]}
+  value={['']}
+  placeholder="Letter"
+  hasClear
+/>
+
+// The counter shows 1: '' has no option
+<Select options={[{value: 'a', content: 'A'}]} value={['', 'a']} multiple hasCounter />
+```
+
+<!--/GITHUB_BLOCK-->
+
 ## Selecting multiple options
 
 To enable multiple selection, use the `multiple` property. Its default value is `false`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select multiple={true} placeholder="values">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select multiple={true} placeholder="values">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select multiple placeholder="values">
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -246,31 +311,27 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+Shift+click, Shift+↑/↓ and Shift+Space select a range of options, from the option chosen last to the
+target.
+
 ### Counter
 
 You can add a counter of the selected items to the component using the `hasCounter` property.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select multiple={true} hasCounter={true} placeholder="values">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select multiple={true} hasCounter={true} placeholder="values">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select multiple hasCounter placeholder="values">
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -289,27 +350,20 @@ LANDING_BLOCK-->
 
 To enable filter section, use the `filterable` property. Its default value is `false`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select filterable={true} placeholder="Filterable">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select filterable={true} placeholder="Filterable">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select filterable placeholder="Filterable">
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -324,43 +378,43 @@ LANDING_BLOCK-->
 
 <!--/GITHUB_BLOCK-->
 
+## The search by the first letters
+
+With the popup open and no filter in the way, the character keys look up an option: the list moves
+the activity to the first option whose text **starts with** what was typed, the buffer resets a
+second after the last key, and repeating one character cycles through the options that start with
+it. A space belongs to the query while it is being typed, so a label with a space in it is
+reachable — and it selects nothing until the buffer is empty again. A character the list took for
+its search does not reach the hotkeys of the application around it.
+
+In a `filterable` Select the keys go into the filter instead: typing there is filtering.
+
 ## Size
 
 To manage the default control and option size, use the `size` property. Its default size is `m`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select size="s" placeholder="S Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="m" placeholder="M Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="l" placeholder="L Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-<Select size="xl" placeholder="XL Size">
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select size="s" placeholder="S Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-  <UIKit.Select size="m" placeholder="M Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-  <UIKit.Select size="l" placeholder="L Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-  <UIKit.Select size="xl" placeholder="XL Size">
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <Select size="s" placeholder="S Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+            <Select size="m" placeholder="M Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+            <Select size="l" placeholder="L Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+            <Select size="xl" placeholder="XL Size">
+                <Select.Option value="val_1">Value 1</Select.Option>
+            </Select>
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -389,60 +443,46 @@ By default, the control width stretches to match the width of the content of the
 
 `number`: Applies width in pixels.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Select, SelectProps} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
 
-<ExampleBlock
-    code={`
-<Select>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select width="max">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select width={150}>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Default</h4>
-    <UIKit.Select multiple={true}>
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Max</h4>
-    <UIKit.Select width="max" multiple={true}>
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-  <div style={{width: 150, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>In pixels</h4>
-    <UIKit.Select width={110} multiple={true}>
-      <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-      <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-  </div>
-</ExampleBlock>
+const containerStyle: CSSProperties = {
+    width: 150,
+    border: '2px dashed gray',
+    textAlign: 'center',
+};
 
-LANDING_BLOCK-->
+function SelectExample(props: SelectProps) {
+    return (
+        <Select {...props}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+
+export default function () {
+    return (
+        <>
+            <div style={containerStyle}>
+                <h4>Default</h4>
+                <SelectExample multiple />
+            </div>
+            <div style={containerStyle}>
+                <h4>Max</h4>
+                <SelectExample width="max" multiple />
+            </div>
+            <div style={containerStyle}>
+                <h4>In pixels</h4>
+                <SelectExample width={110} multiple />
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
 ## Popup width
 
@@ -454,206 +494,191 @@ You can manage the popup width with the `popupWidth` property. The available val
 
 Points to note about the default behavior:
 
-- The popup width is equal to the width of the widest option, but not wider than `90vw`. This does not apply in case you use [virtualization](#virtualized-list).
+- The popup width is equal to the width of the widest option, but not wider than `90vw`. This does not apply to a [virtualized](#virtualized-list) `Select`.
 
 - Narrow options are stretched to fit the width of the control.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Select, SelectProps} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
 
-### Non-virtualized list
+const containerStyle: CSSProperties = {
+    width: 200,
+    border: '2px dashed gray',
+    textAlign: 'center',
+};
 
-A regular list when all the elements are in the dom tree at once.
+function ShortValueSelect(props: SelectProps) {
+    return (
+        <Select placeholder="Short value" {...props}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
 
-<ExampleBlock
-    code={`
-<Select>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-`}
->
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Default</h4>
-    <p>
-      <UIKit.Select placeholder="Short value">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value">
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-  </div>
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Fit</h4>
-    <p>
-      <UIKit.Select placeholder="Short value" popupWidth="fit">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value" popupWidth="fit">
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-  </div>
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>In pixels</h4>
-    <p>
-      <UIKit.Select placeholder="Short value" popupWidth={80}>
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value" popupWidth={80}>
-        <UIKit.Select.Option value="val_1">Loooooooooooooooooooong Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Loooooooooooooooooooong Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Loooooooooooooooooooong Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Loooooooooooooooooooong Value 4</UIKit.Select.Option>
-      </UIKit.Select>
-    </p>
-  </div>
-</ExampleBlock>
+function LongValueSelect(props: SelectProps) {
+    return (
+        <Select placeholder="Long value" {...props}>
+            <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
+            <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
+            <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
+            <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
+        </Select>
+    );
+}
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <div style={containerStyle}>
+                <h4>Default</h4>
+                <Box marginBlock="spacing-3">
+                    <ShortValueSelect />
+                </Box>
+                <Box marginBlock="spacing-3">
+                    <LongValueSelect />
+                </Box>
+            </div>
+            <div style={containerStyle}>
+                <h4>Fit</h4>
+                <Box marginBlock="spacing-3">
+                    <ShortValueSelect popupWidth="fit" />
+                </Box>
+                <Box marginBlock="spacing-3">
+                    <LongValueSelect popupWidth="fit" />
+                </Box>
+            </div>
+            <div style={containerStyle}>
+                <h4>In pixels</h4>
+                <Box marginBlock="spacing-3">
+                    <ShortValueSelect popupWidth={80} />
+                </Box>
+                <Box marginBlock="spacing-3">
+                    <LongValueSelect popupWidth={80} />
+                </Box>
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
-### Virtualized list
+## Virtualized list
 
-For optimal display of a large number of options, `Select` has a built-in list virtualization tool. Virtualization is enabled after overcoming the threshold of the number of options (`50` by default). You can manage this value using the `virtualizationThreshold` property.
+A long list of options is rendered row by row unless you ask for otherwise: every option is a DOM row. To render only the visible ones, wrap the `Select` in `ListVirtualizer` from the `@gravity-ui/uikit/virtualizer` entry point — the wrapper needs no configuration, and the popup keeps working through the portal. A couple of hundred options is where it starts to pay off; above 150 the `Select` says so in a development warning.
 
-When using virtualization, some restrictions apply to the popup element:
+The entry point needs `@tanstack/react-virtual`: it is an optional peer dependency of the package and has to be installed alongside it.
+
+```tsx
+import {Select} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+<ListVirtualizer>
+  <Select options={thousandsOfOptions} />
+</ListVirtualizer>;
+```
+
+The wrapper does not have to stand next to the `Select`: one wrapper with `minItemsCount` at the root of the app covers every `Select` below it. A `Select` of fewer options renders as if there were no wrapper — every option a DOM row, the popup as wide as the widest option. The `Select` counts all of its options, without the group headers and without the filter, so typing does not switch the list.
+
+```tsx
+import {Provider} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+<Provider theme="light">
+  <ListVirtualizer minItemsCount={50}>
+    <App />
+  </ListVirtualizer>
+</Provider>;
+```
+
+To change the settings for one `Select`, put a second wrapper right around it. It changes only what it is given and takes the rest from the one at the root: `overscan={20}` keeps the threshold, `minItemsCount={0}` virtualizes that `Select` whatever the number of its options, and `minItemsCount={Infinity}` keeps it plain.
+
+```tsx
+import {Select} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+// Under the wrapper at the root: this Select is virtualized whatever the number of its options
+<ListVirtualizer minItemsCount={0}>
+  <Select options={options} />
+</ListVirtualizer>;
+```
+
+The code of the virtualizer is a chunk of its own, and it is not loaded for the shorter `Select`s. A `Select` that is going to be virtualized starts loading it on mount; a popup opened before it arrives shows its first options until the window takes over, and scrolls to the selected one then.
+
+Things to keep in mind about a virtualized `Select`:
 
 - The popup width no longer gets adjusted to the length of the longest option.
 
 - The minimum width of the popup is equal to the width of the control, or `100px` if the control is shorter.
 
-<!--LANDING_BLOCK
+- The height of a row before it is rendered is taken from [getOptionHeight](#rendering-options-with-different-heights) and the `size` of the `Select`; the `estimateItemSize` of the wrapper is not used, since the type of an option row does not leave the `Select` — passing it writes a warning in development. The `measure` and `overscan` properties of the wrapper work as [described](https://github.com/gravity-ui/uikit/blob/main/src/components/List/README.md#virtualization) for the `List`.
 
-<ExampleBlock
-    code={`
-<Select>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth="fit">
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select popupWidth={80}>
-  <Select.Option value="val_1">Loooooooooooooooooooong Value 1</Select.Option>
-  <Select.Option value="val_2">Loooooooooooooooooooong Value 2</Select.Option>
-  <Select.Option value="val_3">Loooooooooooooooooooong Value 3</Select.Option>
-  <Select.Option value="val_4">Loooooooooooooooooooong Value 4</Select.Option>
-</Select>
-`}
->
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>Default</h4>
-    <p>
-      <UIKit.Select placeholder="Short value">
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value">
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Loooooooooooooooooooong Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-  </div>
-  <div style={{width: 200, border: '2px dashed gray', textAlign: 'center'}}>
-    <h4 style={{textAlign: 'center'}}>In pixels</h4>
-    <p>
-      <UIKit.Select placeholder="Short value" popupWidth={80}>
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-    <p>
-      <UIKit.Select placeholder="Long value" popupWidth={80}>
-        {Array.from({length: 1000}, (_, index) => index)
-          .map((value) => <UIKit.Select.Option value={value}>{`Loooooooooooooooooooong Value ${value}`}</UIKit.Select.Option>)
-        }
-      </UIKit.Select>
-    </p>
-  </div>
-</ExampleBlock>
+- A popup rendered on the server gets its first options instead of the window — there is no viewport to measure it against — and the window takes over after hydration.
 
-LANDING_BLOCK-->
+- The wrapper covers the list of this `Select`, the one [renderPopup](#rendering-options-list) puts on the page included. A list inside a row of it, or a `Select` placed in such a row, renders every row of its own instead: the virtualization of a list does not reach what its rows draw.
+
+- Define `getOptionHeight` and `renderOption` outside the component or memoize them: a new function on every render makes the virtualizer start its measurements over and the rows re-render.
+
+<!--SANDBOX
+import {Box, Select} from '@gravity-ui/uikit';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+import {type CSSProperties} from 'react';
+
+const containerStyle: CSSProperties = {
+    width: 200,
+    border: '2px dashed gray',
+    textAlign: 'center',
+};
+
+const shortOptions = Array.from({length: 1000}, (_, index) => ({
+    value: String(index),
+    content: `Value ${index}`,
+}));
+
+const longOptions = Array.from({length: 1000}, (_, index) => ({
+    value: String(index),
+    content: `Loooooooooooooooooooong Value ${index}`,
+}));
+
+export default function () {
+    return (
+        <>
+            <div style={containerStyle}>
+                <h4>Default</h4>
+                <Box marginBlock="spacing-3">
+                    <ListVirtualizer>
+                        <Select placeholder="Short value" options={shortOptions} />
+                    </ListVirtualizer>
+                </Box>
+                <Box marginBlock="spacing-3">
+                    <ListVirtualizer>
+                        <Select placeholder="Long value" options={longOptions} />
+                    </ListVirtualizer>
+                </Box>
+            </div>
+            <div style={containerStyle}>
+                <h4>In pixels</h4>
+                <Box marginBlock="spacing-3">
+                    <ListVirtualizer>
+                        <Select placeholder="Short value" popupWidth={80} options={shortOptions} />
+                    </ListVirtualizer>
+                </Box>
+                <Box marginBlock="spacing-3">
+                    <ListVirtualizer>
+                        <Select placeholder="Long value" popupWidth={80} options={longOptions} />
+                    </ListVirtualizer>
+                </Box>
+            </div>
+        </>
+    );
+}
+SANDBOX-->
+
+## Accessible name
+
+The trigger needs a name: `label`, `aria-label`, `aria-labelledby` or a `<label htmlFor>` pointing at the `id` of the `Select`. `label` names the trigger and stays out of its value; a placeholder is not a name. With `renderControl` the label is not drawn, so name the custom control yourself.
 
 ## Advanced usage
 
@@ -662,51 +687,43 @@ There are many ways to customize your `Select`.
 ### Rendering custom control
 
 To render a custom control, use the `renderControl` property.
-Note: You should forward all arguments to your node in order to enable consistent behavior, just as when using the default control.
 
-<!--LANDING_BLOCK
+Hand `ref` to your element and spread `triggerProps` onto it: they open and close the popup, carry the keyboard of the list and the ARIA of the combobox (`role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`). A control that keeps them to itself neither opens nor navigates. `triggerProps` also contains `disabled`. Cast the generic `ref` to a button ref when using `Button`.
 
-<ExampleBlock
-    code={`
-<Select
-  renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
-  }}
->
-  <Select.Option value="val_1">Value 1</Select.Option>
-  <Select.Option value="val_2">Value 2</Select.Option>
-  <Select.Option value="val_3">Value 3</Select.Option>
-  <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select renderControl={({onClick, onKeyDown, ref}) => {
-    return <button ref={ref} onClick={onClick} extraProps={{onKeyDown}}>Custom control</button>
-  }}>
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+<!--SANDBOX
+import {Button, Select} from '@gravity-ui/uikit';
+import type {Ref} from 'react';
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select
+            renderControl={({ref, triggerProps}) => (
+                <Button ref={ref as Ref<HTMLButtonElement>} {...triggerProps}>
+                    Custom control
+                </Button>
+            )}
+        >
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-import {Button} from '@gravity-ui/uikit';
+import {Button, type SelectProps} from '@gravity-ui/uikit';
+import type {Ref} from 'react';
 
 const MyComponent = () => {
-  const renderControl: SelectProps['renderControl'] = ({onClick, onKeyDown, ref}) => {
+  const renderControl: SelectProps['renderControl'] = ({ref, triggerProps}) => {
+    // `triggerProps` opens and closes the popup and carries the keyboard of the list along with
+    // the ARIA of the combobox — it has to reach the element itself.
     return (
-      <Button
-        ref={ref}
-        onClick={onClick}
-        extraProps={{
-          onKeyDown,
-        }}
-      >
+      <Button ref={ref as Ref<HTMLButtonElement>} {...triggerProps}>
         Your control
       </Button>
     );
@@ -721,80 +738,59 @@ const MyComponent = () => {
 ### Rendering custom filter section
 
 To render a custom filter section, use the `renderFilter` property and set the `filterable` property to `true`.
-Note: You need to forward all arguments to your node in order to enable a properly working filter, just as when using the default configuration.
 
-<!--LANDING_BLOCK
+`inputProps` carries everything the input of a combobox needs: the value, the handlers, the placeholder and the ARIA wiring — `role`, `aria-label`, `aria-controls`, `aria-activedescendant`, `aria-expanded`, `aria-autocomplete`. It also carries `size: 1`, a width hint rather than ARIA: it lets the input shrink to the popup instead of keeping the twenty characters an `input` asks for by default. Without them the filter has no accessible name and names no active option for a screen reader. Spread it onto a plain `input` together with `ref`. A component with an API of its own — `TextInput`, say — takes the props it owns (`value`, `placeholder`, `onChange`, `onKeyDown`) and hands the rest to the element through `controlProps`, which one line of destructuring does; `onKeyDown` must be among them, it carries the whole keyboard of the list.
 
-<ExampleBlock
-    code={`
-<Select
-  placeholder="Custom filter"
-  filterable={true}
-  renderFilter={({onChange, onKeyDown, ref, value}) => {
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Button, Flex, Select, TextInput} from '@gravity-ui/uikit';
+
+const renderFilter: SelectProps['renderFilter'] = ({ref, style, inputProps}) => {
+    // `TextInput` owns the value, the placeholder and the handlers; everything else belongs to the
+    // input element itself and goes through `controlProps` as it is
+    const {value, placeholder, onChange, onKeyDown, ...controlProps} = inputProps;
+
     return (
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        <input
-          ref={ref}
-          value={value}
-          size="1"
-          onKeyDown={onKeyDown}
-          onChange={(e) => onChange(e.target.value)}
-        />
-        <button>Do smth</button>
-      </div>
+        <Flex direction="column" gap="spacing-1" style={style}>
+            <TextInput
+                controlRef={ref}
+                controlProps={controlProps}
+                value={value}
+                placeholder={placeholder}
+                onChange={onChange}
+                onKeyDown={onKeyDown}
+            />
+            <Button size="xs">Do smth</Button>
+        </Flex>
     );
-  }}
->
-  <Select.Option value="val_1">Value 1</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Custom filter"
-    filterable={true}
-    renderFilter={({onChange, onKeyDown, ref, value}) => {
-      return (
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          <input
-            ref={ref}
-            value={value}
-            size="1"
-            onKeyDown={onKeyDown}
-            onChange={(e) => onChange(e.target.value)}
-          />
-          <button>Do smth</button>
-        </div>
-      );
-    }}
-  >
-    <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+};
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select placeholder="Custom filter" filterable renderFilter={renderFilter}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
-import {Button, TextInput} from '@gravity-ui/uikit';
+import {Button} from '@gravity-ui/uikit';
 import type {SelectProps} from '@gravity-ui/uikit';
 
 const MyComponent = () => {
   const renderFilter: SelectProps['renderFilter'] = (props) => {
-    const {value, ref, onChange, onKeyDown} = props;
+    // `inputProps` carries the value, the handlers and the combobox wiring of the input
+    const {ref, inputProps} = props;
 
     return (
       <div>
-        <TextInput
-          controlRef={ref}
-          controlProps={{size: 1}}
-          value={value}
-          onUpdate={onChange}
-          onKeyDown={onKeyDown}
-        />
+        <input ref={ref} {...inputProps} />
         <Button>Do smth</Button>
       </div>
     );
@@ -812,46 +808,47 @@ const MyComponent = () => {
 
 ### Rendering custom options
 
-To render custom options, use the `renderOption` property:
+To render custom options, use the `renderOption` property. It is called with the option and with the
+state of its row: `isItemActive`, whether the row is the active one (the one `Enter` applies);
+`selected`, whether the option is selected; and `itemHeight`, the height the row comes out as — the
+one [getOptionHeight](#rendering-options-with-different-heights) returned or the minimum of the
+[size](#size). The row itself shows the selection beside whatever this renders: a
+check mark in a [multiple](#selecting-multiple-options) `Select` and a highlight in a single one.
+An option that draws its own indication — a `Radio` or a `Checkbox` from `selected` — turns that
+off with `selectionStyle="none"`; without one of its own the selection becomes invisible. Such a
+control is decoration — the row selects the option, and an interactive element is not allowed
+inside it: wrap the control in an element with `inert` (`inert=""` before React 19) and keep the
+text of the option outside it.
 
-<!--LANDING_BLOCK
+`renderOptionGroup` is the same for the header of a group: the group and `{isItemActive, itemHeight}`.
 
-<ExampleBlock
-    code={`
-<Select
-  renderOption={(option) => {
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
+
+const renderOption: SelectProps['renderOption'] = (option) => {
+    return <div style={{color: option.data.color}}>{option.children}</div>;
+};
+
+export default function () {
     return (
-      <div style={{color: option.data.color}}>
-        {option.children}
-      </div>
+        <Select placeholder="Custom options" renderOption={renderOption}>
+            <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+                Value 1
+            </Select.Option>
+            <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+                Value 2
+            </Select.Option>
+            <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+                Value 3
+            </Select.Option>
+            <Select.Option value="val_4" data={{color: '#534581'}}>
+                Value 4
+            </Select.Option>
+        </Select>
     );
-  }}
->
-  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Custom options"
-    renderOption={(option) => {
-      return (
-        <div style={{color: option.data.color}}>
-          {option.children}
-        </div>
-      );
-    }}
-  >
-    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -886,108 +883,89 @@ const MyComponent = () => {
 
 ### Rendering custom selected options
 
-To render custom selected options, use the `renderSelectedOption` property:
+To render the selection in the control, use the `renderSelectedOptions` property. It is called with
+all the selected options in the order of `value` — an array of one in a single select — and only
+when there is a value. A value without an option comes as `{value}`, without `content`. Give the
+returned elements keys when they hold state. The label, placeholder, counter and clear button stay
+with the `Select`. Without the property the control shows the texts of the options joined with `, `.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  renderSelectedOption={(option) => {
+const options = [
+    {value: 'bug', content: 'Bug'},
+    {value: 'task', content: 'Task'},
+    {value: 'epic', content: 'Epic'},
+];
+
+const renderSelectedOptions: SelectProps['renderSelectedOptions'] = (selected) =>
+    selected.length === options.length
+        ? 'All ticket types'
+        : selected.map((option) => option.content ?? option.value).join(' and ');
+
+export default function () {
     return (
-      <div style={{color: option.data.color}}>
-        {option.children}
-      </div>
+        <Select
+            multiple
+            placeholder="Ticket types"
+            options={options}
+            renderSelectedOptions={renderSelectedOptions}
+        />
     );
-  }}
->
-  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Custom selected options"
-    renderSelectedOption={(option) => {
-      return (
-        <div style={{color: option.data.color}}>
-          {option.children}
-        </div>
-      );
-    }}
-  >
-    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
 ```tsx
 import type {SelectProps} from '@gravity-ui/uikit';
 
-const MyComponent = () => {
-  const renderSelectedOption: SelectProps['renderSelectedOption'] = (option) => {
-    return <div style={{color: option.data.color}}>{option.children}</div>;
-  };
+const options = [
+  {value: 'bug', content: 'Bug'},
+  {value: 'task', content: 'Task'},
+  {value: 'epic', content: 'Epic'},
+];
 
-  return (
-    <Select renderSelectedOption={renderSelectedOption}>
-      <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
-        Value 1
-      </Select.Option>
-      <Select.Option value="val_2" data={{color: '#38C0A8'}}>
-        Value 2
-      </Select.Option>
-      <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
-        Value 3
-      </Select.Option>
-      <Select.Option value="val_4" data={{color: '#534581'}}>
-        Value 4
-      </Select.Option>
-    </Select>
-  );
-};
+const renderSelectedOptions: SelectProps['renderSelectedOptions'] = (selected) =>
+  selected.length === options.length
+    ? 'All ticket types'
+    : selected.map((option) => option.content ?? option.value).join(' and ');
+
+<Select multiple options={options} renderSelectedOptions={renderSelectedOptions} />;
 ```
 
 <!--/GITHUB_BLOCK-->
 
 ### Rendering options with different heights
 
-Options have a fixed height according to the `size` property. If you need to render options with different heights, you can use the `option.data` property. It will store information about what height you need to set for the options, as well as the `getOptionHeight` property to set this value.
+A row is as tall as its content, and no shorter than the minimum of its `size` (24, 28, 36 and 44 pixels, as the control of the same size; on mobile every row takes the 44 of `xl`) — unless you set the height yourself. If you need to render options with different heights, you can use the `option.data` property. It will store information about what height you need to set for the options, as well as the `getOptionHeight` property to set this value: the number it returns becomes the height of the row and the estimate the [virtualizer](#virtualized-list) positions the rows with.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  getOptionHeight={(option) => option.data.height}
->
-  <Select.Option value="val_1" data={{height: 20}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{height: 40}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{height: 60}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{height: 80}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    placeholder="Different heights"
-    getOptionHeight={(option) => option.data.height}
-  >
-    <UIKit.Select.Option value="val_1" data={{height: 20}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{height: 40}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{height: 60}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{height: 80}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+const getOptionHeight: SelectProps['getOptionHeight'] = (option) => option.data.height;
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Select placeholder="Different heights" getOptionHeight={getOptionHeight}>
+            <Select.Option value="val_1" data={{height: 20}}>
+                Value 1
+            </Select.Option>
+            <Select.Option value="val_2" data={{height: 40}}>
+                Value 2
+            </Select.Option>
+            <Select.Option value="val_3" data={{height: 60}}>
+                Value 3
+            </Select.Option>
+            <Select.Option value="val_4" data={{height: 80}}>
+                Value 4
+            </Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -1018,55 +996,124 @@ const MyComponent = () => {
 
 <!--/GITHUB_BLOCK-->
 
-### Rendering custom popup
+### Rendering custom counter
 
-To render custom popup, use the `renderPopup` property.
+To render a custom counter, use the `renderCounter` property. The counter is only displayed when multiple selection is enabled (`multiple={true}`) and `hasCounter={true}`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Select
-  filterable
-  placeholder="Custom popup"
-  renderPopup={({renderList, renderFilter}) => {
+const renderCounter: SelectProps['renderCounter'] = (_, {count, disabled}) => {
+    if (count === 0) {
+        return null;
+    }
+
+    if (count >= 2) {
+        return (
+            <div
+                style={{
+                    padding: '0 8px',
+                    color: disabled ? '#999' : '#027bf3',
+                    fontWeight: 'bold',
+                }}
+            >
+                +{count}
+            </div>
+        );
+    }
+
+    return count;
+};
+
+export default function () {
     return (
-      <React.Fragment>
-        {renderFilter()}
-        <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
-        {renderList()}
-      </React.Fragment>
+        <Select multiple hasCounter renderCounter={renderCounter}>
+            <Select.Option value="val_1">Value 1</Select.Option>
+            <Select.Option value="val_2">Value 2</Select.Option>
+            <Select.Option value="val_3">Value 3</Select.Option>
+            <Select.Option value="val_4">Value 4</Select.Option>
+        </Select>
     );
-  }}
->
-  <Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</Select.Option>
-  <Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</Select.Option>
-  <Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</Select.Option>
-  <Select.Option value="val_4" data={{color: '#534581'}}>Value 4</Select.Option>
-</Select>
-`}
->
-  <UIKit.Select
-    filterable
-    placeholder="Custom popup"
-    renderPopup={({renderList, renderFilter}) => {
-      return (
-        <React.Fragment>
-          {renderFilter()}
-          <div style={{width: "100%", height: "20px", backgroundColor: "tomato"}} />
-          {renderList()}
-        </React.Fragment>
-  );
-}}
-  >
-    <UIKit.Select.Option value="val_1" data={{color: '#8FE1A1'}}>Value 1</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_2" data={{color: '#38C0A8'}}>Value 2</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_3" data={{color: '#3A7AC3'}}>Value 3</UIKit.Select.Option>
-    <UIKit.Select.Option value="val_4" data={{color: '#534581'}}>Value 4</UIKit.Select.Option>
-  </UIKit.Select>
-</ExampleBlock>
+}
+SANDBOX-->
 
-LANDING_BLOCK-->
+<!--GITHUB_BLOCK-->
+
+```tsx
+import type {SelectProps} from '@gravity-ui/uikit';
+
+const MyComponent = () => {
+  const renderCounter: SelectProps['renderCounter'] = (_, {count, disabled}) => {
+    if (count === 0) {
+      return null;
+    }
+    if (count >= 2) {
+      return (
+        <div
+          style={{
+            padding: '0 8px',
+            color: disabled ? '#999' : '#027bf3',
+            fontWeight: 'bold',
+          }}
+        >
+          +{count}
+        </div>
+      );
+    }
+    return count;
+  };
+
+  return (
+    <Select multiple={true} hasCounter={true} renderCounter={renderCounter}>
+      <Select.Option value="val_1">Value 1</Select.Option>
+      <Select.Option value="val_2">Value 2</Select.Option>
+      <Select.Option value="val_3">Value 3</Select.Option>
+      <Select.Option value="val_4">Value 4</Select.Option>
+    </Select>
+  );
+};
+```
+
+<!--/GITHUB_BLOCK-->
+
+### Rendering options list
+
+The `renderPopup` property allows you to control the content of the options list: change the order of standard elements (filter, list), hide them, or add custom elements between, before, or after them.
+
+<!--SANDBOX
+import type {SelectProps} from '@gravity-ui/uikit';
+import {Select} from '@gravity-ui/uikit';
+
+const renderPopup: SelectProps['renderPopup'] = ({renderList, renderFilter}) => {
+    return (
+        <>
+            {renderFilter()}
+            <div style={{width: '100%', height: 20, backgroundColor: 'tomato'}} />
+            {renderList()}
+        </>
+    );
+};
+
+export default function () {
+    return (
+        <Select filterable placeholder="Custom popup" renderPopup={renderPopup}>
+            <Select.Option value="val_1" data={{color: '#8FE1A1'}}>
+                Value 1
+            </Select.Option>
+            <Select.Option value="val_2" data={{color: '#38C0A8'}}>
+                Value 2
+            </Select.Option>
+            <Select.Option value="val_3" data={{color: '#3A7AC3'}}>
+                Value 3
+            </Select.Option>
+            <Select.Option value="val_4" data={{color: '#534581'}}>
+                Value 4
+            </Select.Option>
+        </Select>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -1110,97 +1157,100 @@ const MyComponent = () => {
 This `Select` state is for incorrect user input. To change the `Select` appearance, use the `validationState` property with the `"invalid"` value. Optionally, you can provide an error message through the `errorMessage` property. By default, the message text is rendered outside the component.
 You can change this with the `errorPlacement` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<Select
-    placeholder="Placeholder"
-    errorMessage="Error message"
-    validationState="invalid"
->
-    <Select.Option value="val_1">Value 1</Select.Option>
-    <Select.Option value="val_2">Value 2</Select.Option>
-    <Select.Option value="val_3">Value 3</Select.Option>
-    <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-<Select
-    placeholder="Placeholder"
-    errorPlacement="inside"
-    errorMessage="Error message"
-    validationState="invalid"
->
-    <Select.Option value="val_1">Value 1</Select.Option>
-    <Select.Option value="val_2">Value 2</Select.Option>
-    <Select.Option value="val_3">Value 3</Select.Option>
-    <Select.Option value="val_4">Value 4</Select.Option>
-</Select>
-`}
->
-    <UIKit.Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-    <UIKit.Select placeholder="Placeholder" errorPlacement="inside" errorMessage="Error message" validationState="invalid">
-        <UIKit.Select.Option value="val_1">Value 1</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_2">Value 2</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_3">Value 3</UIKit.Select.Option>
-        <UIKit.Select.Option value="val_4">Value 4</UIKit.Select.Option>
-    </UIKit.Select>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {Select} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <Select placeholder="Placeholder" errorMessage="Error message" validationState="invalid">
+                <Select.Option value="val_1">Value 1</Select.Option>
+                <Select.Option value="val_2">Value 2</Select.Option>
+                <Select.Option value="val_3">Value 3</Select.Option>
+                <Select.Option value="val_4">Value 4</Select.Option>
+            </Select>
+            <Select
+                placeholder="Placeholder"
+                errorPlacement="inside"
+                errorMessage="Error message"
+                validationState="invalid"
+            >
+                <Select.Option value="val_1">Value 1</Select.Option>
+                <Select.Option value="val_2">Value 2</Select.Option>
+                <Select.Option value="val_3">Value 3</Select.Option>
+                <Select.Option value="val_4">Value 4</Select.Option>
+            </Select>
+        </>
+    );
+}
+SANDBOX-->
 
 ## Properties
 
-| Name                                                      | Description                                                                                                                      | Type                                     | Default                                                  |
-| :-------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :------------------------------------------------------- |
-| className                                                 | Control className                                                                                                                | `string`                                 |                                                          |
-| defaultValue                                              | Default values that represent selected options in case of using an uncontrolled state                                            | `string[]`                               |                                                          |
-| disabled                                                  | Shows that the user cannot work with the control                                                                                 | `boolean`                                | `false`                                                  |
-| [filterable](#filtering-options)                          | Shows that select popup has a filter section                                                                                     | `boolean`                                | `false`                                                  |
-| filterOption                                              | Used to compare option with filter                                                                                               | `function`                               |                                                          |
-| filterPlaceholder                                         | Default filter input placeholder text                                                                                            | `string`                                 |                                                          |
-| [getOptionHeight](#render-options-with-different-heights) | Used to set height of customized user options                                                                                    | `function`                               |                                                          |
-| getOptionGroupHeight                                      | Used to set height of customized user option group                                                                               | `function`                               |                                                          |
-| hasClear                                                  | Enables displaying icon for clearing selected options                                                                            | `boolean`                                | `false`                                                  |
-| id                                                        | `id` HTML attribute                                                                                                              | `string`                                 |                                                          |
-| label                                                     | Control label                                                                                                                    | `string`                                 |                                                          |
-| loading                                                   | Adds the loading item to the end of the option list. Works like a persistent loading indicator while the options list is empty.  | `boolean`                                |                                                          |
-| [multiple](#selecting-multiple-options)                   | Shows whether multiple options can be selected in the list                                                                       | `boolean`                                | `false`                                                  |
-| name                                                      | Name of the control                                                                                                              | `string`                                 |                                                          |
-| onBlur                                                    | Handler that is called when the element loses focus.                                                                             | `function`                               |                                                          |
-| filter                                                    | Controlled filter value                                                                                                          | `string`                                 | `''`                                                     |
-| onFilterChange                                            | Fires every time after changing the filter                                                                                       | `function`                               |                                                          |
-| onFocus                                                   | Handler that is called when the element gets focus                                                                               | `function`                               |                                                          |
-| onLoadMore                                                | Fires when the loading indicator gets visible                                                                                    | `function`                               |                                                          |
-| onOpenChange                                              | Fires every time after changing popup visibility                                                                                 | `function`                               |                                                          |
-| onUpdate                                                  | Fires when an alteration to the `Select` value is committed by the user                                                          | `function`                               |                                                          |
-| [options](#options)                                       | Options to select                                                                                                                | `(SelectOption \| SelectOptionGroup)[]`  |                                                          |
-| pin                                                       | Control border view                                                                                                              | `string`                                 | `'round-round'`                                          |
-| placeholder                                               | Placeholder text                                                                                                                 | `string`                                 |                                                          |
-| popupClassName                                            | Popup with the option list `className`                                                                                           | `string`                                 |                                                          |
-| popupPlacement                                            | Popup placement                                                                                                                  | `PopupPlacement` `Array<PopupPlacement>` | `['bottom-start', 'bottom-end', 'top-start', 'top-end']` |
-| [popupWidth](#popup-width)                                | Popup width                                                                                                                      | `number \| 'fit' \| 'outfit'`            | `'outfit'`                                               |
-| qa                                                        | Test id attribute (`data-qa`)                                                                                                    | `string`                                 |                                                          |
-| [renderControl](#render-custom-control)                   | Used to render user control                                                                                                      | `function`                               |                                                          |
-| renderEmptyOptions                                        | Used to render a node for an empty option list                                                                                   | `function`                               |                                                          |
-| [renderFilter](#render-custom-filter-section)             | Used to render user filter section                                                                                               | `function`                               |                                                          |
-| [renderOption](#render-custom-options)                    | Used to render user options                                                                                                      | `function`                               |                                                          |
-| renderOptionGroup                                         | Used to render user option groups                                                                                                | `function`                               |                                                          |
-| [renderSelectedOption](#render-custom-selected-options)   | Used to render user selected options                                                                                             | `function`                               |                                                          |
-| [renderPopup](#render-custom-popup)                       | Used to render user popup content                                                                                                | `function`                               |                                                          |
-| [size](#size)                                             | Control / options size                                                                                                           | `string`                                 | `'m'`                                                    |
-| value                                                     | Values that represent selected options                                                                                           | `string[]`                               |                                                          |
-| view                                                      | Control view                                                                                                                     | `string`                                 | `'normal'`                                               |
-| [virtualizationThreshold](#virtualized-list)              | Option count threshold after which virtualization is enabled                                                                     | `number`                                 | `50`                                                     |
-| [width](#control-width)                                   | Control width                                                                                                                    | `string \| number`                       | `undefined`                                              |
-| errorMessage                                              | Error text                                                                                                                       | `string`                                 |                                                          |
-| errorPlacement                                            | Error position                                                                                                                   | `outside` `inside`                       | `outside`                                                |
-| validationState                                           | Validation state                                                                                                                 | `"invalid"`                              |                                                          |
-| [hasCounter](#counter)                                    | Shows the selected option count. The counter appears only when the [multiple](#selecting-multiple-options) selection is enabled. | `boolean`                                |                                                          |
+| Name                                                         | Description                                                                                                                      | Type                                     | Default                                                  |
+| :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :------------------------------------------------------- |
+| className                                                    | Control className                                                                                                                | `string`                                 |                                                          |
+| defaultValue                                                 | Default values that represent selected options in case of using an uncontrolled state                                            | `V[]`                                    |                                                          |
+| disabled                                                     | Shows that the user cannot work with the control                                                                                 | `boolean`                                | `false`                                                  |
+| [filterable](#filtering-options)                             | Shows that select popup has a filter section                                                                                     | `boolean`                                | `false`                                                  |
+| filterOption                                                 | Used to compare option with filter                                                                                               | `function`                               |                                                          |
+| filterPlaceholder                                            | Default filter input placeholder text                                                                                            | `string`                                 |                                                          |
+| [getOptionText](#the-text-of-an-option)                      | The text of an option: the trigger, the filter and the search by the first letters use it                                        | `function`                               | string content, otherwise the value                      |
+| [getValueKey](#non-string-values)                            | The string key of a value: the id of its row, the form field, the equality of values                                             | `(value: V) => string`                   | the string itself, `String()` for another primitive      |
+| [getOptionHeight](#rendering-options-with-different-heights) | Used to set height of customized user options                                                                                    | `function`                               |                                                          |
+| getOptionGroupHeight                                         | Used to set height of customized user option group                                                                               | `function`                               |                                                          |
+| hasClear                                                     | Enables displaying icon for clearing selected options                                                                            | `boolean`                                | `false`                                                  |
+| id                                                           | `id` HTML attribute                                                                                                              | `string`                                 |                                                          |
+| label                                                        | Control label; on mobile also the title of the sheet                                                                             | `string`                                 |                                                          |
+| loading                                                      | Adds the loading item to the end of the option list. Works like a persistent loading indicator while the options list is empty.  | `boolean`                                |                                                          |
+| [multiple](#selecting-multiple-options)                      | Shows whether multiple options can be selected in the list                                                                       | `boolean`                                | `false`                                                  |
+| name                                                         | Name of the control                                                                                                              | `string`                                 |                                                          |
+| onBlur                                                       | Handler that is called when the element loses focus.                                                                             | `function`                               |                                                          |
+| filter                                                       | Controlled filter value                                                                                                          | `string`                                 | `''`                                                     |
+| onFilterChange                                               | Fires every time after changing the filter                                                                                       | `function`                               |                                                          |
+| onFocus                                                      | Handler that is called when the element gets focus                                                                               | `function`                               |                                                          |
+| onLoadMore                                                   | Fires when the loading indicator gets visible                                                                                    | `function`                               |                                                          |
+| onOpenChange                                                 | Fires every time after changing popup visibility                                                                                 | `function`                               |                                                          |
+| onUpdate                                                     | Fires when an alteration to the `Select` value is committed by the user                                                          | `function`                               |                                                          |
+| [options](#options)                                          | Options to select                                                                                                                | `SelectOptions`                          |                                                          |
+| pin                                                          | Control border view                                                                                                              | `string`                                 | `'round-round'`                                          |
+| placeholder                                                  | Placeholder text                                                                                                                 | `string`                                 |                                                          |
+| popupClassName                                               | Popup with the option list `className`                                                                                           | `string`                                 |                                                          |
+| popupPlacement                                               | Popup placement                                                                                                                  | `PopupPlacement` `Array<PopupPlacement>` | `['bottom-start', 'bottom-end', 'top-start', 'top-end']` |
+| [popupWidth](#popup-width)                                   | Popup width                                                                                                                      | `number \| 'fit'`                        |                                                          |
+| sheetClassName                                               | Sheet's `className`                                                                                                              | `string`                                 |                                                          |
+| qa                                                           | Test id attribute (`data-qa`)                                                                                                    | `string`                                 |                                                          |
+| [renderControl](#rendering-custom-control)                   | Used to render user control                                                                                                      | `function`                               |                                                          |
+| [renderCounter](#rendering-custom-counter)                   | Used to render user counter. Works only with [hasCounter](#counter).                                                             | `function`                               |                                                          |
+| renderEmptyOptions                                           | Used to render a node for an empty option list                                                                                   | `function`                               |                                                          |
+| [renderFilter](#rendering-custom-filter-section)             | Used to render user filter section                                                                                               | `function`                               |                                                          |
+| [renderOption](#rendering-custom-options)                    | Used to render user options                                                                                                      | `function`                               |                                                          |
+| renderOptionGroup                                            | Used to render user option groups                                                                                                | `function`                               |                                                          |
+| [renderSelectedOptions](#rendering-custom-selected-options)  | Used to render the selection in the control                                                                                      | `function`                               |                                                          |
+| [renderPopup](#rendering-options-list)                       | Used to render options list content                                                                                              | `function`                               |                                                          |
+| [selectionStyle](#rendering-custom-options)                  | How a row shows that its option is selected: the check mark or highlight (`auto`) or nothing (`none`)                            | `'auto' \| 'none'`                       | `'auto'`                                                 |
+| [size](#size)                                                | Control / options size                                                                                                           | `string`                                 | `'m'`                                                    |
+| value                                                        | Values that represent selected options                                                                                           | `V[]`                                    |                                                          |
+| view                                                         | Control view                                                                                                                     | `string`                                 | `'normal'`                                               |
+| [width](#control-width)                                      | Control width                                                                                                                    | `string \| number`                       | `undefined`                                              |
+| errorMessage                                                 | Error text                                                                                                                       | `string`                                 |                                                          |
+| errorPlacement                                               | Error position                                                                                                                   | `outside` `inside`                       | `outside`                                                |
+| validationState                                              | Validation state                                                                                                                 | `"invalid"`                              |                                                          |
+| [hasCounter](#counter)                                       | Shows the selected option count. The counter appears only when the [multiple](#selecting-multiple-options) selection is enabled. | `boolean`                                |                                                          |
 
 ## CSS API
+
+The class names of the markup are not a public contract — the rows of the popup are rendered by the
+list and its row view, and their markup changes with the kit. What is supported:
+
+- the variables below;
+- the look of a row, through the `--g-list-item-view-*` variables of the
+  [row view](../ListItemView/README.md#css-api): its colours, and its height, padding and radius,
+  which otherwise follow the [size](#size) of the `Select`. Set them on `popupClassName` or
+  `sheetClassName` — for example `--g-list-item-view-min-height: 48px` for taller rows on mobile.
+  The estimate of the [virtualizer](#virtualized-list) and the `itemHeight` of `renderOption` still
+  come from the size: when the exact number matters, use `getOptionHeight`;
+- the content of a row, through `renderOption`, `renderOptionGroup` and `renderSelectedOptions`.
 
 | Name                             | Description                                   |
 | :------------------------------- | :-------------------------------------------- |

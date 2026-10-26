@@ -1,5 +1,6 @@
-import type {CasesWithName} from '../../../stories/tests-factory/models';
-import type {ButtonProps} from '../Button';
+import type {CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
+
+import type {ButtonProps} from '../types';
 
 export const sizeCases: CasesWithName<ButtonProps['size']> = [
     ['xs', 'xs'],
@@ -18,6 +19,10 @@ export const loadingCases: CasesWithName<ButtonProps['loading']> = [['loading', 
 export const viewsCases: CasesWithName<ButtonProps['view']> = [
     ['normal', 'normal'],
     ['action', 'action'],
+    ['contrast', 'contrast'],
+    ['contrast-inverted', 'contrast-inverted'],
+    ['contrast-light', 'contrast-light'],
+    ['contrast-dark', 'contrast-dark'],
     ['outlined', 'outlined'],
     ['outlined-info', 'outlined-info'],
     ['outlined-success', 'outlined-success'],
@@ -34,9 +39,6 @@ export const viewsCases: CasesWithName<ButtonProps['view']> = [
     ['flat-danger', 'flat-danger'],
     ['flat-utility', 'flat-utility'],
     ['flat-action', 'flat-action'],
-    ['normal-contrast', 'normal-contrast'],
-    ['outlined-contrast', 'outlined-contrast'],
-    ['flat-contrast', 'flat-contrast'],
 ];
 
 export const pinsCases: CasesWithName<ButtonProps['pin']> = [

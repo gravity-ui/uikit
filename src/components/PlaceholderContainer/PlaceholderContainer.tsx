@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {Button} from '../Button';
 import type {ButtonProps} from '../Button';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 
 import {componentClassName} from './constants';
@@ -21,19 +22,20 @@ const PlaceholderContainerAction = ({text, ...buttonProps}: PlaceholderContainer
     );
 };
 
-export const PlaceholderContainer = ({
-    direction = 'row',
-    align = 'center',
-    size = 'l',
-    className,
-    title,
-    description,
-    image,
-    content,
-    actions,
-    maxWidth,
-    qa,
-}: PlaceholderContainerProps) => {
+export const PlaceholderContainer = (rawProps: PlaceholderContainerProps) => {
+    const {
+        direction = 'row',
+        align = 'center',
+        size = 'l',
+        className,
+        title,
+        description,
+        image,
+        content,
+        actions,
+        maxWidth,
+        qa,
+    } = useDefaultProps('PlaceholderContainer', rawProps);
     const renderTitle = () => {
         if (!title) {
             return null;

@@ -2,22 +2,52 @@
 
 import * as React from 'react';
 
-import {FloatingOverlay} from '@floating-ui/react';
+import {
+    FloatingNode,
+    FloatingOverlay,
+    FloatingTree,
+    useFloating,
+    useFloatingNodeId,
+    useFloatingParentNodeId,
+    useInteractions,
+    useRole,
+} from '@floating-ui/react';
 
+import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {QAProps} from '../types';
+import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
-import {sheetBlock} from './constants';
+import {SHEET_TRANSITION_DURATION_MS, sheetBlock} from './constants';
+import {useSheetDismiss} from './hooks/useSheetDismiss';
 
 import './Sheet.scss';
 
+export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
+
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
-    onClose?: () => void;
-    /** Show/hide sheet */
-    visible: boolean;
+    /** Controlled open state; without it the sheet closes itself on dismissal */
+    open?: boolean;
+    /** Initial open state of an uncontrolled sheet */
+    defaultOpen?: boolean;
+    /** Callback for open state changes, when dismiss happens for example */
+    onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
+    /** Called when the opening transition starts */
+    onTransitionIn?: () => void;
+    /** Called when the opening transition completes */
+    onTransitionInComplete?: () => void;
+    /** Called when the closing transition starts */
+    onTransitionOut?: () => void;
+    /** Called when the closing transition completes */
+    onTransitionOutComplete?: () => void;
+    /** Disables closing the sheet on Escape */
+    disableEscapeKeyDown?: boolean;
+    /** Disables closing the sheet by clicking the veil */
+    disableOutsideClick?: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
     id?: string;
     /** Title of the sheet window */
@@ -38,67 +68,125 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     alwaysFullHeight?: boolean;
 }
 
-export const Sheet = ({
-    children,
-    onClose,
-    visible,
-    id,
-    title,
-    className,
-    contentClassName,
-    swipeAreaClassName,
-    allowHideOnContentScroll,
-    hideTopBar,
-    maxContentHeightCoefficient,
-    alwaysFullHeight,
-    container,
-    disablePortal,
-    qa,
-}: SheetProps) => {
-    const [open, setOpen] = React.useState(visible);
-    const [prevVisible, setPrevVisible] = React.useState(visible);
+function SheetComponent(rawProps: SheetProps) {
+    const {
+        children,
+        open,
+        defaultOpen,
+        onOpenChange,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+        disableEscapeKeyDown,
+        disableOutsideClick,
+        id,
+        title,
+        className,
+        contentClassName,
+        swipeAreaClassName,
+        allowHideOnContentScroll,
+        hideTopBar,
+        maxContentHeightCoefficient,
+        alwaysFullHeight,
+        container,
+        disablePortal,
+        qa,
+    } = useDefaultProps('Sheet', rawProps);
+    const {
+        open: isOpen,
+        immediate,
+        requestDismiss,
+    } = useSheetDismiss({
+        open,
+        defaultOpen,
+        onOpenChange,
+        disableEscapeKeyDown,
+        disableOutsideClick,
+    });
 
-    if (!prevVisible && visible) {
-        setOpen(true);
-    }
+    const handleEscapeKeyDown = React.useCallback(
+        (event: KeyboardEvent) => {
+            requestDismiss({reason: 'escape-key', event});
+        },
+        [requestDismiss],
+    );
 
-    if (visible !== prevVisible) {
-        setPrevVisible(visible);
-    }
+    const floatingNodeId = useFloatingNodeId();
+    const {refs, context} = useFloating({
+        nodeId: floatingNodeId,
+        open: isOpen,
+    });
+    const {isMounted, status} = useFloatingTransition({
+        context,
+        duration: SHEET_TRANSITION_DURATION_MS,
+        skipTransitionOut: immediate,
+        onTransitionIn,
+        onTransitionInComplete,
+        onTransitionOut,
+        onTransitionOutComplete,
+    });
 
-    const hideSheet = () => {
-        if (onClose) {
-            onClose();
-        }
-        setOpen(false);
-    };
+    // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
+    // useDismiss only coordinates within one tree. Release the layer when closing starts.
+    useLayer({
+        open: isOpen,
+        type: 'sheet',
+        disableOutsideClick: true,
+        onEscapeKeyDown: handleEscapeKeyDown,
+    });
 
-    if (!open) {
-        return null;
-    }
+    const role = useRole(context, {role: 'dialog'});
+    const {getFloatingProps} = useInteractions([role]);
 
     return (
-        <Portal container={container} disablePortal={disablePortal}>
-            <FloatingOverlay
-                data-qa={qa}
-                className={sheetBlock(null, className)}
-                lockScroll={open}
-                style={{overflow: undefined}}
-            >
-                <SheetContentContainer
-                    id={id}
-                    content={children}
-                    contentClassName={contentClassName}
-                    swipeAreaClassName={swipeAreaClassName}
-                    title={title}
-                    visible={visible}
-                    allowHideOnContentScroll={allowHideOnContentScroll}
-                    hideTopBar={hideTopBar}
-                    hideSheet={hideSheet}
-                    maxContentHeightCoefficient={maxContentHeightCoefficient}
-                    alwaysFullHeight={alwaysFullHeight}
-                />
-            </FloatingOverlay>
-        </Portal>
+        <FloatingNode id={floatingNodeId}>
+            {isMounted ? (
+                <Portal container={container} disablePortal={disablePortal}>
+                    <FloatingOverlay
+                        data-qa={qa}
+                        data-floating-ui-status={status}
+                        className={sheetBlock({'without-top-bar': hideTopBar}, className)}
+                        lockScroll
+                        style={
+                            {
+                                overflow: undefined,
+                                '--_--transition-duration': `${SHEET_TRANSITION_DURATION_MS}ms`,
+                            } as React.CSSProperties
+                        }
+                    >
+                        <SheetContentContainer
+                            id={id}
+                            content={children}
+                            contentClassName={contentClassName}
+                            swipeAreaClassName={swipeAreaClassName}
+                            title={title}
+                            presenceStatus={status}
+                            allowHideOnContentScroll={allowHideOnContentScroll}
+                            hideTopBar={hideTopBar}
+                            requestDismiss={requestDismiss}
+                            floatingRef={refs.setFloating}
+                            getFloatingProps={getFloatingProps}
+                            maxContentHeightCoefficient={maxContentHeightCoefficient}
+                            alwaysFullHeight={alwaysFullHeight}
+                        />
+                    </FloatingOverlay>
+                </Portal>
+            ) : null}
+        </FloatingNode>
     );
-};
+}
+
+export function Sheet(props: SheetProps) {
+    const parentId = useFloatingParentNodeId();
+
+    if (parentId === null) {
+        return (
+            <FloatingTree>
+                <SheetComponent {...props} />
+            </FloatingTree>
+        );
+    }
+
+    return <SheetComponent {...props} />;
+}

@@ -89,20 +89,17 @@
     </svg>
   }
   actions={
-    <DropdownMenu
-      defaultSwitcherProps={{view: 'flat-secondary'}}
-      items={[
-        {text: 'text 1', action: () => console.log()},
-        {text: 'text 2', action: () => console.log()},
-      ]}
-      onSwitcherClick={(e) => console.log(e)}
-      switcher={
-        <Button>
+    <Menu
+      trigger={
+        <Button view="normal">
           Text
           <Icon data={ChevronDown} size={16} />
         </Button>
       }
-    />
+    >
+      <MenuItem onClick={() => console.log('text 1')}>text 1</MenuItem>
+      <MenuItem onClick={() => console.log('text 2')}>text 2</MenuItem>
+    </Menu>
   }
 />
 ```

@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {Tab, TabList, TabPanel, TabProvider} from '../';
+import {Tab, TabList, TabPanel, TabProvider} from '..';
 import {render, screen} from '../../../../test-utils/utils';
 
 import {panel1qa, panel2qa, tab1, tab2} from './constants';

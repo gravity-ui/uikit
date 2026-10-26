@@ -4,26 +4,23 @@ The `useFloatingTransition` hook consolidates logic for transition in Floating U
 
 ## Properties
 
-| Name                    | Description                                         |       Type        |    Default    |
-| :---------------------- | :-------------------------------------------------- | :---------------: | :-----------: |
-| context                 | The Floating UI context from the `useFloating` hook | `FloatingContext` |               |
-| duration                | The duration of transition                          |     `number`      |               |
-| cssTransitionEnabled    | Whether the CSS transition is enabled               |     `boolean`     |    `true`     |
-| cssTransitionProperty   | The CSS property that is being transitioned         |     `string`      | `"transform"` |
-| onTransitionIn          | The callback fired on transition "in" start         |    `Function`     |               |
-| onTransitionInComplete  | The callback fired on transition "in" complete      |    `Function`     |               |
-| onTransitionOut         | The callback fired on transition "out" start        |    `Function`     |               |
-| onTransitionOutComplete | The callback fired on transition "out" complete     |    `Function`     |               |
+| Name                    | Description                                                                                                                               |                    Type                     | Default |
+| :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------------------: | :-----: |
+| context                 | The Floating UI context from `useFloating`; `context.open` controls the transition.                                                       |              `FloatingContext`              |         |
+| duration                | Transition duration in milliseconds, shared or specified separately for opening and closing. Omitted fields in the object default to `0`. | `number \| {open?: number; close?: number}` |         |
+| skipTransitionOut       | Completes closing without waiting for its duration. The close phase still runs so consumers can perform exit cleanup before unmounting.   |                  `boolean`                  | `false` |
+| onTransitionIn          | Called when the status changes from `initial` to `open`.                                                                                  |                `() => void`                 |         |
+| onTransitionInComplete  | Called after the opening duration elapses. Cancelled if closing starts or the component unmounts before it completes.                     |                `() => void`                 |         |
+| onTransitionOut         | Called when the status changes from `open` to `close`.                                                                                    |                `() => void`                 |         |
+| onTransitionOutComplete | Called when the status changes from `close` to `unmounted`, including when `skipTransitionOut` is enabled.                                |                `() => void`                 |         |
 
 ## Result
 
 ```ts
-{
-  // Whether or not the floating element should be rendered
+interface UseFloatingTransitionResult {
+  // Whether the floating element should be rendered, including during transitions.
   isMounted: boolean;
-  // Current status for the floating element
-  status: string;
-  // "transitionend" event callback to be attached to the element being transitioned
-  handleTransitionEnd: Function;
+  // Current phase used to apply opening and closing styles.
+  status: 'unmounted' | 'initial' | 'open' | 'close';
 }
 ```

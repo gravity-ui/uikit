@@ -1,4 +1,5 @@
 @use '../variables';
+@use '../../../styles/mixins';
 
 $block: '.#{variables.$ns}switch';
 
@@ -6,12 +7,18 @@ $block: '.#{variables.$ns}switch';
     position: relative;
 
     &__control {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        padding: 0;
         opacity: 0;
-        cursor: pointer;
+        background: none;
+        border: none;
+        outline: none;
+        cursor: inherit;
     }
 
     &__indicator {
-        display: inline-block;
         position: relative;
 
         &::before {
@@ -21,11 +28,6 @@ $block: '.#{variables.$ns}switch';
 
             background-color: var(--g-color-base-generic-medium);
             transition: background 0.1s linear;
-        }
-
-        &::after {
-            content: '\00a0';
-            visibility: hidden;
         }
     }
 
@@ -48,7 +50,8 @@ $block: '.#{variables.$ns}switch';
     }
 
     &__control:focus-visible + &__outline {
-        outline: 2px solid var(--g-color-line-focus);
+        @include mixins.focus-outline();
+        outline-offset: 1px;
     }
 
     &_loading {
@@ -119,10 +122,6 @@ $block: '.#{variables.$ns}switch';
                     border-width: 2px;
                 }
             }
-
-            #{$block}__text {
-                margin-block-start: 3px;
-            }
         }
 
         &_l {
@@ -146,16 +145,14 @@ $block: '.#{variables.$ns}switch';
                     border-width: 2px;
                 }
             }
-
-            #{$block}__text {
-                margin-block-start: 4px;
-            }
         }
     }
 
-    &:hover {
-        #{$block}__indicator::before {
-            background-color: var(--g-color-base-generic-medium-hover);
+    @media (hover: hover) {
+        &:hover {
+            #{$block}__indicator::before {
+                background-color: var(--g-color-base-generic-medium-hover);
+            }
         }
     }
 
@@ -173,10 +170,17 @@ $block: '.#{variables.$ns}switch';
         }
     }
 
-    &_checked,
-    &_checked:hover {
+    &_checked {
         #{$block}__indicator::before {
             background-color: var(--g-color-base-brand);
+        }
+    }
+
+    @media (hover: hover) {
+        &_checked:hover {
+            #{$block}__indicator::before {
+                background-color: var(--g-color-base-brand);
+            }
         }
     }
 

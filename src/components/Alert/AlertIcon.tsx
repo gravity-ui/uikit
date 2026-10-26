@@ -52,6 +52,7 @@ const typeToIcon: Record<
 export const AlertIcon = ({
     className,
     theme,
+    align,
     view = 'filled',
     size = DEFAULT_ICON_SIZE,
 }: AlertIconProps) => {
@@ -70,8 +71,8 @@ export const AlertIcon = ({
     }
 
     return (
-        <div className={bAlert('icon', colorText({color}, className))}>
-            <Icon data={iconByTheme[view] as IconData} size={size} />
+        <div className={bAlert('icon-wrapper', {align}, colorText({color}, className))}>
+            <Icon className={bAlert('icon')} data={iconByTheme[view] as IconData} size={size} />
         </div>
     );
 };

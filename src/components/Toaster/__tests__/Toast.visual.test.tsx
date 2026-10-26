@@ -1,20 +1,26 @@
 import type * as React from 'react';
 
-import {test} from '~playwright/core';
+import {expect, test} from '~playwright/core';
 
 import type {Toast} from '../Toast/Toast';
+import type {ToastAction} from '../types';
 
+import {ToastWithInlinePopup} from './ToastWithInlinePopup';
 import {ToastStories} from './helpersPlaywright';
 
 const wrapperOptions = {
     width: 312,
 };
 
-function getToastActions(
+function getToastActions({
     contrastButton = true,
-): Required<React.ComponentProps<typeof Toast>>['actions'] {
+    firstLabel = 'Action',
+}: {
+    contrastButton?: boolean;
+    firstLabel?: string;
+} = {}): ToastAction[] {
     return [
-        {onClick() {}, label: 'Action', view: contrastButton ? 'normal-contrast' : 'normal'},
+        {onClick() {}, label: firstLabel, view: contrastButton ? 'contrast-light' : 'normal'},
         {onClick() {}, label: 'Something More', view: 'outlined'},
     ];
 }
@@ -33,7 +39,7 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
         await mount(
             <ToastStories.ToastPlayground
                 {...simpleToastProps}
-                actions={getToastActions(false)}
+                actions={getToastActions({contrastButton: false})}
                 theme="normal"
             />,
             wrapperOptions,
@@ -88,9 +94,9 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
     });
 
     test('actions wrap', async ({mount, expectScreenshot}) => {
-        const actions = getToastActions();
-
-        actions[0].label = 'Really long button text that cause buttons to wrap';
+        const actions = getToastActions({
+            firstLabel: 'Really long button text that cause buttons to wrap',
+        });
 
         await mount(
             <ToastStories.ToastPlayground
@@ -100,6 +106,32 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
             />,
             wrapperOptions,
         );
+
+        await expectScreenshot();
+    });
+
+    test('inline-popup remains visible outside the toast', async ({
+        mount,
+        page,
+        expectScreenshot,
+    }) => {
+        await mount(<ToastWithInlinePopup />);
+
+        const popup = page.locator('[data-toast]').getByTestId('inline-popup');
+        await expect(popup).toBeVisible();
+        await expect
+            .poll(() =>
+                popup.evaluate((element) => {
+                    const toast = element.closest('[data-toast]');
+                    return Boolean(
+                        toast &&
+                            element.getBoundingClientRect().top >
+                                toast.getBoundingClientRect().bottom,
+                    );
+                }),
+            )
+            .toBe(true);
+        await popup.getByRole('button', {name: 'Inline popup action'}).click({trial: true});
 
         await expectScreenshot();
     });

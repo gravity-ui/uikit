@@ -134,8 +134,16 @@ $transition-timing-function: ease-in-out;
     }
 
     &_size {
+        &_2xs {
+            --_--height: #{variables.$height-2xs};
+            --_--border-radius: var(--g-border-radius-xs);
+            --_--margin-inline: 6px;
+            --_--margin-addon-start: 22px;
+            --_--margin-addon-end: 20px;
+        }
+
         &_xs {
-            --_--height: 20px;
+            --_--height: #{variables.$height-xs};
             --_--border-radius: var(--g-border-radius-xs);
             --_--margin-inline: 8px;
             --_--margin-addon-start: 24px;
@@ -143,7 +151,7 @@ $transition-timing-function: ease-in-out;
         }
 
         &_s {
-            --_--height: 24px;
+            --_--height: #{variables.$height-s};
             --_--border-radius: var(--g-border-radius-s);
             --_--margin-inline: 10px;
             --_--margin-addon-start: 28px;
@@ -151,7 +159,7 @@ $transition-timing-function: ease-in-out;
         }
 
         &_m {
-            --_--height: 28px;
+            --_--height: #{variables.$height-m};
             --_--border-radius: var(--g-border-radius-m);
             --_--margin-inline: 12px;
             --_--margin-addon-start: 32px;
@@ -234,17 +242,19 @@ $transition-timing-function: ease-in-out;
     }
 
     // hover styles
-    &_interactive:hover:not(
-            :has(#{$block}__addon_type_button:not(#{$block}__addon_action_copy):hover)
-        ),
-    &__addon_type_button:not(#{$block}__addon_action_copy):hover {
-        background-color: var(--_--bg-color-hover);
+    @media (hover: hover) {
+        &_interactive:hover:not(
+                :has(#{$block}__addon_type_button:not(#{$block}__addon_action_copy):hover)
+            ),
+        &__addon_type_button:not(#{$block}__addon_action_copy):hover {
+            background-color: var(--_--bg-color-hover);
+        }
     }
 
     // focus styles
     &__main-button:focus-visible,
     &__addon_type_button:focus-visible {
-        outline: 2px solid var(--g-color-line-focus);
+        @include mixins.focus-outline();
     }
 }
 

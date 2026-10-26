@@ -1,35 +1,31 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {ListProps} from '../types';
 
+import type {Mailbox} from './cases';
+import {sizeCases} from './cases';
 import {
-    emptyPlaceholderCases,
-    filterPlaceholderCases,
-    sizeCases,
-    sortHandleAlignCases,
-} from './cases';
-import {TestList, TestListWithCustomRender} from './helpersPlaywright';
+    TestList,
+    TestListWithDnd,
+    TestListWithItemView,
+    TestListWithSections,
+} from './helpersPlaywright';
 
 test.describe('List', {tag: '@List'}, () => {
-    const defaultProps: ListProps<string> = {
-        itemsHeight: 200,
-        items: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'],
-    };
-
-    smokeTest('', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<ListProps<string>>(defaultProps, {
-            size: sizeCases,
-            filterPlaceholder: filterPlaceholderCases,
-            sortHandleAlign: sortHandleAlignCases,
-        });
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<ListProps<Mailbox>>>(
+            {},
+            {size: sizeCases},
+        );
 
         await mount(
             <div>
                 {smokeScenarios.map(([title, props]) => (
                     <div key={title}>
                         <h4>{title}</h4>
-                        <div>
+                        <div style={{width: 260}}>
                             <TestList {...props} />
                         </div>
                         <hr />
@@ -38,21 +34,13 @@ test.describe('List', {tag: '@List'}, () => {
             </div>,
         );
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({themes: ['light']});
     });
 
-    smokeTest('empty', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<ListProps<string>>(
-            {
-                ...defaultProps,
-                items: [],
-            },
-            {
-                filterPlaceholder: filterPlaceholderCases,
-                emptyPlaceholder: emptyPlaceholderCases,
-            },
+    test('smoke sections', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<ListProps<Mailbox>>>(
+            {},
+            {size: sizeCases},
         );
 
         await mount(
@@ -60,8 +48,8 @@ test.describe('List', {tag: '@List'}, () => {
                 {smokeScenarios.map(([title, props]) => (
                     <div key={title}>
                         <h4>{title}</h4>
-                        <div>
-                            <TestList {...props} />
+                        <div style={{width: 260}}>
+                            <TestListWithSections {...props} />
                         </div>
                         <hr />
                     </div>
@@ -69,25 +57,22 @@ test.describe('List', {tag: '@List'}, () => {
             </div>,
         );
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({themes: ['light']});
     });
 
-    smokeTest('custom render item', async ({mount, expectScreenshot}) => {
-        const smokeScenarios = createSmokeScenarios<ListProps<string>>(defaultProps, {
-            size: sizeCases,
-            filterPlaceholder: filterPlaceholderCases,
-            sortHandleAlign: sortHandleAlignCases,
-        });
+    test('smoke item view', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<ListProps<Mailbox>>>(
+            {selectionMode: 'multiple', defaultSelectedIds: ['inbox']},
+            {size: sizeCases},
+        );
 
         await mount(
             <div>
                 {smokeScenarios.map(([title, props]) => (
                     <div key={title}>
                         <h4>{title}</h4>
-                        <div>
-                            <TestListWithCustomRender {...props} />
+                        <div style={{width: 260}}>
+                            <TestListWithItemView {...props} />
                         </div>
                         <hr />
                     </div>
@@ -95,22 +80,29 @@ test.describe('List', {tag: '@List'}, () => {
             </div>,
         );
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({themes: ['light']});
     });
 
-    smokeTest('virtualized', async ({mount, expectScreenshot}) => {
-        const props: ListProps<string> = {
-            ...defaultProps,
-            itemHeight: 30,
-            virtualized: true,
-        };
+    test('smoke dnd', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
+        const smokeScenarios = createSmokeScenarios<Partial<ListProps<Mailbox>>>(
+            {},
+            {size: sizeCases},
+        );
 
-        await mount(<TestList {...props} />);
+        await mount(
+            <div>
+                {smokeScenarios.map(([title, props]) => (
+                    <div key={title}>
+                        <h4>{title}</h4>
+                        <div style={{width: 260}}>
+                            <TestListWithDnd {...props} />
+                        </div>
+                        <hr />
+                    </div>
+                ))}
+            </div>,
+        );
 
-        await expectScreenshot({
-            themes: ['light'],
-        });
+        await expectScreenshot({themes: ['light']});
     });
 });

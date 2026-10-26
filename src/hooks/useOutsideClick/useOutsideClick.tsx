@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface UseOutsideClickProps<T> {
-    ref: React.RefObject<T>;
+    ref: React.RefObject<T | null>;
     handler?: (e: MouseEvent | TouchEvent) => void;
 }
 
@@ -9,11 +9,9 @@ type UseOutsideClickType = <K extends HTMLElement>(props: UseOutsideClickProps<K
 
 /**
  * Hook for observing clicks outside a given target
- *
  * @param ref - purpose of observation
  * @param handler - callback when a click is triggered outside the observation target
- *
- * @return - nothing
+ * @returns - nothing
  */
 export const useOutsideClick: UseOutsideClickType = ({ref, handler}) => {
     React.useEffect(() => {

@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {CardProps} from '../Card';
 import {Card} from '../Card';
 
@@ -57,7 +58,7 @@ test.describe('Card', {tag: '@Card'}, () => {
         await expectScreenshot();
     });
 
-    smokeTest('smoke, selection type', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, selection type', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: CardProps = {
             children: null,
         };
@@ -100,7 +101,7 @@ test.describe('Card', {tag: '@Card'}, () => {
         });
     });
 
-    smokeTest('smoke, action type', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, action type', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: CardProps = {
             children: null,
         };
@@ -142,7 +143,7 @@ test.describe('Card', {tag: '@Card'}, () => {
         });
     });
 
-    smokeTest('smoke, container type', async ({mount, expectScreenshot}) => {
+    test('smoke smoke, container type', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: CardProps = {
             children: null,
         };

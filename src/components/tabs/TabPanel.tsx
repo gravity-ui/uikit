@@ -2,13 +2,16 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
+
 import {TabContext} from './contexts/TabContext';
 import {useTabPanel} from './hooks/useTabPanel';
 import type {TabPanelProps} from './types';
 
 import './TabPanel.scss';
 
-export const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((props, ref) => {
+export const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>((rawProps, ref) => {
+    const props = useDefaultProps('TabPanel', rawProps);
     const panelProps = useTabPanel(props);
     return (
         <TabContext.Provider value={undefined}>

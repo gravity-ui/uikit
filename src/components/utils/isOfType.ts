@@ -1,6 +1,13 @@
 import * as React from 'react';
 
-export function isOfType<P = {}>(Component: React.ComponentType<P> | string) {
+interface IsOfTypeOptions {
+    matchDisplayName?: boolean;
+}
+
+export function isOfType<P = {}>(
+    Component: React.ComponentType<P> | string,
+    {matchDisplayName = true}: IsOfTypeOptions = {},
+) {
     return function isMatching(
         component: unknown,
     ): component is React.ReactElement<P, typeof Component> {
@@ -13,7 +20,7 @@ export function isOfType<P = {}>(Component: React.ComponentType<P> | string) {
             return true;
         }
 
-        if (typeof Component === 'string' || typeof type === 'string') {
+        if (!matchDisplayName || typeof Component === 'string' || typeof type === 'string') {
             return false;
         }
 

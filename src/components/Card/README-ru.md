@@ -33,36 +33,49 @@ import {Card} from '@gravity-ui/uikit';
 - `danger` — тема для отображения контента, связанного с критическими проблемами или ошибками;
 - `utility` — тема для отображения полезных советов.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-const style = {
-    width: '120px';
-    height: '120px';
-    display: 'flex';
-    alignItems: 'center';
-    justifyContent: 'center';
+<!--SANDBOX
+import {Card} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
+
+const cardStyle: CSSProperties = {
+    width: '120px',
+    height: '120px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+};
+
+const gridStyle: CSSProperties = {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gap: '10px',
+};
+
+export default function () {
+    return (
+        <div style={gridStyle}>
+            <Card style={cardStyle} theme="normal" size="l">
+                Normal
+            </Card>
+            <Card style={cardStyle} theme="info" size="l">
+                Info
+            </Card>
+            <Card style={cardStyle} theme="success" size="l">
+                Success
+            </Card>
+            <Card style={cardStyle} theme="warning" size="l">
+                Warning
+            </Card>
+            <Card style={cardStyle} theme="danger" size="l">
+                Danger
+            </Card>
+            <Card style={cardStyle} theme="utility" size="l">
+                Utility
+            </Card>
+        </div>
+    );
 }
-
-<Card style={style} theme="normal" size="l">Normal</Card>
-<Card style={style} theme="info" size="l">Info</Card>
-<Card style={style} theme="success" size="l">Success</Card>
-<Card style={style} theme="warning" size="l">Warning</Card>
-<Card style={style} theme="danger" size="l">Danger</Card>
-<Card style={style} theme="utility" size="l">Utility</Card>
-`}>
-
-    <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="normal" size="l">Normal</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="info" size="l">Info</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="success" size="l">Success</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="warning" size="l">Warning</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="danger" size="l">Danger</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} theme="utility" size="l">Utility</UIKit.Card>
-    </div>
-
-</ExampleBlock>
-LANDING_BLOCK-->
+SANDBOX-->
 
 ## `Type` (тип)
 
@@ -72,29 +85,46 @@ LANDING_BLOCK-->
 - `action` — карточка с интерактивным элементом — например, кнопкой, которая активирует определенное действие при нажатии.
 - `selection` — карточка, которую можно выбрать или нажать, чтобы выполнить определенное действие.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-const style = {
-    width: '120px';
-    height: '120px';
-    display: 'flex';
-    alignItems: 'center';
-    justifyContent: 'center';
+<!--SANDBOX
+import {Card} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
+
+const cardStyle: CSSProperties = {
+    width: '120px',
+    height: '120px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+};
+
+const gridStyle: CSSProperties = {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gap: '10px',
+};
+
+export default function () {
+    return (
+        <div style={gridStyle}>
+            <Card style={cardStyle} view="outlined" type="container" size="l">
+                Container
+            </Card>
+            <Card
+                style={cardStyle}
+                view="outlined"
+                type="action"
+                onClick={() => alert(':wave: hey')}
+                size="l"
+            >
+                action with onClick
+            </Card>
+            <Card style={cardStyle} view="outlined" type="selection" size="l">
+                Selection
+            </Card>
+        </div>
+    );
 }
-
-    <Card style={style} view="outlined" type="container" size="l">Container</Card>
-    <Card style={style} view="outlined" type="action" size="l">action with onClick</Card>
-    <Card style={style} view="outlined" type="selection" size="l">Selection</Card>
-`}>
-    <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="container" size="l">Container</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="action" onClick={() => alert(':wave: hey')} size="l">action with onClick</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="selection" size="l">Selection</UIKit.Card>
-    </div>
-
-</ExampleBlock>
-LANDING_BLOCK-->
+SANDBOX-->
 
 ## `View` (вид)
 
@@ -105,31 +135,43 @@ LANDING_BLOCK-->
 - `filled` — добавляет заливку содержимого карточки;
 - `raised` — добавляет тень для создания эффекта приподнятого контейнера.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-const style = {
-    width: '120px';
-    height: '120px';
-    display: 'flex';
-    alignItems: 'center';
-    justifyContent: 'center';
+<!--SANDBOX
+import {Card} from '@gravity-ui/uikit';
+import {type CSSProperties} from 'react';
+
+const cardStyle: CSSProperties = {
+    width: '120px',
+    height: '120px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+};
+
+const gridStyle: CSSProperties = {
+    display: 'grid',
+    gridAutoFlow: 'column',
+    gap: '10px',
+};
+
+export default function () {
+    return (
+        <div style={gridStyle}>
+            <Card style={cardStyle} view="clear" type="container" size="l">
+                Clear
+            </Card>
+            <Card style={cardStyle} view="outlined" type="container" size="l">
+                Outlined
+            </Card>
+            <Card style={cardStyle} view="filled" type="container" size="l">
+                Filled
+            </Card>
+            <Card style={cardStyle} view="raised" type="container" size="l">
+                Raised
+            </Card>
+        </div>
+    );
 }
-
-    <Card style={style} view="clear" type="container" size="l">Clear</Card>
-    <Card style={style} view="outlined" type="container" size="l">Outlined</Card>
-    <Card style={style} view="filled" type="container" size="l">Filled</Card>
-    <Card style={style} view="raised" type="container" size="l">Raised</Card>
-`}>
-    <div style={{display: 'grid', gridAutoFlow: 'column', gridGap: '10px'}}>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="clear" type="container" size="l">Clear</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="outlined" type="container" size="l">Outlined</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="filled" type="container" size="l">Filled</UIKit.Card>
-        <UIKit.Card style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '120px', height: '120px'}} view="raised" type="container" size="l">Raised</UIKit.Card>
-    </div>
-
-</ExampleBlock>
-LANDING_BLOCK-->
+SANDBOX-->
 
 ## Свойства
 

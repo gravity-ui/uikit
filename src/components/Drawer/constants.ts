@@ -1,0 +1,4 @@
+export const DRAWER_ANIMATION_DURATION_MS = 300;
+export const DRAWER_ITEM_MIN_SIZE = 200;
+export const DRAWER_ITEM_MAX_SIZE = 800;
+export const DRAWER_ITEM_INITIAL_SIZE = 400;

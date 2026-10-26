@@ -1,9 +1,11 @@
 import * as React from 'react';
 
+import {faker} from '@faker-js/faker/locale/en';
 import {ChevronRight, Flame, House, Rocket} from '@gravity-ui/icons';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {Button} from '../../Button';
+import {SegmentedRadioGroup} from '../../SegmentedRadioGroup';
 import {Text} from '../../Text';
 import {Box, Flex} from '../../layout';
 import type {Key} from '../../types';
@@ -76,7 +78,7 @@ export const Links = {
 
 export const RootContext = {
     render: (args) => (
-        <Box overflow="hidden" width={200} style={{padding: 2}}>
+        <Box overflow="hidden" width="200px" style={{padding: 2}}>
             <Breadcrumbs {...args} showRoot>
                 <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
                 <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
@@ -115,17 +117,17 @@ export const WithIcons = {
     render: (args) => (
         <Breadcrumbs {...args}>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <House /> uikit
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Flame /> components
                 </Flex>
             </Breadcrumbs.Item>
             <Breadcrumbs.Item>
-                <Flex alignItems="center" gap={1}>
+                <Flex alignItems="center" gap="spacing-1">
                     <Rocket style={{minWidth: 16}} />
                     <Text ellipsis variant="inherit">
                         Breadcrumbs
@@ -161,7 +163,7 @@ export const EndContent = {
         return Default.render({
             ...args,
             endContent: (
-                <Flex gap={1} spacing={{pl: 1}}>
+                <Flex gap="spacing-1" paddingInlineStart="spacing-1">
                     <Button>Test1</Button>
                     <Button>Test2</Button>
                 </Flex>
@@ -195,3 +197,45 @@ function RouterLink({to, ...rest}: {to: string} & Omit<BreadcrumbsItemProps, 'hr
         />
     );
 }
+
+export const MutableContent = {
+    render: (args) => {
+        const [itemLength, setItemLength] = React.useState<'short' | 'long'>('short');
+        const [itemCount, setItemCount] = React.useState(5);
+
+        const items = React.useMemo(() => {
+            return Array.from({length: itemCount}).map((_, i) => (
+                <Breadcrumbs.Item key={i}>
+                    {itemLength === 'short'
+                        ? faker.word.noun({length: {min: 4, max: 6}})
+                        : faker.word.noun({length: {min: 7, max: 10}})}
+                </Breadcrumbs.Item>
+            ));
+        }, [itemLength, itemCount]);
+
+        return (
+            <div>
+                <Breadcrumbs {...args}>{items}</Breadcrumbs>
+                <div style={{lineHeight: '40px'}}>
+                    {'Count: '}
+                    <SegmentedRadioGroup
+                        value={itemCount === 5 ? 'less' : 'more'}
+                        onUpdate={(newValue) => {
+                            setItemCount(newValue === 'less' ? 5 : 8);
+                        }}
+                    >
+                        <SegmentedRadioGroup.Option value="less">Less</SegmentedRadioGroup.Option>
+                        <SegmentedRadioGroup.Option value="more">More</SegmentedRadioGroup.Option>
+                    </SegmentedRadioGroup>
+                </div>
+                <div style={{lineHeight: '40px'}}>
+                    {'Length: '}
+                    <SegmentedRadioGroup value={itemLength} onUpdate={setItemLength}>
+                        <SegmentedRadioGroup.Option value="short">Short</SegmentedRadioGroup.Option>
+                        <SegmentedRadioGroup.Option value="long">Long</SegmentedRadioGroup.Option>
+                    </SegmentedRadioGroup>
+                </div>
+            </div>
+        );
+    },
+} satisfies Story;

@@ -10,31 +10,27 @@ import {Breadcrumbs} from '@gravity-ui/uikit';
 
 `Breadcrumbs` (хлебные крошки) — это навигационный элемент, показывающий текущее расположение страницы в иерархии веб-сайта. Он содержит ссылки, позволяющие пользователю вернуться на более высокие уровни иерархии, что упрощает навигацию по многоуровневым сайтам. Хлебные крошки незаменимы для крупных веб-сайтов и приложений с иерархической структурой страниц.
 
+Переходите со старого `Breadcrumbs`? См. [миграционный гайд](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-breadcrumbs.md) (на английском).
+
 ## Пример
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+                <Breadcrumbs.Item>City</Breadcrumbs.Item>
+                <Breadcrumbs.Item>District</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -58,29 +54,23 @@ LANDING_BLOCK-->
 
 Используйте свойство `onAction` как обратный вызов для обработки событий клика по элементам.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs onAction={(id) => alert(id)}>
-    <Breadcrumbs.Item key={1}>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={2}>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={3}>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={4}>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item key={5}>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs onAction={(id) => alert(id)}>
-        <UIKit.Breadcrumbs.Item key={1}>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={2}>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={3}>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={4}>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key={5}>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Breadcrumbs onAction={(id) => alert(id)}>
+                <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+                <Breadcrumbs.Item>City</Breadcrumbs.Item>
+                <Breadcrumbs.Item>District</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -111,25 +101,21 @@ const items = [
 
 В компоненте `Breadcrumbs` клик по элементу обычно вызывает `onAction`. Однако вы также можете использовать его в качестве ссылки на другую страницу или сайт. Для этого добавьте свойство `href` в компонент `<Breadcrumbs.Item>`:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-    <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item href="/">Home</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="/components">Components</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -151,33 +137,25 @@ LANDING_BLOCK-->
 
 Для лучшего понимания пользователем общей структуры некоторые приложения всегда отображают начальную точку (корневой элемент) хлебных крошек, даже если другие элементы скрыты из-за ограничений пространства.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Box overflow="hidden" width={200}>
-    <Breadcrumbs showRoot>
-        <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
-        <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
-    </Breadcrumbs>
-</Box>
-`}
->
-<UIKit.Box overflow="hidden" width={200}>
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item key="home">Home</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="trendy">Trendy</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="2020 assets">March 2020 Assets</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="winter">Winter</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item key="holiday">Holiday</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</UIKit.Box>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Box overflow="hidden" width={200}>
+                <Breadcrumbs showRoot>
+                    <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="2020 assets">March 2020 Assets</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="winter">Winter</Breadcrumbs.Item>
+                    <Breadcrumbs.Item key="holiday">Holiday</Breadcrumbs.Item>
+                </Breadcrumbs>
+            </Box>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -201,42 +179,45 @@ LANDING_BLOCK-->
 
 ### Разделитель
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {ChevronRight} from '@gravity-ui/icons';
+import {Box, Breadcrumbs, Icon} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs separator=">">
-    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs separator=">">
-        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
+const breadcrumbsItems = [
+    <Breadcrumbs.Item key="region">Region</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="country">Country</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="city">City</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="district">District</Breadcrumbs.Item>,
+    <Breadcrumbs.Item key="street">Street</Breadcrumbs.Item>,
+];
 
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Breadcrumbs separator=">">{breadcrumbsItems}</Breadcrumbs>
+            <Breadcrumbs separator="—">{breadcrumbsItems}</Breadcrumbs>
+            <Breadcrumbs separator={<Icon data={ChevronRight} size={16} />}>
+                {breadcrumbsItems}
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
 ```jsx
-<Breadcrumbs separator="›">
-  {breadcrumbs}
-</Breadcrumbs>
-<Breadcrumbs separator="—">
-  {breadcrumbs}
-</Breadcrumbs>
-<Breadcrumbs separator={<ChevronRight />}>
-  {breadcrumbs}
-</Breadcrumbs>
+const breadcrumbsItems = [
+  <Breadcrumbs.Item key="region">Region</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="country">Country</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="city">City</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="district">District</Breadcrumbs.Item>,
+  <Breadcrumbs.Item key="street">Street</Breadcrumbs.Item>,
+];
+
+<Breadcrumbs separator="›">{breadcrumbsItems}</Breadcrumbs>
+<Breadcrumbs separator="—">{breadcrumbsItems}</Breadcrumbs>
+<Breadcrumbs separator={<ChevronRight />}>{breadcrumbsItems}</Breadcrumbs>
 ```
 
 <!-- Storybook example -->
@@ -247,53 +228,56 @@ LANDING_BLOCK-->
 
 ### Хлебные крошки с иконками
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Flame, House, Rocket} from '@gravity-ui/icons';
+import {Box, Breadcrumbs, Flex, Icon, Text} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-  <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
-      <House /> uikit
-    </Flex>
-  </Breadcrumbs.Item>
-  <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
-      <Flame /> components
-    </Flex>
-  </Breadcrumbs.Item>
-  <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
-      <Rocket style={{minWidth: 16}} />
-      <Text ellipsis variant="inherit">
-        Breadcrumbs
-      </Text>
-    </Flex>
-  </Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKitExamples.BreadcrumbsCustomIconExample />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item>
+                    <Flex alignItems="center" gap="spacing-1">
+                        <Icon data={House} size={16} />
+                        uikit
+                    </Flex>
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item>
+                    <Flex alignItems="center" gap="spacing-1">
+                        <Icon data={Flame} size={16} />
+                        components
+                    </Flex>
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item>
+                    <Flex alignItems="center" gap="spacing-1">
+                        <Icon data={Rocket} size={16} style={{minWidth: 16}} />
+                        <Text ellipsis variant="inherit">
+                            Breadcrumbs
+                        </Text>
+                    </Flex>
+                </Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
 ```jsx
 <Breadcrumbs>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <House /> uikit
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Flame /> components
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Rocket style={{minWidth: 16}} />
       <Text ellipsis variant="inherit">
         Breadcrumbs
@@ -390,29 +374,23 @@ function Navigation() {
 
 Когда хлебные крошки используются в качестве основного навигационного элемента на странице, их можно поместить в [область навигации](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html). Такие области помогают пользователям вспомогательных технологий быстро находить основные разделы страницы. Для создания области навигации поместите хлебные крошки внутрь элемента `<nav>` с атрибутом `aria-label`:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<nav aria-label="Breadcrumbs">
-  <Breadcrumbs>
-      <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
-      <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
-  </Breadcrumbs>
-</nav>
-`}
->
-    <nav aria-label="Breadcrumbs">
-        <UIKit.Breadcrumbs>
-            <UIKit.Breadcrumbs.Item href="/">Home</UIKit.Breadcrumbs.Item>
-            <UIKit.Breadcrumbs.Item href="/components">Components</UIKit.Breadcrumbs.Item>
-            <UIKit.Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</UIKit.Breadcrumbs.Item>
-        </UIKit.Breadcrumbs>
-    </nav>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <nav aria-label="Breadcrumbs">
+                <Breadcrumbs>
+                    <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+                    <Breadcrumbs.Item href="/components">Components</Breadcrumbs.Item>
+                    <Breadcrumbs.Item href="/components/uikit/breadcrumbs">Breadcrumbs</Breadcrumbs.Item>
+                </Breadcrumbs>
+            </nav>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -434,37 +412,27 @@ LANDING_BLOCK-->
 
 ### Неактивные элементы
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs>
-    <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#Country" disabled>
-        Country
-    </Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
-    <Breadcrumbs.Item href="#Street" disabled>
-        Street
-    </Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs>
-        <UIKit.Breadcrumbs.Item href="#Region">Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#Country" disabled>
-            Country
-        </UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#City">City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#District">District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item href="#Street" disabled>
-            Street
-        </UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Breadcrumbs>
+                <Breadcrumbs.Item href="#Region">Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#Country" disabled>
+                    Country
+                </Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#City">City</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#District">District</Breadcrumbs.Item>
+                <Breadcrumbs.Item href="#Street" disabled>
+                    Street
+                </Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -490,36 +458,30 @@ LANDING_BLOCK-->
 
 ### Пользовательский контент после последней крошки
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {Box, Breadcrumbs, Button} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
-    <Breadcrumbs.Item>Region</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Country</Breadcrumbs.Item>
-    <Breadcrumbs.Item>City</Breadcrumbs.Item>
-    <Breadcrumbs.Item>District</Breadcrumbs.Item>
-    <Breadcrumbs.Item>Street</Breadcrumbs.Item>
-</Breadcrumbs>
-`}
->
-    <UIKit.Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><UIKit.Button>Push</UIKit.Button></div>}>
-        <UIKit.Breadcrumbs.Item>Region</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Country</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>City</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>District</UIKit.Breadcrumbs.Item>
-        <UIKit.Breadcrumbs.Item>Street</UIKit.Breadcrumbs.Item>
-    </UIKit.Breadcrumbs>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <Box width="100%">
+            <Breadcrumbs endContent={<div style={{paddingInlineStart: 4}}><Button>Push</Button></div>}>
+                <Breadcrumbs.Item>Region</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Country</Breadcrumbs.Item>
+                <Breadcrumbs.Item>City</Breadcrumbs.Item>
+                <Breadcrumbs.Item>District</Breadcrumbs.Item>
+                <Breadcrumbs.Item>Street</Breadcrumbs.Item>
+            </Breadcrumbs>
+        </Box>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
 ```jsx
 <Breadcrumbs
   endContent={
-    <Flex gap={1} spacing={{pl: 1}}>
+    <Flex gap="spacing-1" paddingInlineStart="spacing-1">
       <Button>Test1</Button>
       <Button>Test2</Button>
     </Flex>
@@ -541,32 +503,35 @@ LANDING_BLOCK-->
 
 ## Свойства
 
-| Имя              | Описание                                                                                                         | Тип                                        | Значение по умолчанию |
-| :--------------- | :--------------------------------------------------------------------------------------------------------------- | :----------------------------------------- | :-------------------- |
-| children         | Элементы хлебных крошек.                                                                                         | `React.ReactElement<BreadcrumbsItemProps>` |                       |
-| disabled         | Определяет, отключен ли компонент `Breadcrumbs`.                                                                 | `boolean`                                  |                       |
-| showRoot         | Включает или отключает постоянное отображение корневого элемента при свернутом состоянии его дочерних элементов. | `boolean`                                  |                       |
-| popupPlacement   | Расположение всплывающего окна для свернутых элементов.                                                          | `PopupPlacement`                           |                       |
-| popupStyle       | Стиль всплывающего окна для свернутых элементов.                                                                 | `"staircase"`                              |                       |
-| qa               | HTML-атрибут `data-qa`, используется для тестирования.                                                           | `string`                                   |                       |
-| separator        | Пользовательский разделитель элементов.                                                                          | `React.ReactNode`                          | "/"                   |
-| action           | Обработчик события `click`.                                                                                      | `(id: Key) => void`                        |                       |
-| id               | Уникальный идентификатор элемента.                                                                               | `string`                                   |                       |
-| className        | Имя CSS-класса элемента.                                                                                         | `string`                                   |                       |
-| style            | Задает инлайн-стиль для элемента.                                                                                | `CSSProperties`                            |                       |
-| aria-label       | Определяет строковое значение, используемое в качестве метки для текущего элемента.                              | `string`                                   |                       |
-| aria-labelledby  | Определяет элементы, используемые в качестве метки для текущего элемента.                                        | `string`                                   |                       |
-| aria-describedby | Определяет элементы, описывающие объект.                                                                         | `string`                                   |                       |
-| endContent       | Пользовательский контент после последней крошки.                                                                 | `React.ReactNode`                          |                       |
+| Имя              | Описание                                                                                                         | Тип                  | Значение по умолчанию |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------- | :------------------- | :-------------------- |
+| children         | Элементы хлебных крошек.                                                                                         | `React.ReactNode`    |                       |
+| disabled         | Определяет, отключен ли компонент `Breadcrumbs`.                                                                 | `boolean`            |                       |
+| showRoot         | Включает или отключает постоянное отображение корневого элемента при свернутом состоянии его дочерних элементов. | `boolean`            |                       |
+| maxItems         | Максимальное число видимых элементов с учётом кнопки сворачивания.                                               | `number`             |                       |
+| itemComponent    | Компонент для рендеринга элементов.                                                                              | `React.ElementType`  |                       |
+| popupPlacement   | Расположение всплывающего окна для свернутых элементов.                                                          | `PopupPlacement`     |                       |
+| popupStyle       | Стиль всплывающего окна для свернутых элементов.                                                                 | `"staircase"`        |                       |
+| qa               | HTML-атрибут `data-qa`, используется для тестирования.                                                           | `string`             |                       |
+| separator        | Пользовательский разделитель элементов.                                                                          | `React.ReactNode`    | "/"                   |
+| onAction         | Обработчик, который получает ключ нажатого элемента.                                                             | `(key: Key) => void` |                       |
+| id               | Уникальный идентификатор элемента.                                                                               | `string`             |                       |
+| className        | Имя CSS-класса элемента.                                                                                         | `string`             |                       |
+| style            | Задает инлайн-стиль для элемента.                                                                                | `CSSProperties`      |                       |
+| aria-label       | Определяет строковое значение, используемое в качестве метки для текущего элемента.                              | `string`             |                       |
+| aria-labelledby  | Определяет элементы, используемые в качестве метки для текущего элемента.                                        | `string`             |                       |
+| aria-describedby | Определяет элементы, описывающие объект.                                                                         | `string`             |                       |
+| endContent       | Пользовательский контент после последней крошки.                                                                 | `React.ReactNode`    |                       |
 
 ### BreadcrumbsItemProps
 
 | Имя        | Описание                                                           | Тип                               | Значение по умолчанию |
 | :--------- | :----------------------------------------------------------------- | :-------------------------------- | :-------------------- |
-| children   | Содержимое хлебных крошек.                                         | `string`                          |                       |
+| children   | Содержимое хлебных крошек.                                         | `React.ReactNode`                 |                       |
 | title      | Строковое представление содержимого элемента.                      | `string`                          |                       |
 | aria-label | Метка доступности элемента.                                        | `string`                          |                       |
 | href       | URL-адрес гиперссылки.                                             | `string`                          |                       |
+| onClick    | Обработчик нажатия на элемент.                                     | `React.MouseEventHandler`         |                       |
 | target     | Целевое окно для ссылки.                                           | `React.HTMLAttributeAnchorTarget` |                       |
 | rel        | Определяет отношение между связанным ресурсом и текущей страницей. | `string`                          |                       |
 | disabled   | Определяет можно ли взаимодействовать с элементом.                 | `boolean`                         |                       |

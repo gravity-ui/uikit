@@ -9,9 +9,11 @@ export type SelectPopupProps = {
     width?: SelectProps['popupWidth'];
     open?: boolean;
     placement?: PopupPlacement;
-    controlRef?: React.RefObject<HTMLElement>;
+    controlRef?: React.RefObject<HTMLElement | null>;
     children?: React.ReactNode;
     className?: string;
+    sheetClassName?: string;
+    sheetTitle?: string;
     disablePortal?: boolean;
     virtualized?: boolean;
     id?: string;

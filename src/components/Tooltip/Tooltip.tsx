@@ -7,6 +7,7 @@ import {
     limitShift,
     offset,
     shift,
+    useDelayGroup,
     useDismiss,
     useFloating,
     useFocus,
@@ -22,6 +23,7 @@ import {OVERFLOW_PADDING} from '../Popup/constants';
 import {getPlacementOptions} from '../Popup/utils';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -53,41 +55,46 @@ export interface TooltipProps
     /** Floating element content */
     content?: React.ReactNode;
     /** Event that should trigger opening */
-    trigger?: 'focus';
+    trigger?: 'all' | 'focus';
     /** Role applied to the floating element */
     role?: 'tooltip' | 'label';
     /** Delay in ms before open */
     openDelay?: number;
     /** Delay in ms before close */
     closeDelay?: number;
+    /** How much time in ms the cursor must be rest before open */
+    rest?: number;
 }
 
 const b = block('tooltip');
 const DEFAULT_OPEN_DELAY = 1000;
 const DEFAULT_CLOSE_DELAY = 0;
+const DEFAULT_REST = 0;
 const DEFAULT_PLACEMENT: PopupPlacement = 'bottom';
 const DEFAULT_OFFSET = 4;
 
-export function Tooltip({
-    children,
-    open,
-    onOpenChange,
-    strategy,
-    placement: placementProp = DEFAULT_PLACEMENT,
-    offset: offsetProp = DEFAULT_OFFSET,
-    disabled,
-    content,
-    trigger,
-    role: roleProp = 'tooltip',
-    openDelay = DEFAULT_OPEN_DELAY,
-    closeDelay = DEFAULT_CLOSE_DELAY,
-    container,
-    disablePortal,
-    className,
-    style,
-    qa,
-    ...restProps
-}: TooltipProps) {
+export function Tooltip(rawProps: TooltipProps) {
+    const {
+        children,
+        open,
+        onOpenChange,
+        strategy,
+        placement: placementProp = DEFAULT_PLACEMENT,
+        offset: offsetProp = DEFAULT_OFFSET,
+        disabled,
+        content,
+        trigger = 'all',
+        role: roleProp = 'tooltip',
+        openDelay = DEFAULT_OPEN_DELAY,
+        closeDelay = DEFAULT_CLOSE_DELAY,
+        rest = DEFAULT_REST,
+        container,
+        disablePortal,
+        className,
+        style,
+        qa,
+        ...restProps
+    } = useDefaultProps('Tooltip', rawProps);
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
     const {placement, middleware: placementMiddleware} = getPlacementOptions(placementProp, false);
 
@@ -112,9 +119,31 @@ export function Tooltip({
         },
     });
 
+    const {currentId: delayGroupCurrentId, setCurrentId: setDelayGroupCurrentId} = useDelayGroup(
+        context,
+        {enabled: !disabled},
+    );
+    const isDelayGroupWarm = delayGroupCurrentId !== null;
+
+    const isDelayGroupCurrentRef = React.useRef(false);
+    React.useEffect(() => {
+        isDelayGroupCurrentRef.current = delayGroupCurrentId === context.floatingId;
+    }, [delayGroupCurrentId, context.floatingId]);
+    React.useEffect(
+        () => () => {
+            // The group cools down only when its tooltip closes,
+            // so an unmounted open tooltip would keep it warm forever
+            if (isDelayGroupCurrentRef.current) {
+                setDelayGroupCurrentId(null);
+            }
+        },
+        [setDelayGroupCurrentId],
+    );
+
     const hover = useHover(context, {
-        enabled: trigger !== 'focus',
-        delay: {open: openDelay, close: closeDelay},
+        enabled: trigger === 'all',
+        delay: {open: isDelayGroupWarm ? 0 : openDelay, close: closeDelay},
+        restMs: isDelayGroupWarm ? 0 : rest,
         move: false,
     });
     const focus = useFocus(context);
@@ -132,15 +161,17 @@ export function Tooltip({
         setAnchorElement,
         React.isValidElement(children) ? getElementRef(children) : undefined,
     );
-    const anchorProps = React.isValidElement<any>(children)
-        ? getReferenceProps(children.props)
-        : getReferenceProps();
-    const anchorNode = React.isValidElement<any>(children)
-        ? React.cloneElement(children, {
-              ...anchorProps,
-              ref: anchorRef,
-          })
-        : children(anchorProps, anchorRef);
+    // Memoized so that the delay group state changes do not re-render the anchor
+    const anchorNode = React.useMemo(() => {
+        if (React.isValidElement<any>(children)) {
+            return React.cloneElement(children, {
+                ...getReferenceProps(children.props),
+                ref: anchorRef,
+            });
+        }
+
+        return children(getReferenceProps(), anchorRef);
+    }, [children, getReferenceProps, anchorRef]);
 
     return (
         <React.Fragment>

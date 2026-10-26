@@ -1,50 +1,47 @@
-import type * as React from 'react';
+'use client';
+
+import * as React from 'react';
 
 import {block} from '../utils/cn';
-import {warnOnce} from '../utils/warn';
+import {prepareIcon} from '../utils/prepareIcon';
+
+import {ButtonIconSizeContext} from './ButtonIconSizeContext';
 
 const b = block('button');
 
-type Props = React.PropsWithChildren<{
-    className?: string;
-    side?: 'left' | 'right' | 'start' | 'end';
-}>;
-
-function warnAboutPhysicalValues() {
-    warnOnce(
-        '[Button.Icon] Physical values (left, right) of "side" property are deprecated. Use logical values (start, end) instead.',
-    );
+export interface ButtonIconRenderProps {
+    size?: number;
 }
 
-export const ButtonIcon = ({side, className, children}: Props) => {
+export interface ButtonIconProps {
+    className?: string;
+    side?: 'start' | 'end';
+    children?: React.ReactNode | ((props: ButtonIconRenderProps) => React.ReactNode);
+}
+
+export const ButtonIcon = ({side, className, children}: ButtonIconProps) => {
+    const buttonIconSize = React.useContext(ButtonIconSizeContext);
+
+    let content =
+        typeof children === 'function' ? children({size: buttonIconSize ?? undefined}) : children;
+
+    if (typeof children !== 'function') {
+        content = prepareIcon(children, buttonIconSize);
+    }
+
     return (
         <span
             className={b(
                 'icon',
                 {
-                    side: getIconSide(side),
+                    side,
                 },
                 className,
             )}
         >
-            <span className={b('icon-inner')}>{children}</span>
+            <span className={b('icon-inner')}>{content}</span>
         </span>
     );
 };
 
 ButtonIcon.displayName = 'Button.Icon';
-
-export function getIconSide(side?: 'left' | 'right' | 'start' | 'end') {
-    let sideMod = side;
-
-    if (sideMod === 'left') {
-        warnAboutPhysicalValues();
-        sideMod = 'start';
-    }
-    if (sideMod === 'right') {
-        warnAboutPhysicalValues();
-        sideMod = 'end';
-    }
-
-    return sideMod;
-}

@@ -1,53 +1,22 @@
-[readme](#readme)
+<!--GITHUB_BLOCK-->
 
-## Dialog
+# Dialog
+
+<!--/GITHUB_BLOCK-->
+
+```tsx
+import {Dialog} from '@gravity-ui/uikit';
+```
 
 `Dialog` — компонент, используемый для диалоговых окон.
 
-### Свойства
+## Использование
 
-| Имя                   | Тип                                                                                            | Обязательное | Значение по умолчанию | Описание                                                                                                                |
-| :-------------------- | :--------------------------------------------------------------------------------------------- | :----------: | :-------------------- | :---------------------------------------------------------------------------------------------------------------------- |
-| open                  | `Boolean`                                                                                      |      ✓       |                       | Текущее состояние диалога.                                                                                              |
-| onEscapeKeyDown       | `(event: KeyboardEvent) => void`                                                               |              |                       | Обработчик события нажатия на клавишу Esc.                                                                              |
-| onEnterKeyDown        | `(event: KeyboardEvent) => void`                                                               |              |                       | Обработчик события нажатия на клавишу Enter.                                                                            |
-| onOutsideClick        | `(event: MouseEvent) => void`                                                                  |              |                       | Обработчик события клика вне диалога.                                                                                   |
-| onClose               | `(event: MouseEvent or KeyboardEvent, reason: LayerCloseReason or "closeButtonClick") => void` |      ✓       |                       | Обработчик события закрытия диалога.                                                                                    |
-| className             | `String`                                                                                       |              |                       | `ClassName` обертки содержимого диалога.                                                                                |
-| modalClassName        | `String`                                                                                       |              |                       | `ClassName` модального окна, в которое вложен диалог.                                                                   |
-| size                  | `s` `m` `l`                                                                                    |              |                       | Размер диалога.                                                                                                         |
-| disableBodyScrollLock | `Boolean`                                                                                      |              | `False`               | Включает или отключает блокировку прокрутки основного содержимого страницы.                                             |
-| disableEscapeKeyDown  | `Boolean`                                                                                      |              | `False`               | Включает или отключает возможность использования клавиши Esc.                                                           |
-| disableOutsideClick   | `Boolean`                                                                                      |              | `False`               | Включает или отключает блокировку кликов вне элемента.                                                                  |
-| disableFocusTrap      | `Boolean`                                                                                      |              |                       | Если установлено значение `true`, фокус можно перемещать за пределы модального окна.                                    |
-| disableAutoFocus      | `Boolean`                                                                                      |              |                       | Если установлено значение `true`, при открытии модального окна фокус не будет автоматически перемещаться на него.       |
-| onTransitionEnter     | `() => void`                                                                                   |              |                       | Обработчик события, вызываемый, когда начинается анимация открытия диалога.                                             |
-| onTransitionEntered   | `() => void`                                                                                   |              |                       | Обработчик события, вызываемый по завершении анимации открытия диалога.                                                 |
-| onTransitionExit      | `() => void`                                                                                   |              |                       | Обработчик события, вызываемый, когда начинается анимация закрытия диалога.                                             |
-| onTransitionExited    | `() => void`                                                                                   |              |                       | Обработчик события, вызываемый по завершении анимации закрытия диалога.                                                 |
-| restoreFocusRef       | `React.RefObject`                                                                              |              |                       | Элемент, получающий фокус при закрытии диалога.                                                                         |
-| keepMounted           | `Boolean`                                                                                      |              | `False`               | Определяет, остается ли диалог смонтированным при закрытии.                                                             |
-| hasCloseButton        | `Boolean`                                                                                      |              | `True`                | Включает или отключает иконку крестика в правом верхнем углу диалога.                                                   |
-| aria-labelledby       | `String`                                                                                       |              |                       | Идентификатор заголовка для <Dialog/>. Установите его с помощью свойства `id` элемента `<Dialog.Header/>`.              |
-| aria-label            | `String`                                                                                       |              |                       | Лейбл диалога для обеспечения доступности (a11y). Укажите `aria-labelledby`, если заголовок диалога виден пользователю. |
-| container             | `HTMLElement`                                                                                  |              |                       | Элемент-контейнер для диалогового окна.                                                                                 |
-| qa                    | `String`                                                                                       |              |                       | Значение атрибута `data-qa` модального окна, в которое вложен диалог.                                                   |
-| contentOverflow       | `visible` `auto`                                                                               |              | `visible`             | Определяет, имеет ли `Dialog` внутреннюю полосу прокрутки или увеличивается в размерах вместе с содержимым.             |
-
-### Примеры
-
-```js
+```tsx
 const [open, setOpen] = useState(false);
 const dialogTitleId = 'app-confirmation-dialog-title';
 
-<Dialog
-  onClose={() => setOpen(false)}
-  open={open}
-  onEnterKeyDown={() => {
-    alert('onEnterKeyDown');
-  }}
-  aria-labelledby={dialogTitleId}
->
+<Dialog onOpenChange={setOpen} open={open} aria-labelledby={dialogTitleId}>
   <Dialog.Header caption="Caption" id={dialogTitleId} />
   <Dialog.Body>Dialog.Body</Dialog.Body>
   <Dialog.Footer
@@ -58,3 +27,29 @@ const dialogTitleId = 'app-confirmation-dialog-title';
   />
 </Dialog>;
 ```
+
+## Свойства
+
+| Имя                   | Описание                                                                                                                | Тип                                                                 | Значение по умолчанию |
+| :-------------------- | :---------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------ | :-------------------- |
+| open                  | Текущее состояние диалога.                                                                                              | `boolean`                                                           |                       |
+| onOpenChange          | Обработчик изменения состояния диалога.                                                                                 | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |                       |
+| initialFocus          | Элемент, получающий фокус при открытии, включая кнопки футера `cancel` и `apply`.                                       | `ModalProps['initialFocus'] \| 'cancel' \| 'apply'`                 |                       |
+| returnFocus           | Управляет возвратом фокуса после закрытия.                                                                              | `ModalProps['returnFocus']`                                         |                       |
+| className             | `className` обертки содержимого диалога.                                                                                | `string`                                                            |                       |
+| modalClassName        | `className` модального окна, в которое вложен диалог.                                                                   | `string`                                                            |                       |
+| maxWidth              | Максимальная ширина диалога                                                                                             | `'s'` `'m'` `'l'`                                                   |                       |
+| fullWidth             | Если `true` диалог тянется до `maxWidth`                                                                                | `boolean`                                                           | `false`               |
+| disableBodyScrollLock | Включает или отключает блокировку прокрутки основного содержимого страницы.                                             | `boolean`                                                           | `false`               |
+| disableTransition     | Отключает анимации открытия и закрытия при `true`.                                                                      | `boolean`                                                           | `false`               |
+| disableEscapeKeyDown  | Включает или отключает возможность использования клавиши Esc.                                                           | `boolean`                                                           | `false`               |
+| disableOutsideClick   | Включает или отключает блокировку кликов вне элемента.                                                                  | `boolean`                                                           | `false`               |
+| keepMounted           | Определяет, остается ли диалог смонтированным при закрытии.                                                             | `boolean`                                                           | `false`               |
+| hasCloseButton        | Включает или отключает иконку крестика в правом верхнем углу диалога.                                                   | `boolean`                                                           | `true`                |
+| aria-labelledby       | Идентификатор заголовка для `<Dialog/>`. Установите его с помощью свойства `id` элемента `<Dialog.Header/>`.            | `string`                                                            |                       |
+| aria-label            | Лейбл диалога для обеспечения доступности (a11y). Укажите `aria-labelledby`, если заголовок диалога виден пользователю. | `string`                                                            |                       |
+| container             | Элемент-контейнер для диалогового окна.                                                                                 | `HTMLElement`                                                       |                       |
+| qa                    | Значение атрибута `data-qa` модального окна, в которое вложен диалог.                                                   | `string`                                                            |                       |
+| contentOverflow       | Определяет, имеет ли `Dialog` внутреннюю полосу прокрутки или увеличивается в размерах вместе с содержимым.             | `'visible'` `'auto'`                                                | `'visible'`           |
+
+`onOpenChange` передаёт причину `escape-key` для Escape, `outside-press` для клика вне диалога, `click` для кнопки закрытия и `undefined` для скрытой кнопки закрытия скринридера. Закрывайте диалог при `open === false` независимо от причины.

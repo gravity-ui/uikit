@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+The `Toc` component is designed to display a table of contents of the page, namely showing a set items with two levels of hierarchy.
+
 ```tsx
 import {Toc} from '@gravity-ui/uikit';
 ```
-
-The `Toc` component is designed to display a table of contents of the page, namely showing a set items with two levels of hierarchy.
 
 ## Usage
 

@@ -1,13 +1,14 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {SpinProps} from '../Spin';
 import {Spin} from '../Spin';
 
 import {sizeCases} from './cases';
 
 test.describe('Spin', {tag: '@Spin'}, () => {
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const defaultProps: SpinProps = {};
 
         const smokeScenarios = createSmokeScenarios(defaultProps, {

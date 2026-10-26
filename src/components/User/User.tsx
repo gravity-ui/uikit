@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {Avatar} from '../Avatar';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -11,7 +12,8 @@ import './User.scss';
 
 const b = block('user');
 
-export const User = React.forwardRef<HTMLDivElement, UserProps>((props, ref) => {
+export const User = React.forwardRef<HTMLDivElement, UserProps>((rawProps, ref) => {
+    const props = useDefaultProps('User', rawProps);
     const {avatar, name, description, size = DEFAULT_USER_SIZE, className, style, qa} = props;
 
     const nameTitle = typeof name === 'string' ? name : undefined;

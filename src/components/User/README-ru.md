@@ -14,17 +14,20 @@ import {User} from '@gravity-ui/uikit';
 
 Для отображения информационного блока компонент `User` использует свойства `name` и `description`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {User} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="l" />
-`}
->
-    <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="l" />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <User
+            avatar={{text: 'Charles Darwin', theme: 'brand'}}
+            name="Charles Darwin"
+            description="charles@mail.ai"
+            size="l"
+        />
+    );
+}
+SANDBOX-->
 
 ## Размер
 
@@ -32,25 +35,46 @@ LANDING_BLOCK-->
 
 Это свойство также применимо к внутреннему компоненту `Avatar`.
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {User} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="xs" />
-<User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="s" />
-<User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="m" />
-<User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="l" />
-<User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="xl" />
-`}
->
-    <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="xs" />
-    <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="s" />
-    <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="m" />
-    <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="l" />
-    <UIKit.User avatar={{text: 'Charles Darwin', theme: 'brand'}} name="Charles Darwin" description="charles@mail.ai" size="xl" />
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <>
+            <User
+                avatar={{text: 'Charles Darwin', theme: 'brand'}}
+                name="Charles Darwin"
+                description="charles@mail.ai"
+                size="xs"
+            />
+            <User
+                avatar={{text: 'Charles Darwin', theme: 'brand'}}
+                name="Charles Darwin"
+                description="charles@mail.ai"
+                size="s"
+            />
+            <User
+                avatar={{text: 'Charles Darwin', theme: 'brand'}}
+                name="Charles Darwin"
+                description="charles@mail.ai"
+                size="m"
+            />
+            <User
+                avatar={{text: 'Charles Darwin', theme: 'brand'}}
+                name="Charles Darwin"
+                description="charles@mail.ai"
+                size="l"
+            />
+            <User
+                avatar={{text: 'Charles Darwin', theme: 'brand'}}
+                name="Charles Darwin"
+                description="charles@mail.ai"
+                size="xl"
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 ## Свойства
 

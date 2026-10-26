@@ -1,4 +1,5 @@
-import type {Cases} from '../../../stories/tests-factory/models';
+import type {Cases} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 
 export const disabledCases: Cases<BreadcrumbsProps['disabled']> = [true];

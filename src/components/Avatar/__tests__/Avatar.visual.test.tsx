@@ -1,6 +1,6 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
 
 import {
     backgroundColorCases,
@@ -17,39 +17,37 @@ import {AvatarStories} from './stories';
 test.describe('Avatar', {tag: '@Avatar'}, () => {
     test('render story: <Image>', async ({mount, expectScreenshot}) => {
         const component = await mount(<AvatarStories.Image />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
-    test('render story: <ImageFallback>', async ({browserName, mount, expectScreenshot}) => {
-        test.skip(browserName === 'webkit', 'Test is flaky for webkit');
-
+    test('render story: <ImageFallback>', async ({mount, expectScreenshot}) => {
         const component = await mount(<AvatarStories.ImageFallback />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     test('render story: <Icon>', async ({mount, expectScreenshot}) => {
         const component = await mount(<AvatarStories.Icon />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     test('render story: <Text>', async ({mount, expectScreenshot}) => {
         const component = await mount(<AvatarStories.Text />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     test('render story: <TextInitials>', async ({mount, expectScreenshot}) => {
         const component = await mount(<AvatarStories.TextInitials />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     test('render story: <WithBorder>', async ({mount, expectScreenshot}) => {
         const component = await mount(<AvatarStories.WithBorder />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     test('render story: <Showcase>', async ({mount, expectScreenshot}) => {
         const component = await mount(<AvatarStories.AvatarShowcase />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 
     const commonCases = {
@@ -61,7 +59,7 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         title: titleCases,
     } as const;
 
-    smokeTest('with image', async ({mount, expectScreenshot}) => {
+    test('smoke with image', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestAvatarProps>(
             {},
             {
@@ -90,7 +88,7 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         });
     });
 
-    smokeTest('with icon', async ({mount, expectScreenshot}) => {
+    test('smoke with icon', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestAvatarProps>(
             {},
             {
@@ -119,7 +117,7 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         });
     });
 
-    smokeTest('with text', async ({mount, expectScreenshot}) => {
+    test('smoke with text', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TestAvatarProps>(
             {},
             {
@@ -153,6 +151,6 @@ test.describe('Avatar', {tag: '@Avatar'}, () => {
         expectScreenshot,
     }) => {
         const component = await mount(<TestAvatarWithImage withImageBorder />);
-        await expectScreenshot({component});
+        await expectScreenshot({locator: component});
     });
 });

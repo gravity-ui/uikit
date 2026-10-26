@@ -36,6 +36,20 @@ describe('Accordion', () => {
         expect(accordion).toHaveClass(className);
     });
 
+    test('render accordion item with custom className', () => {
+        const className = 'custom-accordion-item';
+        render(
+            <Accordion>
+                <Accordion.Item summary="Item 1" qa={qaId} className={className}>
+                    Content 1
+                </Accordion.Item>
+            </Accordion>,
+        );
+
+        const accordionItem = screen.getByTestId(qaId);
+        expect(accordionItem).toHaveClass(className);
+    });
+
     test('expand/collapse items on click', async () => {
         const user = userEvent.setup();
 
@@ -225,6 +239,56 @@ describe('Accordion', () => {
 
         expect(content1.className).toContain('g-disclosure__content_visible');
         expect(content2.className).not.toContain('g-disclosure__content_visible');
+    });
+
+    test('AccordionItem with defaultExpanded=false opens on click', async () => {
+        const user = userEvent.setup();
+
+        render(
+            <Accordion>
+                <Accordion.Item qa="item" summary="Item" defaultExpanded={false}>
+                    Content
+                </Accordion.Item>
+            </Accordion>,
+        );
+
+        const content = screen.getByText('Content');
+        const summary = screen.getByTestId('item-summary');
+
+        expect(content.className).not.toContain('g-disclosure__content_visible');
+
+        await user.click(summary);
+
+        expect(content.className).toContain('g-disclosure__content_visible');
+    });
+
+    test('AccordionItem with defaultExpanded=false closes when another item opens', async () => {
+        const user = userEvent.setup();
+
+        render(
+            <Accordion>
+                <Accordion.Item qa="item-1" summary="Item 1" defaultExpanded={false}>
+                    Content 1
+                </Accordion.Item>
+                <Accordion.Item qa="item-2" summary="Item 2">
+                    Content 2
+                </Accordion.Item>
+            </Accordion>,
+        );
+
+        const content1 = screen.getByText('Content 1');
+        const content2 = screen.getByText('Content 2');
+        const summary1 = screen.getByTestId('item-1-summary');
+        const summary2 = screen.getByTestId('item-2-summary');
+
+        await user.click(summary1);
+
+        expect(content1.className).toContain('g-disclosure__content_visible');
+
+        await user.click(summary2);
+
+        expect(content1.className).not.toContain('g-disclosure__content_visible');
+        expect(content2.className).toContain('g-disclosure__content_visible');
     });
 
     test('disabled AccordionItem cannot be expanded', async () => {

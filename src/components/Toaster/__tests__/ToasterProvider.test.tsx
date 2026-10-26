@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
-import {Modal} from '../../../components/Modal/Modal';
+import {Modal} from '../../Modal/Modal';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
 import {fireAnimationEndEvent} from '../__mocks__/fireAnimationEndEvent';
@@ -305,7 +305,12 @@ describe('modal remains open after toaster close', () => {
         }, []);
 
         return (
-            <Modal open={open} onOutsideClick={closeModal}>
+            <Modal
+                open={open}
+                onOpenChange={(isOpen, _event, reason) => {
+                    if (!isOpen && reason === 'outside-press') closeModal();
+                }}
+            >
                 {MODAL_CONTENT}
             </Modal>
         );

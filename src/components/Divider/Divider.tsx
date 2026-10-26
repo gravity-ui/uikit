@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
@@ -17,28 +18,31 @@ export interface DividerProps extends AriaLabelingProps, DOMProps, QAProps {
 
 const b = block('divider');
 
-export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function Divider(props, ref) {
-    const {
-        orientation = 'horizontal',
-        className,
-        style,
-        qa,
-        children,
-        align = 'start',
-        ...restProps
-    } = props;
+export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
+    function Divider(rawProps, ref) {
+        const props = useDefaultProps('Divider', rawProps);
+        const {
+            orientation = 'horizontal',
+            className,
+            style,
+            qa,
+            children,
+            align = 'start',
+            ...restProps
+        } = props;
 
-    return (
-        <div
-            {...filterDOMProps(restProps, {labelable: true})}
-            className={b({orientation, align}, className)}
-            ref={ref}
-            style={style}
-            data-qa={qa}
-            role="separator"
-            aria-orientation={orientation === 'vertical' ? 'vertical' : undefined}
-        >
-            {children}
-        </div>
-    );
-});
+        return (
+            <div
+                {...filterDOMProps(restProps, {labelable: true})}
+                className={b({orientation, align}, className)}
+                ref={ref}
+                style={style}
+                data-qa={qa}
+                role="separator"
+                aria-orientation={orientation === 'vertical' ? 'vertical' : undefined}
+            >
+                {children}
+            </div>
+        );
+    },
+);

@@ -1,0 +1,306 @@
+import * as React from 'react';
+
+import {renderWithoutProviders as render, renderHook, screen} from '../../../../test-utils/utils';
+import type {ComponentDefaultPropsMap, DefaultPropsMap} from '../../../index';
+import {PasswordInput} from '../../controls/PasswordInput';
+import {PasswordInputQa} from '../../controls/PasswordInput/constants';
+import {Menu as LegacyMenu} from '../../legacy/Menu';
+import {TableColumnSetup as LegacyTableColumnSetup} from '../../legacy/TableColumnSetup';
+import type {DefaultPropsProviderProps} from '../DefaultPropsProvider';
+import {DefaultPropsProvider} from '../DefaultPropsProvider';
+import {Provider} from '../Provider';
+import {ThemeProvider} from '../ThemeProvider';
+import {useDefaultProps} from '../useDefaultProps';
+
+interface ExternalComponentProps {
+    label?: string;
+    size?: 's' | 'l';
+}
+
+declare module '../../../index' {
+    interface DefaultPropsMap {
+        '@example/components/ExternalComponent'?: Partial<ExternalComponentProps>;
+    }
+}
+
+const externalDefaultProps = {
+    '@example/components/ExternalComponent': {label: 'Default label', size: 'l'},
+} satisfies DefaultPropsMap;
+
+function makeWrapper(defaultProps: DefaultPropsProviderProps['defaultProps']) {
+    return function Wrapper({children}: {children: React.ReactNode}) {
+        return <DefaultPropsProvider defaultProps={defaultProps}>{children}</DefaultPropsProvider>;
+    };
+}
+
+function Consumer({name, props}: {name: Parameters<typeof useDefaultProps>[0]; props: object}) {
+    const merged = useDefaultProps(name, props);
+    return <output title={name}>{JSON.stringify(merged)}</output>;
+}
+
+describe('useDefaultProps', () => {
+    describe('without a provider', () => {
+        it('returns props unchanged when no provider is present', () => {
+            const props = {view: 'normal' as const, size: 'm' as const};
+            const {result} = renderHook(() => useDefaultProps('Button', props));
+            expect(result.current).toBe(props);
+        });
+
+        it('rejects props that do not match the registered component', () => {
+            const {result} = renderHook(() =>
+                // @ts-expect-error props do not match Button
+                useDefaultProps('Button', {totally: 'unrelated'}),
+            );
+
+            expect(result.current).toEqual({totally: 'unrelated'});
+        });
+    });
+
+    describe('with a provider but no defaults for the component', () => {
+        it('returns props unchanged when provider has no entry for the component', () => {
+            const props = {view: 'normal' as const};
+            const {result} = renderHook(() => useDefaultProps('Button', props), {
+                wrapper: makeWrapper({TextInput: {size: 'l'}}),
+            });
+            expect(result.current).toBe(props);
+        });
+
+        it('returns props unchanged when provider value is empty', () => {
+            const props = {size: 'm' as const};
+            const {result} = renderHook(() => useDefaultProps('TextInput', props), {
+                wrapper: makeWrapper({}),
+            });
+            expect(result.current).toBe(props);
+        });
+    });
+
+    describe('prop merging priority', () => {
+        it('applies context defaults when component receives no props', () => {
+            const {result} = renderHook(() => useDefaultProps('Button', {}), {
+                wrapper: makeWrapper({Button: {view: 'outlined', size: 'l'}}),
+            });
+            expect(result.current).toEqual({view: 'outlined', size: 'l'});
+        });
+
+        it('user props override context defaults', () => {
+            const {result} = renderHook(
+                () => useDefaultProps('Button', {view: 'normal', size: 'm'}),
+                {wrapper: makeWrapper({Button: {view: 'outlined', size: 'l'}})},
+            );
+            expect(result.current).toEqual({view: 'normal', size: 'm'});
+        });
+
+        it('use prop set to undefined does not override defaults', () => {
+            const {result} = renderHook(
+                () => useDefaultProps('Button', {view: undefined, size: 'm'}),
+                {wrapper: makeWrapper({Button: {view: 'outlined', size: 'l'}})},
+            );
+            expect(result.current).toEqual({view: 'outlined', size: 'm'});
+        });
+
+        it('only overridden props win — unset props use context defaults', () => {
+            const {result} = renderHook(() => useDefaultProps('Button', {size: 'm'}), {
+                wrapper: makeWrapper({Button: {view: 'outlined', size: 'l'}}),
+            });
+            expect(result.current).toEqual({view: 'outlined', size: 'm'});
+        });
+
+        it('does not leak defaults from one component to another', () => {
+            const props = {size: 'm' as const};
+            const {result} = renderHook(() => useDefaultProps('TextInput', props), {
+                wrapper: makeWrapper({Button: {view: 'outlined'}}),
+            });
+            expect(result.current).toBe(props);
+        });
+    });
+});
+
+describe('DefaultPropsProvider', () => {
+    it('applies MenuLegacy defaults to the legacy menu', () => {
+        render(
+            <DefaultPropsProvider defaultProps={{MenuLegacy: {size: 'l'}}}>
+                <LegacyMenu qa="legacy-menu" />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByTestId('legacy-menu')).toHaveClass('g-menu-legacy_size_l');
+    });
+
+    it('applies TableColumnSetup defaults to the legacy column setup', () => {
+        render(
+            <DefaultPropsProvider
+                defaultProps={{TableColumnSetup: {switcher: <button>Columns</button>}}}
+            >
+                <LegacyTableColumnSetup items={[]} onUpdate={() => {}} />
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByRole('button', {name: 'Columns'})).toBeVisible();
+    });
+
+    it('passes inherited defaults through when defaultProps is omitted', () => {
+        const wrapper = ({children}: {children: React.ReactNode}) => (
+            <DefaultPropsProvider defaultProps={{Button: {view: 'outlined'}}}>
+                <DefaultPropsProvider>{children}</DefaultPropsProvider>
+            </DefaultPropsProvider>
+        );
+        const {result} = renderHook(() => useDefaultProps('Button', {}), {wrapper});
+
+        expect(result.current).toEqual({view: 'outlined'});
+    });
+
+    it('merges nested providers by component and replaces defaults for the same component', () => {
+        const wrapper = ({children}: {children: React.ReactNode}) => (
+            <DefaultPropsProvider
+                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
+            >
+                <DefaultPropsProvider defaultProps={{Button: {view: 'action'}}}>
+                    {children}
+                </DefaultPropsProvider>
+            </DefaultPropsProvider>
+        );
+        const {result} = renderHook(
+            () => ({
+                button: useDefaultProps('Button', {}),
+                checkbox: useDefaultProps('Checkbox', {}),
+            }),
+            {wrapper},
+        );
+
+        expect(result.current.button).toEqual({view: 'action'});
+        expect(result.current.checkbox).toEqual({size: 'l'});
+    });
+
+    it('merges defaults when nested inside Provider', () => {
+        render(
+            <Provider defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}>
+                <DefaultPropsProvider defaultProps={{Button: {view: 'action'}}}>
+                    <Consumer name="Button" props={{}} />
+                    <Consumer name="Checkbox" props={{}} />
+                </DefaultPropsProvider>
+            </Provider>,
+        );
+
+        expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
+            view: 'action',
+        });
+        expect(JSON.parse(screen.getByTitle('Checkbox').textContent ?? '{}')).toEqual({
+            size: 'l',
+        });
+    });
+
+    it('merges defaults when wrapping Provider', () => {
+        render(
+            <DefaultPropsProvider
+                defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}
+            >
+                <Provider defaultProps={{Button: {view: 'action'}}}>
+                    <Consumer name="Button" props={{}} />
+                    <Consumer name="Checkbox" props={{}} />
+                </Provider>
+            </DefaultPropsProvider>,
+        );
+
+        expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
+            view: 'action',
+        });
+        expect(JSON.parse(screen.getByTitle('Checkbox').textContent ?? '{}')).toEqual({
+            size: 'l',
+        });
+    });
+
+    it('applies TextInput defaults consistently to PasswordInput and its action button', () => {
+        render(
+            <DefaultPropsProvider defaultProps={{TextInput: {size: 'l'}}}>
+                <ThemeProvider>
+                    <PasswordInput qa="password-input" />
+                </ThemeProvider>
+            </DefaultPropsProvider>,
+        );
+
+        expect(screen.getByTestId('password-input')).toHaveClass('g-text-input_size_l');
+        expect(screen.getByTestId(PasswordInputQa.revealButton)).toHaveClass('g-button_size_m');
+    });
+});
+
+describe('Provider defaultProps', () => {
+    it('keeps the deprecated map alias type-compatible', () => {
+        const deprecatedExternalDefaultProps: ComponentDefaultPropsMap = externalDefaultProps;
+        const invalidExternalDefaultProps: DefaultPropsMap = {
+            '@example/components/ExternalComponent': {
+                // @ts-expect-error unknown external component prop
+                unknown: true,
+            },
+        };
+
+        expect(deprecatedExternalDefaultProps).toBe(externalDefaultProps);
+        expect(invalidExternalDefaultProps).toBeDefined();
+    });
+
+    it('supports defaults registered by an external library', () => {
+        const {result} = renderHook(
+            () =>
+                useDefaultProps('@example/components/ExternalComponent', {
+                    label: 'Explicit label',
+                    size: undefined,
+                }),
+            {
+                wrapper: ({children}) => (
+                    <Provider defaultProps={externalDefaultProps}>{children}</Provider>
+                ),
+            },
+        );
+
+        expect(result.current).toEqual({label: 'Explicit label', size: 'l'});
+    });
+
+    it('passes defaultProps through to useDefaultProps', () => {
+        render(
+            <Provider defaultProps={{Button: {view: 'outlined', size: 'l'}}}>
+                <Consumer name="Button" props={{size: 'm'}} />
+            </Provider>,
+        );
+        expect(JSON.parse(screen.getByRole('status').textContent ?? '{}')).toEqual({
+            view: 'outlined',
+            size: 'm',
+        });
+    });
+
+    it('does not affect components with no entry in defaultProps', () => {
+        render(
+            <Provider defaultProps={{Button: {view: 'outlined'}}}>
+                <Consumer name="TextInput" props={{size: 's'}} />
+            </Provider>,
+        );
+        expect(JSON.parse(screen.getByRole('status').textContent ?? '{}')).toEqual({size: 's'});
+    });
+
+    it('works correctly when defaultProps is omitted', () => {
+        render(
+            <Provider>
+                <Consumer name="Button" props={{view: 'normal'}} />
+            </Provider>,
+        );
+        expect(JSON.parse(screen.getByRole('status').textContent ?? '{}')).toEqual({
+            view: 'normal',
+        });
+    });
+
+    it('subtree defaults correctly override Provider defaults', () => {
+        render(
+            <Provider defaultProps={{Button: {view: 'outlined', size: 'l'}, Checkbox: {size: 'l'}}}>
+                <DefaultPropsProvider defaultProps={{Button: {view: 'action'}}}>
+                    <Consumer name="Button" props={{}} />
+                    <Consumer name="Checkbox" props={{}} />
+                </DefaultPropsProvider>
+            </Provider>,
+        );
+        // Subtree defaults replace props per component, not the whole context
+        expect(JSON.parse(screen.getByTitle('Button').textContent ?? '{}')).toEqual({
+            view: 'action',
+        });
+        expect(JSON.parse(screen.getByTitle('Checkbox').textContent ?? '{}')).toEqual({
+            size: 'l',
+        });
+    });
+});

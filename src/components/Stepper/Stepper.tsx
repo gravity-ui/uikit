@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {filterDOMProps} from '../utils/filterDOMProps';
 
@@ -21,7 +22,8 @@ export interface StepperProps extends DOMProps, AriaLabelingProps, QAProps {
     separator?: React.ReactNode;
 }
 
-export const Stepper = (props: StepperProps) => {
+export const Stepper = (rawProps: StepperProps) => {
+    const props = useDefaultProps('Stepper', rawProps);
     const {children, value, size = 's', className, onUpdate, separator} = props;
 
     const stepItems = React.useMemo(() => {

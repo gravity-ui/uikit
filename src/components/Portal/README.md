@@ -4,11 +4,11 @@
 
 <!--/GITHUB_BLOCK-->
 
+`Portal` is a utility component. Basically, it is a simple wrapper around React's [`createPortal`](https://react.dev/reference/react-dom/createPortal) that allows you to render children into a DOM node outside the parent component.
+
 ```tsx
 import {Portal} from '@gravity-ui/uikit';
 ```
-
-`Portal` is a utility component. Basically, it is a simple wrapper around React's [`createPortal`](https://react.dev/reference/react-dom/createPortal) that allows you to render children into a DOM node outside the parent component.
 
 ## Container
 

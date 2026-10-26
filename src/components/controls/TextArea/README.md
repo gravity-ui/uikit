@@ -18,19 +18,23 @@ The `TextArea`'s appearance is controlled by the `view` and `pin` properties.
 
 `normal` - is the main view of the `TextArea` (used by default).
 
-<!--LANDING_BLOCK
-<ExampleBlock code={`<TextArea placeholder="Placeholder" />`}>
-    <UIKit.TextArea placeholder="Placeholder" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return <TextArea placeholder="Placeholder" />;
+}
+SANDBOX-->
 
 `clear` - can be used when using a custom wrapper for the `TextArea`.
 
-<!--LANDING_BLOCK
-<ExampleBlock code={`<TextArea view="clear" placeholder="Placeholder" />`}>
-    <UIKit.TextArea view="clear" placeholder="Placeholder" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return <TextArea view="clear" placeholder="Placeholder" />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -45,19 +49,19 @@ LANDING_BLOCK-->
 
 Allows you to control the appearance of the right and left edges of the `TextArea`'s border.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextArea placeholder="Placeholder" pin="round-brick" />
-<TextArea placeholder="Placeholder" pin="brick-brick" />
-<TextArea placeholder="Placeholder" pin="brick-round" />
-`}
->
-    <UIKit.TextArea placeholder="Placeholder" pin="round-brick" />
-    <UIKit.TextArea placeholder="Placeholder" pin="brick-brick" />
-    <UIKit.TextArea placeholder="Placeholder" pin="brick-round" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <TextArea placeholder="Placeholder" pin="round-brick" />
+            <TextArea placeholder="Placeholder" pin="brick-brick" />
+            <TextArea placeholder="Placeholder" pin="brick-round" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -75,15 +79,13 @@ LANDING_BLOCK-->
 
 The state of the `TextArea` where you don't want the user to be able to interact with the component.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextArea placeholder="Placeholder" disabled={true} />
-`}
->
-    <UIKit.TextArea placeholder="Placeholder" disabled={true} />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return <TextArea placeholder="Placeholder" disabled />;
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -98,17 +100,27 @@ LANDING_BLOCK-->
 The state of the `TextArea` where you want to show incorrect user input. To change the appearance of the `TextArea`, use the `validationState` property with the "invalid" value.
 An optional message text can be added via the `errorMessage` property.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextArea placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-<TextArea view="clear" placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-`}
->
-    <UIKit.TextArea placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-    <UIKit.TextArea view="clear" placeholder="Placeholder" errorMessage="Error message" validationState="invalid" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <TextArea
+                placeholder="Placeholder"
+                errorMessage="Error message"
+                validationState="invalid"
+            />
+            <TextArea
+                view="clear"
+                placeholder="Placeholder"
+                errorMessage="Error message"
+                validationState="invalid"
+            />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -128,21 +140,20 @@ LANDING_BLOCK-->
 
 `xl` – Used on promo and landing pages.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextArea placeholder="Placeholder" size="s" />
-<TextArea placeholder="Placeholder" size="m" />
-<TextArea placeholder="Placeholder" size="l" />
-<TextArea placeholder="Placeholder" size="xl" />
-`}
->
-    <UIKit.TextArea placeholder="Placeholder" size="s" />
-    <UIKit.TextArea placeholder="Placeholder" size="m" />
-    <UIKit.TextArea placeholder="Placeholder" size="l" />
-    <UIKit.TextArea placeholder="Placeholder" size="xl" />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <TextArea placeholder="Placeholder" size="s" />
+            <TextArea placeholder="Placeholder" size="m" />
+            <TextArea placeholder="Placeholder" size="l" />
+            <TextArea placeholder="Placeholder" size="xl" />
+        </>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -160,54 +171,51 @@ LANDING_BLOCK-->
 The row count of the `TextArea` is controlled by the `rows`, `minRows` and `maxRows` properties. The `rows` property disables automatic height calculation.
 To set the desired height of the `TextArea`, use the `className` or `style` property with the `rows` property set to 1.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextArea placeholder="Placeholder" size="s" />
-`}
->
-    <div>
-        rows = 2
-        <UIKit.TextArea placeholder="Placeholder" rows={2} />
-    </div>
-    <div>
-        minRows = 2
-        <UIKit.TextArea placeholder="Placeholder" minRows={2} />
-    </div>
-    <div>
-        maxRows = 2
-        <UIKit.TextArea placeholder="Placeholder" maxRows={2} />
-    </div>
-    <div>
-        height = 200px
-        <UIKit.TextArea placeholder="Placeholder" rows={1} style={{height: 200px}}/>
-    </div>
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <>
+            <div>
+                rows = 2
+                <TextArea placeholder="Placeholder" rows={2} />
+            </div>
+            <div>
+                minRows = 2
+                <TextArea placeholder="Placeholder" minRows={2} />
+            </div>
+            <div>
+                maxRows = 2
+                <TextArea placeholder="Placeholder" maxRows={2} />
+            </div>
+            <div>
+                height = 200px
+                <TextArea placeholder="Placeholder" rows={1} style={{height: 200}} />
+            </div>
+        </>
+    );
+}
+SANDBOX-->
 
 ## Resizable TextArea
 
 You can get resizable behaviour by providing `resize` style to `controlProps` property. Be sure to specify the `rows` property if you allow the text area height to be resized, otherwise resizing will conflict with the automatic height calculation.
 
-<!--LANDING_BLOCK
-<ExampleBlock
-    code={`
-<TextArea
-    rows={4}
-    placeholder="Placeholder"
-    style={{width: "auto", maxWidth: "100%"}}
-    controlProps={{style: {resize: "both"}}}
-/>
-`}
->
-    <UIKit.TextArea
-        rows={4}
-        placeholder="Placeholder"
-        style={{width: "auto", maxWidth: "100%"}}
-        controlProps={{style: {resize: "both"}}}
-    />
-</ExampleBlock>
-LANDING_BLOCK-->
+<!--SANDBOX
+import {TextArea} from '@gravity-ui/uikit';
+
+export default function () {
+    return (
+        <TextArea
+            rows={4}
+            placeholder="Placeholder"
+            style={{width: 'auto', maxWidth: '100%'}}
+            controlProps={{style: {resize: 'both'}}}
+        />
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 

@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {TextAreaProps} from '../TextArea';
 import {TextArea} from '../TextArea';
 
@@ -37,7 +38,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         validationState: validationStateCases,
     } as const;
 
-    smokeTest('empty', async ({mount, expectScreenshot}) => {
+    test('smoke empty', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(defaultProps, commonPropCases);
 
         await mount(
@@ -58,7 +59,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         });
     });
 
-    smokeTest('with value', async ({mount, expectScreenshot}) => {
+    test('smoke with value', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,
@@ -85,7 +86,7 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         });
     });
 
-    smokeTest('with error', async ({mount, expectScreenshot}) => {
+    test('smoke with error', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios(
             {
                 ...defaultProps,
@@ -113,5 +114,55 @@ test.describe('TextArea', {tag: '@TextArea'}, () => {
         await expectScreenshot({
             themes: ['light'],
         });
+    });
+
+    test('keeps empty wrapping placeholder visible', async ({mount, page}) => {
+        await mount(
+            <div style={{width: 160}}>
+                <TextArea placeholder="Long placeholder that wraps across multiple lines" />
+            </div>,
+        );
+
+        const textarea = page.getByRole('textbox');
+
+        await test.expect
+            .poll(() =>
+                textarea.evaluate((element) => element.scrollHeight <= element.clientHeight),
+            )
+            .toBe(true);
+    });
+
+    test('keeps empty minRows height without a placeholder', async ({mount, page}) => {
+        await mount(
+            <div>
+                <TextArea />
+                <TextArea minRows={3} />
+                <TextArea minRows={3} placeholder="Placeholder" />
+            </div>,
+        );
+
+        const oneRow = page.getByRole('textbox').nth(0);
+        const emptyMinRows = page.getByRole('textbox').nth(1);
+        const placeholderMinRows = page.getByRole('textbox').nth(2);
+
+        const [oneRowHeight, emptyMinRowsHeight, placeholderMinRowsHeight] = await Promise.all([
+            oneRow.evaluate((element) => element.clientHeight),
+            emptyMinRows.evaluate((element) => element.clientHeight),
+            placeholderMinRows.evaluate((element) => element.clientHeight),
+        ]);
+
+        test.expect(emptyMinRowsHeight).toBeGreaterThan(oneRowHeight);
+        test.expect(emptyMinRowsHeight).toBe(placeholderMinRowsHeight);
+    });
+
+    test('clamps minRows to maxRows before first input', async ({mount, page}) => {
+        await mount(<TextArea minRows={5} maxRows={3} />);
+
+        const textarea = page.getByRole('textbox');
+
+        await test.expect(textarea).toHaveAttribute('rows', '3');
+        await textarea.fill('v');
+
+        await test.expect(textarea).toHaveAttribute('rows', '3');
     });
 });

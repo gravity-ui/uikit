@@ -72,12 +72,12 @@ export function DialogFooter(props: DialogFooterProps) {
         className,
     } = props;
 
-    const {initialFocusRef, initialFocusAction, onTooltipEscapeKeyDown} =
+    const {mobile, initialFocusRef, initialFocusAction, onTooltipEscapeKeyDown} =
         React.useContext(DialogPrivateContext);
 
-    const errorTooltipRef = React.useRef<HTMLButtonElement>(null);
-    const apllyBtnRef = useForkRef(
-        errorTooltipRef,
+    const [errorTooltipElement, setErrorTooltipElement] = React.useState<HTMLElement | null>(null);
+    const apllyBtnRef = useForkRef<HTMLElement | null>(
+        setErrorTooltipElement,
         initialFocusAction === 'apply' ? initialFocusRef : null,
     );
     const cancelBtnRef = useForkRef(initialFocusAction === 'cancel' ? initialFocusRef : null);
@@ -87,11 +87,11 @@ export function DialogFooter(props: DialogFooterProps) {
             <Button
                 ref={cancelBtnRef}
                 view={textButtonApply ? 'flat' : 'normal'}
-                size="l"
-                width="max"
+                size={mobile ? 'xl' : 'l'}
                 onClick={onClickButtonCancel}
                 disabled={loading}
                 {...propsButtonCancel}
+                width={mobile ? 'max' : propsButtonCancel?.width}
             >
                 {textButtonCancel}
             </Button>
@@ -113,12 +113,12 @@ export function DialogFooter(props: DialogFooterProps) {
                 ref={apllyBtnRef}
                 type="submit"
                 view={getButtonView(preset)}
-                size="l"
-                width="max"
+                size={mobile ? 'xl' : 'l'}
                 onClick={onClickButtonApply}
                 loading={loading}
                 className={b('button-apply', {preset})}
                 {...propsButtonApply}
+                width={mobile ? 'max' : propsButtonApply?.width}
             >
                 {textButtonApply}
             </Button>
@@ -126,7 +126,7 @@ export function DialogFooter(props: DialogFooterProps) {
                 <Popup
                     open={showError}
                     onOpenChange={handleOpenChange}
-                    anchorRef={errorTooltipRef}
+                    anchorElement={errorTooltipElement}
                     placement="top"
                     disablePortal
                     hasArrow
@@ -137,19 +137,31 @@ export function DialogFooter(props: DialogFooterProps) {
         </div>
     );
 
+    const buttons = (() => {
+        if (renderButtons) {
+            return renderButtons(buttonApply, buttonCancel);
+        }
+
+        if (!textButtonCancel && !textButtonApply) {
+            return null;
+        }
+
+        return (
+            <React.Fragment>
+                {textButtonCancel && buttonCancel}
+                {textButtonApply && buttonApply}
+            </React.Fragment>
+        );
+    })();
+
+    if (!buttons && !children) {
+        return null;
+    }
+
     return (
-        <div className={b(null, className)}>
-            <div className={b('children')}>{children}</div>
-            <div className={b('bts-wrapper')}>
-                {renderButtons ? (
-                    renderButtons(buttonApply, buttonCancel)
-                ) : (
-                    <React.Fragment>
-                        {textButtonCancel && buttonCancel}
-                        {textButtonApply && buttonApply}
-                    </React.Fragment>
-                )}
-            </div>
+        <div className={b({mobile}, className)}>
+            {children && <div className={b('children')}>{children}</div>}
+            {buttons && <div className={b('bts-wrapper')}>{buttons}</div>}
         </div>
     );
 }

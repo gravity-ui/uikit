@@ -3,8 +3,9 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../constants';
-import {ListItemView} from '../lab/ListItemView/ListItemView';
+import {ListItemView} from '../ListItemView';
 import {filterDOMProps} from '../utils/filterDOMProps';
+import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 
 import {useMenuContext} from './BreadcrumbsDropdownMenu';
 import {b} from './utils';
@@ -67,7 +68,7 @@ function BreadcrumbsItem(props: BreadcrumbsItemProps, ref: React.ForwardedRef<HT
         linkProps.href = href;
         linkProps.hrefLang = hrefLang;
         linkProps.target = target;
-        linkProps.rel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
+        linkProps.rel = getLinkRelWithFallback({target, rel});
         linkProps.download = download;
         linkProps.ping = ping;
         linkProps.referrerPolicy = referrerPolicy;

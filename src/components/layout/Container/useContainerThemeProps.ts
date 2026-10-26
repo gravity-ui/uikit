@@ -1,20 +1,16 @@
 import * as React from 'react';
 
 import {useLayoutContext} from '../hooks/useLayoutContext';
-import type {CommonProps, ContainerConfigProps} from '../types';
+import type {ContainerConfigProps} from '../types';
 
-const pickContainerProps = ({
-    gutters,
-    spaceRow,
-    space,
-}: ContainerConfigProps & CommonProps = {}) => {
+const pickContainerProps = ({gutters, rowGap}: ContainerConfigProps = {}) => {
     const res: ContainerConfigProps = {};
 
-    if (gutters) {
+    if (gutters !== undefined) {
         res.gutters = gutters;
     }
-    if (spaceRow || space) {
-        res.spaceRow = spaceRow || space;
+    if (rowGap !== undefined) {
+        res.rowGap = rowGap;
     }
 
     return res;

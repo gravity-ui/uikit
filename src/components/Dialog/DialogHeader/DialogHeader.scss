@@ -1,22 +1,20 @@
-@use '../../variables';
+@use '../variables';
 @use '../../../../styles/mixins';
 
-$block: '.#{variables.$ns}dialog-header';
-
-#{$block} {
-    padding-block: 20px 10px;
+#{variables.$headerBlock} {
+    box-sizing: content-box;
+    min-height: 36px;
+    padding-block: var(--g-spacing-3) var(--g-spacing-2);
     padding-inline: var(--_--side-padding)
-        calc(
-            var(--_--side-padding) + var(--_--close-button-space) * var(--g-flow-is-ltr) +
-                var(--_--close-button-space) * var(--g-flow-is-rtl)
-        );
+        calc(var(--_--side-padding) + var(--_--close-button-space));
     line-height: 24px;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: flex-start;
     color: var(--g-color-text-primary);
 
-    &__caption {
-        @include mixins.text-subheader-3();
+    &_mobile {
+        padding-block: var(--g-spacing-4) var(--g-spacing-2);
     }
 }

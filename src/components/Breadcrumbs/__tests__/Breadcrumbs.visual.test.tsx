@@ -1,6 +1,7 @@
-import {expect, smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {expect, test} from '~playwright/core';
+
 import type {BreadcrumbsProps} from '../Breadcrumbs';
 
 import {disabledCases, popupPlacementCases} from './cases';
@@ -23,7 +24,7 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
             scenarioName: 'with text items',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, page, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, page, expectScreenshot}) => {
             const root = await mount(
                 <div style={{width: '200px', padding: '100px'}}>
                     <TestBreadcrumbsWithTextItems {...props} />
@@ -49,7 +50,7 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
             scenarioName: 'with link items',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '200px'}}>
                     <TestBreadcrumbsWithLinkItems {...props} />
@@ -71,7 +72,7 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
             scenarioName: 'with custom icons',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '400px'}}>
                     <TestBreadcrumbsWithCustomIcons {...props} />
@@ -93,7 +94,7 @@ test.describe('Breadcrumbs', {tag: '@Breadcrumbs'}, () => {
             scenarioName: 'with custom separator',
         },
     ).forEach(([title, props]) => {
-        smokeTest(title, async ({mount, expectScreenshot}) => {
+        test(`smoke ${title}`, {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
             await mount(
                 <div style={{width: '400px'}}>
                     <TestBreadcrumbsWithCustomSeparator {...props} />

@@ -10,7 +10,7 @@ $block: '.#{variables.$ns}avatar-stack';
 
     display: inline-flex;
     justify-content: flex-end;
-    flex-direction: row-reverse;
+    flex-direction: row;
 
     margin: 0;
     padding: 0;
@@ -32,7 +32,7 @@ $block: '.#{variables.$ns}avatar-stack';
         z-index: 0;
         border-radius: 100%;
 
-        &:not(:first-child) {
+        &:not(:last-child) {
             margin-inline-end: calc(-1 * var(--_--overlap));
         }
     }
@@ -54,11 +54,10 @@ $block: '.#{variables.$ns}avatar-stack';
     }
 
     &__more-button {
-        @include mixins.button-reset;
+        @include mixins.button-reset();
 
         &:focus-visible {
-            outline: var(--g-color-line-focus) solid 2px;
-            outline-offset: 0;
+            @include mixins.focus-outline();
         }
     }
 
@@ -78,7 +77,7 @@ $block: '.#{variables.$ns}avatar-stack';
         &_size {
             @each $size-name, $size-value in avatar-variables.$sizes {
                 &_#{$size-name} {
-                    @if $size-name == '2xs' or $size-name == 'xs' {
+                    @if $size-name == '3xs' or $size-name == '2xs' or $size-name == 'xs' {
                         font-size: var(--g-text-caption-1-font-size);
                     }
 

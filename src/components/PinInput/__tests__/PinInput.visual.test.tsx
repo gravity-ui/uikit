@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {PinInputProps} from '../PinInput';
 import {PinInput} from '../PinInput';
 
@@ -27,7 +28,7 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
         validationState: validationStateCases,
     } as const;
 
-    smokeTest('empty', async ({mount, expectScreenshot}) => {
+    test('smoke empty', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<PinInputProps>(
             {
                 type: 'numeric',
@@ -54,7 +55,7 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
         });
     });
 
-    smokeTest('number', async ({mount, expectScreenshot}) => {
+    test('smoke number', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<PinInputProps>(
             {
                 type: 'numeric',
@@ -82,7 +83,7 @@ test.describe('PinInput', {tag: '@PinInput'}, () => {
         });
     });
 
-    smokeTest('alphabetic', async ({mount, expectScreenshot}) => {
+    test('smoke alphabetic', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<PinInputProps>(
             {
                 type: 'alphanumeric',

@@ -1,0 +1,32 @@
+name: Deprecate Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deprecate (e.g., 7.30.0 or "<7.0.0" for range)'
+        required: true
+        type: string
+      message:
+        description: 'Deprecation message'
+        required: true
+        type: string
+
+jobs:
+  deprecate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Deprecate version
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GRAVITY_UI_BOT_NPM_TOKEN }}
+        run: |
+          echo "⚠️ Deprecating @gravity-ui/uikit@${{ inputs.version }}"
+          echo "Message: ${{ inputs.message }}"
+          npm deprecate "@gravity-ui/uikit@${{ inputs.version }}" "${{ inputs.message }}"
+          echo "✅ Successfully deprecated @gravity-ui/uikit@${{ inputs.version }}"

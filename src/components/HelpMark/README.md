@@ -4,39 +4,31 @@
 
 <!--/GITHUB_BLOCK-->
 
+A help icon that reveals contextual information in a popover on desktop and in a sheet on mobile. Ideal for showing tips, explanations, or supporting content without taking up extra space in the interface.
+
 ```tsx
 import {HelpMark} from '@gravity-ui/uikit';
 ```
-
-Component to display help icon with popover
 
 ## Examples
 
 Component with rendered raw html and close on mouse leave:
 
-<!--LANDING_BLOCK
+<!--SANDBOX
+import {HelpMark} from '@gravity-ui/uikit';
 
-<ExampleBlock
-    code={`
-<HelpMark onClick={() => console.log('just action happened')}>
-    <b>Lorem ipsum</b> dolor sit{' '}
-    <a href="https://example.com" target="_blank" rel="noreferrer">
-        amet
-    </a>
-    , at scelerisque suspendisse
-</HelpMark>
-`}
->
-<UIKit.HelpMark onClick={() => console.log('just action happened')}>
-    <b>Lorem ipsum</b> dolor sit{' '}
-    <a href="https://example.com" target="_blank" rel="noreferrer">
-        amet
-    </a>
-    , at scelerisque suspendisse
-</UIKit.HelpMark>
-</ExampleBlock>
-
-LANDING_BLOCK-->
+export default function () {
+    return (
+        <HelpMark onClick={() => console.log('just action happened')}>
+            <b>Lorem ipsum</b> dolor sit{' '}
+            <a href="https://example.com" target="_blank" rel="noreferrer">
+                amet
+            </a>
+            , at scelerisque suspendisse
+        </HelpMark>
+    );
+}
+SANDBOX-->
 
 <!--GITHUB_BLOCK-->
 
@@ -56,7 +48,15 @@ LANDING_BLOCK-->
 
 `HelpMark` accepts any valid `button` element props in addition to these:
 
-| Name         | Description              |           Type           | Default |
-| :----------- | :----------------------- | :----------------------: | :-----: |
-| iconSize     | Sets icon size           | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
-| popoverProps | Override `Popover` props |      `PopoverProps`      |         |
+| Name         | Description                                   |           Type           | Default |
+| :----------- | :-------------------------------------------- | :----------------------: | :-----: |
+| size         | Sets icon size                                | `"s"` `"m"` `"l"` `"xl"` |  `"m"`  |
+| popoverProps | Override desktop `Popover` props              |      `PopoverProps`      |         |
+| sheetProps   | Override mobile `Sheet` props                 |       `SheetProps`       |         |
+| children     | Content displayed inside the popover or sheet |    `React.ReactNode`     |         |
+
+## CSS API
+
+| Name                 | Description     |
+| :------------------- | :-------------- |
+| `--g-help-mark-size` | Icon size in px |

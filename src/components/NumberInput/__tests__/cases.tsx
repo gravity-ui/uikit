@@ -1,4 +1,5 @@
-import type {Cases, CasesWithName} from '../../../stories/tests-factory/models';
+import type {Cases, CasesWithName} from '@gravity-ui/playwright-tools/component-tests';
+
 import type {NumberInputProps} from '../NumberInput';
 
 /* eslint-disable react/jsx-key */

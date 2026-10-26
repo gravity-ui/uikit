@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import round from 'lodash/round';
-import throttle from 'lodash/throttle';
+import {round, throttle} from 'es-toolkit';
+
+import {useLayoutEffect} from '../..';
 
 const RESIZE_THROTTLE = 16;
 const ROUND_PRECISION = 2;
@@ -23,7 +24,7 @@ export function useElementSize<T extends HTMLElement = HTMLDivElement>(
         height: 0,
     });
 
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         const element = ref?.current;
         if (!element) {
             return undefined;

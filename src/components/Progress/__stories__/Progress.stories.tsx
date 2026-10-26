@@ -150,3 +150,44 @@ const AnimationTemplate: StoryFn<typeof Progress> = (args) => {
 };
 
 export const Animation = AnimationTemplate.bind({});
+
+const ColorStopsCustom: StoryFn<typeof Progress> = (args) => {
+    return (
+        <React.Fragment>
+            <Progress
+                {...args}
+                value={10}
+                text="Custom color at 10%"
+                colorStops={[
+                    {theme: 'danger', stop: 20, color: '#ff0051'},
+                    {theme: 'warning', stop: 50, color: '#ffdd00'},
+                    {theme: 'success', stop: 100, color: '#00ff8c'},
+                ]}
+            />
+            <br />
+            <Progress
+                {...args}
+                value={35}
+                text="Custom color at 35%"
+                colorStops={[
+                    {theme: 'danger', stop: 20, color: '#ff0051'},
+                    {theme: 'warning', stop: 50, color: '#ffdd00'},
+                    {theme: 'success', stop: 100, color: '#00ff8c'},
+                ]}
+            />
+            <br />
+            <Progress
+                {...args}
+                value={75}
+                text="Custom color at 75%"
+                colorStops={[
+                    {theme: 'danger', stop: 20, color: '#ff0051'},
+                    {theme: 'warning', stop: 50, color: '#ffdd00'},
+                    {theme: 'success', stop: 100, color: '#00ff8c'},
+                ]}
+            />
+        </React.Fragment>
+    );
+};
+
+export const ColorStops = ColorStopsCustom.bind({});

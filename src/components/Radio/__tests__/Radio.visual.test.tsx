@@ -1,6 +1,7 @@
-import {smokeTest, test} from '~playwright/core';
+import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests';
 
-import {createSmokeScenarios} from '../../../stories/tests-factory/create-smoke-scenarios';
+import {test} from '~playwright/core';
+
 import type {RadioProps} from '../Radio';
 import {Radio} from '../Radio';
 
@@ -16,7 +17,7 @@ test.describe('Radio', {tag: '@Radio'}, () => {
         size: sizeCases,
     } as const;
 
-    smokeTest('', async ({mount, expectScreenshot}) => {
+    test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<RadioProps>(defaultProps, {
             ...commonPropsCases,
         });
@@ -31,13 +32,22 @@ test.describe('Radio', {tag: '@Radio'}, () => {
                         </div>
                     </div>
                 ))}
+                <div>
+                    <h4>[multiline]</h4>
+                    <div style={{width: 160}}>
+                        <Radio
+                            value="multiline"
+                            content="A radio label that wraps onto multiple lines"
+                        />
+                    </div>
+                </div>
             </div>,
         );
 
         await expectScreenshot({});
     });
 
-    smokeTest('disabled', async ({mount, expectScreenshot}) => {
+    test('smoke disabled', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<RadioProps>(
             {
                 ...defaultProps,
@@ -64,7 +74,7 @@ test.describe('Radio', {tag: '@Radio'}, () => {
         await expectScreenshot({});
     });
 
-    smokeTest('default checked', async ({mount, expectScreenshot}) => {
+    test('smoke default checked', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<RadioProps>(
             {
                 ...defaultProps,

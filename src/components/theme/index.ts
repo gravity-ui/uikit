@@ -1,5 +1,7 @@
 export * from './ThemeContext';
 export * from './ThemeProvider';
+export * from './Provider';
+export * from './LangProvider';
 export * from './ThemeSettingsContext';
 export * from './useTheme';
 export * from './useThemeValue';
@@ -12,3 +14,10 @@ export * from './withDirection';
 export * from './getThemeType';
 export {useLang} from './useLang';
 export type {Theme, RealTheme, ThemeType, Direction, ThemeContextProps} from './types';
+export {DefaultPropsProvider} from './DefaultPropsProvider';
+export type {
+    ComponentDefaultPropsMap,
+    DefaultPropsMap,
+    DefaultPropsProviderProps,
+} from './DefaultPropsProvider';
+export {useDefaultProps} from './useDefaultProps';

@@ -3,7 +3,6 @@
 $block: '.#{variables.$ns}modal';
 $modal-default-border-radius: 5px;
 $modal-transition-duration: 150ms;
-$modal-height-transition: height 350ms ease-in-out;
 $modal-opacity-transition: opacity $modal-transition-duration ease-out;
 $modal-transform-transition: transform $modal-transition-duration ease-out;
 
@@ -25,30 +24,36 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-    }
 
-    &__content-wrapper {
-        margin: var(--g-modal-margin, #{variables.$modal-default-margin});
+        &_has-scroll {
+            width: 100%;
+        }
     }
 
     &__content {
+        margin: var(--g-modal-margin, #{variables.$modal-default-margin});
         height: var(--g-modal-height, auto);
+        min-height: var(--g-modal-min-height, auto);
+        max-height: var(--g-modal-max-height, none);
         width: var(--g-modal-width, auto);
+        max-width: var(--g-modal-max-width, none);
+        min-width: var(--g-modal-min-width, auto);
 
         background-color: var(--g-color-base-modal);
         border-radius: var(--g-modal-border-radius, #{$modal-default-border-radius});
         clip-path: inset(0 round var(--g-modal-border-radius, #{$modal-default-border-radius}));
         outline: none;
 
-        transition: $modal-height-transition;
-
         &_has-scroll {
+            min-width: 0;
             overflow: auto;
-            max-width: calc(
-                100vw - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            max-width: var(
+                --g-modal-max-width,
+                calc(100vw - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
             );
-            max-height: calc(
-                100vh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2)
+            max-height: var(
+                --g-modal-max-height,
+                calc(100dvh - calc(var(--g-modal-margin, #{variables.$modal-default-margin}) * 2))
             );
         }
     }
@@ -74,7 +79,42 @@ $modal-transform-transition: transform $modal-transition-duration ease-out;
     }
     &[data-floating-ui-status='open'] #{$block}__content,
     &[data-floating-ui-status='close'] #{$block}__content {
-        transition: $modal-height-transition, $modal-transform-transition;
+        transition: $modal-transform-transition;
+    }
+
+    &_mobile {
+        --g-modal-width: 100vw;
+        --g-modal-height: 100dvh;
+        --g-modal-min-height: 100svh;
+        --g-modal-margin: 0px;
+        --g-modal-border-radius: 0px;
+
+        &[data-floating-ui-status='initial'] #{$block}__content,
+        &[data-floating-ui-status='close'] #{$block}__content {
+            transform: translateY(100%);
+        }
+        &[data-floating-ui-status='open'] #{$block}__content {
+            transform: translateY(0);
+        }
+    }
+
+    &_disable-transition {
+        &[data-floating-ui-status='initial'] {
+            opacity: 1;
+
+            #{$block}__content {
+                transform: none;
+            }
+        }
+
+        &[data-floating-ui-status='open'],
+        &[data-floating-ui-status='close'] {
+            transition: none;
+
+            #{$block}__content {
+                transition: none;
+            }
+        }
     }
 
     @media (prefers-reduced-motion: reduce) {

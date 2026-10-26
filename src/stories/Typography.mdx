@@ -1,0 +1,21 @@
+import {Meta, Markdown, Canvas} from '@storybook/addon-docs';
+
+import {resolveDocsLinks} from './docs-utils';
+
+import * as TypographyStories from './Typography.stories';
+
+import TypographyDocs from '../../docs/typography.md?raw';
+
+<Meta of={TypographyStories} />
+
+{/* Prose is sourced from docs/typography.md — edit that file, not this one. */}
+
+<Markdown>{resolveDocsLinks(TypographyDocs)}</Markdown>
+
+## Fonts
+
+<Canvas of={TypographyStories.Fonts} />
+
+## Variants
+
+<Canvas of={TypographyStories.Variants} />

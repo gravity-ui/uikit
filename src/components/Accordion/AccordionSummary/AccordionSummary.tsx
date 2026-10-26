@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {KeyCode} from '../../../constants';
-import {Disclosure} from '../../Disclosure';
+import {useUniqId} from '../../../hooks';
 import type {DisclosureSummaryRenderFunctionProps} from '../../Disclosure/DisclosureSummary/DisclosureSummary';
 import type {QAProps} from '../../types';
 import {isOfType} from '../../utils/isOfType';
@@ -12,6 +12,10 @@ import {accordionSummaryBlock} from '../constants';
 
 import './AccordionSummary.scss';
 
+export type AccordionSummaryRenderProps = DisclosureSummaryRenderFunctionProps & {
+    ref: (element: HTMLButtonElement | null) => void;
+};
+
 export type AccordionSummaryProps = QAProps & {
     children: (
         props: DisclosureSummaryRenderFunctionProps,
@@ -19,12 +23,29 @@ export type AccordionSummaryProps = QAProps & {
     ) => React.ReactElement;
 };
 
-export function AccordionSummary(props: AccordionSummaryProps) {
-    const {children, qa} = props;
+/**
+ * Marker component for detecting AccordionSummary in AccordionItem.
+ * The actual rendering is done by AccordionSummaryContent inside Disclosure.Summary.
+ */
+export function AccordionSummary(_props: AccordionSummaryProps): React.ReactNode {
+    return null;
+}
+
+export type AccordionSummaryContentProps = QAProps & {
+    children: (
+        props: AccordionSummaryRenderProps,
+        defaultSummary: React.ReactElement,
+    ) => React.ReactElement;
+    disclosureProps: DisclosureSummaryRenderFunctionProps;
+    defaultSummary: React.ReactElement;
+};
+
+export function AccordionSummaryContent(props: AccordionSummaryContentProps) {
+    const {children, disclosureProps, defaultSummary} = props;
     const {registerSummary, unregisterSummary, getSummaryRefs, arrowPosition, size, ariaLevel} =
         useAccordion();
 
-    const summaryId = React.useId();
+    const summaryId = useUniqId();
     const [buttonElement, setButtonElement] = React.useState<HTMLButtonElement | null>(null);
 
     React.useEffect(() => {
@@ -80,32 +101,29 @@ export function AccordionSummary(props: AccordionSummaryProps) {
         }
     };
 
+    const enhancedProps: AccordionSummaryRenderProps = {
+        ...disclosureProps,
+        onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => {
+            handleKeyDown(e);
+            if (disclosureProps.onKeyDown) {
+                disclosureProps.onKeyDown(e);
+            }
+        },
+        ref: (element: HTMLButtonElement | null) => {
+            setButtonElement(element);
+        },
+    };
+
     return (
         <div
             role={'heading'}
             aria-level={ariaLevel}
             className={accordionSummaryBlock({size, arrow_position: arrowPosition})}
         >
-            <Disclosure.Summary qa={qa}>
-                {(disclosureProps, defaultSummary) => {
-                    const enhancedProps = {
-                        ...disclosureProps,
-                        onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => {
-                            handleKeyDown(e);
-                            if (disclosureProps.onKeyDown) {
-                                disclosureProps.onKeyDown(e);
-                            }
-                        },
-                        ref: (element: HTMLButtonElement | null) => {
-                            setButtonElement(element);
-                        },
-                    };
-                    return children(enhancedProps, defaultSummary);
-                }}
-            </Disclosure.Summary>
+            {children(enhancedProps, defaultSummary)}
         </div>
     );
 }
 
 export const isAccordionSummaryComponent = isOfType(AccordionSummary);
-AccordionSummary.displayName = 'DisclosureSummary';
+AccordionSummary.displayName = 'AccordionSummary';

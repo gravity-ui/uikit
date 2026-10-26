@@ -1,7 +1,8 @@
 'use client';
 
 import {Select} from '../../../Select';
-import type {SelectOption} from '../../../Select';
+import type {SelectOptionProps} from '../../../Select';
+import type {InputControlView} from '../../../controls';
 import {PaginationQa, getPaginationPageSizeOptionQa} from '../../constants';
 import i18n from '../../i18n';
 import type {PaginationProps, PaginationSize} from '../../types';
@@ -15,6 +16,7 @@ type Props = {
     total: PaginationProps['total'];
     size: PaginationSize;
     className?: string;
+    view: InputControlView;
 };
 
 export const PaginationPageSizer = ({
@@ -25,9 +27,10 @@ export const PaginationPageSizer = ({
     pageSizeOptions,
     total,
     className,
+    view,
 }: Props) => {
     const options = pageSizeOptions.map(
-        (pageSizeOption): SelectOption => ({
+        (pageSizeOption): SelectOptionProps => ({
             value: String(pageSizeOption),
             content: pageSizeOption,
             qa: getPaginationPageSizeOptionQa(pageSizeOption),
@@ -61,6 +64,7 @@ export const PaginationPageSizer = ({
             options={options}
             value={[String(pageSize)]}
             title={t('label_select_size')}
+            view={view}
         />
     );
 };

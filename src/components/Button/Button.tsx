@@ -2,104 +2,46 @@
 
 import * as React from 'react';
 
-import type {DOMProps, QAProps} from '../types';
+import {useDefaultProps} from '../theme/useDefaultProps';
 import {block} from '../utils/cn';
 import {isIcon, isSvg} from '../utils/common';
 import {eventBroker} from '../utils/event-broker';
+import {getLinkRelWithFallback} from '../utils/getLinkRelWithFallback';
 import {isOfType} from '../utils/isOfType';
+import type {PolymorphicOverloadProps} from '../utils/polymorphic';
+import {isPolymorphicComponentProps} from '../utils/polymorphic';
 
-import {ButtonIcon, getIconSide} from './ButtonIcon';
-import type {BUTTON_VIEWS} from './constants';
+import {ButtonIcon} from './ButtonIcon';
+import {ButtonIconSizeContext} from './ButtonIconSizeContext';
+import {BUTTON_ICON_SIZE_MAP} from './constants';
+import type {
+    ButtonButtonProps,
+    ButtonComponentProps,
+    ButtonCustomElementType,
+    ButtonLinkProps,
+    ButtonProps,
+} from './types';
 
 import './Button.scss';
-
-export type ButtonView = (typeof BUTTON_VIEWS)[number];
-
-export type ButtonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
-
-export type ButtonPin =
-    | 'round-round'
-    | 'brick-brick'
-    | 'clear-clear'
-    | 'circle-circle'
-    | 'round-brick'
-    | 'brick-round'
-    | 'round-clear'
-    | 'clear-round'
-    | 'brick-clear'
-    | 'clear-brick'
-    | 'circle-brick'
-    | 'brick-circle'
-    | 'circle-clear'
-    | 'clear-circle';
-
-export type ButtonWidth = 'auto' | 'max';
-
-interface ButtonCommonProps extends QAProps, DOMProps {
-    view?: ButtonView;
-    size?: ButtonSize;
-    pin?: ButtonPin;
-    selected?: boolean;
-    disabled?: boolean;
-    loading?: boolean;
-    width?: ButtonWidth;
-    children?: React.ReactNode;
-}
-
-export interface ButtonButtonProps
-    extends ButtonCommonProps,
-        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'style'> {
-    component?: never;
-    href?: never;
-    /**
-     * @deprecated Use additional props at the root
-     */
-    extraProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
-}
-
-export interface ButtonLinkProps
-    extends ButtonCommonProps,
-        Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
-    component?: never;
-    href: string;
-    /**
-     * @deprecated Use additional props at the root
-     */
-    extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
-}
-
-export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, undefined>> =
-    ButtonCommonProps &
-        React.ComponentPropsWithoutRef<T> & {
-            component: T;
-            /**
-             * @deprecated Use additional props at the root
-             */
-            extraProps?: React.ComponentPropsWithoutRef<T>;
-        };
 
 function isButtonComponentProps<T extends ButtonCustomElementType>(
     p: ButtonProps<T>,
 ): p is ButtonComponentProps<Exclude<T, undefined>> {
-    return p.component !== undefined;
+    return isPolymorphicComponentProps<ButtonProps<T>, ButtonComponentProps<Exclude<T, undefined>>>(
+        p,
+    );
 }
-
-export type ButtonCustomElementType = Exclude<React.ElementType, 'a' | 'button'> | undefined;
-
-export type ButtonProps<T extends ButtonCustomElementType = undefined> =
-    | ButtonLinkProps
-    | ButtonButtonProps
-    | ButtonComponentProps<Exclude<T, undefined>>;
 
 const b = block('button');
 
 const _Button = React.forwardRef(function Button<T extends ButtonCustomElementType>(
-    props: ButtonProps<T>,
+    rawProps: ButtonProps<T>,
     ref:
         | React.Ref<HTMLButtonElement>
         | React.Ref<HTMLAnchorElement>
         | React.Ref<T extends string ? React.ComponentRef<T> : T>,
 ) {
+    const props = useDefaultProps('Button', rawProps);
     const {
         view = 'normal',
         size = 'm',
@@ -109,9 +51,10 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         loading = false,
         width,
         children,
-        extraProps,
         qa,
         onClickCapture,
+        // service prop, must not be forwarded to the rendered element via `...rest`
+        component: _component,
         ...rest
     } = props;
 
@@ -150,8 +93,13 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         ),
         'data-qa': qa,
         // Always set a tabIndex so that Safari allows focusing native buttons
-        tabIndex: rest.tabIndex ?? extraProps?.tabIndex ?? (disabled ? undefined : 0),
+        tabIndex: rest.tabIndex ?? (disabled ? undefined : 0),
     };
+    const content = (
+        <ButtonIconSizeContext.Provider value={BUTTON_ICON_SIZE_MAP[size]}>
+            {prepareChildren(children)}
+        </ButtonIconSizeContext.Provider>
+    );
 
     if (isButtonComponentProps(props)) {
         return React.createElement(
@@ -159,12 +107,11 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
             {
                 role: 'button',
                 ...rest,
-                ...extraProps,
                 ...commonProps,
                 ref: ref,
                 'aria-disabled': disabled ?? undefined,
             },
-            prepareChildren(children),
+            content,
         );
     }
 
@@ -172,13 +119,12 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
         return (
             <a
                 {...(rest as Pick<typeof props, keyof typeof rest>)}
-                {...(extraProps as (typeof props)['extraProps'])}
                 {...commonProps}
                 ref={ref as React.Ref<HTMLAnchorElement>}
-                rel={props.target === '_blank' && !rest.rel ? 'noopener noreferrer' : rest.rel}
+                rel={getLinkRelWithFallback(props)}
                 aria-disabled={disabled ?? undefined}
             >
-                {prepareChildren(children)}
+                {content}
             </a>
         );
     }
@@ -186,24 +132,23 @@ const _Button = React.forwardRef(function Button<T extends ButtonCustomElementTy
     return (
         <button
             {...(rest as Pick<typeof props, keyof typeof rest>)}
-            {...(extraProps as (typeof props)['extraProps'])}
             {...commonProps}
             ref={ref as React.Ref<HTMLButtonElement>}
             type={props.type || 'button'}
             disabled={disabled || loading}
             aria-pressed={selected}
         >
-            {prepareChildren(children)}
+            {content}
         </button>
     );
 }) as <T extends ButtonCustomElementType, P extends ButtonProps<T>>(
-    props: P extends {component: Exclude<T, undefined>}
-        ? ButtonComponentProps<Exclude<T, undefined>> & {
-              ref?: React.Ref<T extends string ? React.ComponentRef<T> : T>;
-          }
-        : P extends {href: string}
-          ? ButtonLinkProps & {ref?: React.Ref<HTMLAnchorElement>}
-          : ButtonButtonProps & {ref?: React.Ref<HTMLButtonElement>},
+    props: PolymorphicOverloadProps<
+        T,
+        P,
+        ButtonComponentProps<Exclude<T, undefined>>,
+        ButtonLinkProps,
+        ButtonButtonProps
+    >,
 ) => React.ReactElement;
 
 export const Button = Object.assign(_Button, {Icon: ButtonIcon});
@@ -258,7 +203,7 @@ function prepareChildren(children: React.ReactNode) {
                         });
                     } else {
                         startIcon = React.cloneElement(item, {
-                            className: b('icon', {side: getIconSide(side)}, item.props.className),
+                            className: b('icon', {side}, item.props.className),
                         });
                     }
                 } else if (!endIcon && content.length !== 0) {
@@ -276,7 +221,7 @@ function prepareChildren(children: React.ReactNode) {
                         });
                     } else {
                         endIcon = React.cloneElement(item, {
-                            className: b('icon', {side: getIconSide(side)}, item.props.className),
+                            className: b('icon', {side}, item.props.className),
                         });
                     }
                 }

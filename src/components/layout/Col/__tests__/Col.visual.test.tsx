@@ -1,4 +1,4 @@
-import {smokeTest, test} from '~playwright/core';
+import {test} from '~playwright/core';
 
 import {DEFAULT_LAYOUT_THEME} from '../../constants';
 
@@ -9,8 +9,9 @@ test.describe('Col', {tag: '@Col'}, () => {
 
     Object.entries(DEFAULT_LAYOUT_THEME.breakpoints).forEach(
         ([breakpointName, breakpointWidthPx]) => {
-            smokeTest(
-                `render story <Static> - ${breakpointName}`,
+            test(
+                `smoke render story <Static> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
@@ -20,7 +21,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         });
                     }
 
-                    await mount(<ColStories.Static space={3} />, {width: 'auto'});
+                    await mount(<ColStories.Static gap="spacing-3" />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -28,8 +29,9 @@ test.describe('Col', {tag: '@Col'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <Dynamic> - ${breakpointName}`,
+            test(
+                `smoke render story <Dynamic> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
@@ -39,7 +41,7 @@ test.describe('Col', {tag: '@Col'}, () => {
                         });
                     }
 
-                    await mount(<ColStories.Dynamic space={2} />, {width: 'auto'});
+                    await mount(<ColStories.Dynamic gap="spacing-2" />, {width: 'auto'});
 
                     await expectScreenshot({
                         themes: ['light'],
@@ -47,8 +49,9 @@ test.describe('Col', {tag: '@Col'}, () => {
                 },
             );
 
-            smokeTest(
-                `render story <AllMods> - ${breakpointName}`,
+            test(
+                `smoke render story <AllMods> - ${breakpointName}`,
+                {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const size = page.viewportSize();
                     if (size) {
@@ -59,12 +62,12 @@ test.describe('Col', {tag: '@Col'}, () => {
                     }
 
                     const props = {
-                        xxl: '1',
+                        '2xl': '1',
                         xl: '2',
                         l: '4',
                         m: '6',
                         s: '12',
-                        space: 3,
+                        gap: 'spacing-3',
                     } as const;
 
                     await mount(

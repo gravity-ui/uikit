@@ -1,0 +1,15 @@
+.hide-veil {
+    &__header {
+        padding: 20px;
+        border-block-end: 1px solid var(--g-color-line-generic);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__item-content {
+        box-sizing: border-box;
+        height: 100%;
+        padding: 8px 16px;
+    }
+}

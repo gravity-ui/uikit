@@ -103,7 +103,9 @@ The same rules apply to dropped files and to files selected in the dialog.
 
 While a file is only being dragged over the zone, its name is not available yet, so extension entries do not mark the drag as invalid. The final check runs on drop.
 
-A file whose type is unknown to the browser (`File.type === ''`) matches only extension entries. If you expect such files, list their extensions as well, e.g. `['image/*', '.heic']`.
+MIME entries are checked against `File.type`, which is provided by the operating system. It may be empty for unknown extensions (`File.type === ''`) or differ from what you expect: for example, Chrome on Windows reports `.csv` as `application/vnd.ms-excel` when Excel is installed and `.zip` as `application/x-zip-compressed`. The file dialog filters by extensions, so it can show such a file, but it is rejected with `invalid-type` after selection. To accept such files reliably, list the extension next to the MIME type, e.g. `['text/csv', '.csv']` or `['image/*', '.heic']`.
+
+Empty and whitespace-only entries are ignored. A list without other entries accepts all file types, as the HTML `accept` attribute does.
 
 ## Properties
 

@@ -1,5 +1,3 @@
-import type {DropZoneFileRejection} from './types';
-
 export const FILE_REJECTION_REASONS = {
     INVALID_TYPE: 'invalid-type',
     TOO_MANY_FILES: 'too-many-files',
@@ -14,6 +12,10 @@ export interface FileRejection {
     item: DataTransferItem;
     reasons: FileRejectionReason[];
 }
+
+export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {
+    file: File;
+};
 
 interface ValidateOptions {
     accept: FileDropZoneAccept;
@@ -67,15 +69,14 @@ export function isFileCandidateAccepted(
     candidate: FileCandidate,
     accept: FileDropZoneAccept,
 ): boolean {
-    if (!accept?.length) {
+    const tokens = (accept ?? []).map((token) => token.trim().toLowerCase()).filter(Boolean);
+
+    // Like the HTML `accept` attribute, a list without valid tokens means no restriction.
+    if (!tokens.length) {
         return true;
     }
 
-    return accept.some((rawToken) => {
-        const token = rawToken.trim().toLowerCase();
-
-        return token.length > 0 && candidateMatchesToken(candidate, token);
-    });
+    return tokens.some((token) => candidateMatchesToken(candidate, token));
 }
 
 interface SeparationResult<T> {

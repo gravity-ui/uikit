@@ -185,9 +185,19 @@ describe('isFileCandidateAccepted', () => {
         expect(isFileCandidateAccepted({type: '', name: 'notes.md'}, [' .md '])).toBe(true);
     });
 
-    test('empty tokens are ignored', () => {
-        expect(isFileCandidateAccepted({type: 'text/plain', name: 'a.txt'}, [''])).toBe(false);
-        expect(isFileCandidateAccepted({type: 'text/plain', name: 'a.txt'}, ['  '])).toBe(false);
+    test('accept without non-empty tokens accepts any file', () => {
+        expect(isFileCandidateAccepted({type: 'text/plain', name: 'a.txt'}, [''])).toBe(true);
+        expect(isFileCandidateAccepted({type: 'text/plain', name: 'a.txt'}, ['  '])).toBe(true);
+        expect(isFileCandidateAccepted({type: '', name: 'a.bin'}, ['', ' '])).toBe(true);
+    });
+
+    test('empty tokens are ignored next to non-empty ones', () => {
+        expect(isFileCandidateAccepted({type: 'text/plain', name: 'a.txt'}, ['', 'image/*'])).toBe(
+            false,
+        );
+        expect(isFileCandidateAccepted({type: 'image/png', name: 'a.png'}, ['', 'image/*'])).toBe(
+            true,
+        );
     });
 
     test('MIME matching is case-insensitive', () => {

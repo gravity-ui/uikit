@@ -2,11 +2,9 @@ import type {IconData} from '..';
 import type {BaseInputControlProps} from '../controls/types';
 import type {QAProps} from '../types';
 
-import type {FileDropZoneAccept, FileRejection} from './utils';
+import type {DropZoneFileRejection, FileDropZoneAccept} from './utils';
 
-export type DropZoneFileRejection = Pick<FileRejection, 'reasons'> & {
-    file: File;
-};
+export type {DropZoneFileRejection};
 
 export type FileDropZoneProps = Pick<BaseInputControlProps, 'validationState'> &
     QAProps & {

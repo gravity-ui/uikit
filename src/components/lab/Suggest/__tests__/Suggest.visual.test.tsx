@@ -1,6 +1,6 @@
 import {expect, test} from '~playwright/core';
 
-import {SuggestStories} from './helpersPlaywright';
+import {SuggestForm, SuggestStories} from './helpersPlaywright';
 
 test.describe('Suggest', () => {
     test('render story: <Default>', async ({mount, expectScreenshot, page}) => {
@@ -244,4 +244,29 @@ test('Suggest virtualization: scroll and select an option through the popup port
     await expect(input).toHaveValue('Option 1000');
     await expect(input).toBeFocused();
     await expect(list).not.toBeVisible();
+});
+
+test.describe('Suggest form', () => {
+    for (const {name, empty, activate} of [
+        {name: 'Enter submits without an active option', empty: false, activate: false},
+        {name: 'Enter submits when there are no results', empty: true, activate: false},
+        {name: 'Enter selects an active option without submitting', empty: false, activate: true},
+    ]) {
+        test(name, async ({mount, page}) => {
+            await mount(<SuggestForm empty={empty} />);
+            const input = page.getByRole('combobox');
+            await input.fill('ea');
+            await expect(input).toHaveAttribute('aria-expanded', String(!empty));
+            await expect(input).not.toHaveAttribute('aria-activedescendant');
+
+            if (activate) {
+                await input.press('ArrowDown');
+                await expect(input).toHaveAttribute('aria-activedescendant', /.+/);
+            }
+
+            await input.press('Enter');
+            await expect(page.getByTestId('submit-count')).toHaveText(activate ? '0' : '1');
+            await expect(page.getByTestId('selected-value')).toHaveText(activate ? 'earth' : '');
+        });
+    }
 });

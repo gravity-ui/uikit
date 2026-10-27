@@ -217,10 +217,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 }
             }
 
-            if (key === 'Enter' && open) {
-                e.preventDefault(); // prevent form submission
-            }
-
             inputProps?.onKeyDown?.(e);
         },
         [open, popupOpen, inputValue, isOpenControlled, setOpen, inputProps, onListKeyDown],

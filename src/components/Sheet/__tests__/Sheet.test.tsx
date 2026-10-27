@@ -165,6 +165,94 @@ describe('Sheet', () => {
         });
     });
 
+    describe('viewport resize', () => {
+        const resizeCallbacks = new Map<Element, () => void>();
+        let originalResizeObserver: typeof ResizeObserver;
+
+        function getOverlay() {
+            return screen.getByRole('dialog').parentElement as HTMLElement;
+        }
+
+        function resizeOverlay(overlay: HTMLElement, height: number) {
+            Object.defineProperty(overlay, 'clientWidth', {value: 1024, configurable: true});
+            Object.defineProperty(overlay, 'clientHeight', {value: height, configurable: true});
+
+            act(() => {
+                resizeCallbacks.get(overlay)?.();
+            });
+        }
+
+        beforeEach(() => {
+            jest.useFakeTimers();
+            originalResizeObserver = global.ResizeObserver;
+
+            global.ResizeObserver = class implements ResizeObserver {
+                private callback: ResizeObserverCallback;
+
+                constructor(callback: ResizeObserverCallback) {
+                    this.callback = callback;
+                }
+                disconnect() {}
+                observe(target: Element) {
+                    resizeCallbacks.set(target, () => this.callback([], this));
+                }
+                unobserve(target: Element) {
+                    resizeCallbacks.delete(target);
+                }
+            };
+        });
+
+        afterEach(() => {
+            cleanup();
+            jest.clearAllTimers();
+            jest.useRealTimers();
+            global.ResizeObserver = originalResizeObserver;
+            resizeCallbacks.clear();
+        });
+
+        test('applies a viewport resize during the opening transition immediately', () => {
+            render(<Sheet open alwaysFullHeight />);
+            act(() => jest.advanceTimersToNextTimer());
+
+            const scrollContainer = screen.getByTestId(SheetQa.CONTENT_AREA);
+            const initialStyle = scrollContainer.style.cssText;
+            const initialHeight = scrollContainer.style.height;
+
+            act(() => {
+                resizeCallbacks.get(getOverlay())?.();
+            });
+
+            expect(scrollContainer.style.cssText).toBe(initialStyle);
+
+            resizeOverlay(getOverlay(), 400);
+
+            expect(scrollContainer.style.height).not.toBe(initialHeight);
+            expect(scrollContainer.style.transition).toBe('none');
+        });
+
+        test('keeps the closing position when the viewport resizes during the exit transition', () => {
+            const {rerender} = render(<Sheet open alwaysFullHeight />);
+            act(() => jest.advanceTimersToNextTimer());
+            fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
+
+            const sheet = screen.getByRole('dialog');
+            const overlay = getOverlay();
+
+            rerender(<Sheet open={false} alwaysFullHeight />);
+
+            expect(sheet.style.transform).toBe('translate3d(0, 0, 0)');
+
+            resizeOverlay(overlay, 400);
+            act(() => {
+                for (const resize of resizeCallbacks.values()) {
+                    resize();
+                }
+            });
+
+            expect(sheet.style.transform).toBe('translate3d(0, 0, 0)');
+        });
+    });
+
     describe('lifecycle', () => {
         beforeEach(() => {
             jest.useFakeTimers();

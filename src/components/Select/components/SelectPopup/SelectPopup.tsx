@@ -59,6 +59,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 onOpenChange={handleOpenChange}
                 onTransitionOutComplete={onAfterClose}
                 initialFocus={sheetInitialFocus}
+                returnFocus={controlRef}
                 aria-labelledby={sheetLabelledBy}
             >
                 {children}

@@ -346,6 +346,29 @@ describe('Select popup', () => {
         expect(queryByTestId(SelectQa.POPUP)).toBeNull();
     });
 
+    test('should return the focus to the control after a mobile sheet opened along with Dialog', async () => {
+        const onTransitionInComplete = jest.fn();
+        render(
+            <MobileProvider mobile>
+                <button>Opener</button>
+                <Dialog open aria-label="Dialog" onTransitionInComplete={onTransitionInComplete}>
+                    <Dialog.Body>
+                        <Select options={DEFAULT_OPTIONS} qa={TEST_QA} defaultOpen />
+                    </Dialog.Body>
+                </Dialog>
+            </MobileProvider>,
+        );
+        const user = userEvent.setup();
+        await waitFor(() => expect(screen.getByRole('option', {name: 'JavaScript'})).toHaveFocus());
+        // The dialog leaves the focus to the sheet above it
+        await waitFor(() => expect(onTransitionInComplete).toHaveBeenCalled());
+
+        await user.keyboard('{Escape}');
+
+        // Before the sheet the focus was on the opener of the dialog, which the dialog hides
+        await waitFor(() => expect(screen.getByTestId(TEST_QA)).toHaveFocus(), {timeout: 3000});
+    });
+
     test('should close the mobile sheet on Escape key press inside Dialog', async () => {
         const onOpenChange = jest.fn();
         render(

@@ -132,18 +132,72 @@ describe('Suggest', () => {
     });
 
     describe('controlled open', () => {
-        test('does not auto-toggle open when open is controlled', async () => {
+        test('typing and clearing do not request opening or closing', async () => {
             const onOpenChange = jest.fn();
             const user = userEvent.setup();
             renderSuggest({open: false, onOpenChange});
 
-            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-            await user.type(input, 'e');
+            await user.tab();
+            await user.keyboard('e[Backspace]');
 
-            // The consumer owns `open`; typing must not request it (uncontrolled would
-            // auto-open here). Regression for auto-open/close overriding controlled state.
+            expect(screen.getByRole('combobox')).toHaveValue('');
             expect(onOpenChange).not.toHaveBeenCalled();
         });
+
+        test.each([
+            {gesture: 'ArrowDown', eventType: 'keydown', reason: 'list-navigation'},
+            {gesture: 'ArrowUp', eventType: 'keydown', reason: 'list-navigation'},
+            {gesture: 'click', eventType: 'click', reason: 'click'},
+        ])(
+            '$gesture requests opening an empty input without applying it',
+            async ({gesture, eventType, reason}) => {
+                const user = userEvent.setup();
+                const onOpenChange = jest.fn();
+                const {rerender} = render(
+                    <Suggest options={ITEMS} open={false} onOpenChange={onOpenChange} />,
+                );
+                const input = screen.getByRole('combobox');
+                await user.tab();
+                if (gesture === 'click') {
+                    await user.click(input);
+                } else {
+                    await user.keyboard(`[${gesture}]`);
+                }
+
+                expect(onOpenChange).toHaveBeenCalledTimes(1);
+                expect(onOpenChange).toHaveBeenLastCalledWith(
+                    true,
+                    expect.objectContaining({type: eventType}),
+                    reason,
+                );
+                expect(input).toHaveAttribute('aria-expanded', 'false');
+                expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+
+                rerender(<Suggest options={ITEMS} open onOpenChange={onOpenChange} />);
+                expect(screen.getByRole('listbox')).toBeVisible();
+                await user.keyboard('[Escape]');
+                expect(onOpenChange).toHaveBeenLastCalledWith(
+                    false,
+                    expect.objectContaining({type: 'keydown'}),
+                    'escape-key',
+                );
+                rerender(<Suggest options={ITEMS} open={false} onOpenChange={onOpenChange} />);
+                onOpenChange.mockClear();
+
+                if (gesture === 'click') {
+                    await user.click(input);
+                } else {
+                    await user.keyboard(`[${gesture}]`);
+                }
+                expect(onOpenChange).toHaveBeenCalledTimes(1);
+                expect(onOpenChange).toHaveBeenLastCalledWith(
+                    true,
+                    expect.objectContaining({type: eventType}),
+                    reason,
+                );
+                expect(input).toHaveAttribute('aria-expanded', 'false');
+            },
+        );
     });
 
     describe('keyboard navigation', () => {

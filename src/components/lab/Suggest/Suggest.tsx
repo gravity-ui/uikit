@@ -194,12 +194,12 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
     const handleInputClick = React.useCallback(
         (e: React.MouseEvent<HTMLInputElement>) => {
-            if (!isOpenControlled && !open && inputValue) {
-                setOpen(true);
+            if (!open) {
+                setOpen(true, e.nativeEvent, 'click');
             }
             inputProps?.controlProps?.onClick?.(e);
         },
-        [open, inputValue, isOpenControlled, setOpen, inputProps],
+        [open, setOpen, inputProps],
     );
 
     const handleInputKeyDown = React.useCallback(
@@ -210,16 +210,14 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 onListKeyDown?.(e);
             }
 
-            if (!isOpenControlled && !open && (key === 'ArrowDown' || key === 'ArrowUp')) {
+            if (!open && (key === 'ArrowDown' || key === 'ArrowUp')) {
                 e.preventDefault();
-                if (inputValue) {
-                    setOpen(true);
-                }
+                setOpen(true, e.nativeEvent, 'list-navigation');
             }
 
             inputProps?.onKeyDown?.(e);
         },
-        [open, popupOpen, inputValue, isOpenControlled, setOpen, inputProps, onListKeyDown],
+        [open, popupOpen, setOpen, inputProps, onListKeyDown],
     );
 
     const handleOptionClick = React.useCallback(

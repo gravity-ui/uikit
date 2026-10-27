@@ -165,7 +165,7 @@ describe('Sheet', () => {
         });
     });
 
-    describe('viewport resize', () => {
+    describe('resize during transitions', () => {
         const resizeCallbacks = new Map<Element, () => void>();
         let originalResizeObserver: typeof ResizeObserver;
 
@@ -230,23 +230,23 @@ describe('Sheet', () => {
             expect(scrollContainer.style.transition).toBe('none');
         });
 
-        test('keeps the closing position when the viewport resizes during the exit transition', () => {
-            const {rerender} = render(<Sheet open alwaysFullHeight />);
+        test('keeps the closing position when the content resizes during the exit transition', () => {
+            const {rerender} = render(<Sheet open />);
             act(() => jest.advanceTimersToNextTimer());
             fireEvent.transitionEnd(screen.getByTestId(SheetQa.VEIL));
 
             const sheet = screen.getByRole('dialog');
-            const overlay = getOverlay();
+            const marginBox = screen.getByTestId(SheetQa.CONTENT_AREA).firstElementChild as Element;
 
-            rerender(<Sheet open={false} alwaysFullHeight />);
+            rerender(<Sheet open={false} />);
 
             expect(sheet.style.transform).toBe('translate3d(0, 0, 0)');
 
-            resizeOverlay(overlay, 400);
+            jest.spyOn(marginBox, 'getBoundingClientRect').mockReturnValue({
+                height: 200,
+            } as DOMRect);
             act(() => {
-                for (const resize of resizeCallbacks.values()) {
-                    resize();
-                }
+                resizeCallbacks.get(marginBox)?.();
             });
 
             expect(sheet.style.transform).toBe('translate3d(0, 0, 0)');

@@ -297,8 +297,8 @@ export function SheetContent(props: SheetContentProps) {
     const activeGesture = dragging || swipeAreaTouched || contentTouched;
 
     const onResize = React.useCallback(() => {
-        // A resize during the exit transition (e.g. the keyboard hiding) must not restore
-        // the open position.
+        // A resize during the exit transition (e.g. content that changes its height while
+        // closing) must not restore the open position.
         if (!sheetRef.current || !sheetScrollContainerRef.current || getIsExitAnimating()) {
             return;
         }

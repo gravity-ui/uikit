@@ -1,0 +1,79 @@
+@use '../../variables';
+@use '../../../../styles/mixins';
+
+$block: '.#{variables.$ns}scroll-shadow';
+
+#{$block} {
+    --_--size: var(--g-scroll-shadow-size, 24px);
+    --_--top-size: 0px;
+    --_--right-size: 0px;
+    --_--bottom-size: 0px;
+    --_--left-size: 0px;
+    --_--scrollbar-width: 0px;
+    --_--scrollbar-height: 0px;
+
+    overflow: auto;
+    // The first two layers keep classic scrollbar tracks opaque. The last two
+    // intersect so content fades on both axes, including opaque descendants.
+    &_top,
+    &_right,
+    &_bottom,
+    &_left {
+        mask-image:
+            linear-gradient(#000 0 0), linear-gradient(#000 0 0),
+            linear-gradient(
+                to bottom,
+                transparent,
+                #000 var(--_--top-size),
+                #000 calc(100% - var(--_--bottom-size)),
+                transparent
+            ),
+            linear-gradient(
+                to right,
+                transparent,
+                #000 var(--_--left-size),
+                #000 calc(100% - var(--_--right-size)),
+                transparent
+            );
+    }
+    mask-size:
+        var(--_--scrollbar-width) 100%,
+        100% var(--_--scrollbar-height),
+        100% 100%,
+        100% 100%;
+    mask-position:
+        right top,
+        left bottom,
+        center,
+        center;
+    mask-repeat: no-repeat;
+    mask-composite: add, add, intersect;
+
+    &:dir(rtl) {
+        mask-position:
+            left top,
+            left bottom,
+            center,
+            center;
+    }
+
+    &:focus-visible {
+        @include mixins.focus-outline();
+    }
+
+    &_top {
+        --_--top-size: var(--_--size);
+    }
+
+    &_right {
+        --_--right-size: var(--_--size);
+    }
+
+    &_bottom {
+        --_--bottom-size: var(--_--size);
+    }
+
+    &_left {
+        --_--left-size: var(--_--size);
+    }
+}

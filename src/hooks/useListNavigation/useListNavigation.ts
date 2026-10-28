@@ -125,9 +125,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
                     event.preventDefault();
 
                     // Go to the start of the list
-                    setActiveItemIndex((previousActiveItemIndex) =>
-                        moveBack(items, previousActiveItemIndex, previousActiveItemIndex, skip),
-                    );
+                    setActiveItemIndex(moveForward(items, -1, 1, skip));
 
                     break;
                 }

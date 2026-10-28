@@ -292,6 +292,36 @@ describe('DropdownMenu keyboard navigation', () => {
         });
     });
 
+    test.each(['{Home}{Enter}', '{End}{Home}{Enter}'])(
+        'should activate the first enabled item in a grouped menu with %s',
+        async (keys) => {
+            const user = userEvent.setup();
+            const firstAction = jest.fn();
+            const lastAction = jest.fn();
+
+            render(
+                <DropdownMenu
+                    items={[
+                        [
+                            {text: 'First group', disabled: true, action: () => {}},
+                            {text: 'First action', action: firstAction},
+                        ],
+                        [
+                            {text: 'Second group', disabled: true, action: () => {}},
+                            {text: 'Last action', action: lastAction},
+                        ],
+                    ]}
+                />,
+            );
+
+            await user.click(screen.getByRole('button'));
+            await user.keyboard(keys);
+
+            expect(firstAction).toHaveBeenCalledTimes(1);
+            expect(lastAction).not.toHaveBeenCalled();
+        },
+    );
+
     test('should support arrow key navigation between menu items', async () => {
         const user = userEvent.setup();
 

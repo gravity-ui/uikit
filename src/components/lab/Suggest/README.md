@@ -152,7 +152,9 @@ const [open, setOpen] = React.useState(false);
 
 ## Custom popup content
 
-Use `renderPopup` to wrap the list, add a header/footer, or render an empty state:
+Use `renderPopup` to wrap the list, add a header/footer, or render an empty state.
+Keep wrappers around the list as flex columns with `min-height: 0` so the list can shrink
+to fit the popup. Use `flex-shrink: 0` on headers and footers to preserve their height:
 
 <!--GITHUB_BLOCK-->
 
@@ -162,8 +164,8 @@ Use `renderPopup` to wrap the list, add a header/footer, or render an empty stat
   onUpdate={setValue}
   options={filteredItems}
   renderPopup={({list}) => (
-    <div>
-      <div style={{padding: 8, fontWeight: 600}}>Results</div>
+    <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
+      <div style={{padding: 8, fontWeight: 600, flexShrink: 0}}>Results</div>
       {filteredItems.length === 0 ? (
         <div style={{padding: 8, color: 'gray'}}>Nothing matched "{value}"</div>
       ) : (
@@ -185,15 +187,15 @@ import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
 import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 <ListVirtualizer>
-  <Suggest options={options} value={value} onUpdate={setValue} listHeight={300} />
+  <Suggest options={options} value={value} onUpdate={setValue} />
 </ListVirtualizer>;
 ```
 
 Install the optional peer dependency `@tanstack/react-virtual` to use this entrypoint.
 Without the wrapper, Suggest renders every option and needs no virtualization dependency.
 
-`listHeight` limits the list height when using `ListVirtualizer` (also bounded by `40vh`).
-Without virtualization, the maximum list height is `40vh`.
+The popup has a maximum height of `40vh`. Override `max-height` using `popupProps.className`
+to customize it, with or without virtualization. Only the list scrolls within the popup.
 Rows use the List design and follow `inputProps.size`. The virtualizer measures variable-height
 rows automatically. `getOptionHeight`, when provided, sets the row height and its virtualization
 estimate; otherwise the List size determines the estimate. `ListVirtualizer.estimateItemSize`
@@ -248,7 +250,6 @@ No option is highlighted automatically when the popup opens.
 | `options`         | `SuggestOptionProps<T>[]`                                                      |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
 | `onOptionClick`   | `(option: SuggestOptionProps<T>, index?: number) => boolean \| void`           |         | Called when an option is selected. Return `true` to keep popup open                                  |
 | `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
-| `listHeight`      | `number`                                                                       | `300`   | Maximum virtualized list viewport height (px)                                                        |
 | `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                     |         | Row height function (enables variable-height rows)                                                   |
 | `onLoadMore`      | `() => void`                                                                   |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
 

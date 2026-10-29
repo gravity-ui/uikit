@@ -44,7 +44,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         options,
         onOptionClick,
         renderOption,
-        listHeight = 300,
         getOptionHeight,
         onLoadMore,
 
@@ -293,7 +292,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 <List<SuggestListItem<T>>
                     id={listId}
                     className={b('list')}
-                    style={{maxHeight: virtualization ? `min(${listHeight}px, 40vh)` : '40vh'}}
                     aria-label={listLabel}
                     aria-labelledby={listLabelledBy}
                     size={inputProps?.size}

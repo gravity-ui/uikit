@@ -8,6 +8,7 @@ import {
     SuggestPagination,
     SuggestStories,
     SuggestWithLabel,
+    SuggestWithPopupLayout,
 } from './helpersPlaywright';
 
 test.describe('Suggest', () => {
@@ -254,3 +255,32 @@ test('Suggest defaultOpen anchors and fits the popup on mount', async ({mount, p
         })
         .toEqual({widthDifference: 0, leftDifference: 0, gap: FLOATING_OFFSET});
 });
+
+for (const virtualized of [false, true]) {
+    test(`Suggest scrolls only the list inside a custom popup, virtualized=${virtualized}`, async ({
+        mount,
+        page,
+    }) => {
+        await mount(<SuggestWithPopupLayout virtualized={virtualized} />);
+        const list = page.getByRole('listbox');
+        const popup = page.locator('.suggest-layout-popup');
+        const header = page.getByTestId('layout-header');
+        const footer = page.getByTestId('layout-footer');
+        await expect(list).toBeVisible();
+        await expect.poll(() => popup.evaluate((element) => element.clientHeight)).toBe(240);
+        const popupBox = await popup.boundingBox();
+        const headerBox = await header.boundingBox();
+        const footerBox = await footer.boundingBox();
+        if (!popupBox || !headerBox || !footerBox) {
+            throw new Error('Popup, header and footer must have visible bounding boxes');
+        }
+        expect(footerBox.y + footerBox.height).toBeLessThanOrEqual(popupBox.y + popupBox.height);
+        expect(await popup.evaluate((element) => element.scrollHeight - element.clientHeight)).toBe(
+            0,
+        );
+        await list.evaluate((element) => element.scrollTo(0, 500));
+        await expect.poll(() => list.evaluate((element) => element.scrollTop)).toBe(500);
+        expect(await header.boundingBox()).toEqual(headerBox);
+        expect(await footer.boundingBox()).toEqual(footerBox);
+    });
+}

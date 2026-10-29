@@ -33,11 +33,6 @@ export interface SuggestProps<T = any> extends QAProps {
         isItemActive: boolean,
         index: number,
     ) => React.ReactNode;
-    /**
-     * Maximum height of the virtualized list viewport in pixels.
-     * Defaults to `300`. Only applies with an external `ListVirtualizer`.
-     */
-    listHeight?: number;
     /** Returns height for each option row (enables variable-height rows) */
     getOptionHeight?: (option: SuggestOptionProps<T>, index: number) => number;
     /** Called when the loading row becomes visible in a non-empty list (for pagination) */

@@ -279,7 +279,12 @@ export const CustomPopupContent: Story = {
                     return false;
                 }}
                 renderPopup={({list}) => (
-                    <Flex direction="column" gap="spacing-1" padding="spacing-1">
+                    <Flex
+                        direction="column"
+                        gap="spacing-1"
+                        padding="spacing-1"
+                        style={{minHeight: 0}}
+                    >
                         <Text as="div" variant="subheader-2">
                             Astronomical bodies
                         </Text>
@@ -420,7 +425,6 @@ export const Virtualized: Story = {
                     options={options}
                     open={open}
                     onOpenChange={setOpen}
-                    listHeight={280}
                     onOptionClick={(option) => {
                         setValue(String(option.content));
                     }}

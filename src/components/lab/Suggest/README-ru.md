@@ -152,7 +152,10 @@ const [open, setOpen] = React.useState(false);
 
 ## Кастомное содержимое попапа
 
-Используйте `renderPopup`, чтобы обернуть список, добавить заголовок/подвал или отобразить пустое состояние:
+Используйте `renderPopup`, чтобы обернуть список, добавить заголовок/подвал или отобразить пустое состояние.
+Обёртки списка должны быть flex-контейнерами с `flex-direction: column` и `min-height: 0`,
+чтобы список мог сжиматься до доступной высоты попапа. Для сохранения высоты заголовка
+и подвала задайте им `flex-shrink: 0`:
 
 <!--GITHUB_BLOCK-->
 
@@ -162,8 +165,8 @@ const [open, setOpen] = React.useState(false);
   onUpdate={setValue}
   options={filteredItems}
   renderPopup={({list}) => (
-    <div>
-      <div style={{padding: 8, fontWeight: 600}}>Результаты</div>
+    <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
+      <div style={{padding: 8, fontWeight: 600, flexShrink: 0}}>Результаты</div>
       {filteredItems.length === 0 ? (
         <div style={{padding: 8, color: 'gray'}}>Ничего не найдено по запросу «{value}»</div>
       ) : (
@@ -185,15 +188,15 @@ import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
 import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 <ListVirtualizer>
-  <Suggest options={options} value={value} onUpdate={setValue} listHeight={300} />
+  <Suggest options={options} value={value} onUpdate={setValue} />
 </ListVirtualizer>;
 ```
 
 Для этой точки входа установите опциональную peer-зависимость `@tanstack/react-virtual`.
 Без обёртки Suggest рендерит все опции и не требует зависимости для виртуализации.
 
-`listHeight` ограничивает высоту списка при использовании `ListVirtualizer` (также действует предел `40vh`).
-Без виртуализации максимальная высота списка — `40vh`.
+Максимальная высота попапа — `40vh`. Чтобы изменить её, задайте `max-height` через
+`popupProps.className`. Это работает с виртуализацией и без неё. Внутри попапа прокручивается только список.
 Строки используют дизайн List и размер из `inputProps.size`. Виртуализатор автоматически
 измеряет строки переменной высоты. Если передан `getOptionHeight`, он задаёт высоту строки и её
 оценку для виртуализации; иначе оценка определяется размером List. `ListVirtualizer.estimateItemSize`
@@ -249,7 +252,6 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 | `options`         | `SuggestOptionProps<T>[]`                                                      |              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` |
 | `onOptionClick`   | `(option: SuggestOptionProps<T>, index?: number) => boolean \| void`           |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым                        |
 | `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode` |              | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              |
-| `listHeight`      | `number`                                                                       | `300`        | Максимальная высота виртуализированного списка (px)                                               |
 | `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                     |              | Высота строки (для переменных высот)                                                              |
 | `onLoadMore`      | `() => void`                                                                   |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
 

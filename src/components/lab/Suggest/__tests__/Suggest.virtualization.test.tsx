@@ -17,18 +17,16 @@ beforeEach(() => setupIntersectionObserverMock());
 
 describe('Suggest: external virtualization', () => {
     test('renders all options without a virtualizer', () => {
-        render(<Suggest open options={OPTIONS} listHeight={280} />);
-        expect(screen.getByRole('listbox')).toHaveStyle({maxHeight: '40vh'});
+        render(<Suggest open options={OPTIONS} />);
         expect(screen.getAllByRole('option')).toHaveLength(OPTIONS.length);
     });
 
     test('renders a window through the popup portal and updates it on scroll', () => {
         render(
             <ListVirtualizer>
-                <Suggest open options={OPTIONS} listHeight={280} />
+                <Suggest open options={OPTIONS} />
             </ListVirtualizer>,
         );
-        expect(screen.getByRole('listbox')).toHaveStyle({maxHeight: 'min(280px, 40vh)'});
         expect(screen.getAllByRole('option').length).toBeLessThan(OPTIONS.length / 2);
         expect(screen.getByRole('option', {name: 'Option 0'})).toBeInTheDocument();
         expect(screen.queryByRole('option', {name: 'Option 150'})).not.toBeInTheDocument();

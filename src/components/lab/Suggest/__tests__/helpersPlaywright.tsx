@@ -97,3 +97,31 @@ export function SuggestInitiallyOpen() {
         </div>
     );
 }
+
+export function SuggestWithPopupLayout({virtualized}: {virtualized: boolean}) {
+    const suggest = (
+        <Suggest
+            open
+            options={PAGINATED_OPTIONS}
+            popupProps={{className: 'suggest-layout-popup'}}
+            inputProps={{controlProps: {'aria-label': 'Options'}}}
+            renderPopup={({list}) => (
+                <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
+                    <div data-qa="layout-header" style={{height: 48, flexShrink: 0}}>
+                        Header
+                    </div>
+                    {list}
+                    <div data-qa="layout-footer" style={{height: 48, flexShrink: 0}}>
+                        Footer
+                    </div>
+                </div>
+            )}
+        />
+    );
+    return (
+        <div style={{width: 320, height: 500}}>
+            <style>{'.suggest-layout-popup { max-height: 240px; }'}</style>
+            {virtualized ? <ListVirtualizer>{suggest}</ListVirtualizer> : suggest}
+        </div>
+    );
+}

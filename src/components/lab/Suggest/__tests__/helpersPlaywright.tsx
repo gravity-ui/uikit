@@ -83,3 +83,17 @@ export function SuggestWithLabel() {
         />
     );
 }
+
+export function SuggestInitiallyOpen() {
+    return (
+        <div style={{width: 320, margin: 40, height: 300}}>
+            <Suggest
+                defaultOpen
+                options={OPTIONS}
+                qa="initial-input"
+                inputProps={{controlProps: {'aria-label': 'Planets'}}}
+                popupProps={{qa: 'initial-popup'}}
+            />
+        </div>
+    );
+}

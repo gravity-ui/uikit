@@ -1,7 +1,10 @@
 import {expect, test} from '~playwright/core';
 
+import {FLOATING_OFFSET} from '../../../Popup/constants';
+
 import {
     SuggestForm,
+    SuggestInitiallyOpen,
     SuggestPagination,
     SuggestStories,
     SuggestWithLabel,
@@ -230,4 +233,24 @@ test('Suggest list name stays equal to the label while typing', async ({mount, p
     } finally {
         await session.detach();
     }
+});
+
+test('Suggest defaultOpen anchors and fits the popup on mount', async ({mount, page}) => {
+    await mount(<SuggestInitiallyOpen />);
+    const input = page.getByTestId('initial-input');
+    const popup = page.getByTestId('initial-popup');
+    await expect(popup).toBeVisible();
+    await expect(page.getByRole('combobox')).toHaveAttribute('aria-expanded', 'true');
+    await expect
+        .poll(async () => {
+            const anchor = await input.boundingBox();
+            const box = await popup.boundingBox();
+            if (!anchor || !box) return null;
+            return {
+                widthDifference: Math.round(box.width - anchor.width),
+                leftDifference: Math.round(box.x - anchor.x),
+                gap: Math.round(box.y - anchor.y - anchor.height),
+            };
+        })
+        .toEqual({widthDifference: 0, leftDifference: 0, gap: FLOATING_OFFSET});
 });

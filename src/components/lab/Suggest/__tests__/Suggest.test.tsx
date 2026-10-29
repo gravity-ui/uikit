@@ -121,6 +121,30 @@ describe('Suggest', () => {
         await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
     });
 
+    test('opens custom empty content and passes list=null to renderPopup', async () => {
+        const user = userEvent.setup();
+        const renderPopup = jest.fn(() => <span>No results</span>);
+        renderSuggest({options: [], renderPopup});
+        await user.type(screen.getByRole('combobox'), 'unknown');
+
+        expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+        expect(screen.getByText('No results')).toBeVisible();
+        expect(renderPopup).toHaveBeenLastCalledWith({list: null});
+        expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    });
+
+    test('forwards the event and reason when closing on an outside press', async () => {
+        const user = userEvent.setup();
+        const onOpenChange = jest.fn();
+        renderSuggest({defaultOpen: true, onOpenChange});
+        expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+        await user.click(document.body);
+
+        expect(onOpenChange).toHaveBeenCalledTimes(1);
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Event), 'outside-press');
+        await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
+    });
+
     test('shows loading indicator when loading=true', async () => {
         const user = userEvent.setup();
         renderSuggest({loading: true, options: []});

@@ -7,7 +7,7 @@ import type {TextInputProps} from '../../controls';
 import type {ControlGroupOption, QAProps} from '../../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type SuggestOption<T = any> = QAProps & ControlGroupOption & {data?: T};
+export type SuggestOptionProps<T = any> = QAProps & ControlGroupOption & {data?: T};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface SuggestProps<T = any> extends QAProps {
@@ -19,17 +19,17 @@ export interface SuggestProps<T = any> extends QAProps {
     onUpdate?: (value: string) => void;
 
     /** List of options to display */
-    options?: SuggestOption<T>[];
+    options?: SuggestOptionProps<T>[];
     /**
      * Callback when an option is clicked or selected via keyboard.
      * Return `true` to keep the popup open after selection.
      */
-    onOptionClick?: (option: SuggestOption<T>, index?: number) => boolean | void;
+    onOptionClick?: (option: SuggestOptionProps<T>, index?: number) => boolean | void;
     /**
      * Custom option renderer.
      */
     renderOption?: (
-        option: SuggestOption<T>,
+        option: SuggestOptionProps<T>,
         isItemActive: boolean,
         index: number,
     ) => React.ReactNode;
@@ -39,7 +39,7 @@ export interface SuggestProps<T = any> extends QAProps {
      */
     listHeight?: number;
     /** Returns height for each option row (enables variable-height rows) */
-    getOptionHeight?: (option: SuggestOption<T>, index: number) => number;
+    getOptionHeight?: (option: SuggestOptionProps<T>, index: number) => number;
     /** Called when the loading row becomes visible in a non-empty list (for pagination) */
     onLoadMore?: () => void;
 

@@ -7,7 +7,10 @@
 > `Suggest` — экспериментальный компонент (`lab`); API может меняться в минорных релизах, пока не стабилизируется.
 
 ```tsx
-import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
+import {
+  unstable_Suggest as Suggest,
+  type unstable_SuggestOptionProps as SuggestOptionProps,
+} from '@gravity-ui/uikit/unstable';
 ```
 
 `Suggest` — это текстовое поле ввода с выпадающим списком вариантов. Компонент берёт на себя навигацию с клавиатуры, ARIA-атрибуты и позиционирование попапа. Загрузка данных, дебаунс и пагинация реализуются снаружи.
@@ -230,14 +233,14 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 ### Опции
 
-| Название          | Тип                                                                       | По умолчанию | Описание                                                                                          |
-| :---------------- | :------------------------------------------------------------------------ | :----------- | :------------------------------------------------------------------------------------------------ |
-| `options`         | `SuggestOption<T>[]`                                                      |              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` |
-| `onOptionClick`   | `(option: SuggestOption<T>, index?: number) => boolean \| void`           |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым                        |
-| `renderOption`    | `(option: SuggestOption<T>, active: boolean, index: number) => ReactNode` |              | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              |
-| `listHeight`      | `number`                                                                  | `300`        | Максимальная высота виртуализированного списка (px)                                               |
-| `getOptionHeight` | `(option: SuggestOption<T>, index: number) => number`                     |              | Высота строки (для переменных высот)                                                              |
-| `onLoadMore`      | `() => void`                                                              |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
+| Название          | Тип                                                                            | По умолчанию | Описание                                                                                          |
+| :---------------- | :----------------------------------------------------------------------------- | :----------- | :------------------------------------------------------------------------------------------------ |
+| `options`         | `SuggestOptionProps<T>[]`                                                      |              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` |
+| `onOptionClick`   | `(option: SuggestOptionProps<T>, index?: number) => boolean \| void`           |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым                        |
+| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode` |              | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              |
+| `listHeight`      | `number`                                                                       | `300`        | Максимальная высота виртуализированного списка (px)                                               |
+| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                     |              | Высота строки (для переменных высот)                                                              |
+| `onLoadMore`      | `() => void`                                                                   |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
 
 ### Кастомизация Input
 

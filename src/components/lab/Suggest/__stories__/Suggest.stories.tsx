@@ -8,7 +8,7 @@ import {Label} from '../../../Label';
 import {Text} from '../../../Text';
 import {Flex} from '../../../layout';
 import {Suggest} from '../Suggest';
-import type {SuggestOption, SuggestProps} from '../types';
+import type {SuggestOptionProps, SuggestProps} from '../types';
 
 const meta: Meta<typeof Suggest> = {
     title: 'Lab/Suggest',
@@ -27,7 +27,7 @@ type Story = StoryObj<typeof Suggest>;
 // ─── Shared data ─────────────────────────────────────────────────────────────
 
 type PlanetData = {description: string};
-type PlanetOption = SuggestOption<PlanetData>;
+type PlanetOption = SuggestOptionProps<PlanetData>;
 
 const ALL_PLANETS: PlanetOption[] = [
     {value: 'Earth', content: 'Earth', data: {description: 'Our home planet'}},

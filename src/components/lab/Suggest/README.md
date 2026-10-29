@@ -7,7 +7,10 @@
 > `Suggest` is experimental (`lab`) — its API may change in minor releases until it stabilizes.
 
 ```tsx
-import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
+import {
+  unstable_Suggest as Suggest,
+  type unstable_SuggestOptionProps as SuggestOptionProps,
+} from '@gravity-ui/uikit/unstable';
 ```
 
 `Suggest` is a text input with a dropdown list of options. It handles keyboard navigation, ARIA attributes, and popup positioning. Data fetching, debouncing, and pagination are handled externally.
@@ -229,14 +232,14 @@ No option is highlighted automatically when the popup opens.
 
 ### Options
 
-| Name              | Type                                                                      | Default | Description                                                                                          |
-| :---------------- | :------------------------------------------------------------------------ | :------ | :--------------------------------------------------------------------------------------------------- |
-| `options`         | `SuggestOption<T>[]`                                                      |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
-| `onOptionClick`   | `(option: SuggestOption<T>, index?: number) => boolean \| void`           |         | Called when an option is selected. Return `true` to keep popup open                                  |
-| `renderOption`    | `(option: SuggestOption<T>, active: boolean, index: number) => ReactNode` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
-| `listHeight`      | `number`                                                                  | `300`   | Maximum virtualized list viewport height (px)                                                        |
-| `getOptionHeight` | `(option: SuggestOption<T>, index: number) => number`                     |         | Row height function (enables variable-height rows)                                                   |
-| `onLoadMore`      | `() => void`                                                              |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
+| Name              | Type                                                                           | Default | Description                                                                                          |
+| :---------------- | :----------------------------------------------------------------------------- | :------ | :--------------------------------------------------------------------------------------------------- |
+| `options`         | `SuggestOptionProps<T>[]`                                                      |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
+| `onOptionClick`   | `(option: SuggestOptionProps<T>, index?: number) => boolean \| void`           |         | Called when an option is selected. Return `true` to keep popup open                                  |
+| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
+| `listHeight`      | `number`                                                                       | `300`   | Maximum virtualized list viewport height (px)                                                        |
+| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                     |         | Row height function (enables variable-height rows)                                                   |
+| `onLoadMore`      | `() => void`                                                                   |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
 
 ### Input customization
 

@@ -1,2 +1,2 @@
 export {Suggest} from './Suggest';
-export type {SuggestProps} from './types';
+export type {SuggestOptionProps, SuggestProps} from './types';

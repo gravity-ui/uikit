@@ -1,10 +1,10 @@
-import type {SuggestOption} from './types';
+import type {SuggestOptionProps} from './types';
 
 const LOADING_ROW = Symbol('suggest-loading-row');
 const LOADING_ITEM_ID = '__suggest_loading__';
 
 type LoadingItem = {[LOADING_ROW]: string; disabled: true};
-export type SuggestListItem<T> = SuggestOption<T> | LoadingItem;
+export type SuggestListItem<T> = SuggestOptionProps<T> | LoadingItem;
 
 export function isLoadingItem<T>(item: SuggestListItem<T>): item is LoadingItem {
     return LOADING_ROW in item;
@@ -15,7 +15,7 @@ export function getItemId<T>(item: SuggestListItem<T>): string {
 }
 
 export function buildListItems<T>(
-    options: SuggestOption<T>[] = [],
+    options: SuggestOptionProps<T>[] = [],
     loading = false,
 ): SuggestListItem<T>[] {
     if (!loading) {

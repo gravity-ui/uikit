@@ -5,7 +5,7 @@ import {render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../../../virtualizer';
 import {mockLayout, scrollTo} from '../../../List/__tests__/helpers';
 import {Suggest} from '../Suggest';
-import type {SuggestOption} from '../types';
+import type {SuggestOptionProps} from '../types';
 
 const OPTIONS = Array.from({length: 200}, (_, index) => ({
     value: String(index),
@@ -59,7 +59,7 @@ describe('Suggest: external virtualization', () => {
         const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
         const estimateItemSize = jest.fn(() => 1);
         const option = {value: 'earth', content: 'Planet', data: {height: 42}};
-        const getOptionHeight = jest.fn((item: SuggestOption<{height: number}>) => {
+        const getOptionHeight = jest.fn((item: SuggestOptionProps<{height: number}>) => {
             if (!item.data) {
                 throw new Error('Only consumer options may reach getOptionHeight');
             }

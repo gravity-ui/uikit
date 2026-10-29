@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import {Suggest} from '../Suggest';
-import type {SuggestOption, SuggestProps} from '../types';
+import type {SuggestOptionProps, SuggestProps} from '../types';
 
-export const ITEMS: SuggestOption[] = [
+export const ITEMS: SuggestOptionProps[] = [
     {value: 'earth', content: 'Earth'},
     {value: 'europa', content: 'Europa'},
     {value: 'jupiter', content: 'Jupiter'},

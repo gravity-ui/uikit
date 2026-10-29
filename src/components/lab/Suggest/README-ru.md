@@ -89,7 +89,7 @@ const handleUpdate = async (query: string) => {
 
 ## Кастомизация TextInput
 
-Все пропсы `TextInput` (size, pin, hasClear, startContent, error, disabled и т.д.) передаются через объект `inputProps`:
+Все пропсы `TextInput` (size, pin, hasClear, startContent, validationState, errorMessage, disabled и т.д.) передаются через объект `inputProps`:
 
 <!--GITHUB_BLOCK-->
 
@@ -102,7 +102,8 @@ const handleUpdate = async (query: string) => {
     size: 'xl',
     hasClear: true,
     placeholder: 'Поиск…',
-    error: hasError ? 'Некорректный ввод' : undefined,
+    validationState: hasError ? 'invalid' : undefined,
+    errorMessage: hasError ? 'Некорректный ввод' : undefined,
     startContent: <Icon data={SearchIcon} />,
   }}
 />

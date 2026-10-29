@@ -46,7 +46,7 @@ export interface SuggestProps<T = any> extends QAProps {
     // Input customization — spread into the underlying TextInput
     /**
      * All `TextInput` props (placeholder, size, pin, disabled, hasClear,
-     * error, startContent, endContent, controlRef, etc.).
+     * validationState, errorMessage, startContent, endContent, controlRef, etc.).
      * These are spread directly into the `TextInput` component.
      */
     inputProps?: TextInputProps;

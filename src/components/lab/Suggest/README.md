@@ -89,7 +89,7 @@ const handleUpdate = async (query: string) => {
 
 ## TextInput customization
 
-All `TextInput` props (size, pin, hasClear, startContent, error, disabled, etc.) are passed via the `inputProps` object:
+All `TextInput` props (size, pin, hasClear, startContent, validationState, errorMessage, disabled, etc.) are passed via the `inputProps` object:
 
 <!--GITHUB_BLOCK-->
 
@@ -102,7 +102,8 @@ All `TextInput` props (size, pin, hasClear, startContent, error, disabled, etc.)
     size: 'xl',
     hasClear: true,
     placeholder: 'Search…',
-    error: hasError ? 'Invalid input' : undefined,
+    validationState: hasError ? 'invalid' : undefined,
+    errorMessage: hasError ? 'Invalid input' : undefined,
     startContent: <Icon data={SearchIcon} />,
   }}
 />

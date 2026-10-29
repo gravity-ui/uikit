@@ -40,7 +40,7 @@ export interface SuggestProps<T = any> extends QAProps {
     listHeight?: number;
     /** Returns height for each option row (enables variable-height rows) */
     getOptionHeight?: (option: SuggestOption<T>, index: number) => number;
-    /** Called when the last option becomes visible (for pagination) */
+    /** Called when the loading row becomes visible in a non-empty list (for pagination) */
     onLoadMore?: () => void;
 
     // Input customization — spread into the underlying TextInput
@@ -62,7 +62,7 @@ export interface SuggestProps<T = any> extends QAProps {
      */
     popupProps?: PopupProps;
 
-    /** Show a loading indicator inside the popup (useful with async data via hooks) */
+    /** Append a loading row to the options, or show a standalone loader when options are empty */
     loading?: boolean;
 
     /** Control popup open state externally */

@@ -8,11 +8,11 @@
     }
 
     &__loader {
+        box-sizing: border-box;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: var(--g-spacing-3);
-        min-height: 60px;
+        padding-block: var(--g-spacing-1);
     }
 
     &__list {

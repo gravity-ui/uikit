@@ -49,7 +49,7 @@ By default an option's `content` is rendered, falling back to `children`. Pass `
 
 ## Async loading
 
-Use a local `loading` flag together with `options`. A spinner is shown automatically while `loading` is `true`:
+Use a local `loading` flag together with `options`. While `loading` is `true`, a loading row is appended to existing options. If there are no options, a standalone spinner is shown:
 
 <!--GITHUB_BLOCK-->
 
@@ -182,10 +182,24 @@ Without the wrapper, Suggest renders every option and needs no virtualization de
 Without virtualization, the maximum list height is `40vh`.
 Rows use the List design and follow `inputProps.size`. The virtualizer measures variable-height
 rows automatically. `getOptionHeight`, when provided, sets the row height and its virtualization
-estimate; otherwise `ListVirtualizer.estimateItemSize` or the List size determines the estimate.
+estimate; otherwise the List size determines the estimate. `ListVirtualizer.estimateItemSize`
+is ignored with a development warning. The loading row uses the standard height for the input size.
 
-`onLoadMore` fires when the last option becomes visible, including when the list initially fits
-in the viewport. Fetching and end-of-data checks remain the caller's responsibility.
+`onLoadMore` fires when the loading row becomes visible in a non-empty list. For pagination,
+keep `loading={hasNextPage}` while more pages are available, and guard against concurrent requests.
+Start the initial request yourself; the standalone loader for an empty list does not call `onLoadMore`.
+
+```tsx
+<Suggest
+  options={options}
+  loading={hasNextPage}
+  onLoadMore={() => {
+    if (!isFetching && hasNextPage) {
+      loadNextPage();
+    }
+  }}
+/>
+```
 
 ## Keyboard Navigation
 
@@ -222,7 +236,7 @@ No option is highlighted automatically when the popup opens.
 | `renderOption`    | `(option: SuggestOption<T>, active: boolean, index: number) => ReactNode` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
 | `listHeight`      | `number`                                                                  | `300`   | Maximum virtualized list viewport height (px)                                                        |
 | `getOptionHeight` | `(option: SuggestOption<T>, index: number) => number`                     |         | Row height function (enables variable-height rows)                                                   |
-| `onLoadMore`      | `() => void`                                                              |         | Called when the last option becomes visible (pagination)                                             |
+| `onLoadMore`      | `() => void`                                                              |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
 
 ### Input customization
 
@@ -241,7 +255,7 @@ No option is highlighted automatically when the popup opens.
 
 | Name                  | Type                                                                | Default | Description                                                                                                   |
 | :-------------------- | :------------------------------------------------------------------ | :------ | :------------------------------------------------------------------------------------------------------------ |
-| `loading`             | `boolean`                                                           | `false` | Show loading spinner in popup                                                                                 |
+| `loading`             | `boolean`                                                           | `false` | Append a loading row; show a standalone spinner when options are empty                                        |
 | `open`                | `boolean`                                                           |         | Control popup open state externally                                                                           |
 | `defaultOpen`         | `boolean`                                                           |         | Initial open state (uncontrolled)                                                                             |
 | `onOpenChange`        | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |         | Called when popup open state changes                                                                          |

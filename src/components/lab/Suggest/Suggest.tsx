@@ -9,22 +9,25 @@ import {useOpenState} from '../../../hooks/useSelect/useOpenState';
 import {List, useListFocusOwner} from '../../List';
 import type {ListItemContext, ListItemHelpers} from '../../List';
 import {ListVirtualizationContext} from '../../List/VirtualizationContext';
+import {LIST_ITEM_VIEW_MIN_HEIGHT} from '../../ListItemView/constants';
 import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
 import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
+import {warnOnce} from '../../utils/warn';
 
-import type {SuggestOption, SuggestProps} from './types';
+import type {SuggestProps} from './types';
+import {buildListItems, getItemId, isLoadingItem} from './utils';
+import type {SuggestListItem} from './utils';
 
 import './Suggest.scss';
 
 const b = block('suggest');
 
-function defaultRenderOption(option: SuggestOption): React.ReactNode {
-    return option.content ?? option.children ?? null;
+function defaultRenderOption<T>(option: SuggestListItem<T>): React.ReactNode {
+    return isLoadingItem(option) ? '' : (option.content ?? option.children ?? null);
 }
 
-const getItemId = (option: SuggestOption) => option.value;
 // Option children are React content, not nested list sections.
 const getItemChildren = () => undefined;
 
@@ -70,21 +73,32 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
     const [fitWidth, setFitWidth] = React.useState<number>();
     const focusOwner = useListFocusOwner();
-    const [lastOptionElement, setLastOptionElement] = React.useState<HTMLElement | null>(null);
+    const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const inputValue = value ?? uncontrolledValue;
-    const outerVirtualization = React.useContext(ListVirtualizationContext);
-    const virtualization = React.useMemo(
-        () =>
-            outerVirtualization && getOptionHeight
-                ? {
-                      ...outerVirtualization,
-                      estimateItemSize: (ctx: ListItemContext<SuggestOption<T>>) =>
-                          getOptionHeight(ctx.item, ctx.index),
-                  }
-                : outerVirtualization,
-        [outerVirtualization, getOptionHeight],
+    const items = React.useMemo(() => buildListItems(options, loading), [options, loading]);
+    const itemHeight = LIST_ITEM_VIEW_MIN_HEIGHT[inputProps?.size ?? 'm'];
+    const getItemHeight = React.useCallback(
+        (item: SuggestListItem<T>, index: number) =>
+            isLoadingItem(item) ? itemHeight : (getOptionHeight?.(item, index) ?? itemHeight),
+        [getOptionHeight, itemHeight],
     );
+    const outerVirtualization = React.useContext(ListVirtualizationContext);
+    const virtualization = React.useMemo(() => {
+        if (!outerVirtualization) {
+            return null;
+        }
+        if (outerVirtualization.estimateItemSize !== undefined) {
+            warnOnce(
+                '[Suggest] `estimateItemSize` of `ListVirtualizer` is not used: row height comes from `getOptionHeight` and the input size.',
+            );
+        }
+        return {
+            ...outerVirtualization,
+            estimateItemSize: (ctx: ListItemContext<SuggestListItem<T>>) =>
+                getItemHeight(ctx.item, ctx.index),
+        };
+    }, [outerVirtualization, getItemHeight]);
 
     const autoId = useUniqId();
     const componentId = idProp || autoId;
@@ -116,11 +130,9 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
     const hasContent = loading || Boolean(options?.length) || Boolean(renderPopup);
     const popupOpen = hasContent && open;
-    const activeIndex =
-        popupOpen && !loading
-            ? (options?.findIndex((option) => option.value === activeItemId && !option.disabled) ??
-              -1)
-            : -1;
+    const activeIndex = popupOpen
+        ? (options?.findIndex((option) => option.value === activeItemId && !option.disabled) ?? -1)
+        : -1;
     const previousActiveIndex = React.useRef(-1);
 
     React.useEffect(() => {
@@ -144,7 +156,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const handleLoadMore = React.useCallback(() => onLoadMoreRef.current?.(), []);
 
     useIntersection({
-        element: popupOpen && !loading && hasLoadMore ? lastOptionElement : null,
+        element: popupOpen && hasLoadMore && options?.length ? loadingElement : null,
         onIntersect: handleLoadMore,
     });
 
@@ -221,7 +233,10 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     );
 
     const handleOptionClick = React.useCallback(
-        (_id: string, option: SuggestOption<T>) => {
+        (_id: string, option: SuggestListItem<T>) => {
+            if (isLoadingItem(option)) {
+                return;
+            }
             const index = options?.indexOf(option);
             const keepOpen = Boolean(onOptionClick?.(option, index));
             setOpen(keepOpen);
@@ -230,15 +245,24 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     );
 
     const renderItem = React.useCallback(
-        (ctx: ListItemContext<SuggestOption<T>>, helpers: ListItemHelpers) => {
-            const height = getOptionHeight?.(ctx.item, ctx.index);
+        (ctx: ListItemContext<SuggestListItem<T>>, helpers: ListItemHelpers) => {
+            if (isLoadingItem(ctx.item)) {
+                return (
+                    <div
+                        {...helpers.getItemProps({
+                            className: b('loader'),
+                            ref: setLoadingElement,
+                            style: {height: getItemHeight(ctx.item, ctx.index)},
+                        })}
+                    >
+                        <Loader />
+                    </div>
+                );
+            }
+            const height = getOptionHeight ? getItemHeight(ctx.item, ctx.index) : undefined;
             return (
                 <List.ItemView
                     {...helpers.getItemProps({
-                        ref:
-                            hasLoadMore && ctx.index === (options?.length ?? 0) - 1
-                                ? setLastOptionElement
-                                : undefined,
                         style: height === undefined ? undefined : {height, minHeight: height},
                         'data-qa': ctx.item.qa,
                     })}
@@ -250,13 +274,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 </List.ItemView>
             );
         },
-        [getOptionHeight, hasLoadMore, options?.length, renderOption],
+        [getOptionHeight, getItemHeight, renderOption],
     );
 
     const renderPopupContent = () => {
-        if (loading) {
+        if (loading && !options?.length) {
             return (
-                <div className={b('loader')}>
+                <div className={b('loader')} style={{height: itemHeight}}>
                     <Loader />
                 </div>
             );
@@ -268,14 +292,14 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
         const list = options?.length ? (
             <ListVirtualizationContext.Provider value={virtualization}>
-                <List<SuggestOption<T>>
+                <List<SuggestListItem<T>>
                     id={listId}
                     className={b('list')}
                     style={{maxHeight: virtualization ? `min(${listHeight}px, 40vh)` : '40vh'}}
                     aria-label={listLabel}
                     aria-labelledby={listLabelledBy}
                     size={inputProps?.size}
-                    items={options}
+                    items={items}
                     getItemId={getItemId}
                     getItemChildren={getItemChildren}
                     getItemContent={defaultRenderOption}

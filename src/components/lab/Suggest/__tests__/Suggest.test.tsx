@@ -445,7 +445,7 @@ describe('Suggest: new List integration', () => {
 });
 
 describe('Suggest: pagination', () => {
-    test('observes the last row and disconnects it when the popup closes', () => {
+    test('observes the loading row and disconnects it when the popup closes', () => {
         const observe = jest.fn();
         const unobserve = jest.fn();
         let notify: (() => void) | undefined;
@@ -463,15 +463,21 @@ describe('Suggest: pagination', () => {
         } as unknown as typeof IntersectionObserver;
         try {
             const onLoadMore = jest.fn();
-            const {rerender} = render(<Suggest open options={ITEMS} onLoadMore={onLoadMore} />);
-            expect(observe).toHaveBeenLastCalledWith(screen.getByRole('option', {name: 'Jupiter'}));
+            const {rerender} = render(
+                <Suggest open loading options={[]} onLoadMore={onLoadMore} />,
+            );
+            expect(observe).not.toHaveBeenCalled();
+            rerender(<Suggest open options={ITEMS} onLoadMore={onLoadMore} />);
+            expect(observe).not.toHaveBeenCalled();
+            rerender(<Suggest open loading options={ITEMS} onLoadMore={onLoadMore} />);
+            expect(observe).toHaveBeenLastCalledWith(screen.getByRole('option', {name: ''}));
             expect(onLoadMore).not.toHaveBeenCalled();
             act(() => notify?.());
             expect(onLoadMore).toHaveBeenCalledTimes(1);
             const nextOnLoadMore = jest.fn();
             const observations = observe.mock.calls.length;
             const disconnections = unobserve.mock.calls.length;
-            rerender(<Suggest open options={ITEMS} onLoadMore={() => nextOnLoadMore()} />);
+            rerender(<Suggest open loading options={ITEMS} onLoadMore={() => nextOnLoadMore()} />);
             expect(observe).toHaveBeenCalledTimes(observations);
             expect(unobserve).toHaveBeenCalledTimes(disconnections);
             expect(nextOnLoadMore).not.toHaveBeenCalled();

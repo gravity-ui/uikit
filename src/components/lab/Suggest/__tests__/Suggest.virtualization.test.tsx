@@ -5,6 +5,7 @@ import {render, screen} from '../../../../../test-utils/utils';
 import {ListVirtualizer} from '../../../../virtualizer';
 import {mockLayout, scrollTo} from '../../../List/__tests__/helpers';
 import {Suggest} from '../Suggest';
+import type {SuggestOption} from '../types';
 
 const OPTIONS = Array.from({length: 200}, (_, index) => ({
     value: String(index),
@@ -52,5 +53,36 @@ describe('Suggest: external virtualization', () => {
         expect(input).toHaveAttribute('aria-activedescendant', active.id);
         await user.keyboard('[Enter]');
         expect(onOptionClick).toHaveBeenCalledWith(OPTIONS[0], 0);
+    });
+
+    test('uses option heights and keeps the loading row internal', () => {
+        const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const estimateItemSize = jest.fn(() => 1);
+        const option = {value: 'earth', content: 'Planet', data: {height: 42}};
+        const getOptionHeight = jest.fn((item: SuggestOption<{height: number}>) => {
+            if (!item.data) {
+                throw new Error('Only consumer options may reach getOptionHeight');
+            }
+            return item.data.height;
+        });
+        try {
+            render(
+                <ListVirtualizer estimateItemSize={estimateItemSize}>
+                    <Suggest
+                        open
+                        loading
+                        options={[option]}
+                        getOptionHeight={getOptionHeight}
+                        inputProps={{size: 'l'}}
+                    />
+                </ListVirtualizer>,
+            );
+            expect(screen.getByRole('option', {name: 'Planet'})).toHaveStyle({height: '42px'});
+            expect(screen.getByRole('option', {name: ''})).toHaveStyle({height: '36px'});
+            expect(getOptionHeight).toHaveBeenCalledWith(option, 0);
+            expect(estimateItemSize).not.toHaveBeenCalled();
+        } finally {
+            consoleError.mockRestore();
+        }
     });
 });

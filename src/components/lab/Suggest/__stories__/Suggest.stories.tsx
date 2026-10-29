@@ -239,6 +239,31 @@ export const WithLoading: Story = {
     },
 };
 
+export const LoadingStates: Story = {
+    render: () => (
+        <Flex gap="spacing-6" style={{minHeight: 260}}>
+            <Flex direction="column" gap="spacing-2" style={{width: 280}}>
+                <Text>Initial loading: no options yet</Text>
+                <Suggest
+                    open
+                    loading
+                    options={[]}
+                    inputProps={{controlProps: {'aria-label': 'Initial loading'}}}
+                />
+            </Flex>
+            <Flex direction="column" gap="spacing-2" style={{width: 280}}>
+                <Text>Loading more: existing options stay visible</Text>
+                <Suggest
+                    open
+                    loading
+                    options={ALL_PLANETS.slice(0, 3)}
+                    inputProps={{controlProps: {'aria-label': 'Loading more'}}}
+                />
+            </Flex>
+        </Flex>
+    ),
+};
+
 export const CustomPopupContent: Story = {
     render: () => {
         const [value, setValue] = React.useState('');

@@ -1,6 +1,6 @@
 import {expect, test} from '~playwright/core';
 
-import {SuggestForm, SuggestStories} from './helpersPlaywright';
+import {SuggestForm, SuggestPagination, SuggestStories} from './helpersPlaywright';
 
 test.describe('Suggest', () => {
     test('render story: <Default>', async ({mount, expectScreenshot, page}) => {
@@ -267,6 +267,52 @@ test.describe('Suggest form', () => {
             await input.press('Enter');
             await expect(page.getByTestId('submit-count')).toHaveText(activate ? '0' : '1');
             await expect(page.getByTestId('selected-value')).toHaveText(activate ? 'earth' : '');
+        });
+    }
+});
+
+test.describe('Suggest pagination', () => {
+    for (const virtualized of [false, true]) {
+        test(`preserves scroll and highlight, virtualized=${virtualized}`, async ({
+            mount,
+            page,
+        }) => {
+            await mount(<SuggestPagination virtualized={virtualized} />);
+            const input = page.getByRole('combobox');
+            const list = page.getByRole('listbox');
+            await input.focus();
+            for (let index = 0; index < 40; index++) {
+                await input.press('ArrowDown');
+            }
+            await expect(
+                page.getByRole('option', {name: 'Option 39', exact: true}),
+            ).toBeInViewport();
+            await expect(input).toHaveAttribute('aria-activedescendant', /.+/);
+            const activeId = (await input.getAttribute('aria-activedescendant')) ?? '';
+            await list.evaluate((element) => {
+                element.scrollTo(0, element.scrollHeight);
+            });
+            await expect(page.locator('[data-qa="load-requests"]')).toHaveText('0');
+            const scrollTop = await list.evaluate((element) => element.scrollTop);
+            expect(scrollTop).toBeGreaterThan(0);
+
+            await page.getByRole('button', {name: 'Start loading'}).click();
+            await expect(input).toHaveAttribute('aria-activedescendant', activeId);
+            await expect.poll(() => list.evaluate((element) => element.scrollTop)).toBe(scrollTop);
+            await list.evaluate((element) => {
+                element.scrollTo(0, element.scrollHeight);
+            });
+            await expect(page.locator('.g-suggest__loader')).toBeVisible();
+            await expect(page.locator('[data-qa="load-requests"]')).toHaveText('1');
+            const loadingScrollTop = await list.evaluate((element) => element.scrollTop);
+
+            await page.getByRole('button', {name: 'Finish loading'}).click();
+            await expect(input).toHaveAttribute('aria-activedescendant', activeId);
+            await expect
+                .poll(() => list.evaluate((element) => element.scrollTop))
+                .toBe(loadingScrollTop);
+            await expect(page.locator('.g-suggest__loader')).toHaveCount(0);
+            await expect(page.locator('[data-qa="load-requests"]')).toHaveText('1');
         });
     }
 });

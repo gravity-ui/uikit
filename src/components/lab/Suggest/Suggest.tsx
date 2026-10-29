@@ -105,10 +105,8 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const popupId = `${componentId}-popup`;
     const listId = `${componentId}-list`;
     const listLabel =
-        inputProps?.controlProps?.['aria-label'] ??
-        (inputProps?.label ? undefined : inputProps?.placeholder);
-    const listLabelledBy =
-        inputProps?.controlProps?.['aria-labelledby'] ?? (listLabel ? undefined : componentId);
+        inputProps?.controlProps?.['aria-label'] ?? inputProps?.label ?? inputProps?.placeholder;
+    const listLabelledBy = inputProps?.controlProps?.['aria-labelledby'];
 
     const {open, toggleOpen} = useOpenState({
         open: openProp,

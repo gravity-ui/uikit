@@ -72,3 +72,14 @@ export function SuggestPagination({virtualized}: {virtualized: boolean}) {
         </div>
     );
 }
+
+export function SuggestWithLabel() {
+    return (
+        <Suggest
+            open
+            defaultValue="earth"
+            options={OPTIONS}
+            inputProps={{label: 'Planet', placeholder: 'Type to search'}}
+        />
+    );
+}

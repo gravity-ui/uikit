@@ -1,6 +1,11 @@
 import {expect, test} from '~playwright/core';
 
-import {SuggestForm, SuggestPagination, SuggestStories} from './helpersPlaywright';
+import {
+    SuggestForm,
+    SuggestPagination,
+    SuggestStories,
+    SuggestWithLabel,
+} from './helpersPlaywright';
 
 test.describe('Suggest', () => {
     test('render story: <Default>', async ({mount, expectScreenshot, page}) => {
@@ -314,5 +319,23 @@ test.describe('Suggest pagination', () => {
             await expect(page.locator('.g-suggest__loader')).toHaveCount(0);
             await expect(page.locator('[data-qa="load-requests"]')).toHaveText('1');
         });
+    }
+});
+
+test('Suggest list name stays equal to the label while typing', async ({mount, page}) => {
+    await mount(<SuggestWithLabel />);
+    await expect(page.getByRole('listbox')).toBeVisible();
+    // Check Chromium's accessibility tree: jsdom gives a different result for a label referencing an input.
+    const session = await page.context().newCDPSession(page);
+    try {
+        for (const value of ['earth', 'mars']) {
+            await page.getByRole('combobox').fill(value);
+            const {nodes} = await session.send('Accessibility.getFullAXTree');
+            expect(nodes.find((node) => node.role?.value === 'listbox')?.name?.value).toBe(
+                'Planet',
+            );
+        }
+    } finally {
+        await session.detach();
     }
 });

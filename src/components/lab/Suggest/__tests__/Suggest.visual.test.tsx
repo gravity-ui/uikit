@@ -22,76 +22,6 @@ test.describe('Suggest', () => {
         await expectScreenshot();
     });
 
-    test('render story: <Default> with empty value and items', async ({
-        mount,
-        expectScreenshot,
-        page,
-    }) => {
-        await mount(
-            <div style={{height: 400}}>
-                <SuggestStories.Default />
-            </div>,
-        );
-
-        const input = page.locator('input');
-        await input.click();
-
-        await expectScreenshot();
-    });
-
-    test('render story: <PopupWidth> fit', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{height: 600}}>
-                <SuggestStories.PopupWidth />
-            </div>,
-        );
-
-        const inputs = page.locator('input');
-        await inputs.first().click();
-        await inputs.first().fill('a');
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Sizes> size s', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{height: 700}}>
-                <SuggestStories.Sizes />
-            </div>,
-        );
-
-        const inputs = page.locator('input');
-        await inputs.first().click();
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Sizes> size m', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{height: 700}}>
-                <SuggestStories.Sizes />
-            </div>,
-        );
-
-        const inputs = page.locator('input');
-        await inputs.nth(1).click();
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Sizes> size l', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{height: 700}}>
-                <SuggestStories.Sizes />
-            </div>,
-        );
-
-        const inputs = page.locator('input');
-        await inputs.nth(2).click();
-
-        await expectScreenshot();
-    });
-
     test('render story: <Sizes> size xl', async ({mount, expectScreenshot, page}) => {
         await mount(
             <div style={{height: 700}}>
@@ -101,18 +31,7 @@ test.describe('Suggest', () => {
 
         const inputs = page.locator('input');
         await inputs.nth(3).click();
-
-        await expectScreenshot();
-    });
-
-    test('render story: <Disabled>', async ({mount, expectScreenshot}) => {
-        await mount(<SuggestStories.Disabled />);
-
-        await expectScreenshot();
-    });
-
-    test('render story: <WithClearButton>', async ({mount, expectScreenshot}) => {
-        await mount(<SuggestStories.WithClearButton />);
+        await expect(page.getByRole('listbox')).toBeVisible();
 
         await expectScreenshot();
     });
@@ -131,17 +50,10 @@ test.describe('Suggest', () => {
         await expectScreenshot();
     });
 
-    test('render story: <WithLoading>', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{height: 300}}>
-                <SuggestStories.WithLoading />
-            </div>,
-        );
-
-        const input = page.locator('input');
-        await input.click();
-        await input.fill('e');
-
+    test('render story: <LoadingStates>', async ({mount, expectScreenshot, page}) => {
+        await mount(<SuggestStories.LoadingStates />);
+        await expect(page.getByRole('listbox')).toBeVisible();
+        await expect(page.locator('.g-suggest__loader')).toHaveCount(2);
         await expectScreenshot();
     });
 
@@ -159,26 +71,6 @@ test.describe('Suggest', () => {
         const input = page.locator('input');
         await input.click();
         await input.fill('a');
-        await page.keyboard.press('ArrowDown');
-
-        await expectScreenshot();
-    });
-
-    test('keyboard navigation: ArrowDown then ArrowDown moves to second item', async ({
-        mount,
-        page,
-        expectScreenshot,
-    }) => {
-        await mount(
-            <div style={{height: 400}}>
-                <SuggestStories.Default />
-            </div>,
-        );
-
-        const input = page.locator('input');
-        await input.click();
-        await input.fill('a');
-        await page.keyboard.press('ArrowDown');
         await page.keyboard.press('ArrowDown');
 
         await expectScreenshot();

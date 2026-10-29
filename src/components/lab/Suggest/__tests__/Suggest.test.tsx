@@ -28,13 +28,13 @@ describe('Suggest', () => {
     test('calls onUpdate when typing', async () => {
         const onUpdate = jest.fn();
         const user = userEvent.setup();
-        renderSuggest({onUpdate});
+        render(<Suggest defaultValue="" options={ITEMS} onUpdate={onUpdate} />);
 
-        const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
+        const input = screen.getByRole('combobox');
         await user.type(input, 'ear');
 
-        expect(onUpdate).toHaveBeenCalled();
-        expect(onUpdate).toHaveBeenLastCalledWith('r');
+        expect(input).toHaveValue('ear');
+        expect(onUpdate).toHaveBeenLastCalledWith('ear');
     });
 
     test('opens popup when typing (items present)', async () => {
@@ -128,7 +128,9 @@ describe('Suggest', () => {
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
         await user.type(input, 'e');
 
-        expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+        // Loader has no accessible role or label.
+        // eslint-disable-next-line testing-library/no-node-access
+        expect(screen.getByTestId(QA_POPUP).querySelector('.g-loader')).toBeVisible();
     });
 
     describe('controlled open', () => {
@@ -248,14 +250,17 @@ describe('Suggest', () => {
 
     describe('popup width', () => {
         test('applies popupWidth="fit"', async () => {
-            const user = userEvent.setup();
-            renderSuggest({popupWidth: 'fit'});
-
-            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-            await user.type(input, 'e');
-
-            const popup = await screen.findByTestId(QA_POPUP);
-            expect(popup).toBeInTheDocument();
+            const offsetWidth = jest
+                .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
+                .mockReturnValue(512);
+            try {
+                const user = userEvent.setup();
+                renderSuggest({popupWidth: 'fit'});
+                await user.type(screen.getByRole('combobox'), 'e');
+                expect(await screen.findByTestId(QA_POPUP)).toHaveStyle({width: '512px'});
+            } finally {
+                offsetWidth.mockRestore();
+            }
         });
 
         test('applies popupWidth as pixel number', async () => {
@@ -266,7 +271,7 @@ describe('Suggest', () => {
             await user.type(input, 'e');
 
             const popup = await screen.findByTestId(QA_POPUP);
-            expect(popup).toBeInTheDocument();
+            expect(popup).toHaveStyle({width: '300px'});
         });
     });
 

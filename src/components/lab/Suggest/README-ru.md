@@ -58,17 +58,23 @@ const options = React.useMemo(
 
 ```tsx
 const [value, setValue] = React.useState('');
-const [options, setOptions] = React.useState([]);
+const [options, setOptions] = React.useState<SuggestOptionProps[]>([]);
 const [loading, setLoading] = React.useState(false);
+const lastRequestId = React.useRef(0);
 
 const handleUpdate = async (query: string) => {
+  const requestId = ++lastRequestId.current;
   setValue(query);
   setLoading(true);
   try {
     const results = await fetchPlanets(query);
-    setOptions(results);
+    if (requestId === lastRequestId.current) {
+      setOptions(results);
+    }
   } finally {
-    setLoading(false);
+    if (requestId === lastRequestId.current) {
+      setLoading(false);
+    }
   }
 };
 
@@ -86,6 +92,10 @@ const handleUpdate = async (query: string) => {
 ```
 
 <!--/GITHUB_BLOCK-->
+
+Только последний запрос обновляет опции и состояние загрузки; предыдущие запросы продолжают выполняться, но их результаты игнорируются. `fetchPlanets` обозначает функцию загрузки данных вашего приложения; обработку ошибок запросов реализуйте в приложении.
+
+Чтобы сократить число запросов, добавьте debounce для загрузки, обновляя значение инпута сразу. Сам по себе debounce не защищает от устаревших ответов. Если функция загрузки поддерживает `AbortSignal`, предыдущие запросы также можно отменять через `AbortController`.
 
 ## Кастомизация TextInput
 

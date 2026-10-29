@@ -58,17 +58,23 @@ Use a local `loading` flag together with `options`. While `loading` is `true`, a
 
 ```tsx
 const [value, setValue] = React.useState('');
-const [options, setOptions] = React.useState([]);
+const [options, setOptions] = React.useState<SuggestOptionProps[]>([]);
 const [loading, setLoading] = React.useState(false);
+const lastRequestId = React.useRef(0);
 
 const handleUpdate = async (query: string) => {
+  const requestId = ++lastRequestId.current;
   setValue(query);
   setLoading(true);
   try {
     const results = await fetchPlanets(query);
-    setOptions(results);
+    if (requestId === lastRequestId.current) {
+      setOptions(results);
+    }
   } finally {
-    setLoading(false);
+    if (requestId === lastRequestId.current) {
+      setLoading(false);
+    }
   }
 };
 
@@ -86,6 +92,10 @@ const handleUpdate = async (query: string) => {
 ```
 
 <!--/GITHUB_BLOCK-->
+
+Only the latest request updates the options and loading state; earlier requests still run, but their results are ignored. `fetchPlanets` represents your application's data-loading function; handle request errors in your application.
+
+To reduce the number of requests, debounce fetching while updating the input value immediately. Debouncing alone does not prevent stale responses. If your data-loading function supports `AbortSignal`, you can also cancel previous requests with `AbortController`.
 
 ## TextInput customization
 

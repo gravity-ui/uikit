@@ -570,19 +570,23 @@ describe('Suggest: new List integration', () => {
         expect(input).toHaveValue('earth');
     });
 
-    test('preserves the custom content renderer arguments and row semantics', async () => {
+    test('passes Select-like renderer parameters and preserves row semantics', async () => {
         const user = userEvent.setup();
-        const renderOption = jest.fn(
-            (option, active, index) => `${option.content}:${index}:${active}`,
-        );
+        const renderOption = jest.fn((option, {isItemActive}) => (
+            <span>{`${option.content}:${isItemActive}`}</span>
+        ));
         renderSuggest({renderOption, getOptionHeight: () => 48});
         await user.type(screen.getByRole('combobox'), 'e');
         await user.keyboard('[ArrowDown]');
-        expect(screen.getByRole('option', {name: 'Earth:0:true'})).toHaveStyle({
+        expect(screen.getByRole('option', {name: 'Earth:true'})).toHaveStyle({
             height: '48px',
             minHeight: '48px',
         });
-        expect(renderOption).toHaveBeenCalledWith(ITEMS[0], true, 0);
+        expect(renderOption).toHaveBeenCalledWith(ITEMS[0], {
+            itemHeight: 48,
+            isItemActive: true,
+            selected: false,
+        });
     });
 
     test('renders React children as option content rather than nested sections', () => {

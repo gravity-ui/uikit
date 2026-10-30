@@ -243,17 +243,21 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     </div>
                 );
             }
-            const height = getOptionHeight ? getItemHeight(ctx.item, ctx.index) : undefined;
+            const height = getItemHeight(ctx.item, ctx.index);
             return (
                 <List.ItemView
                     {...helpers.getItemProps({
-                        style: height === undefined ? undefined : {height, minHeight: height},
+                        style: getOptionHeight ? {height, minHeight: height} : undefined,
                         'data-qa': ctx.item.qa,
                     })}
                     {...helpers.getItemViewProps()}
                 >
                     {renderOption
-                        ? renderOption(ctx.item, ctx.state.active, ctx.index)
+                        ? renderOption(ctx.item, {
+                              itemHeight: height,
+                              isItemActive: ctx.state.active,
+                              selected: false,
+                          })
                         : ctx.content}
                 </List.ItemView>
             );

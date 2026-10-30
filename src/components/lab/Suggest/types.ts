@@ -29,9 +29,8 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
      */
     renderOption?: (
         option: SuggestOptionProps<T>,
-        isItemActive: boolean,
-        index: number,
-    ) => React.ReactNode;
+        options: {itemHeight: number; isItemActive: boolean; selected: boolean},
+    ) => React.ReactElement;
     /** Returns height for each option row (enables variable-height rows) */
     getOptionHeight?: (option: SuggestOptionProps<T>, index: number) => number;
     /** Called when the loading row becomes visible in a non-empty list (for pagination) */

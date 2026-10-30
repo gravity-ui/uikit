@@ -45,7 +45,7 @@ const options = React.useMemo(
 />;
 ```
 
-По умолчанию отображается `content` опции, а если он не задан — `children`. Для изменения содержимого передайте `renderOption`.
+По умолчанию отображается `content` опции, а если он не задан — `children`. Для изменения содержимого передайте `renderOption`. Второй аргумент содержит `itemHeight`, `isItemActive` и `selected` (всегда `false`, поскольку Suggest не управляет выбранными значениями). Верните React-элемент.
 
 <!--/GITHUB_BLOCK-->
 
@@ -244,13 +244,13 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 ### Опции
 
-| Название          | Тип                                                                                  | По умолчанию | Описание                                                                                          |
-| :---------------- | :----------------------------------------------------------------------------------- | :----------- | :------------------------------------------------------------------------------------------------ |
-| `options`         | `SuggestOptionProps<T>[]`                                                            |              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` |
-| `onOptionAction`  | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void` |              | Вызывается при выборе опции мышью или клавиатурой                                                 |
-| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode`       |              | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              |
-| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                           |              | Высота строки (для переменных высот)                                                              |
-| `onLoadMore`      | `() => void`                                                                         |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
+| Название          | Тип                                                                                                                        | По умолчанию | Описание                                                                                          |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------- | :----------- | :------------------------------------------------------------------------------------------------ |
+| `options`         | `SuggestOptionProps<T>[]`                                                                                                  |              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` |
+| `onOptionAction`  | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void`                                       |              | Вызывается при выборе опции мышью или клавиатурой                                                 |
+| `renderOption`    | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |              | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              |
+| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |              | Высота строки (для переменных высот)                                                              |
+| `onLoadMore`      | `() => void`                                                                                                               |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
 
 ### Настройка поля ввода
 

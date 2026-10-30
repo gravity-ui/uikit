@@ -45,7 +45,7 @@ const options = React.useMemo(
 />;
 ```
 
-By default an option's `content` is rendered, falling back to `children`. Pass `renderOption` to customize the content.
+By default an option's `content` is rendered, falling back to `children`. Pass `renderOption` to customize the content. Its second argument contains `itemHeight`, `isItemActive`, and `selected` (always `false`, since Suggest does not manage selection). Return a React element.
 
 <!--/GITHUB_BLOCK-->
 
@@ -241,13 +241,13 @@ No option is highlighted automatically when the popup opens.
 
 ### Options
 
-| Name              | Type                                                                                 | Default | Description                                                                                          |
-| :---------------- | :----------------------------------------------------------------------------------- | :------ | :--------------------------------------------------------------------------------------------------- |
-| `options`         | `SuggestOptionProps<T>[]`                                                            |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
-| `onOptionAction`  | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void` |         | Called when an option is selected by mouse or keyboard                                               |
-| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode`       |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
-| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                           |         | Row height function (enables variable-height rows)                                                   |
-| `onLoadMore`      | `() => void`                                                                         |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
+| Name              | Type                                                                                                                       | Default | Description                                                                                          |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------- | :------ | :--------------------------------------------------------------------------------------------------- |
+| `options`         | `SuggestOptionProps<T>[]`                                                                                                  |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
+| `onOptionAction`  | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void`                                       |         | Called when an option is selected by mouse or keyboard                                               |
+| `renderOption`    | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
+| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |         | Row height function (enables variable-height rows)                                                   |
+| `onLoadMore`      | `() => void`                                                                                                               |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
 
 ### Input customization
 

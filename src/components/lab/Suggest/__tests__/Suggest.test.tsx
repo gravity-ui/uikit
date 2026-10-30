@@ -192,15 +192,25 @@ describe('Suggest', () => {
         await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
     });
 
-    test('opens custom empty content and passes list=null to renderPopup', async () => {
+    test('renders custom empty content with the input filter inside the popup wrapper', async () => {
         const user = userEvent.setup();
-        const renderPopup = jest.fn(() => <span>No results</span>);
-        renderSuggest({options: [], renderPopup});
+        const renderEmptyOptions = jest.fn(() => <span>No results</span>);
+        renderSuggest({
+            options: [],
+            renderEmptyOptions,
+            renderPopup: ({renderList}) => <div>{renderList()}</div>,
+        });
         await user.type(screen.getByRole('combobox'), 'unknown');
 
         expect(screen.getByTestId(QA_POPUP)).toBeVisible();
         expect(screen.getByText('No results')).toBeVisible();
-        expect(renderPopup).toHaveBeenLastCalledWith({list: null});
+        expect(renderEmptyOptions).toHaveBeenLastCalledWith({filter: 'unknown'});
+        expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    });
+
+    test('does not open a popup when its renderer returns null', () => {
+        renderSuggest({open: true, renderPopup: () => null});
+        expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument();
         expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 

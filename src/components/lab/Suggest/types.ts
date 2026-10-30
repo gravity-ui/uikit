@@ -62,9 +62,10 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
      * do not emit additional notifications.
      */
     onActiveOptionUpdate?: (value: string | null) => void;
-    /**
-     * Use this to render empty-state or error UI as
-     * well (you control what is shown based on your own state).
-     */
-    renderPopup?: (props: {list: React.ReactNode}) => React.ReactNode;
+    /** Replace or wrap the default popup content. */
+    renderPopup?: (props: {
+        renderList: () => React.ReactElement | null;
+    }) => React.ReactElement | null;
+    /** Render empty-state or error content when there are no options and loading is false. */
+    renderEmptyOptions?: (props: {filter: string}) => React.ReactElement | null;
 }

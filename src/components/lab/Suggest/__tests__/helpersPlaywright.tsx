@@ -101,12 +101,12 @@ export function SuggestWithPopupLayout({virtualized}: {virtualized: boolean}) {
             options={PAGINATED_OPTIONS}
             popupClassName="suggest-layout-popup"
             aria-label="Options"
-            renderPopup={({list}) => (
+            renderPopup={({renderList}) => (
                 <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
                     <div data-qa="layout-header" style={{height: 48, flexShrink: 0}}>
                         Header
                     </div>
-                    {list}
+                    {renderList()}
                     <div data-qa="layout-footer" style={{height: 48, flexShrink: 0}}>
                         Footer
                     </div>

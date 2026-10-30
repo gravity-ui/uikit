@@ -146,7 +146,7 @@ const [open, setOpen] = React.useState(false);
 
 ## Custom popup content
 
-Use `renderPopup` to wrap the list, add a header/footer, or render an empty state.
+Use `renderPopup({renderList})` to wrap the default content or add a header/footer. Use `renderEmptyOptions({filter})` for an empty state; `filter` is the current input value. `renderList()` renders the list, initial loader, or custom empty state. Returning `null` from `renderPopup` hides the popup.
 Keep wrappers around the list as flex columns with `min-height: 0` so the list can shrink
 to fit the popup. Use `flex-shrink: 0` on headers and footers to preserve their height:
 
@@ -157,16 +157,15 @@ to fit the popup. Use `flex-shrink: 0` on headers and footers to preserve their 
   value={value}
   onUpdate={setValue}
   options={filteredItems}
-  renderPopup={({list}) => (
+  renderEmptyOptions={({filter}) => (
+    <div role="status" style={{padding: 8, color: 'gray'}}>
+      Nothing matched "{filter}"
+    </div>
+  )}
+  renderPopup={({renderList}) => (
     <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
       <div style={{padding: 8, fontWeight: 600, flexShrink: 0}}>Results</div>
-      {filteredItems.length === 0 ? (
-        <div role="status" style={{padding: 8, color: 'gray'}}>
-          Nothing matched "{value}"
-        </div>
-      ) : (
-        list
-      )}
+      {renderList()}
     </div>
   )}
 />
@@ -282,9 +281,10 @@ After an option action, an uncontrolled popup closes. With controlled `open`, Su
 
 ### Rendering
 
-| Name          | Type                                      | Default | Description                                       |
-| :------------ | :---------------------------------------- | :------ | :------------------------------------------------ |
-| `renderPopup` | `(props: {list: ReactNode}) => ReactNode` |         | Replace or wrap the default list inside the popup |
+| Name                 | Type                                                                        | Default | Description                                       |
+| :------------------- | :-------------------------------------------------------------------------- | :------ | :------------------------------------------------ |
+| `renderEmptyOptions` | `(props: {filter: string}) => ReactElement \| null`                         |         | Custom empty content when not loading             |
+| `renderPopup`        | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null` |         | Replace or wrap the default list inside the popup |
 
 ### Input element
 
@@ -299,4 +299,4 @@ After an option action, an uncontrolled popup closes. With controlled `open`, Su
 
 The input is marked `aria-busy` while loading. A visually hidden polite status announces loading, the available option count, or no results while opening is requested. `aria-expanded` and `aria-controls` describe the mounted List, so a popup showing only a loader or custom empty content does not mark the list as expanded.
 
-For custom empty or error content in `renderPopup`, provide its own `role="status"` (or an appropriate live region). Suggest does not announce a generic empty result over custom content.
+For custom empty or error content in `renderEmptyOptions` or `renderPopup`, provide its own `role="status"` (or an appropriate live region). Suggest does not announce a generic empty result over custom content.

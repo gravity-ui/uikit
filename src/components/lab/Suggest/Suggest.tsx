@@ -60,6 +60,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         onActiveOptionUpdate,
 
         renderPopup,
+        renderEmptyOptions,
 
         id: idProp,
         'aria-label': ariaLabel,
@@ -130,8 +131,94 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         [open, toggleOpen, onOpenChange],
     );
 
-    const hasContent = loading || Boolean(options?.length) || Boolean(renderPopup);
-    const popupOpen = hasContent && open;
+    const handleOptionAction = React.useCallback(
+        (id: string, option: SuggestListItem<T>, event: ListItemActionEvent) => {
+            if (isLoadingItem(option)) {
+                return;
+            }
+            onOptionAction?.(id, option, event);
+            setOpen(false, event.nativeEvent, 'option-action');
+        },
+        [onOptionAction, setOpen],
+    );
+
+    const renderItem = React.useCallback(
+        (ctx: ListItemContext<SuggestListItem<T>>, helpers: ListItemHelpers) => {
+            if (isLoadingItem(ctx.item)) {
+                return (
+                    <div
+                        {...helpers.getItemProps({
+                            className: b('loader'),
+                            ref: setLoadingElement,
+                            style: {height: getItemHeight(ctx.item, ctx.index)},
+                        })}
+                    >
+                        <Loader />
+                    </div>
+                );
+            }
+            const height = getItemHeight(ctx.item, ctx.index);
+            return (
+                <List.ItemView
+                    {...helpers.getItemProps({
+                        style: getOptionHeight ? {height, minHeight: height} : undefined,
+                        'data-qa': ctx.item.qa,
+                    })}
+                    {...helpers.getItemViewProps()}
+                >
+                    {renderOption
+                        ? renderOption(ctx.item, {
+                              itemHeight: height,
+                              isItemActive: ctx.state.active,
+                              selected: false,
+                          })
+                        : ctx.content}
+                </List.ItemView>
+            );
+        },
+        [getOptionHeight, getItemHeight, renderOption],
+    );
+
+    const renderList = () => {
+        if (loading && !options?.length) {
+            return (
+                <div className={b('loader')} style={{height: itemHeight}}>
+                    <Loader />
+                </div>
+            );
+        }
+
+        if (!options?.length) {
+            return renderEmptyOptions?.({filter: inputValue}) ?? null;
+        }
+
+        return (
+            <ListVirtualizationContext.Provider value={virtualization}>
+                <List<SuggestListItem<T>>
+                    id={listId}
+                    className={b('list')}
+                    aria-label={listLabel}
+                    aria-labelledby={listLabelledBy}
+                    size={inputProps.size}
+                    items={items}
+                    getItemId={getItemId}
+                    getItemChildren={getItemChildren}
+                    getItemContent={defaultRenderOption}
+                    getItemTextValue={getItemTextValue}
+                    focusOwner={focusOwner}
+                    onActiveItemUpdate={onActiveOptionUpdate}
+                    onItemAction={handleOptionAction}
+                    renderItem={renderItem}
+                />
+            </ListVirtualizationContext.Provider>
+        );
+    };
+
+    let popupContent: React.ReactElement | null = null;
+    if (open) {
+        popupContent = renderPopup ? renderPopup({renderList}) : renderList();
+    }
+    const popupOpen = open && Boolean(popupContent);
 
     const hasLoadMore = Boolean(onLoadMore);
     const onLoadMoreRef = React.useRef(onLoadMore);
@@ -152,7 +239,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             statusText = t('status_loading');
         } else if (listInputProps['aria-expanded']) {
             statusText = t('status_results', {count: options?.length ?? 0});
-        } else if (!options?.length && !renderPopup) {
+        } else if (!options?.length && !renderPopup && !renderEmptyOptions) {
             statusText = t('status_empty');
         }
     }
@@ -217,95 +304,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         [open, popupOpen, setOpen, inputProps, onListKeyDown],
     );
 
-    const handleOptionAction = React.useCallback(
-        (id: string, option: SuggestListItem<T>, event: ListItemActionEvent) => {
-            if (isLoadingItem(option)) {
-                return;
-            }
-            onOptionAction?.(id, option, event);
-            setOpen(false, event.nativeEvent, 'option-action');
-        },
-        [onOptionAction, setOpen],
-    );
-
-    const renderItem = React.useCallback(
-        (ctx: ListItemContext<SuggestListItem<T>>, helpers: ListItemHelpers) => {
-            if (isLoadingItem(ctx.item)) {
-                return (
-                    <div
-                        {...helpers.getItemProps({
-                            className: b('loader'),
-                            ref: setLoadingElement,
-                            style: {height: getItemHeight(ctx.item, ctx.index)},
-                        })}
-                    >
-                        <Loader />
-                    </div>
-                );
-            }
-            const height = getItemHeight(ctx.item, ctx.index);
-            return (
-                <List.ItemView
-                    {...helpers.getItemProps({
-                        style: getOptionHeight ? {height, minHeight: height} : undefined,
-                        'data-qa': ctx.item.qa,
-                    })}
-                    {...helpers.getItemViewProps()}
-                >
-                    {renderOption
-                        ? renderOption(ctx.item, {
-                              itemHeight: height,
-                              isItemActive: ctx.state.active,
-                              selected: false,
-                          })
-                        : ctx.content}
-                </List.ItemView>
-            );
-        },
-        [getOptionHeight, getItemHeight, renderOption],
-    );
-
-    const renderPopupContent = () => {
-        if (loading && !options?.length) {
-            return (
-                <div className={b('loader')} style={{height: itemHeight}}>
-                    <Loader />
-                </div>
-            );
-        }
-
-        if (!options?.length && !renderPopup) {
-            return null;
-        }
-
-        const list = options?.length ? (
-            <ListVirtualizationContext.Provider value={virtualization}>
-                <List<SuggestListItem<T>>
-                    id={listId}
-                    className={b('list')}
-                    aria-label={listLabel}
-                    aria-labelledby={listLabelledBy}
-                    size={inputProps.size}
-                    items={items}
-                    getItemId={getItemId}
-                    getItemChildren={getItemChildren}
-                    getItemContent={defaultRenderOption}
-                    getItemTextValue={getItemTextValue}
-                    focusOwner={focusOwner}
-                    onActiveItemUpdate={onActiveOptionUpdate}
-                    onItemAction={handleOptionAction}
-                    renderItem={renderItem}
-                />
-            </ListVirtualizationContext.Provider>
-        ) : null;
-
-        if (renderPopup) {
-            return renderPopup({list});
-        }
-
-        return list;
-    };
-
     return (
         <React.Fragment>
             <TextInput
@@ -345,7 +343,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 style={popupStyle}
                 returnFocus={false}
             >
-                {popupOpen ? renderPopupContent() : null}
+                {popupContent}
             </Popup>
         </React.Fragment>
     );

@@ -261,7 +261,12 @@ export const CustomPopupContent: Story = {
                 onOptionAction={(_value, option) => {
                     setValue(option.value);
                 }}
-                renderPopup={({list}) => (
+                renderEmptyOptions={({filter}) => (
+                    <Text as="div" color="secondary" role="status">
+                        Nothing matched &ldquo;{filter}&rdquo;
+                    </Text>
+                )}
+                renderPopup={({renderList}) => (
                     <Flex
                         direction="column"
                         gap="spacing-1"
@@ -271,13 +276,7 @@ export const CustomPopupContent: Story = {
                         <Text as="div" variant="subheader-2">
                             Astronomical bodies
                         </Text>
-                        {items.length > 0 ? (
-                            list
-                        ) : (
-                            <Text as="div" color="secondary">
-                                Nothing matched &ldquo;{value}&rdquo;
-                            </Text>
-                        )}
+                        {renderList()}
                         <Text as="div" variant="caption-2" color="hint">
                             {items.length} result{items.length === 1 ? '' : 's'}
                         </Text>

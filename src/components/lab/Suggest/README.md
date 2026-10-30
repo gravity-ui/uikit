@@ -38,9 +38,8 @@ const options = React.useMemo(
   value={value}
   onUpdate={setValue}
   options={options}
-  onOptionClick={(option) => {
+  onOptionAction={(_value, option) => {
     setValue(option.value);
-    return false; // close popup after selection
   }}
   placeholder="Search…"
 />;
@@ -83,9 +82,8 @@ const handleUpdate = async (query: string) => {
   onUpdate={handleUpdate}
   options={options}
   loading={loading}
-  onOptionClick={(option) => {
+  onOptionAction={(_value, option) => {
     setValue(option.value);
-    return false;
   }}
   placeholder="Search…"
 />;
@@ -241,13 +239,13 @@ No option is highlighted automatically when the popup opens.
 
 ### Options
 
-| Name              | Type                                                                           | Default | Description                                                                                          |
-| :---------------- | :----------------------------------------------------------------------------- | :------ | :--------------------------------------------------------------------------------------------------- |
-| `options`         | `SuggestOptionProps<T>[]`                                                      |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
-| `onOptionClick`   | `(option: SuggestOptionProps<T>, index?: number) => boolean \| void`           |         | Called when an option is selected. Return `true` to keep popup open                                  |
-| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
-| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                     |         | Row height function (enables variable-height rows)                                                   |
-| `onLoadMore`      | `() => void`                                                                   |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
+| Name              | Type                                                                                 | Default | Description                                                                                          |
+| :---------------- | :----------------------------------------------------------------------------------- | :------ | :--------------------------------------------------------------------------------------------------- |
+| `options`         | `SuggestOptionProps<T>[]`                                                            |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
+| `onOptionAction`  | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void` |         | Called when an option is selected by mouse or keyboard                                               |
+| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode`       |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
+| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                           |         | Row height function (enables variable-height rows)                                                   |
+| `onLoadMore`      | `() => void`                                                                         |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
 
 ### Input customization
 
@@ -266,13 +264,17 @@ Suggest manages `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant
 
 ### Behavior
 
-| Name                  | Type                                                                | Default | Description                                                                                                   |
-| :-------------------- | :------------------------------------------------------------------ | :------ | :------------------------------------------------------------------------------------------------------------ |
-| `loading`             | `boolean`                                                           | `false` | Append a loading row; show a standalone spinner when options are empty                                        |
-| `open`                | `boolean`                                                           |         | Control popup open state externally                                                                           |
-| `defaultOpen`         | `boolean`                                                           |         | Initial open state (uncontrolled)                                                                             |
-| `onOpenChange`        | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |         | Called when popup open state changes                                                                          |
-| `onActiveIndexChange` | `(index: number \| undefined) => void`                              |         | Called when the highlighted option changes, with its index in `options` or `undefined` if none is highlighted |
+After an option action, an uncontrolled popup closes. With controlled `open`, Suggest requests closing through `onOpenChange(false, event, 'option-action')`; the parent may ignore that request to keep the popup open. `onOptionAction` does not control the popup through its return value.
+
+`SuggestOpenChangeReason` extends Floating UI's `OpenChangeReason` with `input-change` (typing or clearing the input) and `option-action` (selecting an option).
+
+| Name                  | Type                                                                       | Default | Description                                                                                                   |
+| :-------------------- | :------------------------------------------------------------------------- | :------ | :------------------------------------------------------------------------------------------------------------ |
+| `loading`             | `boolean`                                                                  | `false` | Append a loading row; show a standalone spinner when options are empty                                        |
+| `open`                | `boolean`                                                                  |         | Control popup open state externally                                                                           |
+| `defaultOpen`         | `boolean`                                                                  |         | Initial open state (uncontrolled)                                                                             |
+| `onOpenChange`        | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void` |         | Called when popup open state changes                                                                          |
+| `onActiveIndexChange` | `(index: number \| undefined) => void`                                     |         | Called when the highlighted option changes, with its index in `options` or `undefined` if none is highlighted |
 
 ### Rendering
 

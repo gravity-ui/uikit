@@ -23,7 +23,7 @@ export function SuggestForm({empty = false}: {empty?: boolean}) {
         >
             <Suggest
                 options={empty ? [] : OPTIONS}
-                onOptionClick={(option) => setSelectedValue(option.value)}
+                onOptionAction={(_value, option) => setSelectedValue(option.value)}
             />
             <button type="submit">Search</button>
             <output data-qa="submit-count">{submitCount}</output>

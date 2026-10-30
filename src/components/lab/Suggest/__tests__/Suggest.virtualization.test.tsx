@@ -36,10 +36,10 @@ describe('Suggest: external virtualization', () => {
 
     test('keeps the active descendant mounted when the virtual window scrolls away', async () => {
         const user = userEvent.setup();
-        const onOptionClick = jest.fn();
+        const onOptionAction = jest.fn();
         render(
             <ListVirtualizer>
-                <Suggest open options={OPTIONS} onOptionClick={onOptionClick} />
+                <Suggest open options={OPTIONS} onOptionAction={onOptionAction} />
             </ListVirtualizer>,
         );
         const input = screen.getByRole('combobox');
@@ -50,7 +50,11 @@ describe('Suggest: external virtualization', () => {
         expect(active).toBeInTheDocument();
         expect(input).toHaveAttribute('aria-activedescendant', active.id);
         await user.keyboard('[Enter]');
-        expect(onOptionClick).toHaveBeenCalledWith(OPTIONS[0], 0);
+        expect(onOptionAction).toHaveBeenCalledWith(
+            OPTIONS[0].value,
+            OPTIONS[0],
+            expect.objectContaining({type: 'keydown'}),
+        );
     });
 
     test('uses option heights and keeps the loading row internal', () => {

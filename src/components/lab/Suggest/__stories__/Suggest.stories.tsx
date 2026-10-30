@@ -79,9 +79,8 @@ export const Default: Story = {
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(option) => {
+                onOptionAction={(_value, option) => {
                     setValue(option.value);
-                    return false;
                 }}
                 renderOption={renderPlanet}
                 placeholder="Search astronomical bodies…"
@@ -118,9 +117,8 @@ function SizeExample({size}: {size: 's' | 'm' | 'l' | 'xl'}) {
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(option) => {
+                onOptionAction={(_value, option) => {
                     setValue(option.value);
-                    return false;
                 }}
                 size={size}
                 placeholder="Search…"
@@ -159,9 +157,8 @@ function PopupWidthExample({
             value={value}
             onUpdate={setValue}
             options={items}
-            onOptionClick={(option) => {
+            onOptionAction={(_value, option) => {
                 setValue(option.value);
-                return false;
             }}
             popupWidth={popupWidth}
             placeholder={placeholder}
@@ -185,9 +182,8 @@ export const WithClearButton: Story = {
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(option) => {
+                onOptionAction={(_value, option) => {
                     setValue(option.value);
-                    return false;
                 }}
                 hasClear
                 placeholder="Search…"
@@ -226,9 +222,8 @@ export const WithLoading: Story = {
                     onUpdate={handleUpdate}
                     options={items}
                     loading={loading}
-                    onOptionClick={(option) => {
+                    onOptionAction={(_value, option) => {
                         setValue(option.value);
-                        return false;
                     }}
                     renderOption={renderPlanet}
                     placeholder="Type to trigger simulated fetch…"
@@ -263,9 +258,8 @@ export const CustomPopupContent: Story = {
                 value={value}
                 onUpdate={setValue}
                 options={items}
-                onOptionClick={(option) => {
+                onOptionAction={(_value, option) => {
                     setValue(option.value);
-                    return false;
                 }}
                 renderPopup={({list}) => (
                     <Flex
@@ -312,12 +306,11 @@ export const MultiSelect: Story = {
             setOpen(true);
         }, []);
 
-        const handleOptionClick = React.useCallback((option: PlanetOption) => {
+        const handleOptionAction = React.useCallback((_value: string, option: PlanetOption) => {
             setSelected((prev) => {
                 const next = prev.filter((p) => p.value !== option.value);
                 return next.length === prev.length ? [...prev, option] : next;
             });
-            return true; // ← keep popup open for multi-select
         }, []);
 
         const renderSelectableItem = React.useCallback(
@@ -346,23 +339,18 @@ export const MultiSelect: Story = {
             <Flex direction="column" gap="spacing-2">
                 <Text color="secondary">
                     Click an item to toggle it — selected items stay in the list with a checked box
-                    and the popup stays open (
-                    <Text as="span" variant="code-inline-3">
-                        onOptionClick
-                    </Text>{' '}
-                    returns{' '}
-                    <Text as="span" variant="code-inline-3">
-                        true
-                    </Text>
-                    ). Open state is controlled, so focusing the empty input browses all options.
+                    and the popup stays open. The controlled onOpenChange handler ignores closing
+                    requests caused by option actions. Focusing the empty input browses all options.
                 </Text>
                 <Suggest<PlanetData>
                     value={value}
                     onUpdate={handleUpdate}
                     open={open}
-                    onOpenChange={setOpen}
+                    onOpenChange={(nextOpen, _event, reason) => {
+                        if (reason !== 'option-action') setOpen(nextOpen);
+                    }}
                     options={items}
-                    onOptionClick={handleOptionClick}
+                    onOptionAction={handleOptionAction}
                     renderOption={renderSelectableItem}
                     onFocus={() => setOpen(true)}
                     placeholder="Add astronomical bodies…"
@@ -412,7 +400,7 @@ export const Virtualized: Story = {
                     options={options}
                     open={open}
                     onOpenChange={setOpen}
-                    onOptionClick={(option) => {
+                    onOptionAction={(_value, option) => {
                         setValue(String(option.content));
                     }}
                     placeholder="Search 10,000 options…"

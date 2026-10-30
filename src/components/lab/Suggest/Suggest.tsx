@@ -2,12 +2,10 @@
 
 import * as React from 'react';
 
-import type {OpenChangeReason} from '@floating-ui/react';
-
 import {useForkRef, useIntersection, useLayoutEffect, useUniqId} from '../../../hooks';
 import {useOpenState} from '../../../hooks/useSelect/useOpenState';
 import {List, useListFocusOwner} from '../../List';
-import type {ListItemContext, ListItemHelpers} from '../../List';
+import type {ListItemActionEvent, ListItemContext, ListItemHelpers} from '../../List';
 import {ListVirtualizationContext} from '../../List/VirtualizationContext';
 import {LIST_ITEM_VIEW_MIN_HEIGHT} from '../../ListItemView/constants';
 import {Loader} from '../../Loader';
@@ -16,7 +14,7 @@ import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
 import {warnOnce} from '../../utils/warn';
 
-import type {SuggestProps} from './types';
+import type {SuggestOpenChangeReason, SuggestProps} from './types';
 import {buildListItems, getItemId, isLoadingItem} from './utils';
 import type {SuggestListItem} from './utils';
 
@@ -42,7 +40,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         onUpdate,
 
         options,
-        onOptionClick,
+        onOptionAction,
         renderOption,
         getOptionHeight,
         onLoadMore,
@@ -121,7 +119,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const isOpenControlled = openProp !== undefined;
 
     const setOpen = React.useCallback(
-        (nextOpen: boolean, event?: Event, reason?: OpenChangeReason) => {
+        (nextOpen: boolean, event?: Event, reason?: SuggestOpenChangeReason) => {
             if (nextOpen !== open) {
                 onOpenChange?.(nextOpen, event, reason);
             }
@@ -191,7 +189,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             }
             onUpdate?.(newValue);
             if (!isOpenControlled) {
-                setOpen(Boolean(newValue));
+                setOpen(Boolean(newValue), undefined, 'input-change');
             }
         },
         [value, onUpdate, isOpenControlled, setOpen],
@@ -235,16 +233,15 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         [open, popupOpen, setOpen, inputProps, onListKeyDown],
     );
 
-    const handleOptionClick = React.useCallback(
-        (_id: string, option: SuggestListItem<T>) => {
+    const handleOptionAction = React.useCallback(
+        (id: string, option: SuggestListItem<T>, event: ListItemActionEvent) => {
             if (isLoadingItem(option)) {
                 return;
             }
-            const index = options?.indexOf(option);
-            const keepOpen = Boolean(onOptionClick?.(option, index));
-            setOpen(keepOpen);
+            onOptionAction?.(id, option, event);
+            setOpen(false, event.nativeEvent, 'option-action');
         },
-        [options, onOptionClick, setOpen],
+        [onOptionAction, setOpen],
     );
 
     const renderItem = React.useCallback(
@@ -308,7 +305,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     focusOwner={focusOwner}
                     activeItemId={activeIndex === -1 ? null : activeItemId}
                     onActiveItemUpdate={setActiveItemId}
-                    onItemAction={handleOptionClick}
+                    onItemAction={handleOptionAction}
                     renderItem={renderItem}
                 />
             </ListVirtualizationContext.Provider>

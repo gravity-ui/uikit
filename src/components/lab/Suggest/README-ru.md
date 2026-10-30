@@ -38,9 +38,8 @@ const options = React.useMemo(
   value={value}
   onUpdate={setValue}
   options={options}
-  onOptionClick={(option) => {
+  onOptionAction={(_value, option) => {
     setValue(option.value);
-    return false; // закрыть попап после выбора
   }}
   placeholder="Поиск…"
 />;
@@ -83,9 +82,8 @@ const handleUpdate = async (query: string) => {
   onUpdate={handleUpdate}
   options={options}
   loading={loading}
-  onOptionClick={(option) => {
+  onOptionAction={(_value, option) => {
     setValue(option.value);
-    return false;
   }}
   placeholder="Поиск…"
 />;
@@ -243,13 +241,13 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 ### Опции
 
-| Название          | Тип                                                                            | По умолчанию | Описание                                                                                          |
-| :---------------- | :----------------------------------------------------------------------------- | :----------- | :------------------------------------------------------------------------------------------------ |
-| `options`         | `SuggestOptionProps<T>[]`                                                      |              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` |
-| `onOptionClick`   | `(option: SuggestOptionProps<T>, index?: number) => boolean \| void`           |              | Вызывается при выборе опции. Верните `true`, чтобы оставить попап открытым                        |
-| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode` |              | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              |
-| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                     |              | Высота строки (для переменных высот)                                                              |
-| `onLoadMore`      | `() => void`                                                                   |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
+| Название          | Тип                                                                                  | По умолчанию | Описание                                                                                          |
+| :---------------- | :----------------------------------------------------------------------------------- | :----------- | :------------------------------------------------------------------------------------------------ |
+| `options`         | `SuggestOptionProps<T>[]`                                                            |              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` |
+| `onOptionAction`  | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void` |              | Вызывается при выборе опции мышью или клавиатурой                                                 |
+| `renderOption`    | `(option: SuggestOptionProps<T>, active: boolean, index: number) => ReactNode`       |              | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              |
+| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                           |              | Высота строки (для переменных высот)                                                              |
+| `onLoadMore`      | `() => void`                                                                         |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
 
 ### Настройка поля ввода
 
@@ -268,13 +266,17 @@ Suggest управляет атрибутами `role`, `aria-expanded`, `aria-c
 
 ### Поведение
 
-| Название              | Тип                                                                 | По умолчанию | Описание                                                                                            |
-| :-------------------- | :------------------------------------------------------------------ | :----------- | :-------------------------------------------------------------------------------------------------- |
-| `loading`             | `boolean`                                                           | `false`      | Добавить строку загрузки; при пустом списке показать отдельный спиннер                              |
-| `open`                | `boolean`                                                           |              | Управлять открытием попапа снаружи                                                                  |
-| `defaultOpen`         | `boolean`                                                           |              | Начальное состояние открытия (неконтролируемый режим)                                               |
-| `onOpenChange`        | `(open: boolean, event?: Event, reason?: OpenChangeReason) => void` |              | Вызывается при изменении состояния попапа                                                           |
-| `onActiveIndexChange` | `(index: number \| undefined) => void`                              |              | Вызывается при изменении подсветки с индексом опции в `options` или `undefined`, если подсветки нет |
+После выбора опции неконтролируемый попап закрывается. При контролируемом `open` Suggest запрашивает закрытие через `onOpenChange(false, event, 'option-action')`; родитель может проигнорировать запрос и оставить попап открытым. Возвращаемое значение `onOptionAction` не управляет попапом.
+
+`SuggestOpenChangeReason` дополняет `OpenChangeReason` из Floating UI причинами `input-change` (ввод или очистка поля) и `option-action` (выбор опции).
+
+| Название              | Тип                                                                        | По умолчанию | Описание                                                                                            |
+| :-------------------- | :------------------------------------------------------------------------- | :----------- | :-------------------------------------------------------------------------------------------------- |
+| `loading`             | `boolean`                                                                  | `false`      | Добавить строку загрузки; при пустом списке показать отдельный спиннер                              |
+| `open`                | `boolean`                                                                  |              | Управлять открытием попапа снаружи                                                                  |
+| `defaultOpen`         | `boolean`                                                                  |              | Начальное состояние открытия (неконтролируемый режим)                                               |
+| `onOpenChange`        | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void` |              | Вызывается при изменении состояния попапа                                                           |
+| `onActiveIndexChange` | `(index: number \| undefined) => void`                                     |              | Вызывается при изменении подсветки с индексом опции в `options` или `undefined`, если подсветки нет |
 
 ### Рендеринг
 

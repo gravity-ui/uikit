@@ -97,10 +97,11 @@ describe('Suggest', () => {
         expect(screen.getByText('Europa')).toBeInTheDocument();
     });
 
-    test('calls onOptionClick and closes popup on item click', async () => {
-        const onOptionClick = jest.fn(() => false);
+    test('calls onOptionAction and closes popup on item click', async () => {
+        const onOptionAction = jest.fn();
+        const onOpenChange = jest.fn();
         const user = userEvent.setup();
-        renderSuggest({onOptionClick});
+        renderSuggest({onOptionAction, onOpenChange});
 
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
         await user.type(input, 'e');
@@ -108,33 +109,66 @@ describe('Suggest', () => {
         const earth = await screen.findByText('Earth');
         await user.click(earth);
 
-        expect(onOptionClick).toHaveBeenCalledTimes(1);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        expect((onOptionClick.mock.calls as any)[0][0]).toMatchObject(ITEMS[0]);
+        expect(onOptionAction).toHaveBeenCalledTimes(1);
+        expect(onOptionAction).toHaveBeenCalledWith(
+            'earth',
+            ITEMS[0],
+            expect.objectContaining({type: 'click'}),
+        );
+        expect(onOpenChange).toHaveBeenLastCalledWith(
+            false,
+            expect.any(MouseEvent),
+            'option-action',
+        );
         await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
     });
 
-    test('keeps popup open when onOptionClick returns true', async () => {
-        const onOptionClick = jest.fn(() => true);
+    test.each(['click', 'Enter'])(
+        'lets the parent ignore an option action close request: %s',
+        async (gesture) => {
+            const onOptionAction = jest.fn();
+            const onOpenChange = jest.fn();
+            const user = userEvent.setup();
+            renderSuggest({open: true, onOptionAction, onOpenChange});
+
+            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
+            await user.type(input, 'e');
+
+            const earth = await screen.findByText('Earth');
+            if (gesture === 'click') {
+                await user.click(earth);
+            } else {
+                await user.keyboard('[ArrowDown][Enter]');
+            }
+
+            expect(onOptionAction).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenLastCalledWith(
+                false,
+                expect.any(gesture === 'click' ? MouseEvent : KeyboardEvent),
+                'option-action',
+            );
+            expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+        },
+    );
+
+    test('reports input-change when typing opens or clearing closes the popup', async () => {
         const user = userEvent.setup();
-        renderSuggest({onOptionClick});
-
-        const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-        await user.type(input, 'e');
-
-        const earth = await screen.findByText('Earth');
-        await user.click(earth);
-
-        expect(onOptionClick).toHaveBeenCalledTimes(1);
-        expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+        const onOpenChange = jest.fn();
+        renderSuggest({onOpenChange});
+        const input = screen.getByRole('combobox');
+        await user.tab();
+        await user.keyboard('e');
+        expect(onOpenChange).toHaveBeenLastCalledWith(true, undefined, 'input-change');
+        await user.clear(input);
+        expect(onOpenChange).toHaveBeenLastCalledWith(false, undefined, 'input-change');
     });
 
-    test('does not call onOptionClick for disabled items', async () => {
-        const onOptionClick = jest.fn();
+    test('does not call onOptionAction for disabled items', async () => {
+        const onOptionAction = jest.fn();
         const user = userEvent.setup();
         renderSuggest({
             options: [{value: 'earth', content: 'Earth', disabled: true}],
-            onOptionClick,
+            onOptionAction,
         });
 
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
@@ -143,7 +177,7 @@ describe('Suggest', () => {
         const earth = await screen.findByText('Earth');
         await user.click(earth);
 
-        expect(onOptionClick).not.toHaveBeenCalled();
+        expect(onOptionAction).not.toHaveBeenCalled();
     });
 
     test('closes popup on Escape', async () => {
@@ -295,16 +329,22 @@ describe('Suggest', () => {
         });
 
         test('Enter selects active item and closes popup', async () => {
-            const onOptionClick = jest.fn(() => false);
+            const onOptionAction = jest.fn();
+            const onOpenChange = jest.fn();
             const user = userEvent.setup();
-            renderSuggest({onOptionClick, autoFocus: true});
+            renderSuggest({onOptionAction, onOpenChange, autoFocus: true});
 
             const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
             await user.type(input, 'e');
             await user.keyboard('[ArrowDown]');
             await user.keyboard('[Enter]');
 
-            expect(onOptionClick).toHaveBeenCalledTimes(1);
+            expect(onOptionAction).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenLastCalledWith(
+                false,
+                expect.any(KeyboardEvent),
+                'option-action',
+            );
             await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
         });
     });
@@ -359,8 +399,11 @@ describe('Suggest: new List integration', () => {
 
     test('opens without preselection, skips disabled options and keeps focus on the input', async () => {
         const user = userEvent.setup();
-        const onOptionClick = jest.fn();
-        renderSuggest({options: [{...ITEMS[0], disabled: true}, ...ITEMS.slice(1)], onOptionClick});
+        const onOptionAction = jest.fn();
+        renderSuggest({
+            options: [{...ITEMS[0], disabled: true}, ...ITEMS.slice(1)],
+            onOptionAction,
+        });
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
         expect(input).not.toHaveAttribute('aria-activedescendant');
@@ -372,13 +415,17 @@ describe('Suggest: new List integration', () => {
         );
         expect(input).toHaveFocus();
         await user.keyboard('[Enter]');
-        expect(onOptionClick).toHaveBeenCalledWith(ITEMS[1], 1);
+        expect(onOptionAction).toHaveBeenCalledWith(
+            ITEMS[1].value,
+            ITEMS[1],
+            expect.objectContaining({type: 'keydown'}),
+        );
         expect(input).toHaveFocus();
     });
 
     test('clicking an option keeps DOM focus on the input', async () => {
         const user = userEvent.setup();
-        renderSuggest({onOptionClick: () => true});
+        renderSuggest({open: true});
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
         await user.click(screen.getByRole('option', {name: 'Earth'}));
@@ -404,9 +451,9 @@ describe('Suggest: new List integration', () => {
 
     test('keeps an available option active when typing', async () => {
         const user = userEvent.setup();
-        const onOptionClick = jest.fn();
+        const onOptionAction = jest.fn();
         const onActiveIndexChange = jest.fn();
-        renderSuggest({onOptionClick, onActiveIndexChange});
+        renderSuggest({onOptionAction, onActiveIndexChange});
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
         await user.keyboard('[ArrowDown]');
@@ -418,20 +465,24 @@ describe('Suggest: new List integration', () => {
         expect(onActiveIndexChange).toHaveBeenCalledTimes(1);
         expect(onActiveIndexChange).toHaveBeenLastCalledWith(0);
         await user.keyboard('[Enter]');
-        expect(onOptionClick).toHaveBeenCalledWith(ITEMS[0], 0);
+        expect(onOptionAction).toHaveBeenCalledWith(
+            ITEMS[0].value,
+            ITEMS[0],
+            expect.objectContaining({type: 'keydown'}),
+        );
     });
 
     test('Enter without an active option reaches the consumer', async () => {
         const user = userEvent.setup();
-        const onOptionClick = jest.fn();
+        const onOptionAction = jest.fn();
         const onKeyDown = jest.fn();
-        renderSuggest({onOptionClick, onKeyDown});
+        renderSuggest({onOptionAction, onKeyDown});
         const input = screen.getByRole('combobox');
         await user.type(input, 'ea');
         expect(input).not.toHaveAttribute('aria-activedescendant');
         onKeyDown.mockClear();
         await user.keyboard('[Enter]');
-        expect(onOptionClick).not.toHaveBeenCalled();
+        expect(onOptionAction).not.toHaveBeenCalled();
         expect(onKeyDown).toHaveBeenCalledTimes(1);
         expect(onKeyDown.mock.calls[0][0].key).toBe('Enter');
     });

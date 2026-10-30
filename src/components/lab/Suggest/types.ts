@@ -2,9 +2,12 @@ import type * as React from 'react';
 
 import type {OpenChangeReason} from '@floating-ui/react';
 
+import type {ListItemActionEvent} from '../../List';
 import type {PopupPlacement} from '../../Popup';
 import type {TextInputProps} from '../../controls';
 import type {AriaLabelingProps, ControlGroupOption, QAProps} from '../../types';
+
+export type SuggestOpenChangeReason = OpenChangeReason | 'input-change' | 'option-action';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SuggestOptionProps<T = any> = QAProps & ControlGroupOption & {data?: T};
@@ -15,9 +18,12 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     options?: SuggestOptionProps<T>[];
     /**
      * Callback when an option is clicked or selected via keyboard.
-     * Return `true` to keep the popup open after selection.
      */
-    onOptionClick?: (option: SuggestOptionProps<T>, index?: number) => boolean | void;
+    onOptionAction?: (
+        value: string,
+        option: SuggestOptionProps<T>,
+        event: ListItemActionEvent,
+    ) => void;
     /**
      * Custom option renderer.
      */
@@ -49,7 +55,7 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     /** Initial open state (uncontrolled mode) */
     defaultOpen?: boolean;
     /** Callback when popup open state changes */
-    onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;
+    onOpenChange?: (open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void;
 
     /**
      * Called when the highlighted option index changes, via keyboard or pointer.

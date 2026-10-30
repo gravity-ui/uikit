@@ -432,19 +432,19 @@ describe('Suggest: new List integration', () => {
         expect(input).toHaveFocus();
     });
 
-    test('clears the active index and ARIA when closed', async () => {
+    test('clears activity on closing without emitting an additional update', async () => {
         const user = userEvent.setup();
-        const onActiveIndexChange = jest.fn();
-        renderSuggest({onActiveIndexChange});
+        const onActiveOptionUpdate = jest.fn();
+        renderSuggest({onActiveOptionUpdate});
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
         await user.keyboard('[ArrowDown]');
-        expect(onActiveIndexChange).toHaveBeenLastCalledWith(0);
+        expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
         await user.keyboard('[Escape]');
         expect(input).toHaveAttribute('aria-expanded', 'false');
         expect(input).not.toHaveAttribute('aria-activedescendant');
         expect(screen.queryByRole('listbox', {hidden: true})).not.toBeInTheDocument();
-        expect(onActiveIndexChange).toHaveBeenLastCalledWith(undefined);
+        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
         await user.keyboard('[ArrowDown]');
         expect(input).not.toHaveAttribute('aria-activedescendant');
     });
@@ -452,8 +452,8 @@ describe('Suggest: new List integration', () => {
     test('keeps an available option active when typing', async () => {
         const user = userEvent.setup();
         const onOptionAction = jest.fn();
-        const onActiveIndexChange = jest.fn();
-        renderSuggest({onOptionAction, onActiveIndexChange});
+        const onActiveOptionUpdate = jest.fn();
+        renderSuggest({onOptionAction, onActiveOptionUpdate});
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
         await user.keyboard('[ArrowDown]');
@@ -462,8 +462,8 @@ describe('Suggest: new List integration', () => {
             'aria-activedescendant',
             screen.getByRole('option', {name: 'Earth'}).id,
         );
-        expect(onActiveIndexChange).toHaveBeenCalledTimes(1);
-        expect(onActiveIndexChange).toHaveBeenLastCalledWith(0);
+        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+        expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
         await user.keyboard('[Enter]');
         expect(onOptionAction).toHaveBeenCalledWith(
             ITEMS[0].value,
@@ -489,9 +489,9 @@ describe('Suggest: new List integration', () => {
 
     test('tracks an option by value across reordering and clears a removed option', async () => {
         const user = userEvent.setup();
-        const onActiveIndexChange = jest.fn();
+        const onActiveOptionUpdate = jest.fn();
         const {rerender} = render(
-            <Suggest options={ITEMS} open onActiveIndexChange={onActiveIndexChange} />,
+            <Suggest options={ITEMS} open onActiveOptionUpdate={onActiveOptionUpdate} />,
         );
         const input = screen.getByRole('combobox');
         await user.click(input);
@@ -501,14 +501,44 @@ describe('Suggest: new List integration', () => {
             <Suggest
                 options={[ITEMS[1], ITEMS[0]]}
                 open
-                onActiveIndexChange={onActiveIndexChange}
+                onActiveOptionUpdate={onActiveOptionUpdate}
             />,
         );
         expect(input).toHaveAttribute('aria-activedescendant', earthId);
-        expect(onActiveIndexChange).toHaveBeenLastCalledWith(1);
-        rerender(<Suggest options={[ITEMS[1]]} open onActiveIndexChange={onActiveIndexChange} />);
+        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+        rerender(<Suggest options={[ITEMS[1]]} open onActiveOptionUpdate={onActiveOptionUpdate} />);
         expect(input).not.toHaveAttribute('aria-activedescendant');
-        expect(onActiveIndexChange).toHaveBeenLastCalledWith(undefined);
+        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+    });
+
+    test('keeps a disabled active option highlighted but does not select it', async () => {
+        const user = userEvent.setup();
+        const onOptionAction = jest.fn();
+        const onActiveOptionUpdate = jest.fn();
+        const {rerender} = render(
+            <Suggest
+                open
+                options={ITEMS}
+                onOptionAction={onOptionAction}
+                onActiveOptionUpdate={onActiveOptionUpdate}
+            />,
+        );
+        const input = screen.getByRole('combobox');
+        await user.click(input);
+        await user.keyboard('[ArrowDown]');
+        const id = screen.getByRole('option', {name: 'Earth'}).id;
+        rerender(
+            <Suggest
+                open
+                options={[{...ITEMS[0], disabled: true}, ...ITEMS.slice(1)]}
+                onOptionAction={onOptionAction}
+                onActiveOptionUpdate={onActiveOptionUpdate}
+            />,
+        );
+        expect(input).toHaveAttribute('aria-activedescendant', id);
+        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+        await user.keyboard('[Enter]');
+        expect(onOptionAction).not.toHaveBeenCalled();
     });
 
     test('Home and End edit the input caret without moving list activity', async () => {

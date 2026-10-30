@@ -15,7 +15,7 @@ import {block} from '../../utils/cn';
 import {warnOnce} from '../../utils/warn';
 
 import type {SuggestOpenChangeReason, SuggestProps} from './types';
-import {buildListItems, getItemId, isLoadingItem} from './utils';
+import {buildListItems, getItemId, getItemTextValue, isLoadingItem} from './utils';
 import type {SuggestListItem} from './utils';
 
 import './Suggest.scss';
@@ -56,7 +56,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         defaultOpen,
         onOpenChange,
 
-        onActiveIndexChange,
+        onActiveOptionUpdate,
 
         renderPopup,
 
@@ -128,26 +128,8 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         [open, toggleOpen, onOpenChange],
     );
 
-    const [activeItemId, setActiveItemId] = React.useState<string | null>(null);
     const hasContent = loading || Boolean(options?.length) || Boolean(renderPopup);
     const popupOpen = hasContent && open;
-    const activeIndex = popupOpen
-        ? (options?.findIndex((option) => option.value === activeItemId && !option.disabled) ?? -1)
-        : -1;
-    const previousActiveIndex = React.useRef(-1);
-
-    React.useEffect(() => {
-        if (previousActiveIndex.current !== activeIndex) {
-            previousActiveIndex.current = activeIndex;
-            onActiveIndexChange?.(activeIndex === -1 ? undefined : activeIndex);
-        }
-    }, [activeIndex, onActiveIndexChange]);
-
-    React.useEffect(() => {
-        if (activeIndex === -1) {
-            setActiveItemId(null);
-        }
-    }, [activeIndex]);
 
     const hasLoadMore = Boolean(onLoadMore);
     const onLoadMoreRef = React.useRef(onLoadMore);
@@ -302,9 +284,9 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     getItemId={getItemId}
                     getItemChildren={getItemChildren}
                     getItemContent={defaultRenderOption}
+                    getItemTextValue={getItemTextValue}
                     focusOwner={focusOwner}
-                    activeItemId={activeIndex === -1 ? null : activeItemId}
-                    onActiveItemUpdate={setActiveItemId}
+                    onActiveItemUpdate={onActiveOptionUpdate}
                     onItemAction={handleOptionAction}
                     renderItem={renderItem}
                 />

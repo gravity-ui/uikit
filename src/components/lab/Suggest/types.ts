@@ -58,12 +58,11 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     onOpenChange?: (open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void;
 
     /**
-     * Called when the highlighted option index changes, via keyboard or pointer.
-     * Receives `undefined` when no option is highlighted.
-     * Use this to implement custom Tab-autocomplete or other behaviors
-     * that depend on which option is currently active.
+     * Called when List requests an active option update via keyboard or pointer.
+     * Receives the option value or null. Changes to options and popup visibility
+     * do not emit additional notifications.
      */
-    onActiveIndexChange?: (index: number | undefined) => void;
+    onActiveOptionUpdate?: (value: string | null) => void;
     /**
      * Use this to render empty-state or error UI as
      * well (you control what is shown based on your own state).

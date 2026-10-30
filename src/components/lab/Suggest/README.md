@@ -268,13 +268,15 @@ After an option action, an uncontrolled popup closes. With controlled `open`, Su
 
 `SuggestOpenChangeReason` extends Floating UI's `OpenChangeReason` with `input-change` (typing or clearing the input) and `option-action` (selecting an option).
 
-| Name                  | Type                                                                       | Default | Description                                                                                                   |
-| :-------------------- | :------------------------------------------------------------------------- | :------ | :------------------------------------------------------------------------------------------------------------ |
-| `loading`             | `boolean`                                                                  | `false` | Append a loading row; show a standalone spinner when options are empty                                        |
-| `open`                | `boolean`                                                                  |         | Control popup open state externally                                                                           |
-| `defaultOpen`         | `boolean`                                                                  |         | Initial open state (uncontrolled)                                                                             |
-| `onOpenChange`        | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void` |         | Called when popup open state changes                                                                          |
-| `onActiveIndexChange` | `(index: number \| undefined) => void`                                     |         | Called when the highlighted option changes, with its index in `options` or `undefined` if none is highlighted |
+| Name                   | Type                                                                       | Default | Description                                                               |
+| :--------------------- | :------------------------------------------------------------------------- | :------ | :------------------------------------------------------------------------ |
+| `loading`              | `boolean`                                                                  | `false` | Append a loading row; show a standalone spinner when options are empty    |
+| `open`                 | `boolean`                                                                  |         | Control popup open state externally                                       |
+| `defaultOpen`          | `boolean`                                                                  |         | Initial open state (uncontrolled)                                         |
+| `onOpenChange`         | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void` |         | Called when popup open state changes                                      |
+| `onActiveOptionUpdate` | `(value: string \| null) => void`                                          |         | Forwards List requests to update the active option by its value or `null` |
+
+`onActiveOptionUpdate` reports List requests from keyboard or pointer interaction. Reordering or removing options and closing the popup do not emit additional updates. Each opening starts without an active option. Text for List uses string or numeric `content`/`children`, falling back to the option value.
 
 ### Rendering
 

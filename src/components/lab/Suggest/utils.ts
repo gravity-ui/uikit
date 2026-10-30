@@ -29,3 +29,15 @@ export function buildListItems<T>(
     }
     return [...options, {[LOADING_ROW]: id, disabled: true}];
 }
+
+export function getItemTextValue<T>(item: SuggestListItem<T>): string {
+    if (isLoadingItem(item)) {
+        return '';
+    }
+    for (const content of [item.content, item.children]) {
+        if (typeof content === 'string' || typeof content === 'number') {
+            return String(content);
+        }
+    }
+    return item.value;
+}

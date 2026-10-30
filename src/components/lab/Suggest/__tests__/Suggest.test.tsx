@@ -74,7 +74,7 @@ describe('Suggest', () => {
         expect(onUpdate).toHaveBeenLastCalledWith('ear');
     });
 
-    test('opens popup when typing (items present)', async () => {
+    test('opens popup and shows options when typing', async () => {
         const user = userEvent.setup();
         renderSuggest();
 
@@ -84,17 +84,8 @@ describe('Suggest', () => {
         await user.type(input, 'e');
 
         expect(screen.getByTestId(QA_POPUP)).toBeVisible();
-    });
-
-    test('shows items in popup after click', async () => {
-        const user = userEvent.setup();
-        renderSuggest();
-
-        const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-        await user.type(input, 'e');
-
-        expect(screen.getByText('Earth')).toBeInTheDocument();
-        expect(screen.getByText('Europa')).toBeInTheDocument();
+        expect(screen.getByRole('option', {name: 'Earth'})).toBeVisible();
+        expect(screen.getByRole('option', {name: 'Europa'})).toBeVisible();
     });
 
     test('calls onOptionAction and closes popup on item click', async () => {
@@ -148,6 +139,7 @@ describe('Suggest', () => {
                 'option-action',
             );
             expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+            expect(input).toHaveFocus();
         },
     );
 
@@ -310,7 +302,7 @@ describe('Suggest', () => {
     describe('keyboard navigation', () => {
         test('ArrowDown opens popup when closed and value is present', async () => {
             const user = userEvent.setup();
-            renderSuggest({autoFocus: true});
+            renderSuggest();
 
             const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
             // Type a value first so there's something to show
@@ -322,40 +314,6 @@ describe('Suggest', () => {
             // Now ArrowDown should reopen
             await user.keyboard('[ArrowDown]');
             expect(await screen.findByTestId(QA_POPUP)).toBeVisible();
-        });
-
-        test('ArrowDown then ArrowDown activates first item', async () => {
-            const user = userEvent.setup();
-            renderSuggest({autoFocus: true});
-
-            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-            await user.type(input, 'e');
-            await user.keyboard('[ArrowDown]');
-
-            expect(input).toHaveAttribute(
-                'aria-activedescendant',
-                screen.getByRole('option', {name: 'Earth'}).id,
-            );
-        });
-
-        test('Enter selects active item and closes popup', async () => {
-            const onOptionAction = jest.fn();
-            const onOpenChange = jest.fn();
-            const user = userEvent.setup();
-            renderSuggest({onOptionAction, onOpenChange, autoFocus: true});
-
-            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-            await user.type(input, 'e');
-            await user.keyboard('[ArrowDown]');
-            await user.keyboard('[Enter]');
-
-            expect(onOptionAction).toHaveBeenCalledTimes(1);
-            expect(onOpenChange).toHaveBeenLastCalledWith(
-                false,
-                expect.any(KeyboardEvent),
-                'option-action',
-            );
-            await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
         });
     });
 
@@ -410,9 +368,11 @@ describe('Suggest: new List integration', () => {
     test('opens without preselection, skips disabled options and keeps focus on the input', async () => {
         const user = userEvent.setup();
         const onOptionAction = jest.fn();
+        const onOpenChange = jest.fn();
         renderSuggest({
             options: [{...ITEMS[0], disabled: true}, ...ITEMS.slice(1)],
             onOptionAction,
+            onOpenChange,
         });
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
@@ -425,20 +385,18 @@ describe('Suggest: new List integration', () => {
         );
         expect(input).toHaveFocus();
         await user.keyboard('[Enter]');
+        expect(onOptionAction).toHaveBeenCalledTimes(1);
         expect(onOptionAction).toHaveBeenCalledWith(
             ITEMS[1].value,
             ITEMS[1],
             expect.objectContaining({type: 'keydown'}),
         );
-        expect(input).toHaveFocus();
-    });
-
-    test('clicking an option keeps DOM focus on the input', async () => {
-        const user = userEvent.setup();
-        renderSuggest({open: true});
-        const input = screen.getByRole('combobox');
-        await user.type(input, 'e');
-        await user.click(screen.getByRole('option', {name: 'Earth'}));
+        expect(onOpenChange).toHaveBeenLastCalledWith(
+            false,
+            expect.any(KeyboardEvent),
+            'option-action',
+        );
+        await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
         expect(input).toHaveFocus();
     });
 

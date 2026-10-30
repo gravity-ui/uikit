@@ -81,50 +81,6 @@ test.describe('Suggest', () => {
 
         await expectScreenshot();
     });
-
-    test('popup closes on Escape key', async ({mount, page}) => {
-        await mount(
-            <div style={{height: 400}}>
-                <SuggestStories.Default />
-            </div>,
-        );
-
-        const input = page.locator('input');
-        await input.click();
-        await input.fill('a');
-
-        await expect(page.locator('[role="listbox"]')).toBeVisible();
-        await page.keyboard.press('Escape');
-        await expect(page.locator('[role="listbox"]')).not.toBeVisible();
-    });
-
-    test('aria-activedescendant updates correctly', async ({mount, page}) => {
-        await mount(
-            <div style={{height: 400}}>
-                <SuggestStories.Default />
-            </div>,
-        );
-
-        const input = page.locator('input[role="combobox"]');
-        await input.click();
-        await input.fill('a');
-
-        await expect(page.locator('[role="listbox"]')).toBeVisible();
-
-        // Move mouse away so hover doesn't pre-activate an item
-        await page.mouse.move(0, 0);
-        await expect(input).not.toHaveAttribute('aria-activedescendant');
-
-        await page.keyboard.press('ArrowDown');
-
-        await page.waitForFunction(() => {
-            const el = document.querySelector('input[role="combobox"]');
-            return el?.getAttribute('aria-activedescendant') !== null;
-        });
-
-        const after = await input.getAttribute('aria-activedescendant');
-        expect(after).toBe(await page.getByRole('option').first().getAttribute('id'));
-    });
 });
 
 test('Suggest virtualization: scroll and select an option through the popup portal', async ({

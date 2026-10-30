@@ -3,10 +3,12 @@
 import * as React from 'react';
 
 import {
+    FloatingTree,
     safePolygon,
     useClick,
     useDismiss,
     useFloatingRootContext,
+    useFloatingTree,
     useHover,
     useInteractions,
     useRole,
@@ -59,7 +61,7 @@ const DEFAULT_OPEN_DELAY = 500;
 const DEFAULT_CLOSE_DELAY = 250;
 const DEFAULT_REST = 0;
 
-export function Popover(rawProps: PopoverProps) {
+function PopoverComponent(rawProps: PopoverProps) {
     const {
         children,
         open,
@@ -139,4 +141,18 @@ export function Popover(rawProps: PopoverProps) {
             </Popup>
         </React.Fragment>
     );
+}
+
+export function Popover(props: PopoverProps) {
+    const tree = useFloatingTree();
+
+    if (tree === null) {
+        return (
+            <FloatingTree>
+                <PopoverComponent {...props} />
+            </FloatingTree>
+        );
+    }
+
+    return <PopoverComponent {...props} />;
 }

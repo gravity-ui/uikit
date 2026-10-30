@@ -68,7 +68,7 @@ export const Alert = (rawProps: AlertProps) => {
                 )
             )}
             <div className={bAlert('main', {layout})}>
-                <div>
+                <div className={bAlert('content')}>
                     {typeof props.title === 'string' ? (
                         <Alert.Title text={props.title} />
                     ) : (

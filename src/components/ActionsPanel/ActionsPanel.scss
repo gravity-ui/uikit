@@ -1,6 +1,7 @@
 @use '../variables';
 
 $block: '.#{variables.$ns}actions-panel';
+$button: '.#{variables.$ns}button';
 
 #{$block} {
     box-sizing: border-box;
@@ -11,6 +12,25 @@ $block: '.#{variables.$ns}actions-panel';
     border-radius: 10px;
     display: flex;
     align-items: center;
+
+    #{$button}:is(#{$button}_view_flat, #{$button}_view_outlined):not(#{$button}_selected) {
+        --g-button-text-color: var(--g-color-text-light-primary);
+        --g-button-text-color-hover: var(--g-color-text-light-primary);
+        --g-button-background-color: transparent;
+        --g-button-background-color-hover: var(--g-color-base-contrast-light-simple-hover);
+        --g-button-border-color: var(--g-color-line-contrast-light);
+        --g-button-focus-outline-color: var(--g-color-line-contrast-light);
+
+        &#{$button}_disabled:not(#{$button}_loading) {
+            --g-button-text-color: var(--g-color-text-light-hint);
+            --g-button-background-color-hover: var(--g-button-background-color);
+
+            &#{$button}_view_outlined {
+                --g-button-text-color: var(--g-color-text-light-secondary);
+                --g-button-background-color: var(--g-color-base-contrast-light-simple-hover);
+            }
+        }
+    }
 
     &__note-wrapper {
         min-width: 100px;

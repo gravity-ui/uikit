@@ -1,9 +1,10 @@
 @use '../variables';
 
 #{variables.$bodyBlock} {
-    padding: 10px var(--_--side-padding);
+    box-sizing: content-box;
+    min-height: 24px;
+    padding: var(--g-spacing-1) var(--_--side-padding);
     flex: 1 1 auto;
-    transition: height 0.35s ease-in-out;
 
     &_has-borders {
         border-block-start: 1px solid var(--g-color-line-generic);

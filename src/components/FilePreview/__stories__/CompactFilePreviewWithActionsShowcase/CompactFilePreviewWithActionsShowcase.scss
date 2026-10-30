@@ -3,8 +3,21 @@
 
     position: relative;
 
-    &:hover,
     &:focus-within {
+        .file-preview-actions-compact {
+            opacity: 1;
+        }
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            .file-preview-actions-compact {
+                opacity: 1;
+            }
+        }
+    }
+
+    @media (hover: none) {
         .file-preview-actions-compact {
             opacity: 1;
         }

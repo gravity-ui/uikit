@@ -43,10 +43,7 @@ export interface ButtonButtonProps
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'style'> {
     component?: never;
     href?: never;
-    /**
-     * @deprecated Use additional props at the root
-     */
-    extraProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    extraProps?: never;
 }
 
 export interface ButtonLinkProps
@@ -54,19 +51,11 @@ export interface ButtonLinkProps
         Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'> {
     component?: never;
     href: string;
-    /**
-     * @deprecated Use additional props at the root
-     */
-    extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
+    extraProps?: never;
 }
 
 export type ButtonComponentProps<T extends Exclude<ButtonCustomElementType, undefined>> =
-    PolymorphicComponentProps<ButtonCommonProps, T> & {
-        /**
-         * @deprecated Use additional props at the root
-         */
-        extraProps?: React.ComponentPropsWithoutRef<T>;
-    };
+    PolymorphicComponentProps<ButtonCommonProps, T>;
 
 export type ButtonCustomElementType = PolymorphicCustomElementType;
 

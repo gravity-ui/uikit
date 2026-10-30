@@ -88,7 +88,7 @@ export const TextShape: Story = {
             <Showcase title="Single line — inherits from wrapping Text" direction="column">
                 {TEXT_VARIANTS_SUBSET.map((variant) => (
                     <ShowcaseItem key={variant} title={variant}>
-                        <Flex alignItems="center" gap={6}>
+                        <Flex alignItems="center" gap="spacing-6">
                             <Text variant={variant}>
                                 <Skeleton variant="text" width={200} />
                             </Text>
@@ -115,7 +115,7 @@ export const TextShape: Story = {
                     </Text>
                 </ShowcaseItem>
                 <ShowcaseItem title="header-1 × 2 + body-1 × 4 (mixed)">
-                    <Flex direction="column" gap={2}>
+                    <Flex direction="column" gap="spacing-2">
                         <Text variant="header-1">
                             <Skeleton variant="text" width={280} />
                             <Skeleton variant="text" width={280} />

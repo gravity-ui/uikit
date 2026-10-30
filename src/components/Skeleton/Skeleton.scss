@@ -7,6 +7,7 @@ $block: '.#{variables.$ns}skeleton';
     --_--animation-to: calc(100% * var(--g-flow-direction));
     --_--gradient-deg: calc(90deg * var(--g-flow-direction));
     --_--border-radius: var(--g-border-radius-s);
+    --_--background-color: var(--g-skeleton-background-color, var(--g-color-base-generic));
 
     display: inline-block;
     position: relative;
@@ -14,34 +15,34 @@ $block: '.#{variables.$ns}skeleton';
     width: 100%;
     overflow: hidden;
 
-    background-color: var(--g-color-base-generic);
+    background-color: var(--_--background-color);
     border-radius: var(--_--border-radius);
     height: var(--_--size, auto);
 
     &_size {
         &_xs {
             --_--border-radius: var(--g-border-radius-xs);
-            --_--size: #{variables.$xs-height};
+            --_--size: #{variables.$height-xs};
         }
 
         &_s {
             --_--border-radius: var(--g-border-radius-s);
-            --_--size: #{variables.$s-height};
+            --_--size: #{variables.$height-s};
         }
 
         &_m {
             --_--border-radius: var(--g-border-radius-m);
-            --_--size: #{variables.$m-height};
+            --_--size: #{variables.$height-m};
         }
 
         &_l {
             --_--border-radius: var(--g-border-radius-l);
-            --_--size: #{variables.$l-height};
+            --_--size: #{variables.$height-l};
         }
 
         &_xl {
             --_--border-radius: var(--g-border-radius-xl);
-            --_--size: #{variables.$xl-height};
+            --_--size: #{variables.$height-xl};
         }
     }
 
@@ -74,7 +75,7 @@ $block: '.#{variables.$ns}skeleton';
             background-image: linear-gradient(
                 var(--_--gradient-deg),
                 transparent,
-                var(--g-color-base-generic)
+                var(--_--background-color)
             );
             animation: #{variables.$ns}skeleton 1.2s ease-out infinite;
 

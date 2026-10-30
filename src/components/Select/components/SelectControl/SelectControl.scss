@@ -10,26 +10,26 @@ $blockButton: '.#{variables.$ns}select-control__button';
     @if $size == 's' {
         --_--text-right-padding: #{select-css-variables.$s-hor-padding};
         --_--border-radius: var(--g-border-radius-s);
-        height: #{variables.$s-height};
-        padding: 4px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        height: #{variables.$height-s};
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'm' {
         --_--text-right-padding: #{select-css-variables.$m-hor-padding};
         --_--border-radius: var(--g-border-radius-m);
-        height: #{variables.$m-height};
-        padding: 6px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        height: #{variables.$height-m};
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'l' {
         --_--text-right-padding: #{select-css-variables.$l-hor-padding};
         --_--border-radius: var(--g-border-radius-l);
-        height: #{variables.$l-height};
-        padding: 10px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        height: #{variables.$height-l};
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
     @if $size == 'xl' {
         --_--text-right-padding: #{select-css-variables.$xl-hor-padding};
         --_--border-radius: var(--g-border-radius-xl);
-        height: #{variables.$xl-height};
-        padding: 12px calc(var(--_--text-right-padding) + 1px); // plus border-width
+        height: #{variables.$height-xl};
+        padding-inline: calc(var(--_--text-right-padding) + 1px); // plus border-width
     }
 }
 
@@ -51,16 +51,16 @@ $blockButton: '.#{variables.$ns}select-control__button';
 @mixin block_clear_reserved_disabled_width() {
     // reserving place for clear icon to fix width changing on displaying clear for disabled select
     #{$block}_has-clear#{$block}_size_s #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$s-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-s} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_m #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$m-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-m} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_l #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$l-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-l} + var(--_--text-right-padding));
     }
     #{$block}_has-clear#{$block}_size_xl #{$blockButton}_disabled & {
-        padding-inline-end: calc(#{variables.$xl-height} + var(--_--text-right-padding));
+        padding-inline-end: calc(#{variables.$height-xl} + var(--_--text-right-padding));
     }
 }
 
@@ -98,6 +98,7 @@ $blockButton: '.#{variables.$ns}select-control__button';
 
     &__button {
         @include mixins.button-reset();
+        outline: none;
 
         display: inline-grid;
         grid-template-columns: auto auto;
@@ -109,6 +110,11 @@ $blockButton: '.#{variables.$ns}select-control__button';
         transition:
             color 0.15s linear,
             background-color 0.15s linear;
+
+        // The baseline of an empty button is its bottom edge: at full height it stretches the wrapper
+        &:empty {
+            height: 1lh;
+        }
 
         &::before {
             content: '';
@@ -164,8 +170,10 @@ $blockButton: '.#{variables.$ns}select-control__button';
             border-color: var(--g-color-line-danger);
         }
 
-        &:hover::before {
-            background-color: var(--g-color-base-simple-hover);
+        @media (hover: hover) {
+            &:hover::before {
+                background-color: var(--g-color-base-simple-hover);
+            }
         }
 
         &_disabled {
@@ -181,8 +189,10 @@ $blockButton: '.#{variables.$ns}select-control__button';
             }
         }
 
-        &:not(&_error):not(&_disabled):not(&_view_clear):hover::before {
-            border-color: var(--g-color-line-generic-hover);
+        @media (hover: hover) {
+            &:not(&_error):not(&_disabled):not(&_view_clear):hover::before {
+                border-color: var(--g-color-line-generic-hover);
+            }
         }
 
         &_open:not(&_error):not(&_view_clear)::before,

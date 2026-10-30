@@ -98,10 +98,6 @@ class LayerManager {
             componentId: 'LayerManager',
             eventId: 'layerschange',
             meta: {
-                /**
-                 * @deprecated use layers
-                 */
-                layersCount: this.getLayersCount(),
                 layers: this.getLayers(),
             },
         });

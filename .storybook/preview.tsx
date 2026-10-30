@@ -9,16 +9,15 @@ import {MINIMAL_VIEWPORTS} from 'storybook/viewport';
 import {DocsDecorator} from '../src/demo/DocsDecorator/DocsDecorator';
 
 import {WithLang} from './decorators/withLang';
-import {WithMobile} from './decorators/withMobile';
+import {WithProvider} from './decorators/withProvider';
 import {WithStrictMode} from './decorators/withStrictMode';
-import {WithTheme} from './decorators/withTheme';
 import {themes} from './theme';
 import {initializeThemeImport} from './theme-import-addon/preview';
 
 initializeThemeImport();
 
 const preview: Preview = {
-    decorators: [WithLang, WithMobile, WithTheme, WithStrictMode],
+    decorators: [WithLang, WithProvider, WithStrictMode],
     parameters: {
         docs: {
             theme: themes.light,

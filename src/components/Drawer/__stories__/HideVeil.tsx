@@ -46,7 +46,7 @@ export function HideVeilShowcase() {
                     hideVeil={hideVeil}
                 >
                     <div className={b('item-content')}>
-                        <Flex direction="column" gap={4}>
+                        <Flex direction="column" gap="spacing-4">
                             <div>{mockText}</div>
                             <Button view="action" onClick={() => setVisible(false)}>
                                 Hide drawer

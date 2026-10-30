@@ -525,7 +525,6 @@ describe('Pagination utils', () => {
                 disabled: true,
                 qa: 'hijacked',
                 'aria-current': 'date',
-                extraProps: {onClick: hijack},
                 children: 'pwned',
             }));
             const result = buildComponentProps({

@@ -297,30 +297,40 @@ const semanticHeavy = [
     },
 ];
 
-const alwaysLight = [
+const contrast = [
     {
-        name: 'base-light',
-        title: 'Light',
-        description: 'Background on top of another darker background.',
+        name: 'contrast',
+        title: 'Contrast',
+        description: 'Dark backgrounds in light themes, light backgrounds in dark themes.',
     },
     {
-        name: 'base-light-hover',
-        title: 'Light Hover',
-        description: 'Hover for Light.',
+        name: 'contrast-inverted',
+        title: 'Contrast Inverted',
+        description: 'Light backgrounds in light themes, dark backgrounds in dark themes.',
     },
     {
-        name: 'base-light-simple-hover',
-        title: 'Light Simple Hover',
-        description: 'Hover for transparent objects (works over dark backgrounds).',
+        name: 'contrast-light',
+        title: 'Contrast Light',
+        description: 'Light backgrounds in both themes.',
     },
     {
-        name: 'base-light-disabled',
-        title: 'Light Disabled',
-        description: 'Disabled controls.',
+        name: 'contrast-dark',
+        title: 'Contrast Dark',
+        description: 'Dark backgrounds in both themes.',
+    },
+];
+
+const contrastStates = [
+    {suffix: '', title: '', description: 'Controls and backgrounds.'},
+    {suffix: '-hover', title: ' Hover', description: 'Hover for controls and backgrounds.'},
+    {
+        suffix: '-simple-hover',
+        title: ' Simple Hover',
+        description: 'Hover for transparent controls.',
     },
     {
-        name: 'base-light-accent-disabled',
-        title: 'Light Accent Disabled',
+        suffix: '-accent-disabled',
+        title: ' Accent Disabled',
         description: 'Disabled active controls.',
     },
 ];
@@ -392,12 +402,19 @@ export const RenderBackgrounds = () => (
             description="Even more explicit than Semantic palette."
             colors={semanticHeavy}
         />
-        <ColorPanel
-            title="Always light"
-            description="Underlays and controls in dark background."
-            colors={alwaysLight}
-            boxBorders={true}
-        />
+        {contrast.map(({name, title, description}) => (
+            <ColorPanel
+                key={name}
+                title={title}
+                description={description}
+                colors={contrastStates.map((state) => ({
+                    name: `base-${name}${state.suffix}`,
+                    title: `${title}${state.title}`,
+                    description: state.description,
+                }))}
+                boxBorders={true}
+            />
+        ))}
         <ColorPanel
             title="Floats"
             description="Backgrounds for popups and floating elements."

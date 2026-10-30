@@ -1,3 +1,5 @@
 export * from './Menu';
-export {MenuItem} from './MenuItem';
-export {MenuGroup} from './MenuGroup';
+export * from './MenuTrigger';
+export * from './MenuItem';
+export * from './MenuDivider';
+export * from './types';

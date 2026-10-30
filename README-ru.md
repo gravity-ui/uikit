@@ -28,7 +28,7 @@ UIKit — базовый пакет дизайн-системы [Gravity UI](htt
 
 ### Требования
 
-В проекте должен быть установлен React 16.14, 17, 18 или 19.
+В проекте должен быть установлен React 18 или 19.
 
 ### Установка
 
@@ -66,12 +66,36 @@ import '@gravity-ui/uikit/styles/styles.css';
 
 Подробнее:
 
+- [Миграция на v8](docs/migration-to-v8-ru.md) — несовместимые изменения v8 и способ пройти каждое из них
 - [Layout-компоненты и отступы](docs/layout-ru.md) — собирать адаптивные страницы на общей сетке и
   шкале отступов
 - [Темизация](docs/theming-ru.md) — светлая, тёмная и высококонтрастные темы
 - [Типографика](docs/typography-ru.md) — использовать и настраивать общую шкалу текста
 - [Серверный рендеринг (SSR)](docs/server-side-rendering-ru.md) — генерация корневого CSS-класса на сервере
 - [Интернационализация (I18N)](docs/i18n-ru.md) — язык встроенных текстов компонентов
+
+### Точки входа
+
+| Точка входа                           | Что там                                                     | Когда брать                                                                          |
+| :------------------------------------ | :---------------------------------------------------------- | :----------------------------------------------------------------------------------- |
+| `@gravity-ui/uikit`                   | Компоненты, хуки и утилиты                                  | Всегда — это и есть пакет                                                            |
+| `@gravity-ui/uikit/styles/*`          | Глобальные CSS и SCSS-миксины                               | Один раз в точке входа приложения, см. [Стили](#стили)                               |
+| `@gravity-ui/uikit/i18n`              | `addLanguageKeysets`, `addComponentKeysets`                 | Добавить или переопределить встроенные тексты компонентов                            |
+| `@gravity-ui/uikit/server`            | `getRootClassName`                                          | Сгенерировать корневой класс на сервере, см. [SSR](docs/server-side-rendering-ru.md) |
+| `@gravity-ui/uikit/toaster-singleton` | Готовый инстанс `Toaster`                                   | Показывать тосты вне дерева React                                                    |
+| `@gravity-ui/uikit/virtualizer`       | `Virtualizer`, `ListVirtualizer`                            | Рендерить только видимое окно длинного списка                                        |
+| `@gravity-ui/uikit/hello-pangea-dnd`  | `ListHelloPangeaDnd`, `useListHelloPangeaDnd`               | Переупорядочивать строки списка через `@hello-pangea/dnd`                            |
+| `@gravity-ui/uikit/unstable`          | Компоненты, чей API ещё меняется                            | На свой риск — они ломаются и вне мажорных релизов                                   |
+| `@gravity-ui/uikit/legacy`            | `DropdownMenu`, `List`, `Menu`, `Table`, `TableColumnSetup` | Только пока мигрируете с них, см. [Миграция на v8](docs/migration-to-v8-ru.md)       |
+
+Некоторым точкам входа нужны свои пакеты — они объявлены необязательными peer-зависимостями:
+поставьте их рядом с `@gravity-ui/uikit`, если импортируете оттуда. Всё остальное приносит сам пакет.
+
+| Точка входа                          | Что поставить                                                       |
+| :----------------------------------- | :------------------------------------------------------------------ |
+| `@gravity-ui/uikit/virtualizer`      | `@tanstack/react-virtual`                                           |
+| `@gravity-ui/uikit/hello-pangea-dnd` | `@hello-pangea/dnd`                                                 |
+| `@gravity-ui/uikit/legacy`           | `@hello-pangea/dnd`, `react-window`, `react-virtualized-auto-sizer` |
 
 ## Разработка
 

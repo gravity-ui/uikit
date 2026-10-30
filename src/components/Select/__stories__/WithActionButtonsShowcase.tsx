@@ -87,7 +87,7 @@ export const WithActionButtonsShowcase = (args?: SelectProps) => {
     };
 
     return (
-        <Flex gap={10}>
+        <Flex gap="spacing-10">
             <SelectWithCustomPopup args={args} onApply={handleApply} />
             <SelectWithCustomPopup args={args} onApply={handleApply} showCancel />
         </Flex>

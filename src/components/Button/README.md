@@ -133,7 +133,7 @@ SANDBOX-->
 
 ### Contrast
 
-The `normal-contrast`, `outline-contrast`, and `flat-contrast` buttons highlight actions against complex background, e.g., in a banner, or against an inverse background.
+`contrast` is dark in the light theme and light in the dark theme. `contrast-inverted` reverses those colors. `contrast-light` stays light and `contrast-dark` stays dark in both themes.
 
 <!--SANDBOX
 import {Button} from '@gravity-ui/uikit'
@@ -150,9 +150,10 @@ const containerStyle: CSSProperties = {
 export default function () {
     return (
         <div style={containerStyle}>
-            <Button view="normal-contrast" size="l">Normal Contrast</Button>
-            <Button view="outlined-contrast" size="l">Outlined Contrast</Button>
-            <Button view="flat-contrast" size="l">Flat Contrast</Button>
+            <Button view="contrast" size="l">Contrast</Button>
+            <Button view="contrast-inverted" size="l">Contrast Inverted</Button>
+            <Button view="contrast-light" size="l">Contrast Light</Button>
+            <Button view="contrast-dark" size="l">Contrast Dark</Button>
         </div>
     )
 }
@@ -161,9 +162,10 @@ SANDBOX-->
 <!--GITHUB_BLOCK-->
 
 ```tsx
-<Button view="normal-contrast" size="l">Normal Contrast</Button>
-<Button view="outlined-contrast" size="l">Outlined Contrast</Button>
-<Button view="flat-contrast" size="l">Flat Contrast</Button>
+<Button view="contrast" size="l">Contrast</Button>
+<Button view="contrast-inverted" size="l">Contrast Inverted</Button>
+<Button view="contrast-light" size="l">Contrast Light</Button>
+<Button view="contrast-dark" size="l">Contrast Dark</Button>
 ```
 
 <!--/GITHUB_BLOCK-->

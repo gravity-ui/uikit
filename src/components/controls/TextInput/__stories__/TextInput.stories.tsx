@@ -36,7 +36,6 @@ export default {
 const fixConsoleErrors = {
     onKeyDown: () => {},
     onKeyUp: () => {},
-    onKeyPress: () => {},
 };
 
 const DefaultTemplate: StoryFn<TextInputProps> = (args) => (

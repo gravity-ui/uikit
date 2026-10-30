@@ -152,4 +152,24 @@ describe('Palette', () => {
             expect(isSelected).toBe('false');
         });
     });
+
+    test('in single mode an option replaces the value and a repeated click keeps it', async () => {
+        const user = userEvent.setup();
+        const onUpdate = jest.fn();
+
+        render(
+            <Palette
+                options={defaultOptions}
+                multiple={false}
+                defaultValue={[defaultOptions[0].value]}
+                onUpdate={onUpdate}
+            />,
+        );
+
+        await user.click(screen.getByText(defaultOptions[1].content as string));
+        expect(onUpdate).toHaveBeenLastCalledWith([defaultOptions[1].value]);
+
+        await user.click(screen.getByText(defaultOptions[1].content as string));
+        expect(onUpdate).toHaveBeenCalledTimes(1);
+    });
 });

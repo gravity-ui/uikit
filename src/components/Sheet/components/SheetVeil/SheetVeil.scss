@@ -1,7 +1,6 @@
 @use '../../../variables';
 
 $block: '.#{variables.$ns}sheet-veil';
-$transition-duration: 0.3s;
 
 #{$block} {
     position: absolute;
@@ -14,6 +13,6 @@ $transition-duration: 0.3s;
     will-change: opacity;
 
     &_with-transition {
-        transition: opacity $transition-duration ease;
+        transition: opacity var(--_--transition-duration) ease;
     }
 }

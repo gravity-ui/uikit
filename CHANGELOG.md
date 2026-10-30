@@ -1,5 +1,69 @@
 # Changelog
 
+## [8.0.0](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.2...v8.0.0) (2026-10-23)
+
+
+UIKit v8 introduces composable providers, a new list foundation, responsive layout APIs, and updated themes. This major release also removes deprecated APIs and moves older components to the legacy entry point.
+
+### Highlights
+
+- **Composable providers:** `Provider` combines theme, language, layout, component defaults, and mobile settings. Feature providers let you configure each independently.
+- **New List and stable Menu:** selection, virtualization, and drag-and-drop are separate list layers. `Menu` supports composable items and submenus.
+- **Responsive layouts:** new `Grid` and responsive style props for `Box`, `Flex`, `Container`, `Row`, and `Col`.
+- **Stable APIs:** `ColorPicker`, `FileDropZone`, and `useDropZone` move to the root entry point.
+- **More flexible Select:** non-string option values, custom selection indicators, mobile sheet titles, and rendering the whole selection with `renderSelectedOptions`.
+- **Contrast palettes:** `Button` gains `contrast`, `contrast-inverted`, `contrast-light`, and `contrast-dark` views, backed by Themer v2 semantic tokens.
+
+See full migration guide here: https://github.com/gravity-ui/uikit/blob/main/docs/migration-to-v8.md
+
+## [7.51.1](https://github.com/gravity-ui/uikit/compare/v7.51.0...v7.51.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **Sheet:** follow viewport resizes without jumps ([#2878](https://github.com/gravity-ui/uikit/issues/2878)) ([248000b](https://github.com/gravity-ui/uikit/commit/248000b333632e2ef95764a2ff92acf34b5f4ee9))
+
+## [7.51.0](https://github.com/gravity-ui/uikit/compare/v7.50.1...v7.51.0) (2026-10-06)
+
+
+### Features
+
+* **Dialog:** add disableTransition prop ([#2855](https://github.com/gravity-ui/uikit/issues/2855)) ([c1ae095](https://github.com/gravity-ui/uikit/commit/c1ae095bd2f2d14890ed05de5849b1a8fb3eb6d0))
+* **HelpMark:** use Sheet on mobile ([#2850](https://github.com/gravity-ui/uikit/issues/2850)) ([9af7139](https://github.com/gravity-ui/uikit/commit/9af71390e6cb96e3d9775ab6df507ecbdefccba2))
+* **theme:** support external default props ([#2841](https://github.com/gravity-ui/uikit/issues/2841)) ([a36619a](https://github.com/gravity-ui/uikit/commit/a36619aaf378b8f6e91ce8ad952a85ab81f03525))
+
+
+### Bug Fixes
+
+* **useForkRef:** do not use cleanup functions for React versions earlier than 19 ([#2868](https://github.com/gravity-ui/uikit/issues/2868)) ([16b2257](https://github.com/gravity-ui/uikit/commit/16b22579129993c48c67687c4ed0a3520656cb96))
+
+## [7.50.1](https://github.com/gravity-ui/uikit/compare/v7.50.0...v7.50.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **ActionsPanel:** collapse actions before truncating the note ([#2848](https://github.com/gravity-ui/uikit/issues/2848)) ([bf767ee](https://github.com/gravity-ui/uikit/commit/bf767ee28944805ceb60b532b60c62be53b0ceda))
+* **Popover:** handle nested popup interactions ([#2844](https://github.com/gravity-ui/uikit/issues/2844)) ([947560f](https://github.com/gravity-ui/uikit/commit/947560f22e16fb032b3001407d06031424a29b13))
+
+## [7.50.0](https://github.com/gravity-ui/uikit/compare/v7.49.0...v7.50.0) (2026-09-22)
+
+
+### Features
+
+* add new List ([#2769](https://github.com/gravity-ui/uikit/issues/2769)) ([4baf952](https://github.com/gravity-ui/uikit/commit/4baf9526424169d7224e9868d8f62bf14865e641))
+* **Drawer:** add layer registration ([#2819](https://github.com/gravity-ui/uikit/issues/2819)) ([0b8925c](https://github.com/gravity-ui/uikit/commit/0b8925cf7e280e17f8f971cede466e960d879e9b))
+* **Sheet:** migrate to useFloating ([#2791](https://github.com/gravity-ui/uikit/issues/2791)) ([9cd658f](https://github.com/gravity-ui/uikit/commit/9cd658f64dd360622da693fc085442a3b67e6c80))
+* **unstable_Menu:** set icon size automatically ([#2831](https://github.com/gravity-ui/uikit/issues/2831)) ([b96bc47](https://github.com/gravity-ui/uikit/commit/b96bc474593dc8ed27d721b424eab8d823405979))
+* **unstable_Menu:** support default props ([#2838](https://github.com/gravity-ui/uikit/issues/2838)) ([a898e7d](https://github.com/gravity-ui/uikit/commit/a898e7d9b51113771a6ecc60d1963c30975393a4))
+
+
+### Bug Fixes
+
+* **Alert:** prevent content from shrinking ([#2847](https://github.com/gravity-ui/uikit/issues/2847)) ([fcdd8ab](https://github.com/gravity-ui/uikit/commit/fcdd8ab674404cb21c0b2686f58e0b79e469dd8a))
+* **Breadcrumbs:** remove negative margins ([#2818](https://github.com/gravity-ui/uikit/issues/2818)) ([ee6535d](https://github.com/gravity-ui/uikit/commit/ee6535dcb33e8a3a14d3669977a05530d187fd14))
+* **Select:** stop forwarding opening arrow key events to the closing list ([#2845](https://github.com/gravity-ui/uikit/issues/2845)) ([dc4253f](https://github.com/gravity-ui/uikit/commit/dc4253f93266f77bb364b3fc850fefdd0ded4952))
+* **TextArea:** skip empty auto-resize measurements ([#2812](https://github.com/gravity-ui/uikit/issues/2812)) ([bfc4e67](https://github.com/gravity-ui/uikit/commit/bfc4e6778f727c955f55fb8a34e58a1b45ad9e28))
+
 ## [7.49.0](https://github.com/gravity-ui/uikit/compare/v7.48.3...v7.49.0) (2026-09-02)
 
 

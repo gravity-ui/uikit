@@ -12,15 +12,17 @@ monorepo. Consumers use the package's public entrypoints and never import from t
 `package.json` is the source of truth for published subpaths. Each JavaScript entrypoint provides
 ESM and CommonJS builds with matching TypeScript declarations.
 
-| Consumer import                       | Source entrypoint          | Maturity and purpose                                                         |
-| ------------------------------------- | -------------------------- | ---------------------------------------------------------------------------- |
-| `@gravity-ui/uikit`                   | `src/index.ts`             | Stable components, hooks, utilities, configuration, and types                |
-| `@gravity-ui/uikit/toaster-singleton` | `src/toaster-singleton.ts` | Toaster singleton integration                                                |
-| `@gravity-ui/uikit/i18n`              | `src/i18n/index.ts`        | I18n helpers and resources                                                   |
-| `@gravity-ui/uikit/server`            | `src/server.ts`            | Server-safe helpers, currently the root theme class generator                |
-| `@gravity-ui/uikit/legacy`            | `src/legacy.ts`            | Compatibility surface for legacy components; avoid for new work              |
-| `@gravity-ui/uikit/unstable`          | `src/unstable.ts`          | Experimental surface without the stability guarantees of the root entrypoint |
-| `@gravity-ui/uikit/styles/*`          | `styles/*`                 | Global CSS/SCSS, fonts, mixins, and themes                                   |
+| Consumer import                       | Source entrypoint          | Maturity and purpose                                                                                                                                                                          |
+| ------------------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@gravity-ui/uikit`                   | `src/index.ts`             | Stable components, hooks, utilities, configuration, and types                                                                                                                                 |
+| `@gravity-ui/uikit/toaster-singleton` | `src/toaster-singleton.ts` | Toaster singleton integration                                                                                                                                                                 |
+| `@gravity-ui/uikit/i18n`              | `src/i18n/index.ts`        | I18n helpers and resources                                                                                                                                                                    |
+| `@gravity-ui/uikit/server`            | `src/server.ts`            | Server-safe helpers, currently the root theme class generator                                                                                                                                 |
+| `@gravity-ui/uikit/virtualizer`       | `src/virtualizer.ts`       | Virtualized rendering; needs the optional peer `@tanstack/react-virtual`                                                                                                                      |
+| `@gravity-ui/uikit/hello-pangea-dnd`  | `src/hello-pangea-dnd.ts`  | List integration with `@hello-pangea/dnd`; needs the optional peer `@hello-pangea/dnd`                                                                                                        |
+| `@gravity-ui/uikit/legacy`            | `src/legacy.ts`            | Compatibility surface for legacy components; avoid for new work. Needs the optional peers `@hello-pangea/dnd`, `react-window` and `react-virtualized-auto-sizer` whatever is imported from it |
+| `@gravity-ui/uikit/unstable`          | `src/unstable.ts`          | Experimental surface without the stability guarantees of the root entrypoint                                                                                                                  |
+| `@gravity-ui/uikit/styles/*`          | `styles/*`                 | Global CSS/SCSS, fonts, mixins, and themes                                                                                                                                                    |
 
 The stable root barrel re-exports `src/components/index.ts`, `src/hooks/index.ts`, and selected
 utilities and types. Component and hook folders have their own `index.ts` barrels. A new public
@@ -47,8 +49,8 @@ Shared component families and maturity layers also live under `src/components/`:
 
 - `controls/`, `layout/`, `mobile/`, `tabs/`, and `theme/` provide grouped stable APIs;
 - `legacy/` backs the legacy entrypoint;
-- `lab/`, `TreeList`, `TreeSelect`, and `useList` contain APIs surfaced selectively through the
-  unstable entrypoint;
+- `lab/` is the home of APIs surfaced through the unstable entrypoint;
+- `Virtualizer/` and `HelloPangeaDnd/` back their own entrypoints and are not exported from the root barrel;
 - `utils/` contains implementation shared by components.
 
 ### Hooks and utilities
@@ -60,8 +62,10 @@ live in `src/utils/`; component-oriented utilities stay in `src/components/utils
 ### Styles and themes
 
 `styles/styles.scss` is the global style entrypoint and `styles/fonts.scss` defines packaged font
-setup. Theme definitions live in `styles/themes/`, with shared structural tokens under
-`styles/themes/common/` and color sets for `light`, `dark`, `light-hc`, and `dark-hc`.
+setup. Theme definitions live in `styles/themes/`: `npm run generate:theme` produces
+`default.generated.css` (light and dark, from `@gravity-ui/uikit-themer`) and `hc.generated.css`
+(high contrast, from the seed in `theme-data/`); shared structural tokens live under
+`styles/themes/common/`.
 
 Components consume CSS custom properties and co-located SCSS. Application-facing styles must use
 semantic color tokens such as `--g-color-base-*`, `--g-color-text-*`, and `--g-color-line-*`;

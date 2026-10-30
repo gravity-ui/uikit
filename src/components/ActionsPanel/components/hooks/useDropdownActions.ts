@@ -1,8 +1,7 @@
 'use client';
 
-import groupBy from 'lodash/groupBy';
+import {groupBy} from 'es-toolkit/compat';
 
-import type {DropdownMenuItem} from '../../../DropdownMenu';
 import type {ActionsPanelItem} from '../../types';
 
 import type {VisibilityMap} from './types';
@@ -13,6 +12,8 @@ type UseDropdownActionsArg = {
     visibilityMap: VisibilityMap;
 };
 
+type DropdownItem = ActionsPanelItem['menu']['item'];
+
 export const useDropdownActions = ({
     buttonActions,
     restActions,
@@ -22,22 +23,22 @@ export const useDropdownActions = ({
         ...buttonActions.filter((action) => !visibilityMap[action.id]),
         ...restActions,
     ];
-    const groups = groupBy(actions, (action) => action.dropdown.group);
+    const groups = groupBy(actions, (action) => action.menu.group);
 
     const usedGroups = new Set<string>();
-    const dropdownItems: (DropdownMenuItem | DropdownMenuItem[])[] = [];
+    const dropdownItems: (DropdownItem | DropdownItem[])[] = [];
 
     for (const action of actions) {
-        const group = action.dropdown.group;
+        const group = action.menu.group;
         if (typeof group === 'undefined') {
-            dropdownItems.push(action.dropdown.item);
+            dropdownItems.push(action.menu.item);
             continue;
         }
         if (usedGroups.has(group)) {
             continue;
         }
         usedGroups.add(group);
-        dropdownItems.push(groups[group].map((groupedAction) => groupedAction.dropdown.item));
+        dropdownItems.push(groups[group].map((groupedAction) => groupedAction.menu.item));
     }
 
     return dropdownItems;

@@ -11,40 +11,43 @@ $block: '.#{variables.$ns}select-clear';
     margin-inline-start: auto;
     z-index: 1;
     flex-shrink: 0;
+    outline: none;
 
     &:focus-visible {
         border: 1px solid var(--g-color-line-generic-active);
     }
 
     &_size_s {
-        height: #{variables.$s-height};
-        width: #{variables.$s-height};
+        height: #{variables.$height-s};
+        width: #{variables.$height-s};
         border-radius: var(--g-border-radius-s);
     }
 
     &_size_m {
-        height: #{variables.$m-height};
-        width: #{variables.$m-height};
+        height: #{variables.$height-m};
+        width: #{variables.$height-m};
         border-radius: var(--g-border-radius-m);
     }
 
     &_size_l {
-        height: #{variables.$l-height};
-        width: #{variables.$l-height};
+        height: #{variables.$height-l};
+        width: #{variables.$height-l};
         border-radius: var(--g-border-radius-l);
     }
 
     &_size_xl {
-        height: #{variables.$xl-height};
-        width: #{variables.$xl-height};
+        height: #{variables.$height-xl};
+        width: #{variables.$height-xl};
         border-radius: var(--g-border-radius-xl);
     }
 
     &__clear {
         color: var(--g-color-text-secondary);
 
-        #{$block}:hover & {
-            color: var(--g-color-text-primary);
+        @media (hover: hover) {
+            #{$block}:hover & {
+                color: var(--g-color-text-primary);
+            }
         }
     }
 }

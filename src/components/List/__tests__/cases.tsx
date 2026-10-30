@@ -1,11 +1,38 @@
 import type {Cases} from '@gravity-ui/playwright-tools/component-tests';
 
-import type {ListProps} from '../types';
+import type {ListSize} from '../types';
 
-export const sizeCases: Cases<ListProps['size']> = ['s', 'm', 'l', 'xl'];
+export interface Mailbox {
+    id: string;
+    name: string;
+    description: string;
+    count: number;
+    disabled?: boolean;
+    children?: Mailbox[];
+}
 
-export const sortHandleAlignCases: Cases<ListProps['sortHandleAlign']> = ['left', 'right'];
+export const sizeCases: Cases<ListSize> = ['s', 'm', 'l', 'xl'];
 
-export const emptyPlaceholderCases: Cases<ListProps['emptyPlaceholder']> = ['Placeholder'];
+export const mailboxes: Mailbox[] = [
+    {id: 'inbox', name: 'Inbox', description: 'Unread first', count: 24},
+    {id: 'starred', name: 'Starred', description: 'Flagged by you', count: 3},
+    {id: 'snoozed', name: 'Snoozed', description: 'Back later today', count: 1, disabled: true},
+    {id: 'sent', name: 'Sent', description: 'Everything you answered', count: 128},
+];
 
-export const filterPlaceholderCases: Cases<ListProps['filterPlaceholder']> = ['Filter placeholder'];
+export const sections: Mailbox[] = [
+    {
+        id: 'personal',
+        name: 'Personal',
+        description: '',
+        count: 0,
+        children: mailboxes.slice(0, 2),
+    },
+    {
+        id: 'work',
+        name: 'Work',
+        description: '',
+        count: 0,
+        children: mailboxes.slice(2),
+    },
+];

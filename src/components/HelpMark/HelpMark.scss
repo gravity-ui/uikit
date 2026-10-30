@@ -12,6 +12,7 @@ $block: '.#{variables.$ns}help-mark';
     height: var(--g-help-mark-size, var(--_--size));
     color: var(--g-color-text-hint);
     line-height: 0;
+    border-radius: 50%;
 
     &::after {
         content: '\00a0';
@@ -20,11 +21,14 @@ $block: '.#{variables.$ns}help-mark';
 
     &:focus-visible {
         @include mixins.focus-outline();
-        border-radius: 50%;
     }
 
     &__popover {
         padding: var(--g-spacing-3);
+    }
+
+    &__sheet-content {
+        padding-block-end: var(--g-spacing-2);
     }
 
     &__icon {

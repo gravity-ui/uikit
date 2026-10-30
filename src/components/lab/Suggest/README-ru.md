@@ -42,7 +42,7 @@ const options = React.useMemo(
     setValue(option.value);
     return false; // закрыть попап после выбора
   }}
-  inputProps={{placeholder: 'Поиск…'}}
+  placeholder="Поиск…"
 />;
 ```
 
@@ -87,7 +87,7 @@ const handleUpdate = async (query: string) => {
     setValue(option.value);
     return false;
   }}
-  inputProps={{placeholder: 'Поиск…'}}
+  placeholder="Поиск…"
 />;
 ```
 
@@ -99,7 +99,7 @@ const handleUpdate = async (query: string) => {
 
 ## Кастомизация TextInput
 
-Все пропсы `TextInput` (size, pin, hasClear, startContent, validationState, errorMessage, disabled и т.д.) передаются через объект `inputProps`:
+Все пропсы `TextInput` (size, pin, hasClear, startContent, validationState, errorMessage, disabled и т.д.) передаются напрямую в `Suggest`:
 
 <!--GITHUB_BLOCK-->
 
@@ -108,14 +108,12 @@ const handleUpdate = async (query: string) => {
   value={value}
   onUpdate={setValue}
   options={items}
-  inputProps={{
-    size: 'xl',
-    hasClear: true,
-    placeholder: 'Поиск…',
-    validationState: hasError ? 'invalid' : undefined,
-    errorMessage: hasError ? 'Некорректный ввод' : undefined,
-    startContent: <Icon data={SearchIcon} />,
-  }}
+  size="xl"
+  hasClear
+  placeholder="Поиск…"
+  validationState={hasError ? 'invalid' : undefined}
+  errorMessage={hasError ? 'Некорректный ввод' : undefined}
+  startContent={<Icon data={SearchIcon} />}
 />
 ```
 
@@ -141,10 +139,8 @@ const [open, setOpen] = React.useState(false);
   open={open}
   onOpenChange={setOpen}
   options={allItems}
-  inputProps={{
-    onFocus: () => setOpen(true),
-    placeholder: 'Нажмите, чтобы увидеть все варианты…',
-  }}
+  onFocus={() => setOpen(true)}
+  placeholder="Нажмите, чтобы увидеть все варианты…"
 />;
 ```
 
@@ -196,8 +192,8 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 Без обёртки Suggest рендерит все опции и не требует зависимости для виртуализации.
 
 Максимальная высота попапа — `40vh`. Чтобы изменить её, задайте `max-height` через
-`popupProps.className`. Это работает с виртуализацией и без неё. Внутри попапа прокручивается только список.
-Строки используют дизайн List и размер из `inputProps.size`. Виртуализатор автоматически
+`popupClassName`. Это работает с виртуализацией и без неё. Внутри попапа прокручивается только список.
+Строки используют дизайн List и размер из `size`. Виртуализатор автоматически
 измеряет строки переменной высоты. Если передан `getOptionHeight`, он задаёт высоту строки и её
 оценку для виртуализации; иначе оценка определяется размером List. `ListVirtualizer.estimateItemSize`
 игнорируется с предупреждением в режиме разработки. Высота строки загрузки определяется размером инпута.
@@ -255,18 +251,20 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 | `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                     |              | Высота строки (для переменных высот)                                                              |
 | `onLoadMore`      | `() => void`                                                                   |              | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           |
 
-### Кастомизация Input
+### Настройка поля ввода
 
-| Название     | Тип              | По умолчанию | Описание                                                   |
-| :----------- | :--------------- | :----------- | :--------------------------------------------------------- |
-| `inputProps` | `TextInputProps` |              | Все пропсы `TextInput`, передаваемые напрямую в поле ввода |
+Suggest принимает все [пропсы TextInput](../../controls/TextInput/README.md) напрямую, а также `aria-label`, `aria-labelledby`, `aria-describedby` и `aria-details`. `ref` указывает на корень TextInput, `controlRef` — на нативный input.
+
+Suggest управляет атрибутами `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant` и `aria-autocomplete`; переопределять их через `controlProps` нельзя.
 
 ### Конфигурация попапа
 
-| Название     | Тип                         | По умолчанию | Описание                                                                                      |
-| :----------- | :-------------------------- | :----------- | :-------------------------------------------------------------------------------------------- |
-| `popupWidth` | `'fit' \| 'auto' \| number` | `'fit'`      | Ширина попапа: как у поля, авто или фиксированная (px)                                        |
-| `popupProps` | `PopupProps`                |              | Все пропсы `Popup` (placement, className, qa, offset, disablePortal и т.д.), spread в `Popup` |
+| Название         | Тип                         | По умолчанию   | Описание                                               |
+| :--------------- | :-------------------------- | :------------- | :----------------------------------------------------- |
+| `popupWidth`     | `'fit' \| 'auto' \| number` | `'fit'`        | Ширина попапа: как у поля, авто или фиксированная (px) |
+| `popupClassName` | `string`                    |                | CSS-класс попапа                                       |
+| `popupPlacement` | `PopupPlacement`            | `bottom-start` | Положение попапа относительно инпута                   |
+| `disablePortal`  | `boolean`                   | `false`        | Рендерить попап без портала                            |
 
 ### Поведение
 
@@ -284,11 +282,11 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 | :------------ | :---------------------------------------- | :----------- | :----------------------------------------------------- |
 | `renderPopup` | `(props: {list: ReactNode}) => ReactNode` |              | Заменить или обернуть стандартный список внутри попапа |
 
-### Обёртка компонента
+### Элемент ввода
 
-| Название    | Тип             | По умолчанию | Описание                                                   |
-| :---------- | :-------------- | :----------- | :--------------------------------------------------------- |
-| `className` | `string`        |              | CSS-класс для обёртки                                      |
-| `style`     | `CSSProperties` |              | Инлайн-стили для обёртки                                   |
-| `id`        | `string`        |              | ID компонента (генерируется автоматически, если не указан) |
-| `qa`        | `string`        |              | Атрибут `data-qa` для обёртки поля ввода                   |
+| Название    | Тип             | По умолчанию | Описание                                                        |
+| :---------- | :-------------- | :----------- | :-------------------------------------------------------------- |
+| `className` | `string`        |              | CSS-класс корня TextInput                                       |
+| `style`     | `CSSProperties` |              | Инлайн-стили корня TextInput                                    |
+| `id`        | `string`        |              | ID нативного input (генерируется автоматически, если не указан) |
+| `qa`        | `string`        |              | Атрибут `data-qa` для обёртки поля ввода                        |

@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 import userEvent from '@testing-library/user-event';
 
 import {setupIntersectionObserverMock} from '../../../../../test-utils/setupIntersectionObserverMock';
@@ -7,17 +9,52 @@ import {Suggest} from '../Suggest';
 import type {TestSuggestProps} from './TestSuggest';
 import {ITEMS, TestSuggest} from './TestSuggest';
 
-const QA_POPUP = 'qa-suggest-popup';
+const QA_POPUP = 'suggest-popup';
 const QA_INPUT = 'qa-suggest-input';
 
 function renderSuggest(props?: Partial<TestSuggestProps>) {
-    return render(<TestSuggest qa={QA_INPUT} popupProps={{qa: QA_POPUP}} {...props} />);
+    return render(<TestSuggest qa={QA_INPUT} {...props} />);
 }
 
 describe('Suggest', () => {
     beforeEach(() => setupIntersectionObserverMock());
     afterEach(() => {
         jest.clearAllMocks();
+    });
+
+    test('forwards flat input props and refs and associates an external label', async () => {
+        const user = userEvent.setup();
+        const ref = React.createRef<HTMLSpanElement>();
+        const controlRef = React.createRef<HTMLInputElement>();
+        const onFocus = jest.fn();
+        const onClick = jest.fn();
+        render(
+            <React.Fragment>
+                <label htmlFor="city">City</label>
+                <Suggest
+                    id="city"
+                    options={ITEMS}
+                    ref={ref}
+                    controlRef={controlRef}
+                    className="city-input"
+                    style={{width: 320}}
+                    qa="city-input"
+                    onFocus={onFocus}
+                    controlProps={{onClick}}
+                />
+            </React.Fragment>,
+        );
+        const input = screen.getByRole('combobox', {name: 'City'});
+        expect(input).toHaveAttribute('id', 'city');
+        expect(controlRef.current).toBe(input);
+        expect(ref.current).toBe(screen.getByTestId('city-input'));
+        expect(ref.current).toHaveClass('city-input');
+        expect(ref.current).toHaveStyle({width: '320px'});
+        await user.click(screen.getByText('City'));
+        expect(input).toHaveFocus();
+        expect(onFocus).toHaveBeenCalledTimes(1);
+        expect(onClick).toHaveBeenCalledTimes(1);
+        expect(screen.getByRole('listbox')).toBeVisible();
     });
 
     test('renders input', () => {
@@ -229,7 +266,7 @@ describe('Suggest', () => {
     describe('keyboard navigation', () => {
         test('ArrowDown opens popup when closed and value is present', async () => {
             const user = userEvent.setup();
-            renderSuggest({inputProps: {autoFocus: true}});
+            renderSuggest({autoFocus: true});
 
             const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
             // Type a value first so there's something to show
@@ -245,7 +282,7 @@ describe('Suggest', () => {
 
         test('ArrowDown then ArrowDown activates first item', async () => {
             const user = userEvent.setup();
-            renderSuggest({inputProps: {autoFocus: true}});
+            renderSuggest({autoFocus: true});
 
             const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
             await user.type(input, 'e');
@@ -260,7 +297,7 @@ describe('Suggest', () => {
         test('Enter selects active item and closes popup', async () => {
             const onOptionClick = jest.fn(() => false);
             const user = userEvent.setup();
-            renderSuggest({onOptionClick, inputProps: {autoFocus: true}});
+            renderSuggest({onOptionClick, autoFocus: true});
 
             const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
             await user.type(input, 'e');
@@ -299,15 +336,15 @@ describe('Suggest', () => {
         });
     });
 
-    describe('inputProps', () => {
+    describe('input props', () => {
         test('passes placeholder to input', () => {
-            renderSuggest({inputProps: {placeholder: 'Search here\u2026'}});
+            renderSuggest({placeholder: 'Search here\u2026'});
             expect(screen.getByPlaceholderText('Search here\u2026')).toBeInTheDocument();
         });
 
         test('disabled input cannot open popup', async () => {
             const user = userEvent.setup();
-            renderSuggest({inputProps: {disabled: true}});
+            renderSuggest({disabled: true});
 
             const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
             await user.click(input);
@@ -348,10 +385,10 @@ describe('Suggest: new List integration', () => {
         expect(input).toHaveFocus();
     });
 
-    test('clears the active index and ARIA when closed, even with keepMounted', async () => {
+    test('clears the active index and ARIA when closed', async () => {
         const user = userEvent.setup();
         const onActiveIndexChange = jest.fn();
-        renderSuggest({onActiveIndexChange, popupProps: {keepMounted: true}});
+        renderSuggest({onActiveIndexChange});
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
         await user.keyboard('[ArrowDown]');
@@ -388,7 +425,7 @@ describe('Suggest: new List integration', () => {
         const user = userEvent.setup();
         const onOptionClick = jest.fn();
         const onKeyDown = jest.fn();
-        renderSuggest({onOptionClick, inputProps: {onKeyDown}});
+        renderSuggest({onOptionClick, onKeyDown});
         const input = screen.getByRole('combobox');
         await user.type(input, 'ea');
         expect(input).not.toHaveAttribute('aria-activedescendant');
@@ -530,7 +567,8 @@ describe('Suggest: list accessible name', () => {
                 open
                 value="earth"
                 options={ITEMS}
-                inputProps={{placeholder: 'Search', controlProps: {'aria-label': 'Planets'}}}
+                placeholder="Search"
+                aria-label="Planets"
             />,
         );
         expect(screen.getByRole('listbox')).toHaveAccessibleName('Planets');
@@ -542,7 +580,8 @@ describe('Suggest: list accessible name', () => {
                 open
                 value="earth"
                 options={ITEMS}
-                inputProps={{label: 'Planet', placeholder: 'Type to search'}}
+                label="Planet"
+                placeholder="Type to search"
             />,
         );
         expect(screen.getByRole('combobox')).toHaveAccessibleName('Planet');
@@ -550,14 +589,7 @@ describe('Suggest: list accessible name', () => {
     });
 
     test('uses the placeholder when no explicit label is provided', () => {
-        render(
-            <Suggest
-                open
-                value="earth"
-                options={ITEMS}
-                inputProps={{placeholder: 'Search planets'}}
-            />,
-        );
+        render(<Suggest open value="earth" options={ITEMS} placeholder="Search planets" />);
         expect(screen.getByRole('listbox')).toHaveAccessibleName('Search planets');
     });
 
@@ -568,10 +600,9 @@ describe('Suggest: list accessible name', () => {
                 <Suggest
                     open
                     options={ITEMS}
-                    inputProps={{
-                        placeholder: 'Search',
-                        controlProps: {'aria-label': 'Planets', 'aria-labelledby': 'planet-label'},
-                    }}
+                    placeholder="Search"
+                    aria-label="Planets"
+                    aria-labelledby="planet-label"
                 />
             </div>,
         );

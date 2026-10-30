@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import type {OpenChangeReason} from '@floating-ui/react';
 
-import {useIntersection, useLayoutEffect, useUniqId} from '../../../hooks';
+import {useForkRef, useIntersection, useLayoutEffect, useUniqId} from '../../../hooks';
 import {useOpenState} from '../../../hooks/useSelect/useOpenState';
 import {List, useListFocusOwner} from '../../List';
 import type {ListItemContext, ListItemHelpers} from '../../List';
@@ -47,10 +47,10 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         getOptionHeight,
         onLoadMore,
 
-        inputProps,
-
         popupWidth = 'fit',
-        popupProps,
+        popupClassName,
+        popupPlacement = 'bottom-start',
+        disablePortal,
 
         loading = false,
 
@@ -62,21 +62,24 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
         renderPopup,
 
-        className,
-        style,
         id: idProp,
-        qa,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledBy,
+        'aria-describedby': ariaDescribedBy,
+        'aria-details': ariaDetails,
+        ...inputProps
     }: SuggestProps<T>,
     ref: React.Ref<HTMLSpanElement>,
 ) {
-    const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
+    const [anchorElement, setAnchorElement] = React.useState<HTMLSpanElement | null>(null);
+    const handleRef = useForkRef(ref, setAnchorElement);
     const [fitWidth, setFitWidth] = React.useState<number>();
     const focusOwner = useListFocusOwner();
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const inputValue = value ?? uncontrolledValue;
     const items = React.useMemo(() => buildListItems(options, loading), [options, loading]);
-    const itemHeight = LIST_ITEM_VIEW_MIN_HEIGHT[inputProps?.size ?? 'm'];
+    const itemHeight = LIST_ITEM_VIEW_MIN_HEIGHT[inputProps.size ?? 'm'];
     const getItemHeight = React.useCallback(
         (item: SuggestListItem<T>, index: number) =>
             isLoadingItem(item) ? itemHeight : (getOptionHeight?.(item, index) ?? itemHeight),
@@ -104,8 +107,11 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const popupId = `${componentId}-popup`;
     const listId = `${componentId}-list`;
     const listLabel =
-        inputProps?.controlProps?.['aria-label'] ?? inputProps?.label ?? inputProps?.placeholder;
-    const listLabelledBy = inputProps?.controlProps?.['aria-labelledby'];
+        ariaLabel ??
+        inputProps.controlProps?.['aria-label'] ??
+        inputProps.label ??
+        inputProps.placeholder;
+    const listLabelledBy = ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'];
 
     const {open, toggleOpen} = useOpenState({
         open: openProp,
@@ -196,7 +202,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             if (!isOpenControlled && inputValue) {
                 setOpen(true);
             }
-            inputProps?.onFocus?.(e);
+            inputProps.onFocus?.(e);
         },
         [inputValue, isOpenControlled, setOpen, inputProps],
     );
@@ -206,7 +212,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             if (!open) {
                 setOpen(true, e.nativeEvent, 'click');
             }
-            inputProps?.controlProps?.onClick?.(e);
+            inputProps.controlProps?.onClick?.(e);
         },
         [open, setOpen, inputProps],
     );
@@ -224,7 +230,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 setOpen(true, e.nativeEvent, 'list-navigation');
             }
 
-            inputProps?.onKeyDown?.(e);
+            inputProps.onKeyDown?.(e);
         },
         [open, popupOpen, setOpen, inputProps, onListKeyDown],
     );
@@ -294,7 +300,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     className={b('list')}
                     aria-label={listLabel}
                     aria-labelledby={listLabelledBy}
-                    size={inputProps?.size}
+                    size={inputProps.size}
                     items={items}
                     getItemId={getItemId}
                     getItemChildren={getItemChildren}
@@ -316,21 +322,24 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     };
 
     return (
-        <div className={b(null, className)} style={style} ref={setAnchorElement}>
+        <React.Fragment>
             <TextInput
                 autoComplete={false}
                 {...inputProps}
-                ref={ref}
-                qa={qa}
+                ref={handleRef}
                 id={componentId}
                 value={inputValue}
                 onUpdate={handleValueChange}
                 onFocus={handleInputFocus}
-                onBlur={inputProps?.onBlur}
                 onKeyDown={handleInputKeyDown}
-                controlRef={inputProps?.controlRef}
                 controlProps={{
-                    ...inputProps?.controlProps,
+                    ...inputProps.controlProps,
+                    'aria-label': ariaLabel ?? inputProps.controlProps?.['aria-label'],
+                    'aria-labelledby':
+                        ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'],
+                    'aria-describedby':
+                        ariaDescribedBy ?? inputProps.controlProps?.['aria-describedby'],
+                    'aria-details': ariaDetails ?? inputProps.controlProps?.['aria-details'],
                     onClick: handleInputClick,
                     ...listInputProps,
                     'aria-expanded': popupOpen,
@@ -338,18 +347,19 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 }}
             />
             <Popup
-                placement="bottom-start"
-                {...popupProps}
+                placement={popupPlacement}
+                disablePortal={disablePortal}
+                qa="suggest-popup"
                 id={popupId}
                 open={popupOpen}
                 onOpenChange={setOpen}
                 anchorElement={anchorElement}
-                className={b('popup', popupProps?.className)}
+                className={b('popup', popupClassName)}
                 style={popupStyle}
                 returnFocus={false}
             >
                 {popupOpen ? renderPopupContent() : null}
             </Popup>
-        </div>
+        </React.Fragment>
     );
 }) as SuggestComponent;

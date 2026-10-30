@@ -71,7 +71,7 @@ describe('Suggest: external virtualization', () => {
                         loading
                         options={[option]}
                         getOptionHeight={getOptionHeight}
-                        inputProps={{size: 'l'}}
+                        size="l"
                     />
                 </ListVirtualizer>,
             );

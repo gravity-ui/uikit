@@ -42,7 +42,7 @@ const options = React.useMemo(
     setValue(option.value);
     return false; // close popup after selection
   }}
-  inputProps={{placeholder: 'Search…'}}
+  placeholder="Search…"
 />;
 ```
 
@@ -87,7 +87,7 @@ const handleUpdate = async (query: string) => {
     setValue(option.value);
     return false;
   }}
-  inputProps={{placeholder: 'Search…'}}
+  placeholder="Search…"
 />;
 ```
 
@@ -99,7 +99,7 @@ To reduce the number of requests, debounce fetching while updating the input val
 
 ## TextInput customization
 
-All `TextInput` props (size, pin, hasClear, startContent, validationState, errorMessage, disabled, etc.) are passed via the `inputProps` object:
+All `TextInput` props (size, pin, hasClear, startContent, validationState, errorMessage, disabled, etc.) are passed directly to `Suggest`:
 
 <!--GITHUB_BLOCK-->
 
@@ -108,14 +108,12 @@ All `TextInput` props (size, pin, hasClear, startContent, validationState, error
   value={value}
   onUpdate={setValue}
   options={items}
-  inputProps={{
-    size: 'xl',
-    hasClear: true,
-    placeholder: 'Search…',
-    validationState: hasError ? 'invalid' : undefined,
-    errorMessage: hasError ? 'Invalid input' : undefined,
-    startContent: <Icon data={SearchIcon} />,
-  }}
+  size="xl"
+  hasClear
+  placeholder="Search…"
+  validationState={hasError ? 'invalid' : undefined}
+  errorMessage={hasError ? 'Invalid input' : undefined}
+  startContent={<Icon data={SearchIcon} />}
 />
 ```
 
@@ -141,10 +139,8 @@ const [open, setOpen] = React.useState(false);
   open={open}
   onOpenChange={setOpen}
   options={allItems}
-  inputProps={{
-    onFocus: () => setOpen(true),
-    placeholder: 'Click to browse all options…',
-  }}
+  onFocus={() => setOpen(true)}
+  placeholder="Click to browse all options…"
 />;
 ```
 
@@ -194,9 +190,9 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 Install the optional peer dependency `@tanstack/react-virtual` to use this entrypoint.
 Without the wrapper, Suggest renders every option and needs no virtualization dependency.
 
-The popup has a maximum height of `40vh`. Override `max-height` using `popupProps.className`
+The popup has a maximum height of `40vh`. Override `max-height` using `popupClassName`
 to customize it, with or without virtualization. Only the list scrolls within the popup.
-Rows use the List design and follow `inputProps.size`. The virtualizer measures variable-height
+Rows use the List design and follow `size`. The virtualizer measures variable-height
 rows automatically. `getOptionHeight`, when provided, sets the row height and its virtualization
 estimate; otherwise the List size determines the estimate. `ListVirtualizer.estimateItemSize`
 is ignored with a development warning. The loading row uses the standard height for the input size.
@@ -255,16 +251,18 @@ No option is highlighted automatically when the popup opens.
 
 ### Input customization
 
-| Name         | Type             | Default | Description                                            |
-| :----------- | :--------------- | :------ | :----------------------------------------------------- |
-| `inputProps` | `TextInputProps` |         | All `TextInput` props spread into the underlying input |
+Suggest accepts all [TextInput props](../../controls/TextInput/README.md) directly, plus `aria-label`, `aria-labelledby`, `aria-describedby`, and `aria-details`. `ref` points to the TextInput root; `controlRef` points to the native input.
+
+Suggest manages `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, and `aria-autocomplete`; these attributes cannot be overridden through `controlProps`.
 
 ### Popup configuration
 
-| Name         | Type                        | Default | Description                                                                                                 |
-| :----------- | :-------------------------- | :------ | :---------------------------------------------------------------------------------------------------------- |
-| `popupWidth` | `'fit' \| 'auto' \| number` | `'fit'` | Popup width: match input, natural, or fixed pixels                                                          |
-| `popupProps` | `PopupProps`                |         | All `Popup` props (placement, className, qa, offset, disablePortal, etc.) spread into the `Popup` component |
+| Name             | Type                        | Default        | Description                                        |
+| :--------------- | :-------------------------- | :------------- | :------------------------------------------------- |
+| `popupWidth`     | `'fit' \| 'auto' \| number` | `'fit'`        | Popup width: match input, natural, or fixed pixels |
+| `popupClassName` | `string`                    |                | CSS class for the popup                            |
+| `popupPlacement` | `PopupPlacement`            | `bottom-start` | Popup placement relative to the input              |
+| `disablePortal`  | `boolean`                   | `false`        | Render the popup without a portal                  |
 
 ### Behavior
 
@@ -282,11 +280,11 @@ No option is highlighted automatically when the popup opens.
 | :------------ | :---------------------------------------- | :------ | :------------------------------------------------ |
 | `renderPopup` | `(props: {list: ReactNode}) => ReactNode` |         | Replace or wrap the default list inside the popup |
 
-### Component wrapper
+### Input element
 
-| Name        | Type            | Default | Description                               |
-| :---------- | :-------------- | :------ | :---------------------------------------- |
-| `className` | `string`        |         | CSS class for the wrapper element         |
-| `style`     | `CSSProperties` |         | Inline styles for the wrapper element     |
-| `id`        | `string`        |         | Component ID (auto-generated if omitted)  |
-| `qa`        | `string`        |         | `data-qa` attribute for the input wrapper |
+| Name        | Type            | Default | Description                                 |
+| :---------- | :-------------- | :------ | :------------------------------------------ |
+| `className` | `string`        |         | CSS class for the TextInput root            |
+| `style`     | `CSSProperties` |         | Inline styles for the TextInput root        |
+| `id`        | `string`        |         | Native input ID (auto-generated if omitted) |
+| `qa`        | `string`        |         | `data-qa` attribute for the input wrapper   |

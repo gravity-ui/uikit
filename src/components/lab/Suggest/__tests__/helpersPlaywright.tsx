@@ -79,7 +79,8 @@ export function SuggestWithLabel() {
             open
             defaultValue="earth"
             options={OPTIONS}
-            inputProps={{label: 'Planet', placeholder: 'Type to search'}}
+            label="Planet"
+            placeholder="Type to search"
         />
     );
 }
@@ -87,13 +88,7 @@ export function SuggestWithLabel() {
 export function SuggestInitiallyOpen() {
     return (
         <div style={{width: 320, margin: 40, height: 300}}>
-            <Suggest
-                defaultOpen
-                options={OPTIONS}
-                qa="initial-input"
-                inputProps={{controlProps: {'aria-label': 'Planets'}}}
-                popupProps={{qa: 'initial-popup'}}
-            />
+            <Suggest defaultOpen options={OPTIONS} qa="initial-input" aria-label="Planets" />
         </div>
     );
 }
@@ -103,8 +98,8 @@ export function SuggestWithPopupLayout({virtualized}: {virtualized: boolean}) {
         <Suggest
             open
             options={PAGINATED_OPTIONS}
-            popupProps={{className: 'suggest-layout-popup'}}
-            inputProps={{controlProps: {'aria-label': 'Options'}}}
+            popupClassName="suggest-layout-popup"
+            aria-label="Options"
             renderPopup={({list}) => (
                 <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
                     <div data-qa="layout-header" style={{height: 48, flexShrink: 0}}>

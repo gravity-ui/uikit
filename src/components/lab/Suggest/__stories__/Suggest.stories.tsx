@@ -84,7 +84,8 @@ export const Default: Story = {
                     return false;
                 }}
                 renderOption={renderPlanet}
-                inputProps={{placeholder: 'Search astronomical bodies…', autoFocus: true}}
+                placeholder="Search astronomical bodies…"
+                autoFocus
             />
         );
     },
@@ -121,7 +122,8 @@ function SizeExample({size}: {size: 's' | 'm' | 'l' | 'xl'}) {
                     setValue(option.value);
                     return false;
                 }}
-                inputProps={{size, placeholder: 'Search…'}}
+                size={size}
+                placeholder="Search…"
             />
         </Flex>
     );
@@ -162,18 +164,14 @@ function PopupWidthExample({
                 return false;
             }}
             popupWidth={popupWidth}
-            inputProps={{placeholder}}
+            placeholder={placeholder}
         />
     );
 }
 
 export const Disabled: Story = {
     render: () => (
-        <Suggest<PlanetData>
-            value="Earth"
-            options={[]}
-            inputProps={{disabled: true, placeholder: 'Disabled…'}}
-        />
+        <Suggest<PlanetData> value="Earth" options={[]} disabled placeholder="Disabled…" />
     ),
 };
 
@@ -191,7 +189,8 @@ export const WithClearButton: Story = {
                     setValue(option.value);
                     return false;
                 }}
-                inputProps={{hasClear: true, placeholder: 'Search…'}}
+                hasClear
+                placeholder="Search…"
             />
         );
     },
@@ -232,7 +231,7 @@ export const WithLoading: Story = {
                         return false;
                     }}
                     renderOption={renderPlanet}
-                    inputProps={{placeholder: 'Type to trigger simulated fetch…'}}
+                    placeholder="Type to trigger simulated fetch…"
                 />
             </Flex>
         );
@@ -244,21 +243,11 @@ export const LoadingStates: Story = {
         <Flex gap="spacing-6" style={{minHeight: 260}}>
             <Flex direction="column" gap="spacing-2" style={{width: 280}}>
                 <Text>Initial loading: no options yet</Text>
-                <Suggest
-                    open
-                    loading
-                    options={[]}
-                    inputProps={{controlProps: {'aria-label': 'Initial loading'}}}
-                />
+                <Suggest open loading options={[]} aria-label="Initial loading" />
             </Flex>
             <Flex direction="column" gap="spacing-2" style={{width: 280}}>
                 <Text>Loading more: existing options stay visible</Text>
-                <Suggest
-                    open
-                    loading
-                    options={ALL_PLANETS.slice(0, 3)}
-                    inputProps={{controlProps: {'aria-label': 'Loading more'}}}
-                />
+                <Suggest open loading options={ALL_PLANETS.slice(0, 3)} aria-label="Loading more" />
             </Flex>
         </Flex>
     ),
@@ -300,7 +289,7 @@ export const CustomPopupContent: Story = {
                         </Text>
                     </Flex>
                 )}
-                inputProps={{placeholder: 'Search with custom popup…'}}
+                placeholder="Search with custom popup…"
             />
         );
     },
@@ -375,10 +364,8 @@ export const MultiSelect: Story = {
                     options={items}
                     onOptionClick={handleOptionClick}
                     renderOption={renderSelectableItem}
-                    inputProps={{
-                        onFocus: () => setOpen(true),
-                        placeholder: 'Add astronomical bodies…',
-                    }}
+                    onFocus={() => setOpen(true)}
+                    placeholder="Add astronomical bodies…"
                 />
                 {selected.length > 0 && (
                     <Flex gap="spacing-1" wrap="wrap">
@@ -428,10 +415,8 @@ export const Virtualized: Story = {
                     onOptionClick={(option) => {
                         setValue(String(option.content));
                     }}
-                    inputProps={{
-                        placeholder: 'Search 10,000 options…',
-                        onFocus: () => setOpen(true),
-                    }}
+                    placeholder="Search 10,000 options…"
+                    onFocus={() => setOpen(true)}
                 />
             </ListVirtualizer>
         );

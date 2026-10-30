@@ -14,8 +14,24 @@ export type SuggestOptionProps<T = any> = QAProps & ControlGroupOption & {data?:
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps {
-    /** List of options to display */
-    options?: SuggestOptionProps<T>[];
+    /** Initial open state (uncontrolled mode) */
+    defaultOpen?: boolean;
+    /** Render the popup without a portal */
+    disablePortal?: boolean;
+    /** Returns height for each option row (enables variable-height rows) */
+    getOptionHeight?: (option: SuggestOptionProps<T>, index: number) => number;
+    /** Append a loading row to the options, or show a standalone loader when options are empty */
+    loading?: boolean;
+    /**
+     * Called when List requests an active option update via keyboard or pointer.
+     * Receives the option value or null. Changes to options and popup visibility
+     * do not emit additional notifications.
+     */
+    onActiveOptionUpdate?: (value: string | null) => void;
+    /** Called when the loading row becomes visible in a non-empty list (for pagination) */
+    onLoadMore?: () => void;
+    /** Callback when popup open state changes */
+    onOpenChange?: (open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void;
     /**
      * Callback when an option is clicked or selected via keyboard.
      */
@@ -24,6 +40,18 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
         option: SuggestOptionProps<T>,
         event: ListItemActionEvent,
     ) => void;
+    /** Control popup open state externally */
+    open?: boolean;
+    /** List of options to display */
+    options?: SuggestOptionProps<T>[];
+    /** CSS class name for the popup */
+    popupClassName?: string;
+    /** Popup placement relative to the input */
+    popupPlacement?: PopupPlacement;
+    /** Popup width: `'fit'` matches input width, `'auto'` uses natural width, number sets pixel width */
+    popupWidth?: 'fit' | 'auto' | number;
+    /** Render empty-state or error content when there are no options and loading is false. */
+    renderEmptyOptions?: (props: {filter: string}) => React.ReactElement | null;
     /**
      * Custom option renderer.
      */
@@ -31,41 +59,8 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
         option: SuggestOptionProps<T>,
         options: {itemHeight: number; isItemActive: boolean; selected: boolean},
     ) => React.ReactElement;
-    /** Returns height for each option row (enables variable-height rows) */
-    getOptionHeight?: (option: SuggestOptionProps<T>, index: number) => number;
-    /** Called when the loading row becomes visible in a non-empty list (for pagination) */
-    onLoadMore?: () => void;
-
-    // Popup configuration
-    /** Popup width: `'fit'` matches input width, `'auto'` uses natural width, number sets pixel width */
-    popupWidth?: 'fit' | 'auto' | number;
-    /** CSS class name for the popup */
-    popupClassName?: string;
-    /** Popup placement relative to the input */
-    popupPlacement?: PopupPlacement;
-    /** Render the popup without a portal */
-    disablePortal?: boolean;
-
-    /** Append a loading row to the options, or show a standalone loader when options are empty */
-    loading?: boolean;
-
-    /** Control popup open state externally */
-    open?: boolean;
-    /** Initial open state (uncontrolled mode) */
-    defaultOpen?: boolean;
-    /** Callback when popup open state changes */
-    onOpenChange?: (open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void;
-
-    /**
-     * Called when List requests an active option update via keyboard or pointer.
-     * Receives the option value or null. Changes to options and popup visibility
-     * do not emit additional notifications.
-     */
-    onActiveOptionUpdate?: (value: string | null) => void;
     /** Replace or wrap the default popup content. */
     renderPopup?: (props: {
         renderList: () => React.ReactElement | null;
     }) => React.ReactElement | null;
-    /** Render empty-state or error content when there are no options and loading is false. */
-    renderEmptyOptions?: (props: {filter: string}) => React.ReactElement | null;
 }

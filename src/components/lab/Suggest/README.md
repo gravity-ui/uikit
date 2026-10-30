@@ -158,13 +158,16 @@ to fit the popup. Use `flex-shrink: 0` on headers and footers to preserve their 
   onUpdate={setValue}
   options={filteredItems}
   renderEmptyOptions={({filter}) => (
-    <div role="status" style={{padding: 8, color: 'gray'}}>
+    <div
+      role="status"
+      style={{padding: 'var(--g-spacing-2)', color: 'var(--g-color-text-secondary)'}}
+    >
       Nothing matched "{filter}"
     </div>
   )}
   renderPopup={({renderList}) => (
     <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
-      <div style={{padding: 8, fontWeight: 600, flexShrink: 0}}>Results</div>
+      <div style={{padding: 'var(--g-spacing-2)', fontWeight: 600, flexShrink: 0}}>Results</div>
       {renderList()}
     </div>
   )}
@@ -220,8 +223,8 @@ No option is highlighted automatically when the popup opens.
 | :------------------- | :------------------- | :------------------------------------------------ |
 | `↓` Arrow Down       | `↓`                  | Open popup (if closed) or move to next option     |
 | `↑` Arrow Up         | `↑`                  | Open popup (if closed) or move to previous option |
-| `Page Down`          | `Fn + ↓`             | Move active option down one page                  |
-| `Page Up`            | `Fn + ↑`             | Move active option up one page                    |
+| `Page Down`          | `Fn + ↓`             | Move active option down ten options               |
+| `Page Up`            | `Fn + ↑`             | Move active option up ten options                 |
 | `Home`               | `Fn + ←`             | Move text cursor to start of input                |
 | `End`                | `Fn + →`             | Move text cursor to end of input                  |
 | `Shift + Home / End` | `Shift + Fn + ← / →` | Extend text selection to start / end              |
@@ -230,70 +233,43 @@ No option is highlighted automatically when the popup opens.
 
 ## Properties
 
-### Core
-
-| Name           | Type                      | Default | Description                  |
-| :------------- | :------------------------ | :------ | :--------------------------- |
-| `value`        | `string`                  |         | Input value (controlled)     |
-| `defaultValue` | `string`                  |         | Initial value (uncontrolled) |
-| `onUpdate`     | `(value: string) => void` |         | Called on every keystroke    |
-
-### Options
-
-| Name              | Type                                                                                                                       | Default | Description                                                                                          |
-| :---------------- | :------------------------------------------------------------------------------------------------------------------------- | :------ | :--------------------------------------------------------------------------------------------------- |
-| `options`         | `SuggestOptionProps<T>[]`                                                                                                  |         | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` |
-| `onOptionAction`  | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void`                                       |         | Called when an option is selected by mouse or keyboard                                               |
-| `renderOption`    | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |         | Custom option content renderer (defaults to `content`, falling back to `children`)                   |
-| `getOptionHeight` | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |         | Row height function (enables variable-height rows)                                                   |
-| `onLoadMore`      | `() => void`                                                                                                               |         | Called when the loading row becomes visible in a non-empty list (pagination)                         |
-
-### Input customization
+| Name                 | Description                                                                                          | Type                                                                                                                       | Default        |
+| :------------------- | :--------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | :------------- |
+| className            | CSS class for the TextInput root                                                                     | `string`                                                                                                                   |                |
+| controlRef           | Ref to the native input control (see TextInput)                                                      | `TextInputProps["controlRef"]`                                                                                             |                |
+| defaultOpen          | Initial open state (uncontrolled)                                                                    | `boolean`                                                                                                                  |                |
+| defaultValue         | Initial value (uncontrolled)                                                                         | `string`                                                                                                                   |                |
+| disablePortal        | Render the popup without a portal                                                                    | `boolean`                                                                                                                  | `false`        |
+| getOptionHeight      | Row height function (enables variable-height rows)                                                   | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |                |
+| id                   | Native input ID (auto-generated if omitted)                                                          | `string`                                                                                                                   |                |
+| loading              | Append a loading row; show a standalone spinner when options are empty                               | `boolean`                                                                                                                  | `false`        |
+| onActiveOptionUpdate | Forwards List requests to update the active option by its value or `null`                            | `(value: string \| null) => void`                                                                                          |                |
+| onLoadMore           | Called when the loading row becomes visible in a non-empty list (pagination)                         | `() => void`                                                                                                               |                |
+| onOpenChange         | Called when popup open state changes                                                                 | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void`                                                 |                |
+| onOptionAction       | Called when an option is selected by mouse or keyboard                                               | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void`                                       |                |
+| onUpdate             | Called when the input value changes                                                                  | `(value: string) => void`                                                                                                  |                |
+| open                 | Control popup open state externally                                                                  | `boolean`                                                                                                                  |                |
+| options              | Options to display (`value`, `content`, `disabled`, `data?`). Each option must have a unique `value` | `SuggestOptionProps<T>[]`                                                                                                  |                |
+| popupClassName       | CSS class for the popup                                                                              | `string`                                                                                                                   |                |
+| popupPlacement       | Popup placement relative to the input                                                                | `PopupPlacement`                                                                                                           | `bottom-start` |
+| popupWidth           | Popup width: match input, natural, or fixed pixels                                                   | `'fit' \| 'auto' \| number`                                                                                                | `'fit'`        |
+| qa                   | `data-qa` attribute on the TextInput root `span`                                                     | `string`                                                                                                                   |                |
+| ref                  | Ref to the TextInput root `span`                                                                     | `React.Ref<HTMLSpanElement>`                                                                                               |                |
+| renderEmptyOptions   | Custom empty content when not loading                                                                | `(props: {filter: string}) => ReactElement \| null`                                                                        |                |
+| renderOption         | Custom option content renderer (defaults to `content`, falling back to `children`)                   | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |                |
+| renderPopup          | Replace or wrap the default list inside the popup                                                    | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null`                                                |                |
+| style                | Inline styles for the TextInput root                                                                 | `CSSProperties`                                                                                                            |                |
+| value                | Input value (controlled)                                                                             | `string`                                                                                                                   |                |
 
 Suggest accepts all [TextInput props](../../controls/TextInput/README.md) directly, plus `aria-label`, `aria-labelledby`, `aria-describedby`, and `aria-details`. `ref` points to the TextInput root; `controlRef` points to the native input.
 
 Suggest manages `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, `aria-autocomplete`, and `aria-busy`; these attributes cannot be overridden through `controlProps`.
 
-### Popup configuration
-
-| Name             | Type                        | Default        | Description                                        |
-| :--------------- | :-------------------------- | :------------- | :------------------------------------------------- |
-| `popupWidth`     | `'fit' \| 'auto' \| number` | `'fit'`        | Popup width: match input, natural, or fixed pixels |
-| `popupClassName` | `string`                    |                | CSS class for the popup                            |
-| `popupPlacement` | `PopupPlacement`            | `bottom-start` | Popup placement relative to the input              |
-| `disablePortal`  | `boolean`                   | `false`        | Render the popup without a portal                  |
-
-### Behavior
-
 After an option action, an uncontrolled popup closes. With controlled `open`, Suggest requests closing through `onOpenChange(false, event, 'option-action')`; the parent may ignore that request to keep the popup open. `onOptionAction` does not control the popup through its return value.
 
 `SuggestOpenChangeReason` extends Floating UI's `OpenChangeReason` with `input-change` (typing or clearing the input) and `option-action` (selecting an option).
 
-| Name                   | Type                                                                       | Default | Description                                                               |
-| :--------------------- | :------------------------------------------------------------------------- | :------ | :------------------------------------------------------------------------ |
-| `loading`              | `boolean`                                                                  | `false` | Append a loading row; show a standalone spinner when options are empty    |
-| `open`                 | `boolean`                                                                  |         | Control popup open state externally                                       |
-| `defaultOpen`          | `boolean`                                                                  |         | Initial open state (uncontrolled)                                         |
-| `onOpenChange`         | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void` |         | Called when popup open state changes                                      |
-| `onActiveOptionUpdate` | `(value: string \| null) => void`                                          |         | Forwards List requests to update the active option by its value or `null` |
-
 `onActiveOptionUpdate` reports List requests from keyboard or pointer interaction. Reordering or removing options and closing the popup do not emit additional updates. Each opening starts without an active option. Text for List uses string or numeric `content`/`children`, falling back to the option value.
-
-### Rendering
-
-| Name                 | Type                                                                        | Default | Description                                       |
-| :------------------- | :-------------------------------------------------------------------------- | :------ | :------------------------------------------------ |
-| `renderEmptyOptions` | `(props: {filter: string}) => ReactElement \| null`                         |         | Custom empty content when not loading             |
-| `renderPopup`        | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null` |         | Replace or wrap the default list inside the popup |
-
-### Input element
-
-| Name        | Type            | Default | Description                                 |
-| :---------- | :-------------- | :------ | :------------------------------------------ |
-| `className` | `string`        |         | CSS class for the TextInput root            |
-| `style`     | `CSSProperties` |         | Inline styles for the TextInput root        |
-| `id`        | `string`        |         | Native input ID (auto-generated if omitted) |
-| `qa`        | `string`        |         | `data-qa` attribute for the input wrapper   |
 
 ## Accessibility
 

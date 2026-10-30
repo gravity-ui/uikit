@@ -3,8 +3,6 @@ import * as React from 'react';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {ListVirtualizer} from '../../../../virtualizer';
-import {Checkbox} from '../../../Checkbox';
-import {Label} from '../../../Label';
 import {Text} from '../../../Text';
 import {Flex} from '../../../layout';
 import {Suggest} from '../Suggest';
@@ -284,90 +282,6 @@ export const CustomPopupContent: Story = {
                 )}
                 placeholder="Search with custom popup…"
             />
-        );
-    },
-};
-
-export const MultiSelect: Story = {
-    render: () => {
-        const [value, setValue] = React.useState('');
-        const [open, setOpen] = React.useState(false);
-        const [selected, setSelected] = React.useState<PlanetOption[]>([]);
-        const items = React.useMemo(() => filterPlanets(value), [value]);
-
-        const selectedValues = React.useMemo(
-            () => new Set(selected.map((p) => p.value)),
-            [selected],
-        );
-
-        const handleUpdate = React.useCallback((nextValue: string) => {
-            setValue(nextValue);
-            setOpen(true);
-        }, []);
-
-        const handleOptionAction = React.useCallback((_value: string, option: PlanetOption) => {
-            setSelected((prev) => {
-                const next = prev.filter((p) => p.value !== option.value);
-                return next.length === prev.length ? [...prev, option] : next;
-            });
-        }, []);
-
-        const renderSelectableItem = React.useCallback(
-            (option: PlanetOption) => (
-                <Flex alignItems="center" gap="spacing-2" padding="spacing-1">
-                    <Checkbox
-                        checked={selectedValues.has(option.value)}
-                        style={{pointerEvents: 'none'}}
-                    />
-                    <Flex direction="column" gap="spacing-half">
-                        <Text>{option.content}</Text>
-                        {option.data?.description ? (
-                            <Text color="secondary">{option.data.description}</Text>
-                        ) : null}
-                    </Flex>
-                </Flex>
-            ),
-            [selectedValues],
-        );
-
-        const handleRemove = React.useCallback((option: PlanetOption) => {
-            setSelected((prev) => prev.filter((p) => p.value !== option.value));
-        }, []);
-
-        return (
-            <Flex direction="column" gap="spacing-2">
-                <Text color="secondary">
-                    Click an item to toggle it — selected items stay in the list with a checked box
-                    and the popup stays open. The controlled onOpenChange handler ignores closing
-                    requests caused by option actions. Focusing the empty input browses all options.
-                </Text>
-                <Suggest<PlanetData>
-                    value={value}
-                    onUpdate={handleUpdate}
-                    open={open}
-                    onOpenChange={(nextOpen, _event, reason) => {
-                        if (reason !== 'option-action') setOpen(nextOpen);
-                    }}
-                    options={items}
-                    onOptionAction={handleOptionAction}
-                    renderOption={renderSelectableItem}
-                    onFocus={() => setOpen(true)}
-                    placeholder="Add astronomical bodies…"
-                />
-                {selected.length > 0 && (
-                    <Flex gap="spacing-1" wrap="wrap">
-                        {selected.map((option) => (
-                            <Label
-                                key={option.value}
-                                type="close"
-                                onCloseClick={() => handleRemove(option)}
-                            >
-                                {option.content}
-                            </Label>
-                        ))}
-                    </Flex>
-                )}
-            </Flex>
         );
     },
 };

@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Dialog} from '../../Dialog';
 import {TRANSITION_DURATION} from '../../Popup/constants';
 import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../../Sheet/constants';
+import {MobileProvider} from '../../mobile';
 import {block, modsClassName} from '../../utils/cn';
 import {Select} from '../Select';
 import {GROUP_ITEM_MARGIN_TOP, SelectQa} from '../constants';
@@ -343,5 +344,51 @@ describe('Select popup', () => {
         await user.keyboard('{Escape}');
         await timeout(TRANSITION_DURATION);
         expect(queryByTestId(SelectQa.POPUP)).toBeNull();
+    });
+
+    test('should return the focus to the control after a mobile sheet opened along with Dialog', async () => {
+        const onTransitionInComplete = jest.fn();
+        render(
+            <MobileProvider mobile>
+                <button>Opener</button>
+                <Dialog open aria-label="Dialog" onTransitionInComplete={onTransitionInComplete}>
+                    <Dialog.Body>
+                        <Select options={DEFAULT_OPTIONS} qa={TEST_QA} defaultOpen />
+                    </Dialog.Body>
+                </Dialog>
+            </MobileProvider>,
+        );
+        const user = userEvent.setup();
+        await waitFor(() => expect(screen.getByRole('option', {name: 'JavaScript'})).toHaveFocus());
+        // The dialog leaves the focus to the sheet above it
+        await waitFor(() => expect(onTransitionInComplete).toHaveBeenCalled());
+
+        await user.keyboard('{Escape}');
+
+        // Before the sheet the focus was on the opener of the dialog, which the dialog hides
+        await waitFor(() => expect(screen.getByTestId(TEST_QA)).toHaveFocus(), {timeout: 3000});
+    });
+
+    test('should close the mobile sheet on Escape key press inside Dialog', async () => {
+        const onOpenChange = jest.fn();
+        render(
+            <MobileProvider mobile>
+                <Dialog open onOpenChange={onOpenChange}>
+                    <Dialog.Body>
+                        <Select options={DEFAULT_OPTIONS} qa={TEST_QA} />
+                    </Dialog.Body>
+                </Dialog>
+            </MobileProvider>,
+        );
+        const user = userEvent.setup();
+        await waitFor(() => expect(screen.getByRole('dialog')).toHaveFocus());
+        await user.click(screen.getByTestId(TEST_QA));
+        await waitFor(() => expect(screen.getByRole('option', {name: 'JavaScript'})).toHaveFocus());
+
+        await user.keyboard('{Escape}');
+
+        await waitFor(() => expect(screen.queryByTestId(SelectQa.SHEET)).toBeNull());
+        expect(onOpenChange).not.toHaveBeenCalled();
+        expect(screen.getByRole('dialog')).toBeVisible();
     });
 });

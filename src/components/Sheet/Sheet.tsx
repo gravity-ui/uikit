@@ -3,32 +3,41 @@
 import * as React from 'react';
 
 import {
+    FloatingFocusManager,
     FloatingNode,
     FloatingOverlay,
     FloatingTree,
     useFloating,
     useFloatingNodeId,
     useFloatingParentNodeId,
+    useFloatingTree,
     useInteractions,
     useRole,
 } from '@floating-ui/react';
+import type {FloatingFocusManagerProps} from '@floating-ui/react';
 
+import {KeyCode} from '../../constants';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
-import type {QAProps} from '../types';
-import {useLayer} from '../utils/layer-manager';
+import type {AriaLabelingProps, QAProps} from '../types';
+import {layerManager, useLayer} from '../utils/layer-manager';
+import {LayerContext, getLayerElement} from '../utils/layer-manager/LayerContext';
 
 import {SheetContentContainer} from './SheetContent';
 import {SHEET_TRANSITION_DURATION_MS, sheetBlock} from './constants';
 import {useSheetDismiss} from './hooks/useSheetDismiss';
+import i18n from './i18n';
 
 import './Sheet.scss';
 
 export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
 
-export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
+export interface SheetProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>,
+        AriaLabelingProps,
+        QAProps {
     children?: React.ReactNode;
     /** Controlled open state; without it the sheet closes itself on dismissal */
     open?: boolean;
@@ -48,6 +57,14 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     disableEscapeKeyDown?: boolean;
     /** Disables closing the sheet by clicking the veil */
     disableOutsideClick?: boolean;
+    /** Disables modal focus management: the sheet neither traps focus nor hides the page behind it */
+    disableModal?: boolean;
+    /** Index of the tabbable element or ref to focus on open. By default a modal sheet focuses itself and a sheet with `disableModal` leaves focus where it is */
+    initialFocus?: FloatingFocusManagerProps['initialFocus'];
+    /** Element to return focus to, or `false` to disable it */
+    returnFocus?: FloatingFocusManagerProps['returnFocus'];
+    /** Do not add a11y dismiss buttons when managing focus */
+    disableVisuallyHiddenDismiss?: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
     id?: string;
     /** Title of the sheet window */
@@ -80,6 +97,10 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete,
         disableEscapeKeyDown,
         disableOutsideClick,
+        disableModal = false,
+        initialFocus,
+        returnFocus,
+        disableVisuallyHiddenDismiss,
         id,
         title,
         className,
@@ -92,7 +113,12 @@ function SheetComponent(rawProps: SheetProps) {
         container,
         disablePortal,
         qa,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledBy,
+        'aria-describedby': ariaDescribedBy,
+        'aria-details': ariaDetails,
     } = useDefaultProps('Sheet', rawProps);
+    const {t} = i18n.useTranslation();
     const {
         open: isOpen,
         immediate,
@@ -113,9 +139,41 @@ function SheetComponent(rawProps: SheetProps) {
     );
 
     const floatingNodeId = useFloatingNodeId();
+    const tree = useFloatingTree();
+
+    // Floating UI parents (Modal, Popup, Drawer) stop Escape from their whole React subtree,
+    // portaled sheets included, before LayerManager sees it, so a nested sheet handles Escape itself.
+    // A closing sheet lets it through, so the next Escape reaches the layer below.
+    // An open floating child (e.g. a Popup) owns Escape, so the sheet does not close over it.
+    const isNested = useFloatingParentNodeId() !== null;
+    const handleKeyDown = React.useCallback(
+        (event: React.KeyboardEvent) => {
+            if (event.key !== KeyCode.ESCAPE || !isOpen) {
+                return;
+            }
+
+            const hasOpenChild = tree?.nodesRef.current.some(
+                (node) => node.parentId === floatingNodeId && node.context?.open,
+            );
+
+            if (!hasOpenChild) {
+                event.stopPropagation();
+                handleEscapeKeyDown(event.nativeEvent);
+            }
+        },
+        [floatingNodeId, handleEscapeKeyDown, isOpen, tree],
+    );
+
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
         open: isOpen,
+        // FloatingFocusManager reports its visually hidden dismiss buttons here, without a reason,
+        // as in Modal
+        onOpenChange: (nextOpen, event) => {
+            if (!nextOpen) {
+                requestDismiss({event});
+            }
+        },
     });
     const {isMounted, status} = useFloatingTransition({
         context,
@@ -127,14 +185,23 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete,
     });
 
+    // The overlay also holds the visually hidden dismiss buttons next to the dialog
+    const overlayRef = React.useRef<HTMLDivElement>(null);
+    const getOverlay = React.useCallback(() => getLayerElement(overlayRef.current), []);
+
     // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
     // useDismiss only coordinates within one tree. Release the layer when closing starts.
-    useLayer({
+    const layer = useLayer({
         open: isOpen,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,
+        getElement: getOverlay,
     });
+
+    // A modal sheet hides the rest of the page from assistive technology, but not the layers
+    // above it: they may have opened in the same update, before the sheet hid the page
+    const getLayersAbove = React.useCallback(() => layerManager.getElementsAbove(layer), [layer]);
 
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([role]);
@@ -144,10 +211,12 @@ function SheetComponent(rawProps: SheetProps) {
             {isMounted ? (
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
+                        ref={overlayRef}
                         data-qa={qa}
                         data-floating-ui-status={status}
                         className={sheetBlock({'without-top-bar': hideTopBar}, className)}
                         lockScroll
+                        onKeyDown={isNested ? handleKeyDown : undefined}
                         style={
                             {
                                 overflow: undefined,
@@ -155,21 +224,46 @@ function SheetComponent(rawProps: SheetProps) {
                             } as React.CSSProperties
                         }
                     >
-                        <SheetContentContainer
-                            id={id}
-                            content={children}
-                            contentClassName={contentClassName}
-                            swipeAreaClassName={swipeAreaClassName}
-                            title={title}
-                            presenceStatus={status}
-                            allowHideOnContentScroll={allowHideOnContentScroll}
-                            hideTopBar={hideTopBar}
-                            requestDismiss={requestDismiss}
-                            floatingRef={refs.setFloating}
-                            getFloatingProps={getFloatingProps}
-                            maxContentHeightCoefficient={maxContentHeightCoefficient}
-                            alwaysFullHeight={alwaysFullHeight}
-                        />
+                        <FloatingFocusManager
+                            context={context}
+                            modal={!disableModal}
+                            // Focusing a text field on open would show the on-screen keyboard.
+                            // A non-modal sheet leaves focus where it is, as a non-modal Popup does
+                            initialFocus={initialFocus ?? (disableModal ? -1 : refs.floating)}
+                            returnFocus={returnFocus}
+                            closeOnFocusOut={false}
+                            getInsideElements={getLayersAbove}
+                            restoreFocus
+                            visuallyHiddenDismiss={
+                                disableVisuallyHiddenDismiss ? false : t('close')
+                            }
+                        >
+                            <SheetContentContainer
+                                id={id}
+                                content={
+                                    <LayerContext.Provider value={layer}>
+                                        {children}
+                                    </LayerContext.Provider>
+                                }
+                                contentClassName={contentClassName}
+                                swipeAreaClassName={swipeAreaClassName}
+                                title={title}
+                                labelingProps={{
+                                    'aria-label': ariaLabel ?? title,
+                                    'aria-labelledby': ariaLabelledBy,
+                                    'aria-describedby': ariaDescribedBy,
+                                    'aria-details': ariaDetails,
+                                }}
+                                presenceStatus={status}
+                                allowHideOnContentScroll={allowHideOnContentScroll}
+                                hideTopBar={hideTopBar}
+                                requestDismiss={requestDismiss}
+                                floatingRef={refs.setFloating}
+                                getFloatingProps={getFloatingProps}
+                                maxContentHeightCoefficient={maxContentHeightCoefficient}
+                                alwaysFullHeight={alwaysFullHeight}
+                            />
+                        </FloatingFocusManager>
                     </FloatingOverlay>
                 </Portal>
             ) : null}

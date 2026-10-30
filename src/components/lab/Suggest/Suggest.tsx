@@ -177,16 +177,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         [value, onUpdate, isOpenControlled, setOpen],
     );
 
-    const handleInputFocus = React.useCallback(
-        (e: React.FocusEvent<HTMLInputElement>) => {
-            if (!isOpenControlled && inputValue) {
-                setOpen(true);
-            }
-            inputProps.onFocus?.(e);
-        },
-        [inputValue, isOpenControlled, setOpen, inputProps],
-    );
-
     const handleInputClick = React.useCallback(
         (e: React.MouseEvent<HTMLInputElement>) => {
             if (!open) {
@@ -309,7 +299,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 id={componentId}
                 value={inputValue}
                 onUpdate={handleValueChange}
-                onFocus={handleInputFocus}
                 onKeyDown={handleInputKeyDown}
                 controlProps={{
                     ...inputProps.controlProps,

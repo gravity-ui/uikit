@@ -1,6 +1,7 @@
 import {expect, test} from '~playwright/core';
 
 import {FLOATING_OFFSET} from '../../../Popup/constants';
+import {Suggest} from '../Suggest';
 
 import {
     SuggestForm,
@@ -284,3 +285,36 @@ for (const virtualized of [false, true]) {
         expect(await footer.boundingBox()).toEqual(footerBox);
     });
 }
+
+test('Suggest prefilled input stays closed on focus and opens on explicit gestures', async ({
+    mount,
+    page,
+}) => {
+    await mount(
+        <Suggest
+            defaultValue="Earth"
+            options={[{value: 'earth', content: 'Earth'}]}
+            aria-label="Planet"
+        />,
+    );
+    const input = page.getByRole('combobox', {name: 'Planet'});
+    await page.keyboard.press('Tab');
+    await expect(input).toBeFocused();
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+    await input.blur();
+    await input.focus();
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+
+    for (const gesture of ['click', 'ArrowDown', 'ArrowUp', 'typing']) {
+        if (gesture === 'click') {
+            await input.click();
+        } else if (gesture === 'typing') {
+            await input.press('a');
+        } else {
+            await input.press(gesture);
+        }
+        await expect(page.getByRole('listbox')).toBeVisible();
+        await input.press('Escape');
+        await expect(input).toHaveAttribute('aria-expanded', 'false');
+    }
+});

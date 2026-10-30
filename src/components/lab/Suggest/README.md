@@ -119,9 +119,9 @@ All `TextInput` props (size, pin, hasClear, startContent, validationState, error
 
 ## Show options on empty input
 
-By default the popup opens once the input has a value. To also show options while
-the input is empty (browse-all-on-focus, or keeping a multi-select popup open after
-clearing), control the open state yourself:
+By default, focus alone does not open the popup, even when the input is prefilled.
+Typing a non-empty value, clicking the input, or pressing ArrowDown/ArrowUp opens it.
+To open on focus or keep the popup open after clearing the input, control the open state yourself:
 
 <!--GITHUB_BLOCK-->
 

@@ -85,11 +85,12 @@ const FoobarWithToaster = withToaster()(FoobarComponent);
 
 These are the props of the `ToasterComponent` component.
 
-| Name      | Description                                         |   Type    | Default |
-| :-------- | :-------------------------------------------------- | :-------: | :-----: |
-| className | Custom class name to add to the component container | `string`  |         |
-| mobile    | Configuration that manages mobile/desktop views     | `boolean` |         |
-| hasPortal | Renders the toaster inside a `Portal` when enabled  | `boolean` | `true`  |
+| Name                       | Description                                                                                                                                                     |   Type    | Default |
+| :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------: | :-----: |
+| className                  | Custom class name to add to the component container                                                                                                             | `string`  |         |
+| mobile                     | Configuration that manages mobile/desktop views                                                                                                                 | `boolean` |         |
+| hasPortal                  | Renders the toaster inside a `Portal` when enabled                                                                                                              | `boolean` | `true`  |
+| alternateAnimationFunction | Experimental enter animation for large screens: a new toast slides in from the edge of the viewport with a spring-like easing. Applied to the desktop view only | `boolean` | `false` |
 
 ## Constructor arguments
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.0.1](https://github.com/gravity-ui/uikit/compare/v8.0.0...v8.0.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* **FileDropZone:** validate accept extensions on drop and files from the dialog ([#2921](https://github.com/gravity-ui/uikit/issues/2921)) ([fd8a20e](https://github.com/gravity-ui/uikit/commit/fd8a20e1f972a8bc9f175d65dcf07b24daf243a4))
+
 ## [8.0.0](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.2...v8.0.0) (2026-10-23)
 
 

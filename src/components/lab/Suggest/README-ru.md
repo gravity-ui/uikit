@@ -163,7 +163,9 @@ const [open, setOpen] = React.useState(false);
     <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
       <div style={{padding: 8, fontWeight: 600, flexShrink: 0}}>Результаты</div>
       {filteredItems.length === 0 ? (
-        <div style={{padding: 8, color: 'gray'}}>Ничего не найдено по запросу «{value}»</div>
+        <div role="status" style={{padding: 8, color: 'gray'}}>
+          Ничего не найдено по запросу «{value}»
+        </div>
       ) : (
         list
       )}
@@ -254,7 +256,7 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 Suggest принимает все [пропсы TextInput](../../controls/TextInput/README.md) напрямую, а также `aria-label`, `aria-labelledby`, `aria-describedby` и `aria-details`. `ref` указывает на корень TextInput, `controlRef` — на нативный input.
 
-Suggest управляет атрибутами `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant` и `aria-autocomplete`; переопределять их через `controlProps` нельзя.
+Suggest управляет атрибутами `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, `aria-autocomplete` и `aria-busy`; переопределять их через `controlProps` нельзя.
 
 ### Конфигурация попапа
 
@@ -295,3 +297,9 @@ Suggest управляет атрибутами `role`, `aria-expanded`, `aria-c
 | `style`     | `CSSProperties` |              | Инлайн-стили корня TextInput                                    |
 | `id`        | `string`        |              | ID нативного input (генерируется автоматически, если не указан) |
 | `qa`        | `string`        |              | Атрибут `data-qa` для обёртки поля ввода                        |
+
+## Доступность
+
+При загрузке инпут получает `aria-busy`. Визуально скрытая область статуса в режиме polite сообщает о загрузке, количестве вариантов или отсутствии результатов, когда запрошено открытие. `aria-expanded` и `aria-controls` соответствуют смонтированному List: попап только со спиннером или пользовательским пустым состоянием не обозначается как раскрытый список.
+
+Для пользовательского пустого состояния или ошибки в `renderPopup` задайте собственный `role="status"` (или подходящую live region). Suggest не объявляет стандартное сообщение об отсутствии результатов поверх пользовательского содержимого.

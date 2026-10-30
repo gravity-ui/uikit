@@ -14,6 +14,7 @@ import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
 import {warnOnce} from '../../utils/warn';
 
+import i18n from './i18n';
 import type {SuggestOpenChangeReason, SuggestProps} from './types';
 import {buildListItems, getItemId, getItemTextValue, isLoadingItem} from './utils';
 import type {SuggestListItem} from './utils';
@@ -69,6 +70,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     }: SuggestProps<T>,
     ref: React.Ref<HTMLSpanElement>,
 ) {
+    const {t} = i18n.useTranslation();
     const [anchorElement, setAnchorElement] = React.useState<HTMLSpanElement | null>(null);
     const handleRef = useForkRef(ref, setAnchorElement);
     const [fitWidth, setFitWidth] = React.useState<number>();
@@ -144,6 +146,16 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     });
 
     const {onKeyDown: onListKeyDown, ...listInputProps} = focusOwner.getInputProps();
+    let statusText = '';
+    if (open) {
+        if (loading) {
+            statusText = t('status_loading');
+        } else if (listInputProps['aria-expanded']) {
+            statusText = t('status_results', {count: options?.length ?? 0});
+        } else if (!options?.length && !renderPopup) {
+            statusText = t('status_empty');
+        }
+    }
 
     useLayoutEffect(() => {
         if (popupWidth === 'fit' && anchorElement && open) {
@@ -310,10 +322,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     'aria-details': ariaDetails ?? inputProps.controlProps?.['aria-details'],
                     onClick: handleInputClick,
                     ...listInputProps,
-                    'aria-expanded': popupOpen,
+                    'aria-busy': loading || undefined,
                     'aria-autocomplete': 'list',
                 }}
             />
+            <span className={b('status')} role="status" aria-live="polite" aria-atomic="true">
+                {statusText}
+            </span>
             <Popup
                 placement={popupPlacement}
                 disablePortal={disablePortal}

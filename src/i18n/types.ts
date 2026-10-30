@@ -12,6 +12,7 @@ import type {default as SelectKeyset} from '../components/Select/i18n';
 import type {default as ToasterKeyset} from '../components/Toaster/i18n';
 import type {default as UserLabelKeyset} from '../components/UserLabel/i18n';
 import type {default as ClearButtonKeyset} from '../components/controls/common/ClearButton/i18n';
+import type {default as SuggestKeyset} from '../components/lab/Suggest/i18n';
 import type {default as WithTableSettingsTableColumnSetupKeyset} from '../components/legacy/Table/hoc/withTableSettings/TableColumnSetup/i18n';
 import type {default as WithTableSettingsKeyset} from '../components/legacy/Table/hoc/withTableSettings/i18n';
 import type {default as TableKeyset} from '../components/legacy/Table/i18n';
@@ -35,6 +36,7 @@ export type Keysets = typeof ActionsPanelKeyset.keysetData &
     typeof TabsKeyset.keysetData &
     typeof ClearButtonKeyset.keysetData &
     typeof SelectKeyset.keysetData &
+    typeof SuggestKeyset.keysetData &
     typeof TableKeyset.keysetData &
     typeof ToasterKeyset.keysetData &
     typeof UserLabelKeyset.keysetData;

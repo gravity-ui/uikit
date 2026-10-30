@@ -161,7 +161,9 @@ to fit the popup. Use `flex-shrink: 0` on headers and footers to preserve their 
     <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
       <div style={{padding: 8, fontWeight: 600, flexShrink: 0}}>Results</div>
       {filteredItems.length === 0 ? (
-        <div style={{padding: 8, color: 'gray'}}>Nothing matched "{value}"</div>
+        <div role="status" style={{padding: 8, color: 'gray'}}>
+          Nothing matched "{value}"
+        </div>
       ) : (
         list
       )}
@@ -251,7 +253,7 @@ No option is highlighted automatically when the popup opens.
 
 Suggest accepts all [TextInput props](../../controls/TextInput/README.md) directly, plus `aria-label`, `aria-labelledby`, `aria-describedby`, and `aria-details`. `ref` points to the TextInput root; `controlRef` points to the native input.
 
-Suggest manages `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, and `aria-autocomplete`; these attributes cannot be overridden through `controlProps`.
+Suggest manages `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, `aria-autocomplete`, and `aria-busy`; these attributes cannot be overridden through `controlProps`.
 
 ### Popup configuration
 
@@ -292,3 +294,9 @@ After an option action, an uncontrolled popup closes. With controlled `open`, Su
 | `style`     | `CSSProperties` |         | Inline styles for the TextInput root        |
 | `id`        | `string`        |         | Native input ID (auto-generated if omitted) |
 | `qa`        | `string`        |         | `data-qa` attribute for the input wrapper   |
+
+## Accessibility
+
+The input is marked `aria-busy` while loading. A visually hidden polite status announces loading, the available option count, or no results while opening is requested. `aria-expanded` and `aria-controls` describe the mounted List, so a popup showing only a loader or custom empty content does not mark the list as expanded.
+
+For custom empty or error content in `renderPopup`, provide its own `role="status"` (or an appropriate live region). Suggest does not announce a generic empty result over custom content.

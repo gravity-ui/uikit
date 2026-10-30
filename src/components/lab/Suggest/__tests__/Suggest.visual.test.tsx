@@ -7,6 +7,7 @@ import {
     SuggestForm,
     SuggestInitiallyOpen,
     SuggestPagination,
+    SuggestStatus,
     SuggestStories,
     SuggestWithLabel,
     SuggestWithPopupLayout,
@@ -318,3 +319,60 @@ test('Suggest prefilled input stays closed on focus and opens on explicit gestur
         await expect(input).toHaveAttribute('aria-expanded', 'false');
     }
 });
+
+for (const {lang, loading, results, empty} of [
+    {
+        lang: 'en',
+        loading: 'Loading options',
+        results: 'Options available: 1',
+        empty: 'No results found',
+    },
+    {
+        lang: 'ru',
+        loading: 'Загрузка вариантов',
+        results: 'Доступно вариантов: 1',
+        empty: 'Ничего не найдено',
+    },
+] as const) {
+    test(`Suggest accessible loading and results: ${lang}`, async ({mount, page}) => {
+        await mount(<SuggestStatus lang={lang} />);
+        const input = page.getByRole('combobox');
+        const status = page.getByRole('status').first();
+        await expect(input).toHaveAttribute('aria-busy', 'true');
+        await expect(input).toHaveAttribute('aria-expanded', 'false');
+        await expect(input).not.toHaveAttribute('aria-controls');
+        await expect(status).toHaveText(loading);
+        const session = await page.context().newCDPSession(page);
+        try {
+            const {nodes} = await session.send('Accessibility.getFullAXTree');
+            expect(
+                nodes.some(
+                    (node) =>
+                        !node.ignored &&
+                        node.role?.value === 'status' &&
+                        node.properties?.some(
+                            (property) =>
+                                property.name === 'live' && property.value.value === 'polite',
+                        ),
+                ),
+            ).toBe(true);
+        } finally {
+            await session.detach();
+        }
+        await page.getByRole('button', {name: 'results', exact: true}).click();
+        await expect(input).not.toHaveAttribute('aria-busy');
+        await expect(input).toHaveAttribute('aria-expanded', 'true');
+        await expect(input).toHaveAttribute(
+            'aria-controls',
+            (await page.getByRole('listbox').getAttribute('id')) as string,
+        );
+        await expect(status).toHaveText(results);
+        await page.getByRole('button', {name: 'empty', exact: true}).click();
+        await expect(input).toHaveAttribute('aria-expanded', 'false');
+        await expect(input).not.toHaveAttribute('aria-controls');
+        await expect(status).toHaveText(empty);
+        await page.getByRole('button', {name: 'error', exact: true}).click();
+        await expect(status).toBeEmpty();
+        await expect(page.getByRole('status').nth(1)).toHaveText('Request failed');
+    });
+}

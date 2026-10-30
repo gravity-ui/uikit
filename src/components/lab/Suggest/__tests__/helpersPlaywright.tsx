@@ -3,6 +3,7 @@ import * as React from 'react';
 import {composeStories} from '@storybook/react-webpack5';
 
 import {ListVirtualizer} from '../../../../virtualizer';
+import {LangProvider} from '../../../theme/LangProvider';
 import {Suggest} from '../Suggest';
 import * as SuggestStoriesModule from '../__stories__/Suggest.stories';
 
@@ -118,5 +119,31 @@ export function SuggestWithPopupLayout({virtualized}: {virtualized: boolean}) {
             <style>{'.suggest-layout-popup { max-height: 240px; }'}</style>
             {virtualized ? <ListVirtualizer>{suggest}</ListVirtualizer> : suggest}
         </div>
+    );
+}
+
+export function SuggestStatus({lang}: {lang: 'en' | 'ru'}) {
+    const [state, setState] = React.useState('loading');
+    return (
+        <LangProvider lang={lang}>
+            <div style={{height: 400}}>
+                {['loading', 'results', 'empty', 'error'].map((value) => (
+                    <button key={value} onClick={() => setState(value)}>
+                        {value}
+                    </button>
+                ))}
+                <Suggest
+                    open
+                    aria-label="Planets"
+                    loading={state === 'loading'}
+                    options={state === 'results' ? OPTIONS : []}
+                    renderPopup={
+                        state === 'error'
+                            ? () => <div role="status">Request failed</div>
+                            : undefined
+                    }
+                />
+            </div>
+        </LangProvider>
     );
 }

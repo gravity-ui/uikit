@@ -60,9 +60,28 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
         );
 
         await expect(root.locator('[data-qa="no-overflow"]')).not.toHaveAttribute('tabindex');
-        await expect(root.locator('[data-qa="no-overflow"]')).toHaveClass('g-scroll-shadow');
-        await expect(root.locator('[data-qa="disabled"]')).toHaveClass('g-scroll-shadow');
+        await expect(root.locator('[data-qa="no-overflow"]')).not.toHaveClass(
+            /g-scroll-shadow_(top|right|bottom|left)/,
+        );
+        await expect(root.locator('[data-qa="disabled"]')).not.toHaveClass(
+            /g-scroll-shadow_(top|right|bottom|left)/,
+        );
         await expectScreenshot({themes: ['light']});
+    });
+
+    test('keeps the focus outline visible while fading', async ({mount, expectScreenshot}) => {
+        const root = await mount(
+            <ScrollShadow qa="shadow" style={{width: 220, height: 160}}>
+                <OpaqueContent />
+            </ScrollShadow>,
+        );
+        const scroller = root.locator('[data-qa="shadow"]');
+
+        await expect(scroller).toHaveClass(/g-scroll-shadow_bottom/);
+        await scroller.focus();
+        await expect(scroller).toHaveCSS('outline-width', '2px');
+        await expect(scroller).toHaveCSS('mask-clip', /no-clip/);
+        await expectScreenshot();
     });
 
     test('inline fade follows RTL scroll position', async ({mount, expectScreenshot}) => {
@@ -137,15 +156,6 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
                     />
                 </ScrollShadow>,
             );
-            await root.locator('[data-qa="shadow"]').evaluate((element) => {
-                const node = element as HTMLDivElement;
-                node.scrollLeft = node.scrollWidth / 3;
-                node.scrollTop = node.scrollHeight / 3;
-                node.dispatchEvent(new Event('scroll', {bubbles: true}));
-            });
-
-            await expectScreenshot({themes: ['light']});
-
             const scroller = root.locator('[data-qa="shadow"]');
             await scroller.evaluate((element, mode) => {
                 const node = element as HTMLDivElement;
@@ -159,6 +169,7 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
             for (const edge of ['top', 'right', 'bottom', 'left']) {
                 await expect(scroller).toHaveClass(new RegExp(`g-scroll-shadow_${edge}`));
             }
+            await expectScreenshot({themes: ['light']});
         });
     }
 

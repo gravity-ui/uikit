@@ -11,7 +11,7 @@ export function OpaqueContent() {
                     position: 'sticky',
                     top: 0,
                     padding: 8,
-                    background: 'var(--g-color-base-generic)',
+                    background: 'var(--g-color-base-background)',
                 }}
             >
                 Sticky header

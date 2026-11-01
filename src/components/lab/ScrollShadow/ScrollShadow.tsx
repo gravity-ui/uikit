@@ -4,8 +4,11 @@ import * as React from 'react';
 
 import {useForkRef} from '../../../hooks';
 import type {DOMProps, QAProps} from '../../types';
+import {block} from '../../utils/cn';
 
 import {useScrollShadow} from './useScrollShadow';
+
+const b = block('scroll-shadow');
 
 export type ScrollShadowAxis = 'block' | 'inline' | 'both';
 export type ScrollShadowPosition = 'start' | 'end' | 'both';
@@ -60,7 +63,7 @@ export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
                 data-qa={qa}
                 {...restProps}
                 ref={ref}
-                className={`${shadow.className}${className ? ` ${className}` : ''}`}
+                className={`${shadow.className} ${b('container')}${className ? ` ${className}` : ''}`}
                 tabIndex={tabIndex === undefined && shadow.state.hasOverflow ? 0 : tabIndex}
                 onScroll={handleScroll}
             >

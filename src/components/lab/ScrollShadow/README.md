@@ -20,7 +20,7 @@ The component itself scrolls. When its content overflows, it gets `tabIndex={0}`
 
 ## Existing scroll elements
 
-Use `unstable_useScrollShadow` when another component owns the scroll element. Apply the returned class and scroll handler to that element. The hook returns logical edge visibility for other UI:
+Use `unstable_useScrollShadow` when another component owns the scroll element. Apply the returned class and scroll handler to that element. The hook leaves `overflow` under the owning component's control and returns logical edge visibility for other UI:
 
 ```tsx
 import * as React from 'react';
@@ -65,7 +65,21 @@ function ExistingScroller() {
 
 ## CSS API
 
-The fade uses a mask on the scroll container, so opaque children and sticky content fade too. It follows the surface behind the container in every theme. Set the depth with a CSS variable:
+The fade uses a mask on the scroll container, so opaque children and sticky content fade too. It follows the surface behind the container in every theme.
+
+The mask also fades the scroll element's own border, background, and rounded corners. Put those decorations on a wrapper around `ScrollShadow`:
+
+```tsx
+<div className="scroll-frame">
+  <ScrollShadow style={{maxBlockSize: 320}}>
+    <LongContent />
+  </ScrollShadow>
+</div>
+```
+
+Apply the border and radius to `.scroll-frame`, and keep the scrolling element inside it.
+
+Set the fade depth with a CSS variable:
 
 ```css
 .custom-scroll-shadow {

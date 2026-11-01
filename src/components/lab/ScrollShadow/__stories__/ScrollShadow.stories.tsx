@@ -35,15 +35,17 @@ function VerticalContent() {
 
 export const Default: Story = {
     render: (args) => (
-        <ScrollShadow
-            {...args}
-            className="scroll-shadow-stories__vertical"
-            aria-label="Scrollable list"
-            qa="scroll-shadow-story"
-            role="region"
-        >
-            <VerticalContent />
-        </ScrollShadow>
+        <div className="scroll-shadow-stories__frame scroll-shadow-stories__vertical">
+            <ScrollShadow
+                {...args}
+                className="scroll-shadow-stories__vertical-scroller"
+                aria-label="Scrollable list"
+                qa="scroll-shadow-story"
+                role="region"
+            >
+                <VerticalContent />
+            </ScrollShadow>
+        </div>
     ),
 };
 
@@ -52,20 +54,22 @@ export const InlineAxis: Story = {
         axis: 'inline',
     },
     render: (args) => (
-        <ScrollShadow
-            {...args}
-            className="scroll-shadow-stories__horizontal"
-            aria-label="Horizontal list"
-            role="region"
-        >
-            <div className="scroll-shadow-stories__row">
-                {Array.from({length: 10}, (_, index) => (
-                    <div className="scroll-shadow-stories__card" key={index}>
-                        Item {index + 1}
-                    </div>
-                ))}
-            </div>
-        </ScrollShadow>
+        <div className="scroll-shadow-stories__frame scroll-shadow-stories__horizontal">
+            <ScrollShadow
+                {...args}
+                className="scroll-shadow-stories__horizontal-scroller"
+                aria-label="Horizontal list"
+                role="region"
+            >
+                <div className="scroll-shadow-stories__row">
+                    {Array.from({length: 10}, (_, index) => (
+                        <div className="scroll-shadow-stories__card" key={index}>
+                            Item {index + 1}
+                        </div>
+                    ))}
+                </div>
+            </ScrollShadow>
+        </div>
     ),
 };
 
@@ -74,32 +78,36 @@ export const BothAxes: Story = {
         axis: 'both',
     },
     render: (args) => (
-        <ScrollShadow
-            {...args}
-            className="scroll-shadow-stories__both"
-            aria-label="Scrollable grid"
-            role="region"
-        >
-            <div className="scroll-shadow-stories__grid">
-                {Array.from({length: 64}, (_, index) => (
-                    <div className="scroll-shadow-stories__cell" key={index}>
-                        {index + 1}
-                    </div>
-                ))}
-            </div>
-        </ScrollShadow>
+        <div className="scroll-shadow-stories__frame scroll-shadow-stories__both">
+            <ScrollShadow
+                {...args}
+                className="scroll-shadow-stories__both-scroller"
+                aria-label="Scrollable grid"
+                role="region"
+            >
+                <div className="scroll-shadow-stories__grid">
+                    {Array.from({length: 64}, (_, index) => (
+                        <div className="scroll-shadow-stories__cell" key={index}>
+                            {index + 1}
+                        </div>
+                    ))}
+                </div>
+            </ScrollShadow>
+        </div>
     ),
 };
 
 export const CustomCssApi: Story = {
     render: (args) => (
-        <ScrollShadow
-            {...args}
-            className="scroll-shadow-stories__vertical scroll-shadow-stories__custom"
-            aria-label="Scrollable list with custom shadow"
-            role="region"
-        >
-            <VerticalContent />
-        </ScrollShadow>
+        <div className="scroll-shadow-stories__frame scroll-shadow-stories__vertical">
+            <ScrollShadow
+                {...args}
+                className="scroll-shadow-stories__vertical-scroller scroll-shadow-stories__custom"
+                aria-label="Scrollable list with custom shadow"
+                role="region"
+            >
+                <VerticalContent />
+            </ScrollShadow>
+        </div>
     ),
 };

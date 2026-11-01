@@ -29,7 +29,7 @@ interface InternalState {
 }
 
 export interface UseScrollShadowOptions {
-    ref: React.RefObject<HTMLElement>;
+    ref: React.RefObject<HTMLElement | null>;
     axis?: ScrollShadowAxis;
     position?: ScrollShadowPosition;
     disabled?: boolean;
@@ -109,13 +109,24 @@ function measure(
         (parseFloat(style.borderTopWidth) || 0) + (parseFloat(style.borderBottomWidth) || 0);
     const scrollbarWidth = Math.max(0, element.offsetWidth - element.clientWidth - borderWidth);
     const scrollbarHeight = Math.max(0, element.offsetHeight - element.clientHeight - borderHeight);
-    const scrollbarWidthValue = `${scrollbarWidth}px`;
-    const scrollbarHeightValue = `${scrollbarHeight}px`;
-    if (element.style.getPropertyValue('--_--scrollbar-width') !== scrollbarWidthValue) {
-        element.style.setProperty('--_--scrollbar-width', scrollbarWidthValue);
-    }
-    if (element.style.getPropertyValue('--_--scrollbar-height') !== scrollbarHeightValue) {
-        element.style.setProperty('--_--scrollbar-height', scrollbarHeightValue);
+    const scrollbarLeft =
+        scrollbarWidth > 0 && element.clientLeft > (parseFloat(style.borderLeftWidth) || 0);
+    const scrollbarTop =
+        scrollbarHeight > 0 && element.clientTop > (parseFloat(style.borderTopWidth) || 0);
+    const maskProperties = {
+        '--_--scrollbar-width': `${scrollbarWidth}px`,
+        '--_--scrollbar-height': `${scrollbarHeight}px`,
+        '--_--scrollbar-top': `${scrollbarTop ? scrollbarHeight : 0}px`,
+        '--_--scrollbar-right': `${scrollbarLeft ? 0 : scrollbarWidth}px`,
+        '--_--scrollbar-bottom': `${scrollbarTop ? 0 : scrollbarHeight}px`,
+        '--_--scrollbar-left': `${scrollbarLeft ? scrollbarWidth : 0}px`,
+        '--_--vertical-scrollbar-position': scrollbarLeft ? 'left top' : 'right top',
+        '--_--horizontal-scrollbar-position': scrollbarTop ? 'left top' : 'left bottom',
+    };
+    for (const [name, value] of Object.entries(maskProperties)) {
+        if (element.style.getPropertyValue(name) !== value) {
+            element.style.setProperty(name, value);
+        }
     }
 
     return {logical, physical};
@@ -152,8 +163,12 @@ export function useScrollShadow({
         const next = measure(element, axis, position, disabled);
         setCurrent((previous) => (sameState(previous, next) ? previous : next));
     }, [ref, axis, position, disabled]);
+    const updateRef = React.useRef(update);
 
     useLayoutEffect(() => update(), [update]);
+    useLayoutEffect(() => {
+        updateRef.current = update;
+    }, [update]);
 
     useLayoutEffect(() => {
         const element = ref.current;
@@ -166,7 +181,7 @@ export function useScrollShadow({
             if (animationFrameId === undefined) {
                 animationFrameId = requestAnimationFrame(() => {
                     animationFrameId = undefined;
-                    update();
+                    updateRef.current();
                 });
             }
         };
@@ -196,7 +211,21 @@ export function useScrollShadow({
             scheduleUpdate();
         });
         mutationObserver.observe(element, {childList: true});
-        const flowObserver = new MutationObserver(scheduleUpdate);
+        let inlineDirection = element.style.direction;
+        let inlineWritingMode = element.style.writingMode;
+        const flowObserver = new MutationObserver((records) => {
+            const direction = element.style.direction;
+            const writingMode = element.style.writingMode;
+            const onlyUnchangedInlineFlow =
+                records.every((record) => record.attributeName === 'style') &&
+                direction === inlineDirection &&
+                writingMode === inlineWritingMode;
+            inlineDirection = direction;
+            inlineWritingMode = writingMode;
+            if (!onlyUnchangedInlineFlow) {
+                scheduleUpdate();
+            }
+        });
         flowObserver.observe(element, {
             attributes: true,
             attributeFilter: ['dir', 'style', 'class'],
@@ -204,7 +233,7 @@ export function useScrollShadow({
         for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
             flowObserver.observe(ancestor, {
                 attributes: true,
-                attributeFilter: ['dir', 'style', 'class'],
+                attributeFilter: ['dir'],
             });
         }
         if (!resizeObserver) {
@@ -220,7 +249,7 @@ export function useScrollShadow({
             flowObserver.disconnect();
             window.removeEventListener('resize', scheduleUpdate);
         };
-    }, [ref, update]);
+    }, [ref]);
 
     return {
         state: current.logical,

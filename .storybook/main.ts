@@ -1,7 +1,7 @@
 import type {StorybookConfig} from '@storybook/react-webpack5';
 import type {RuleSetRule} from 'webpack';
 
-import {sassFunctions} from '../build-utils/sass-functions';
+import {sassFunctions} from '../build-utils/sass-functions.js';
 
 // `import src from './file.tsx?raw'` must return the SOURCE of the file (the
 // Code panel of a story shows a copyable example). The babel rule of storybook
@@ -39,6 +39,9 @@ function excludeRawFromScriptRules(rules: LooseRule[] | undefined) {
 
 const config: StorybookConfig = {
     framework: '@storybook/react-webpack5',
+    features: {
+        backgrounds: false,
+    },
     stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
     docs: {
         defaultName: 'Docs',
@@ -67,7 +70,7 @@ const config: StorybookConfig = {
             },
         },
         './theme-addon/register.tsx',
-        './theme-import-addon/register.tsx',
+        import.meta.resolve('./theme-import-addon/preset.ts'),
         '@storybook/addon-a11y',
         '@storybook/addon-webpack5-compiler-babel',
         '@storybook/addon-docs',

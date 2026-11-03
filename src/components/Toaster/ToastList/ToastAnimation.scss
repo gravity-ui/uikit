@@ -1,7 +1,49 @@
+@use 'sass:math';
 @use '../../variables';
+@use './variables' as toastList;
 
 $transition-distance: 10px;
 $animation-duration: 0.6s;
+
+$alternate-height-duration: math.div($animation-duration, 2);
+$alternate-slide-duration: 0.75s;
+$alternate-animation-duration: $alternate-height-duration + $alternate-slide-duration;
+$alternate-height-phase-end: math.percentage(
+    math.div($alternate-height-duration, $alternate-animation-duration)
+);
+$alternate-slide-easing: linear(
+    0,
+    0.002 0.3%,
+    0.007 0.6%,
+    0.033 1.3%,
+    0.073 2%,
+    0.125 2.7%,
+    0.254 4.1%,
+    0.683 8.3%,
+    0.803 9.7%,
+    0.897 11%,
+    0.977 12.4%,
+    1.036 13.8%,
+    1.058 14.5%,
+    1.078 15.3%,
+    1.091 16%,
+    1.101 16.8%,
+    1.106 17.5%,
+    1.108 18.3%,
+    1.107 19.2%,
+    1.103 20.1%,
+    1.089 21.8%,
+    1.038 26.5%,
+    1.014 29.1%,
+    1.005 30.5%,
+    0.997 32%,
+    0.992 33.5%,
+    0.989 35.1%,
+    0.989 38.6%,
+    0.998 47.4%,
+    1.001 53.2%,
+    1
+);
 
 @mixin hidden-toast-height {
     margin-block-end: 0;
@@ -27,6 +69,16 @@ $animation-duration: 0.6s;
     transform: translateX(0);
 }
 
+@mixin alternate-hidden-toast-move {
+    transform: translateX(
+        calc(var(--g-flow-direction) * (100% + #{toastList.$list-inset-end-position * 2}))
+    );
+}
+
+@mixin alternate-hidden-toast-opacity {
+    opacity: 0.5;
+}
+
 @mixin hidden-toast-opacity {
     opacity: 0;
 }
@@ -42,6 +94,13 @@ $animation-duration: 0.6s;
             position: absolute;
         }
 
+        @if ($platform == 'desktop') {
+            &_enter#{&}_feature_alternate-animation-timing-fn {
+                @include alternate-hidden-toast-opacity;
+                @include alternate-hidden-toast-move;
+            }
+        }
+
         &_enter_active {
             animation: #{variables.$ns}toast-enter-#{$platform}
                 $animation-duration
@@ -51,6 +110,19 @@ $animation-duration: 0.6s;
 
             @media (prefers-reduced-motion: reduce) {
                 animation-name: #{variables.$ns}toast-enter-reduced-motion;
+            }
+        }
+
+        @if ($platform == 'desktop') {
+            // Alternative animation timing function
+            &_enter_active#{&}_feature_alternate-animation-timing-fn {
+                animation: #{variables.$ns}toast-enter-alternate-#{$platform}
+                    $alternate-animation-duration
+                    forwards;
+
+                @media (prefers-reduced-motion: reduce) {
+                    animation-name: #{variables.$ns}toast-enter-reduced-motion;
+                }
             }
         }
 
@@ -96,6 +168,28 @@ $animation-duration: 0.6s;
             @include hidden-toast-height;
             @include hidden-toast-opacity;
             @include hidden-toast-move($platform);
+        }
+    }
+
+    @if ($platform == 'desktop') {
+        @keyframes #{variables.$ns}toast-enter-alternate-#{$platform} {
+            0% {
+                @include hidden-toast-height;
+                @include alternate-hidden-toast-opacity;
+                @include alternate-hidden-toast-move;
+                animation-timing-function: ease-out;
+            }
+            #{$alternate-height-phase-end} {
+                @include visible-toast-height;
+                @include alternate-hidden-toast-opacity;
+                @include alternate-hidden-toast-move;
+                animation-timing-function: $alternate-slide-easing;
+            }
+            100% {
+                @include visible-toast-height;
+                @include visible-toast-opacity;
+                @include visible-toast-move;
+            }
         }
     }
 

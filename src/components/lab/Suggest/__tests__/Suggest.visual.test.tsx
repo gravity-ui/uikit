@@ -194,9 +194,9 @@ test('Suggest list name stays equal to the label while typing', async ({mount, p
     }
 });
 
-test('Suggest defaultOpen anchors and fits the popup on mount', async ({mount, page}) => {
+test('Suggest defaultOpen anchors to the field above its error and note', async ({mount, page}) => {
     await mount(<SuggestInitiallyOpen />);
-    const input = page.getByTestId('initial-input');
+    const input = page.getByTestId('initial-input').locator('.g-text-input__content');
     const popup = page.getByTestId('suggest-popup');
     await expect(popup).toBeVisible();
     await expect(page.getByRole('combobox')).toHaveAttribute('aria-expanded', 'true');

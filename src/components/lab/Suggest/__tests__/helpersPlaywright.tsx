@@ -89,7 +89,15 @@ export function SuggestWithLabel() {
 export function SuggestInitiallyOpen() {
     return (
         <div style={{width: 320, margin: 40, height: 300}}>
-            <Suggest defaultOpen options={OPTIONS} qa="initial-input" aria-label="Planets" />
+            <Suggest
+                defaultOpen
+                options={OPTIONS}
+                qa="initial-input"
+                aria-label="Planets"
+                validationState="invalid"
+                errorMessage="Please select a planet"
+                note="Additional field note"
+            />
         </div>
     );
 }

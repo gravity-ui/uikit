@@ -78,8 +78,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     ref: React.Ref<HTMLSpanElement>,
 ) {
     const {t} = i18n.useTranslation();
-    const [anchorElement, setAnchorElement] = React.useState<HTMLSpanElement | null>(null);
-    const handleRef = useForkRef(ref, setAnchorElement);
+    const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
+    const handleControlRef = useForkRef(
+        inputProps.controlRef,
+        React.useCallback((element: HTMLInputElement | null) => {
+            setAnchorElement(element?.parentElement ?? null);
+        }, []),
+    );
     const [fitWidth, setFitWidth] = React.useState<number>();
     const focusOwner = useListFocusOwner();
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
@@ -310,7 +315,8 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 autoComplete={false}
                 {...inputProps}
                 {...focusWithinProps}
-                ref={handleRef}
+                ref={ref}
+                controlRef={handleControlRef}
                 id={componentId}
                 value={inputValue}
                 onUpdate={handleValueChange}

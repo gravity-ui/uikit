@@ -4,7 +4,8 @@ import {useControlledState} from '../../../hooks/useControlledState';
 import type {SheetOpenChangeReason, SheetProps} from '../Sheet';
 
 export interface SheetDismissRequest {
-    reason: SheetOpenChangeReason;
+    /** Absent for the visually hidden dismiss buttons, as in Modal */
+    reason?: SheetOpenChangeReason;
     event?: Event;
     immediate?: boolean;
 }

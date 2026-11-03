@@ -63,6 +63,7 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
             await cdpSession.send('Emulation.setSafeAreaInsetsOverride', {
                 insets: {top: 0, left: 0, right: 0, bottom: 0},
             });
+            await cdpSession.detach();
         }
     });
 

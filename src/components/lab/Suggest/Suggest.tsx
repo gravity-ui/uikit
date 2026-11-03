@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {
     useControlledState,
+    useFocusWithin,
     useForkRef,
     useIntersection,
     useLayoutEffect,
@@ -120,6 +121,17 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const listLabelledBy = ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'];
 
     const [open, setOpen] = useControlledState(openProp, defaultOpen ?? false, onOpenChange);
+    const {onFocus, onBlur} = inputProps;
+    const {focusWithinProps} = useFocusWithin<HTMLInputElement>({
+        onFocusWithin: onFocus,
+        onBlurWithin: React.useCallback(
+            (event: React.FocusEvent<HTMLInputElement>) => {
+                onBlur?.(event);
+                setOpen(false, event.nativeEvent, 'focus-out');
+            },
+            [onBlur, setOpen],
+        ),
+    });
 
     const handleOptionAction = React.useCallback(
         (id: string, option: SuggestListItem<T>, event: ListItemActionEvent) => {
@@ -297,6 +309,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             <TextInput
                 autoComplete={false}
                 {...inputProps}
+                {...focusWithinProps}
                 ref={handleRef}
                 id={componentId}
                 value={inputValue}

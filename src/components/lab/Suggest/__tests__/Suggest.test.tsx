@@ -175,6 +175,24 @@ describe('Suggest', () => {
         },
     );
 
+    test('does not open for late results after focus leaves an empty input', async () => {
+        const user = userEvent.setup();
+        const example = (options: typeof ITEMS) => (
+            <React.Fragment>
+                <Suggest options={options} />
+                <button>Next field</button>
+            </React.Fragment>
+        );
+        const {rerender} = render(example([]));
+        await user.tab();
+        await user.keyboard('e');
+        expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument();
+        await user.tab();
+        expect(screen.getByRole('button', {name: 'Next field'})).toHaveFocus();
+        rerender(example(ITEMS));
+        expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+    });
+
     test('does not call onOptionAction for disabled items', async () => {
         const onOptionAction = jest.fn();
         const user = userEvent.setup();

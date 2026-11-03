@@ -2,7 +2,10 @@ import * as React from 'react';
 
 const version19plus = parseInt(React.version, 10) >= 19;
 
-export function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null) {
+export function setRef<T>(
+    ref: React.Ref<T | null> | undefined,
+    value: T | null,
+): (() => void) | undefined {
     if (typeof ref === 'function') {
         const cleanup = ref(value);
         if (!version19plus) {

@@ -19,11 +19,7 @@ export type StyleHandlers<T extends keyof any = string> = {
 };
 
 export interface BaseStyleProps
-    extends LayoutProps,
-        SizingProps,
-        SpacingProps,
-        PositioningProps,
-        StylingProps {}
+    extends LayoutProps, SizingProps, SpacingProps, PositioningProps, StylingProps {}
 
 export const baseStyleHandlers: StyleHandlers<keyof BaseStyleProps> = {
     flex: ['flex', getFlexValue],

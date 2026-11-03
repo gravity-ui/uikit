@@ -11,8 +11,7 @@ const b = block('skeleton');
 export type SkeletonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 export interface SkeletonProps
-    extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>,
-        QAProps {
+    extends Pick<React.HTMLAttributes<HTMLDivElement>, 'className' | 'style'>, QAProps {
     /**
      * Animation type to apply to the skeleton
      * @default 'gradient'

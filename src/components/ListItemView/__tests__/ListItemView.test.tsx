@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import * as tabbable from 'tabbable';
+import tabbable from 'tabbable';
 
 import {render, screen} from '../../../../test-utils/utils';
 import {ListItemView} from '../ListItemView';

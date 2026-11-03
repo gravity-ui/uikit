@@ -101,6 +101,7 @@ test.describe('List: Tab enters at the selection', {tag: '@List'}, () => {
 
     test('virtualized: at a selected row far outside the window', async ({mount, page}) => {
         await mount(<EntryTestList selectionMode="single" selectedIds={['Item 90']} virtualized />);
+        await expect(page.getByRole('listbox').locator('[data-index]')).not.toHaveCount(0);
 
         await tabIn(page);
 
@@ -115,6 +116,7 @@ test.describe('List: Tab enters at the selection', {tag: '@List'}, () => {
                 virtualized
             />,
         );
+        await expect(page.getByRole('listbox').locator('[data-index]')).not.toHaveCount(0);
 
         await shiftTabIn(page);
 

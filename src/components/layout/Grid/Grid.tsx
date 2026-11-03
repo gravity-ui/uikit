@@ -93,8 +93,7 @@ export function fitContent(dimension: SpacingValue): string {
 }
 
 export interface GridProps<T extends React.ElementType<DOMProps> = 'div'>
-    extends BoxProps<T>,
-        GridStyleProps {}
+    extends BoxProps<T>, GridStyleProps {}
 
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>(function Grid(props, ref) {
     const boxProps = useStyleProps(props, gridStyleHandlers);

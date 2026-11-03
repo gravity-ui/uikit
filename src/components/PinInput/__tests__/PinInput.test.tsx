@@ -274,7 +274,7 @@ describe('PinInput', () => {
     describe('API', () => {
         test('focus', async () => {
             const user = userEvent.setup();
-            const apiRef: React.RefObject<PinInputApi> = {current: null};
+            const apiRef: React.RefObject<PinInputApi | null> = {current: null};
             renderComponent(<PinInput apiRef={apiRef} defaultValue={['0', '1', '2', '3']} />);
 
             await user.click(inputs[1]);

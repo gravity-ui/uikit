@@ -1,6 +1,7 @@
 {
   "extends": "@gravity-ui/tsconfig",
   "compilerOptions": {
+    "rootDir": ".",
     "resolveJsonModule": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

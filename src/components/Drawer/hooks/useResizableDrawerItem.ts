@@ -14,7 +14,7 @@ export interface UseResizableDrawerItemParams {
     onResizeStart?: OnResizeHandler;
     onResizeEnd?: OnResizeHandler;
     onResize?: OnResizeHandler;
-    overlayRef: React.RefObject<HTMLElement>;
+    overlayRef: React.RefObject<HTMLElement | null>;
 }
 
 export function useResizableDrawerItem(params: UseResizableDrawerItemParams) {

@@ -178,10 +178,10 @@ export function Menu(rawProps: MenuProps) {
         React.isValidElement(trigger) ? getElementRef(trigger) : undefined,
     );
     const anchorProps = React.isValidElement<any>(trigger)
-        ? getReferenceProps(trigger.props)
+        ? getReferenceProps(trigger.props as React.HTMLProps<HTMLElement>)
         : getReferenceProps();
     const anchorNode = React.isValidElement<any>(trigger)
-        ? React.cloneElement(trigger, {
+        ? React.cloneElement(trigger as React.ReactElement<React.HTMLProps<HTMLElement>>, {
               ...anchorProps,
               ref: anchorRef,
           })
@@ -256,7 +256,7 @@ export function Menu(rawProps: MenuProps) {
 
     if (inline) {
         const preparedChildren = React.Children.toArray(children).map((child, index) => {
-            if (!React.isValidElement(child) || !isComponentType(child, 'Menu.Item')) {
+            if (!isComponentType<Record<string, unknown>>(child, 'Menu.Item')) {
                 return child;
             }
 

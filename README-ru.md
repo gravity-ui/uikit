@@ -99,6 +99,8 @@ import '@gravity-ui/uikit/styles/styles.css';
 
 ## Разработка
 
+Для разработки используйте Node.js 24 или новее и npm 11 или новее.
+
 ```shell
 git clone git@github.com:gravity-ui/uikit.git
 cd uikit

@@ -65,7 +65,7 @@ export const CollapseActions = ({actions, maxRowActions}: Props) => {
                     const invisible = visibilityMap[id] === false;
 
                     const submenu = React.Children.toArray(action.menu.item.children).find(
-                        (child) => isComponentType(child, 'Menu'),
+                        (child) => isComponentType<React.PropsWithChildren>(child, 'Menu'),
                     );
                     const node = submenu ? (
                         <Menu

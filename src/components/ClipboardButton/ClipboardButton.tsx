@@ -24,7 +24,8 @@ import './ClipboardButton.scss';
 const b = block('clipboard-button');
 
 export interface ClipboardButtonProps
-    extends Omit<CopyToClipboardProps, 'children'>,
+    extends
+        Omit<CopyToClipboardProps, 'children'>,
         Omit<ClipboardButtonComponentProps, 'status' | 'closeDelay'> {}
 
 interface ClipboardButtonComponentProps extends Omit<ButtonButtonProps, 'onCopy'> {
@@ -108,7 +109,7 @@ export function ClipboardButton(rawProps: ClipboardButtonProps) {
         ...buttonProps
     } = props;
 
-    const timerIdRef = React.useRef<number>();
+    const timerIdRef = React.useRef<number | undefined>(undefined);
     const [tooltipCloseDelay, setTooltipCloseDelay] = React.useState<number | undefined>(undefined);
     const [tooltipDisabled, setTooltipDisabled] = React.useState(false);
 

@@ -101,7 +101,7 @@ export const MenuItem = React.forwardRef(
         }
 
         for (const child of React.Children.toArray(children)) {
-            if (!menuContext.inline && isComponentType(child, 'Menu')) {
+            if (!menuContext.inline && isComponentType<MenuProps>(child, 'Menu')) {
                 submenu = child;
             } else {
                 preparedChildren.push(child);

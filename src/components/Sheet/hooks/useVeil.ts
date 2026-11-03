@@ -6,7 +6,7 @@ import type {UseSheetDismissResult} from './useSheetDismiss';
 
 export interface UseVeilProps {
     /** Ref to the veil element (shared with the parent, which drives its opacity). */
-    veilRef: React.RefObject<HTMLDivElement>;
+    veilRef: React.RefObject<HTMLDivElement | null>;
     /** Guards interactions while an open/close animation is running. */
     isAnimatingRef: React.MutableRefObject<boolean>;
     /** Marks that a resize should be replayed after the closing animation finished. */

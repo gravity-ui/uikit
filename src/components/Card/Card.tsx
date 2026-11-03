@@ -21,8 +21,7 @@ export type CardView = SelectionCardView | ContainerCardView;
 export type CardSize = 'm' | 'l';
 
 export interface CardProps
-    extends Omit<BoxProps, 'as'>,
-        Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
+    extends Omit<BoxProps, 'as'>, Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     children: React.ReactNode;
     /** Card click handler. Available for type: 'selection', 'action' */
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;

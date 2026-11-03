@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {tabbable} from 'tabbable';
 
-type InitialFocus = number | React.RefObject<HTMLElement>;
+type InitialFocus = number | React.RefObject<HTMLElement | null>;
 
 interface UseInitialFocusParams {
     open: boolean | undefined;

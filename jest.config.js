@@ -3,6 +3,14 @@ module.exports = {
     moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
     rootDir: '.',
     transform: {
+        '^.+\\.m?js$': [
+            'babel-jest',
+            {
+                babelrc: false,
+                configFile: false,
+                presets: [['@babel/preset-env', {targets: {node: 'current'}, modules: 'commonjs'}]],
+            },
+        ],
         '^.+\\.tsx?$': [
             'ts-jest',
             {
@@ -13,7 +21,7 @@ module.exports = {
             },
         ],
     },
-    transformIgnorePatterns: ['node_modules/(?!(@gravity-ui)/)'],
+    transformIgnorePatterns: ['node_modules/(?!(@gravity-ui|@faker-js)/)'],
     coverageDirectory: './coverage',
     collectCoverageFrom: [
         'src/**/*.{ts,tsx,js,jsx}',

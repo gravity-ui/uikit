@@ -1,6 +1,8 @@
 {
     "extends": "@gravity-ui/tsconfig",
     "compilerOptions": {
+        "rootDir": ".",
+        "types": ["node", "jest"],
         "target": "es2022",
         "allowJs": true,
         "outDir": "build/esm",

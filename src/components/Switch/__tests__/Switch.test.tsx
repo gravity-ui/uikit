@@ -45,7 +45,7 @@ describe('Switch', () => {
     });
 
     test('use passed style', () => {
-        const style = {color: 'red'};
+        const style = {color: 'rgb(255, 0, 0)'};
 
         render(<Switch style={style} qa={qaId} />);
         const component = screen.getByTestId(qaId);
@@ -130,10 +130,10 @@ describe('Switch', () => {
         const component = screen.getByRole('switch');
 
         await user.click(component);
-        expect(onUpdateFn).toBeCalledWith(true);
+        expect(onUpdateFn).toHaveBeenCalledWith(true);
 
         await user.click(component);
-        expect(onUpdateFn).toBeCalledWith(false);
+        expect(onUpdateFn).toHaveBeenCalledWith(false);
     });
 
     test('set checked=true attribute for controlled component', () => {

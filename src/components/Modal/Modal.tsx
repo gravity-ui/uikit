@@ -37,10 +37,7 @@ import './Modal.scss';
 export type OpenChangeReason = FloatingOpenChangeReason;
 
 export interface ModalProps
-    extends Pick<PortalProps, 'container' | 'disablePortal'>,
-        DOMProps,
-        AriaLabelingProps,
-        QAProps {
+    extends Pick<PortalProps, 'container' | 'disablePortal'>, DOMProps, AriaLabelingProps, QAProps {
     open?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: OpenChangeReason) => void;

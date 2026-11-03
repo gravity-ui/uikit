@@ -83,7 +83,7 @@ describe('TextInput input', () => {
                 render(<TextInput onChange={onChangeFn} />);
                 fireEvent.change(screen.getByRole('textbox'), {target: {value: '1'}});
 
-                expect(onChangeFn).toBeCalled();
+                expect(onChangeFn).toHaveBeenCalled();
             });
 
             test('call onUpdate with certain value when input changes value', () => {
@@ -93,7 +93,7 @@ describe('TextInput input', () => {
                 render(<TextInput onUpdate={onUpdateFn} />);
                 fireEvent.change(screen.getByRole('textbox'), {target: {value}});
 
-                expect(onUpdateFn).toBeCalledWith(value);
+                expect(onUpdateFn).toHaveBeenCalledWith(value);
             });
 
             test('call onChange when click to clean button', async () => {
@@ -108,7 +108,7 @@ describe('TextInput input', () => {
                     await user.click(clear);
                 }
 
-                expect(onChangeFn).toBeCalled();
+                expect(onChangeFn).toHaveBeenCalled();
             });
 
             test('do not render clear button for disabled input', async () => {

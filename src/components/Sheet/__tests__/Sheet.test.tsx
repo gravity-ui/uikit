@@ -75,6 +75,151 @@ describe('Sheet', () => {
         });
     });
 
+    describe('sticky title', () => {
+        let titleHeight: number;
+        let viewportHeight: number;
+        let getBoundingClientRectSpy: jest.SpyInstance;
+
+        beforeEach(() => {
+            titleHeight = 100;
+            viewportHeight = 500;
+            const originalGetBoundingClientRect = HTMLElement.prototype.getBoundingClientRect;
+            getBoundingClientRectSpy = jest
+                .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+                .mockImplementation(function (this: HTMLElement) {
+                    const rect = originalGetBoundingClientRect.call(this);
+                    switch (this.dataset.qa) {
+                        case SheetQa.TITLE:
+                            return {...rect, height: titleHeight};
+                        case SheetQa.CONTENT_AREA:
+                            return {...rect, height: viewportHeight};
+                        default:
+                            return rect;
+                    }
+                });
+        });
+
+        afterEach(() => {
+            getBoundingClientRectSpy.mockRestore();
+        });
+
+        test.each([
+            {height: 400, sticky: true},
+            {height: 500, sticky: false},
+            {height: 600, sticky: false},
+        ])(
+            'uses sticky=$sticky when title height is $height and viewport height is 500',
+            ({height, sticky}) => {
+                titleHeight = height;
+                render(
+                    <Sheet open stickyTitle title={<span>Projects</span>}>
+                        Content
+                    </Sheet>,
+                );
+                const title = screen.getByTestId(SheetQa.TITLE);
+                expect(screen.getByTestId(SheetQa.CONTENT_AREA).style.scrollPaddingBlockStart).toBe(
+                    sticky ? `${height}px` : '',
+                );
+                if (sticky) {
+                    expect(title).toHaveClass('g-sheet-content-area__content-title_sticky');
+                } else {
+                    expect(title).not.toHaveClass('g-sheet-content-area__content-title_sticky');
+                }
+            },
+        );
+
+        test('pins a custom title without remounting its controls when stickyTitle changes', () => {
+            const customTitle = (
+                <div role="group" aria-label="Projects">
+                    <span>Projects</span>
+                    <input aria-label="Search" defaultValue="Existing query" />
+                </div>
+            );
+            const {rerender} = render(
+                <Sheet open title={customTitle}>
+                    <span>Main content</span>
+                </Sheet>,
+            );
+            const title = screen.getByTestId(SheetQa.TITLE);
+            const input = screen.getByRole('textbox', {name: 'Search'});
+            expect(title).toContainElement(input);
+            expect(title).not.toHaveClass('g-sheet-content-area__content-title_sticky');
+            expect(screen.getByTestId(SheetQa.CONTENT_AREA).style.scrollPaddingBlockStart).toBe('');
+
+            rerender(
+                <Sheet open title={customTitle} stickyTitle>
+                    <span>Main content</span>
+                </Sheet>,
+            );
+            expect(title).toHaveClass('g-sheet-content-area__content-title_sticky');
+            expect(screen.getByTestId(SheetQa.CONTENT_AREA).style.scrollPaddingBlockStart).toBe(
+                '100px',
+            );
+            expect(title).toHaveClass('g-sheet-content-area__content-title_custom');
+            expect(screen.getByTestId(SheetQa.TITLE)).toBe(title);
+            expect(screen.getByRole('textbox', {name: 'Search'})).toBe(input);
+            expect(input).toHaveValue('Existing query');
+            expect(screen.getByText('Main content').parentElement).toBe(
+                screen.getByTestId(SheetQa.CONTENT),
+            );
+            expect(screen.getByRole('dialog', {name: 'Projects'})).toHaveAttribute(
+                'aria-labelledby',
+                title.id,
+            );
+
+            rerender(<Sheet open title={customTitle} stickyTitle={false} />);
+            expect(title).not.toHaveClass('g-sheet-content-area__content-title_sticky');
+            expect(screen.getByTestId(SheetQa.CONTENT_AREA).style.scrollPaddingBlockStart).toBe('');
+        });
+
+        test('keeps string titles and accessible names compatible', () => {
+            const {rerender} = render(<Sheet open stickyTitle title="Projects" />);
+            const title = screen.getByTestId(SheetQa.TITLE);
+            expect(title).toHaveClass('g-sheet-content-area__content-title_sticky');
+            expect(title).not.toHaveClass('g-sheet-content-area__content-title_custom');
+            expect(screen.getByRole('dialog', {name: 'Projects'})).toHaveAttribute(
+                'aria-label',
+                'Projects',
+            );
+
+            rerender(<Sheet open stickyTitle title={<span>Reports</span>} />);
+            expect(screen.getByRole('dialog', {name: 'Reports'})).not.toHaveAttribute('aria-label');
+
+            rerender(<Sheet open stickyTitle title="Updated title" />);
+            expect(screen.getByRole('dialog', {name: 'Updated title'})).not.toHaveAttribute(
+                'aria-labelledby',
+            );
+        });
+
+        test.each([undefined, null, false, true, ''])(
+            'does not render an empty title for %s',
+            (title) => {
+                render(<Sheet open stickyTitle title={title} />);
+                expect(screen.getByTestId(SheetQa.CONTENT)).toBeEmptyDOMElement();
+                expect(screen.getByRole('dialog')).not.toHaveAttribute('aria-labelledby');
+            },
+        );
+
+        test('renders a numeric zero as a title', () => {
+            render(<Sheet open stickyTitle title={0} />);
+            expect(screen.getByTestId(SheetQa.TITLE)).toHaveTextContent('0');
+            expect(screen.getByRole('dialog', {name: '0'})).toBeInTheDocument();
+        });
+
+        test('gives nested sheets with custom titles independent accessible names', () => {
+            render(
+                <Sheet open title={<span>Projects</span>}>
+                    <Sheet open title={<span>Reports</span>} />
+                </Sheet>,
+            );
+            const projects = screen.getByRole('dialog', {name: 'Projects'});
+            const reports = screen.getByRole('dialog', {name: 'Reports'});
+            expect(projects.getAttribute('aria-labelledby')).not.toBe(
+                reports.getAttribute('aria-labelledby'),
+            );
+        });
+    });
+
     describe('control mode', () => {
         test('is closed without open and defaultOpen', () => {
             render(<Sheet>Content</Sheet>);

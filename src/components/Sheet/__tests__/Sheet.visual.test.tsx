@@ -2,6 +2,8 @@ import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests
 
 import {expect, test} from '~playwright/core';
 
+import {TextInput} from '../../controls/TextInput';
+import {Sheet} from '../Sheet';
 import type {SheetProps} from '../Sheet';
 import {DEFAULT_SHEET_QA} from '../__stories__/constants';
 import {SheetQa} from '../constants';
@@ -118,6 +120,128 @@ test.describe('Sheet', {tag: '@Sheet'}, () => {
 
             expect(await getEdges()).toEqual({top: 84, bottom: height});
         });
+    });
+
+    test('sticky title: keeps short content accessible as the visible area shrinks and grows', async ({
+        page,
+        mount,
+    }) => {
+        await page.setViewportSize({width: 390, height: 844});
+        await mount(
+            <Sheet defaultOpen stickyTitle title={<div style={{height: '400px'}}>Tall title</div>}>
+                <div style={{height: '80px'}}>Short content</div>
+            </Sheet>,
+        );
+        const title = page.getByTestId(SheetQa.TITLE);
+        const contentArea = page.getByTestId(SheetQa.CONTENT_AREA);
+        const content = page.getByText('Short content');
+        const titlePosition = () => title.evaluate((element) => getComputedStyle(element).position);
+
+        await expect.poll(titlePosition).toBe('sticky');
+        await expect(content).toBeInViewport({ratio: 0.99});
+
+        await page.setViewportSize({width: 390, height: 464});
+        await expect.poll(titlePosition).toBe('static');
+        await contentArea.evaluate((element) => {
+            element.scrollTo({top: element.scrollHeight});
+        });
+        await expect(content).toBeInViewport({ratio: 0.99});
+        expect(
+            await content.evaluate((element) => {
+                const rect = element.getBoundingClientRect();
+                return element.contains(
+                    document.elementFromPoint(
+                        rect.left + rect.width / 2,
+                        rect.top + rect.height / 2,
+                    ),
+                );
+            }),
+        ).toBe(true);
+
+        await page.setViewportSize({width: 390, height: 844});
+        await expect.poll(titlePosition).toBe('sticky');
+        await expect(content).toBeInViewport({ratio: 0.99});
+
+        await page.getByText('Tall title').evaluate((element) => {
+            element.style.setProperty('height', '120px');
+        });
+        await expect(contentArea).toHaveCSS('scroll-padding-block-start', '120px');
+        await expect(content).toBeInViewport({ratio: 0.99});
+    });
+
+    test('sticky title: keeps focused content visible when tabbing backwards', async ({
+        page,
+        mount,
+    }) => {
+        await page.setViewportSize({width: 390, height: 500});
+        await mount(
+            <Sheet
+                defaultOpen
+                alwaysFullHeight
+                stickyTitle
+                title={<div style={{height: 160}}>Title</div>}
+            >
+                {Array.from({length: 20}, (_, index) => (
+                    <button key={index} style={{display: 'block', height: 40}}>
+                        Action {index + 1}
+                    </button>
+                ))}
+            </Sheet>,
+        );
+        const title = page.getByTestId(SheetQa.TITLE);
+        const actions = page.getByRole('button', {name: /^Action /});
+        await expect(title).toHaveCSS('position', 'sticky');
+        await actions.last().focus();
+
+        for (let index = 18; index >= 0; index--) {
+            await page.keyboard.press('Shift+Tab');
+            const action = actions.nth(index);
+            await expect(action).toBeFocused();
+            await expect
+                .poll(async () => {
+                    const titleBox = await title.boundingBox();
+                    const actionBox = await action.boundingBox();
+                    return titleBox && actionBox
+                        ? Math.round(actionBox.y - titleBox.y - titleBox.height)
+                        : -Infinity;
+                })
+                .toBeGreaterThanOrEqual(0);
+        }
+    });
+
+    test('sticky title: covers input labels and receives clicks above scrolled content', async ({
+        page,
+        mount,
+    }) => {
+        await page.setViewportSize({width: 390, height: 500});
+        await mount(
+            <Sheet
+                defaultOpen
+                stickyTitle
+                title={<button style={{height: 100, width: '100%'}}>Header action</button>}
+            >
+                <TextInput label="Content label" />
+                <div style={{height: 1000}} />
+            </Sheet>,
+        );
+        const headerAction = page.getByRole('button', {name: 'Header action'});
+        const contentArea = page.getByTestId(SheetQa.CONTENT_AREA);
+        await expect(page.getByTestId(SheetQa.TITLE)).toHaveCSS('position', 'sticky');
+        await contentArea.evaluate((element) => {
+            element.scrollTo({top: 80});
+        });
+        const point = await page.getByText('Content label').evaluate((element) => {
+            const rect = element.getBoundingClientRect();
+            return {x: rect.left + rect.width / 2, y: rect.top + rect.height / 2};
+        });
+        expect(
+            await headerAction.evaluate(
+                (element, {x, y}) => element.contains(document.elementFromPoint(x, y)),
+                point,
+            ),
+        ).toBe(true);
+        await page.mouse.click(point.x, point.y);
+        await expect(headerAction).toBeFocused();
     });
 
     createSmokeScenarios<Partial<Omit<SheetProps, 'open' | 'defaultOpen' | 'onOpenChange'>>>(

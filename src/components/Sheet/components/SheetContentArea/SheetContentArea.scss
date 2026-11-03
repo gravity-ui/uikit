@@ -55,5 +55,24 @@ $block: '.#{variables.$ns}sheet-content-area';
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+
+        &_custom {
+            padding-block-end: 0;
+            font: inherit;
+            text-align: start;
+            overflow: visible;
+            white-space: normal;
+            text-overflow: clip;
+        }
+
+        &_sticky {
+            position: sticky;
+            inset-block-start: 0;
+            // Stay above positioned controls in the content, such as TextInput labels.
+            z-index: 2;
+            background-color: var(--g-sheet-background-color, var(--g-color-base-float));
+            // Cover subpixel seams between the sticky title and the top bar.
+            box-shadow: 0 -1px 0 var(--g-sheet-background-color, var(--g-color-base-float));
+        }
     }
 }

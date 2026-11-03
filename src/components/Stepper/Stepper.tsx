@@ -28,8 +28,9 @@ export const Stepper = (rawProps: StepperProps) => {
 
     const stepItems = React.useMemo(() => {
         return React.Children.map(children, (child, index) => {
-            const itemId = child.props?.id || index;
-            const clonedChild = React.cloneElement(child, {id: itemId});
+            const item = child as React.ReactElement<{id?: number | string}>;
+            const itemId = item.props?.id || index;
+            const clonedChild = React.cloneElement(item, {id: itemId});
 
             return (
                 <li key={itemId} className={b('list-item')}>

@@ -3,7 +3,7 @@ import * as React from 'react';
 // eslint-disable-next-line no-restricted-imports
 import {DragDropContext} from '@hello-pangea/dnd';
 
-import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor, within} from '../../../../test-utils/utils';
 import {Lang, configure} from '../../../utils/configure';
 import {List} from '../../List';
 import {
@@ -264,7 +264,9 @@ describe('ListHelloPangeaDnd', () => {
             });
             await lift(getHandle('Alpha'));
 
-            expect(focused()).toHaveAttribute('data-rfd-drag-handle-draggable-id', 'a');
+            await waitFor(() =>
+                expect(focused()).toHaveAttribute('data-rfd-drag-handle-draggable-id', 'a'),
+            );
             // The modal hides everything outside of it from assistive technology
 
             expect(focused().closest('[aria-hidden="true"]')).toBeNull();

@@ -9,8 +9,9 @@ import {isIcon, isSvg} from '../utils/common';
 
 const b = block('segmented-radio-group');
 
-export interface SegmentedRadioGroupOptionProps<ValueType extends string = string>
-    extends ControlProps {
+export interface SegmentedRadioGroupOptionProps<
+    ValueType extends string = string,
+> extends ControlProps {
     value: ValueType;
     content?: React.ReactNode;
     children?: React.ReactNode;

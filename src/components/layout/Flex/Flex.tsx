@@ -23,8 +23,7 @@ export interface FlexStyleProps extends Omit<BoxAlignmentStyleProps, AlignPropsN
 }
 
 export interface FlexProps<T extends React.ElementType = 'div'>
-    extends BoxProps<T>,
-        FlexStyleProps {
+    extends BoxProps<T>, FlexStyleProps {
     /**
      * display: inline-flex;
      */

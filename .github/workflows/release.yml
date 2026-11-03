@@ -21,6 +21,6 @@ jobs:
         with:
           github-token: ${{ steps.generate-token.outputs.token }}
           npm-token: ${{ secrets.GRAVITY_UI_BOT_NPM_TOKEN }}
-          node-version: 20
+          node-version: 24
           default-branch: ${{ github.ref_name != 'main' && github.ref_name || null }}
           npm-dist-tag: ${{ github.ref_name != 'main' && 'untagged' || 'latest' }}

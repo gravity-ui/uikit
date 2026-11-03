@@ -11,7 +11,8 @@ export type MenuSize = 's' | 'm' | 'l' | 'xl';
 export type MenuItemTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'utility';
 
 export interface MenuProps
-    extends Pick<PopupProps, 'open' | 'onOpenChange' | 'placement'>,
+    extends
+        Pick<PopupProps, 'open' | 'onOpenChange' | 'placement'>,
         DOMProps,
         AriaLabelingProps,
         QAProps {
@@ -37,15 +38,13 @@ interface MenuItemCommonProps extends QAProps {
 }
 
 export interface MenuItemButtonProps
-    extends MenuItemCommonProps,
-        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
+    extends MenuItemCommonProps, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> {
     component?: never;
     href?: never;
 }
 
 export interface MenuItemLinkProps
-    extends MenuItemCommonProps,
-        React.AnchorHTMLAttributes<HTMLAnchorElement> {
+    extends MenuItemCommonProps, React.AnchorHTMLAttributes<HTMLAnchorElement> {
     component?: never;
     href: string;
 }
@@ -56,6 +55,4 @@ export type MenuItemComponentProps<T extends Exclude<MenuItemComponentElementTyp
     PolymorphicComponentProps<MenuItemCommonProps, T>;
 
 export type MenuItemProps<T extends MenuItemComponentElementType = undefined> =
-    | MenuItemLinkProps
-    | MenuItemButtonProps
-    | MenuItemComponentProps<Exclude<T, undefined>>;
+    MenuItemLinkProps | MenuItemButtonProps | MenuItemComponentProps<Exclude<T, undefined>>;

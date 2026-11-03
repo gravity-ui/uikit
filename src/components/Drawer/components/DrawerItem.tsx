@@ -58,7 +58,7 @@ export interface DrawerItemProps extends AriaLabelingProps {
     contentOverflow?: 'visible' | 'auto';
 
     /** FloatingOverlay's ref */
-    overlayRef: React.RefObject<HTMLElement>;
+    overlayRef: React.RefObject<HTMLElement | null>;
 }
 
 export const DrawerItem = React.forwardRef<HTMLDivElement, DrawerItemProps>(

@@ -54,7 +54,9 @@ export class SimpleContainer extends React.Component<SimpleContainerProps, Simpl
 
     render() {
         const children = React.Children.map(this.props.children, (child, index) =>
-            React.cloneElement(child as React.ReactElement, {ref: this.state.refsList[index]}),
+            React.cloneElement(child as React.ReactElement<React.RefAttributes<ListItem | null>>, {
+                ref: this.state.refsList[index],
+            }),
         );
 
         return (

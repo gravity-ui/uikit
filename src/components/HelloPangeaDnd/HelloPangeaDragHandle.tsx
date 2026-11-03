@@ -15,8 +15,7 @@ import './HelloPangeaDnd.scss';
 const b = block('hello-pangea-dnd');
 
 export interface HelloPangeaDragHandleProps
-    extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'tabIndex'>,
-        QAProps {
+    extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'tabIndex'>, QAProps {
     /** default: "Drag to reorder"; none on a decorative handle (`aria-hidden`) */
     'aria-label'?: string;
     /** default: the grip icon */

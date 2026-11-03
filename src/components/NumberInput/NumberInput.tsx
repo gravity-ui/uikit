@@ -26,8 +26,10 @@ import './NumberInput.scss';
 
 const b = block('number-input');
 
-export interface NumberInputProps
-    extends Omit<BaseInputControlProps<HTMLInputElement>, 'value' | 'defaultValue' | 'onUpdate'> {
+export interface NumberInputProps extends Omit<
+    BaseInputControlProps<HTMLInputElement>,
+    'value' | 'defaultValue' | 'onUpdate'
+> {
     /** The control's html attributes */
     controlProps?: Omit<
         React.InputHTMLAttributes<HTMLInputElement>,

@@ -2,8 +2,13 @@
 
 import * as React from 'react';
 
-import {useForkRef, useIntersection, useLayoutEffect, useUniqId} from '../../../hooks';
-import {useOpenState} from '../../../hooks/useSelect/useOpenState';
+import {
+    useControlledState,
+    useForkRef,
+    useIntersection,
+    useLayoutEffect,
+    useUniqId,
+} from '../../../hooks';
 import {List, useListFocusOwner} from '../../List';
 import type {ListItemActionEvent, ListItemContext, ListItemHelpers} from '../../List';
 import {ListVirtualizationContext} from '../../List/VirtualizationContext';
@@ -15,7 +20,7 @@ import {block} from '../../utils/cn';
 import {warnOnce} from '../../utils/warn';
 
 import i18n from './i18n';
-import type {SuggestOpenChangeReason, SuggestProps} from './types';
+import type {SuggestProps} from './types';
 import {buildListItems, getItemId, getItemTextValue, isLoadingItem} from './utils';
 import type {SuggestListItem} from './utils';
 
@@ -114,22 +119,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         inputProps.placeholder;
     const listLabelledBy = ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'];
 
-    const {open, toggleOpen} = useOpenState({
-        open: openProp,
-        defaultOpen,
-    });
-
-    const isOpenControlled = openProp !== undefined;
-
-    const setOpen = React.useCallback(
-        (nextOpen: boolean, event?: Event, reason?: SuggestOpenChangeReason) => {
-            if (nextOpen !== open) {
-                onOpenChange?.(nextOpen, event, reason);
-            }
-            toggleOpen(nextOpen);
-        },
-        [open, toggleOpen, onOpenChange],
-    );
+    const [open, setOpen] = useControlledState(openProp, defaultOpen ?? false, onOpenChange);
 
     const handleOptionAction = React.useCallback(
         (id: string, option: SuggestListItem<T>, event: ListItemActionEvent) => {
@@ -269,11 +259,9 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 setUncontrolledValue(newValue);
             }
             onUpdate?.(newValue);
-            if (!isOpenControlled) {
-                setOpen(Boolean(newValue), undefined, 'input-change');
-            }
+            setOpen(Boolean(newValue), undefined, 'input-change');
         },
-        [value, onUpdate, isOpenControlled, setOpen],
+        [value, onUpdate, setOpen],
     );
 
     const handleInputClick = React.useCallback(

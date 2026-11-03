@@ -143,17 +143,37 @@ describe('Suggest', () => {
         },
     );
 
-    test('reports input-change when typing opens or clearing closes the popup', async () => {
-        const user = userEvent.setup();
-        const onOpenChange = jest.fn();
-        renderSuggest({onOpenChange});
-        const input = screen.getByRole('combobox');
-        await user.tab();
-        await user.keyboard('e');
-        expect(onOpenChange).toHaveBeenLastCalledWith(true, undefined, 'input-change');
-        await user.clear(input);
-        expect(onOpenChange).toHaveBeenLastCalledWith(false, undefined, 'input-change');
-    });
+    test.each(['controlled', 'uncontrolled'])(
+        'reports input-change when typing opens or clearing closes the %s popup',
+        async (mode) => {
+            const user = userEvent.setup();
+            const onOpenChange = jest.fn();
+            function Example() {
+                const [open, setOpen] = React.useState(false);
+                return (
+                    <Suggest
+                        options={ITEMS}
+                        open={mode === 'controlled' ? open : undefined}
+                        onOpenChange={(...args) => {
+                            onOpenChange(...args);
+                            setOpen(args[0]);
+                        }}
+                    />
+                );
+            }
+            render(<Example />);
+            const input = screen.getByRole('combobox');
+            await user.tab();
+            await user.keyboard('ea');
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenLastCalledWith(true, undefined, 'input-change');
+            expect(screen.getByRole('listbox')).toBeVisible();
+            await user.clear(input);
+            expect(onOpenChange).toHaveBeenCalledTimes(2);
+            expect(onOpenChange).toHaveBeenLastCalledWith(false, undefined, 'input-change');
+            await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
+        },
+    );
 
     test('does not call onOptionAction for disabled items', async () => {
         const onOptionAction = jest.fn();
@@ -231,7 +251,7 @@ describe('Suggest', () => {
     });
 
     describe('controlled open', () => {
-        test('typing and clearing do not request opening or closing', async () => {
+        test('typing requests opening without overriding controlled open', async () => {
             const onOpenChange = jest.fn();
             const user = userEvent.setup();
             renderSuggest({open: false, onOpenChange});
@@ -240,7 +260,9 @@ describe('Suggest', () => {
             await user.keyboard('e[Backspace]');
 
             expect(screen.getByRole('combobox')).toHaveValue('');
-            expect(onOpenChange).not.toHaveBeenCalled();
+            expect(onOpenChange).toHaveBeenCalledTimes(1);
+            expect(onOpenChange).toHaveBeenCalledWith(true, undefined, 'input-change');
+            expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
         });
 
         test.each([

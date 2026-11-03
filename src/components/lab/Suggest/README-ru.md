@@ -131,12 +131,14 @@ const [open, setOpen] = React.useState(false);
 
 <Suggest
   value={value}
-  onUpdate={(nextValue) => {
-    setValue(nextValue);
-    setOpen(true);
-  }}
+  onUpdate={setValue}
   open={open}
-  onOpenChange={setOpen}
+  onOpenChange={(nextOpen, _event, reason) => {
+    if (!nextOpen && reason === 'input-change') {
+      return;
+    }
+    setOpen(nextOpen);
+  }}
   options={allItems}
   onFocus={() => setOpen(true)}
   placeholder="Нажмите, чтобы увидеть все варианты…"

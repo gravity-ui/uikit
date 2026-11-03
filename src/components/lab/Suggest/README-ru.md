@@ -1,0 +1,283 @@
+<!--GITHUB_BLOCK-->
+
+# unstable_Suggest
+
+<!--/GITHUB_BLOCK-->
+
+> `Suggest` — экспериментальный компонент (`lab`); API может меняться в минорных релизах, пока не стабилизируется.
+
+```tsx
+import {
+  unstable_Suggest as Suggest,
+  type unstable_SuggestOptionProps as SuggestOptionProps,
+} from '@gravity-ui/uikit/unstable';
+```
+
+`Suggest` — это текстовое поле ввода с выпадающим списком вариантов. Компонент берёт на себя навигацию с клавиатуры, ARIA-атрибуты и позиционирование попапа. Загрузка данных, дебаунс и пагинация реализуются снаружи.
+
+## Базовое использование
+
+Опция повторяет форму как в `Select` — `value`, `content` (рендерится по умолчанию), опциональный `disabled` и опциональный дженерик-пейлоад `data`. Передайте `options` (синхронный массив) и обновляйте его в `onUpdate`:
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+const ALL_PLANETS = [
+  {value: 'earth', content: 'Земля'},
+  {value: 'europa', content: 'Европа'},
+  {value: 'jupiter', content: 'Юпитер'},
+];
+
+const [value, setValue] = React.useState('');
+const options = React.useMemo(
+  () => ALL_PLANETS.filter((o) => o.value.toLowerCase().includes(value.toLowerCase())),
+  [value],
+);
+
+<Suggest
+  value={value}
+  onUpdate={setValue}
+  options={options}
+  onOptionAction={(_value, option) => {
+    setValue(option.value);
+  }}
+  placeholder="Поиск…"
+/>;
+```
+
+По умолчанию отображается `content` опции, а если он не задан — `children`. Для изменения содержимого передайте `renderOption`. Второй аргумент содержит `itemHeight`, `isItemActive` и `selected` (всегда `false`, поскольку Suggest не управляет выбранными значениями). Верните React-элемент.
+
+<!--/GITHUB_BLOCK-->
+
+## Асинхронная загрузка
+
+Используйте локальный флаг `loading` вместе с `options`. При `loading === true` к существующим опциям добавляется строка загрузки. Если опций нет, показывается отдельный спиннер:
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+const [value, setValue] = React.useState('');
+const [options, setOptions] = React.useState<SuggestOptionProps[]>([]);
+const [loading, setLoading] = React.useState(false);
+const lastRequestId = React.useRef(0);
+
+const handleUpdate = async (query: string) => {
+  const requestId = ++lastRequestId.current;
+  setValue(query);
+  setLoading(true);
+  try {
+    const results = await fetchPlanets(query);
+    if (requestId === lastRequestId.current) {
+      setOptions(results);
+    }
+  } finally {
+    if (requestId === lastRequestId.current) {
+      setLoading(false);
+    }
+  }
+};
+
+<Suggest
+  value={value}
+  onUpdate={handleUpdate}
+  options={options}
+  loading={loading}
+  onOptionAction={(_value, option) => {
+    setValue(option.value);
+  }}
+  placeholder="Поиск…"
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+Только последний запрос обновляет опции и состояние загрузки; предыдущие запросы продолжают выполняться, но их результаты игнорируются. `fetchPlanets` обозначает функцию загрузки данных вашего приложения; обработку ошибок запросов реализуйте в приложении.
+
+Чтобы сократить число запросов, добавьте debounce для загрузки, обновляя значение инпута сразу. Сам по себе debounce не защищает от устаревших ответов. Если функция загрузки поддерживает `AbortSignal`, предыдущие запросы также можно отменять через `AbortController`.
+
+## Кастомизация TextInput
+
+Все пропсы `TextInput` (size, pin, hasClear, startContent, validationState, errorMessage, disabled и т.д.) передаются напрямую в `Suggest`:
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Suggest
+  value={value}
+  onUpdate={setValue}
+  options={items}
+  size="xl"
+  hasClear
+  placeholder="Поиск…"
+  validationState={hasError ? 'invalid' : undefined}
+  errorMessage={hasError ? 'Некорректный ввод' : undefined}
+  startContent={<Icon data={SearchIcon} />}
+/>
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Показывать опции при пустом вводе
+
+Сам по себе фокус не открывает попап, даже если поле уже заполнено.
+Попап открывается при вводе непустого значения, клике по полю или нажатии ArrowDown/ArrowUp.
+Чтобы открывать попап при фокусе или оставлять его открытым после очистки поля,
+управляйте состоянием открытия самостоятельно:
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+const [open, setOpen] = React.useState(false);
+
+<Suggest
+  value={value}
+  onUpdate={setValue}
+  open={open}
+  onOpenChange={(nextOpen, _event, reason) => {
+    if (!nextOpen && reason === 'input-change') {
+      return;
+    }
+    setOpen(nextOpen);
+  }}
+  options={allItems}
+  onFocus={() => setOpen(true)}
+  placeholder="Нажмите, чтобы увидеть все варианты…"
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Кастомное содержимое попапа
+
+Используйте `renderPopup({renderList})`, чтобы обернуть стандартное содержимое или добавить заголовок/подвал. Для пустого состояния используйте `renderEmptyOptions({filter})`, где `filter` — текущее значение инпута. `renderList()` отображает список, начальную загрузку или пользовательское пустое состояние. Если `renderPopup` возвращает `null`, попап скрыт.
+Обёртки списка должны быть flex-контейнерами с `flex-direction: column` и `min-height: 0`,
+чтобы список мог сжиматься до доступной высоты попапа. Для сохранения высоты заголовка
+и подвала задайте им `flex-shrink: 0`:
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Suggest
+  value={value}
+  onUpdate={setValue}
+  options={filteredItems}
+  renderEmptyOptions={({filter}) => (
+    <div
+      role="status"
+      style={{padding: 'var(--g-spacing-2)', color: 'var(--g-color-text-secondary)'}}
+    >
+      Ничего не найдено по запросу «{filter}»
+    </div>
+  )}
+  renderPopup={({renderList}) => (
+    <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
+      <div style={{padding: 'var(--g-spacing-2)', fontWeight: 600, flexShrink: 0}}>Результаты</div>
+      {renderList()}
+    </div>
+  )}
+/>
+```
+
+<!--/GITHUB_BLOCK-->
+
+## Виртуализация
+
+Оберните `Suggest` в `ListVirtualizer`, как обычный `List` или `Select`:
+
+```tsx
+import {unstable_Suggest as Suggest} from '@gravity-ui/uikit/unstable';
+import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
+
+<ListVirtualizer>
+  <Suggest options={options} value={value} onUpdate={setValue} />
+</ListVirtualizer>;
+```
+
+Для этой точки входа установите опциональную peer-зависимость `@tanstack/react-virtual`.
+Без обёртки Suggest рендерит все опции и не требует зависимости для виртуализации.
+
+Максимальная высота попапа — `40vh`. Чтобы изменить её, задайте `max-height` через
+`popupClassName`. Это работает с виртуализацией и без неё. Внутри попапа прокручивается только список.
+Строки используют дизайн List и размер из `size`. Виртуализатор автоматически
+измеряет строки переменной высоты. Если передан `getOptionHeight`, он задаёт высоту строки и её
+оценку для виртуализации; иначе оценка определяется размером List. `ListVirtualizer.estimateItemSize`
+игнорируется с предупреждением в режиме разработки. Высота строки загрузки определяется размером инпута.
+
+`onLoadMore` вызывается, когда строка загрузки становится видимой в непустом списке.
+Для пагинации передавайте `loading={hasNextPage}`, пока есть следующие страницы, и защищайте
+загрузку от параллельных запросов. Первый запрос запускается снаружи: отдельный спиннер
+при пустом списке не вызывает `onLoadMore`.
+
+```tsx
+<Suggest
+  options={options}
+  loading={hasNextPage}
+  onLoadMore={() => {
+    if (!isFetching && hasNextPage) {
+      loadNextPage();
+    }
+  }}
+/>
+```
+
+## Управление с клавиатуры
+
+При открытии попапа ни одна опция не подсвечивается автоматически.
+
+| Windows / Linux      | macOS                | Действие                                                   |
+| :------------------- | :------------------- | :--------------------------------------------------------- |
+| `↓` Arrow Down       | `↓`                  | Открыть попап (если закрыт) или перейти к следующей опции  |
+| `↑` Arrow Up         | `↑`                  | Открыть попап (если закрыт) или перейти к предыдущей опции |
+| `Page Down`          | `Fn + ↓`             | Переместиться вниз на десять опций                         |
+| `Page Up`            | `Fn + ↑`             | Переместиться вверх на десять опций                        |
+| `Home`               | `Fn + ←`             | Переместить курсор в начало поля ввода                     |
+| `End`                | `Fn + →`             | Переместить курсор в конец поля ввода                      |
+| `Shift + Home / End` | `Shift + Fn + ← / →` | Расширить выделение до начала / конца                      |
+| `Enter`              | `Enter`              | Выбрать активную опцию и закрыть попап                     |
+| `Escape`             | `Escape`             | Закрыть попап (фокус остаётся на поле ввода)               |
+
+## Свойства
+
+| Название             | Описание                                                                                          | Тип                                                                                                                        | По умолчанию   |
+| :------------------- | :------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------- | :------------- |
+| className            | CSS-класс корня TextInput                                                                         | `string`                                                                                                                   |                |
+| controlRef           | Ссылка на нативный элемент ввода (см. TextInput)                                                  | `TextInputProps["controlRef"]`                                                                                             |                |
+| defaultOpen          | Начальное состояние открытия (неконтролируемый режим)                                             | `boolean`                                                                                                                  |                |
+| defaultValue         | Начальное значение (неконтролируемый режим)                                                       | `string`                                                                                                                   |                |
+| disablePortal        | Рендерить попап без портала                                                                       | `boolean`                                                                                                                  | `false`        |
+| getOptionHeight      | Высота строки (для переменных высот)                                                              | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |                |
+| id                   | ID нативного input (генерируется автоматически, если не указан)                                   | `string`                                                                                                                   |                |
+| loading              | Добавить строку загрузки; при пустом списке показать отдельный спиннер                            | `boolean`                                                                                                                  | `false`        |
+| onActiveOptionUpdate | Передаёт запросы List на изменение активной опции: её `value` или `null`                          | `(value: string \| null) => void`                                                                                          |                |
+| onLoadMore           | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           | `() => void`                                                                                                               |                |
+| onOpenChange         | Вызывается при изменении состояния попапа                                                         | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void`                                                 |                |
+| onOptionAction       | Вызывается при выборе опции мышью или клавиатурой                                                 | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void`                                       |                |
+| onUpdate             | Вызывается при изменении значения поля                                                            | `(value: string) => void`                                                                                                  |                |
+| open                 | Управлять открытием попапа снаружи                                                                | `boolean`                                                                                                                  |                |
+| options              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` | `SuggestOptionProps<T>[]`                                                                                                  |                |
+| popupClassName       | CSS-класс попапа                                                                                  | `string`                                                                                                                   |                |
+| popupPlacement       | Положение попапа относительно инпута                                                              | `PopupPlacement`                                                                                                           | `bottom-start` |
+| popupWidth           | Ширина попапа: как у поля, авто или фиксированная (px)                                            | `'fit' \| 'auto' \| number`                                                                                                | `'fit'`        |
+| qa                   | Атрибут `data-qa` корневого `span` TextInput                                                      | `string`                                                                                                                   |                |
+| ref                  | Ссылка на корневой `span` TextInput                                                               | `React.Ref<HTMLSpanElement>`                                                                                               |                |
+| renderEmptyOptions   | Пользовательское пустое состояние, когда нет загрузки                                             | `(props: {filter: string}) => ReactElement \| null`                                                                        |                |
+| renderOption         | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |                |
+| renderPopup          | Заменить или обернуть стандартный список внутри попапа                                            | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null`                                                |                |
+| style                | Инлайн-стили корня TextInput                                                                      | `CSSProperties`                                                                                                            |                |
+| value                | Значение поля (контролируемый режим)                                                              | `string`                                                                                                                   |                |
+
+Suggest принимает все [пропсы TextInput](../../controls/TextInput/README.md) напрямую, а также `aria-label`, `aria-labelledby`, `aria-describedby` и `aria-details`. `ref` указывает на корень TextInput, `controlRef` — на нативный input.
+
+Suggest управляет атрибутами `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, `aria-autocomplete` и `aria-busy`; переопределять их через `controlProps` нельзя.
+
+После выбора опции неконтролируемый попап закрывается. При контролируемом `open` Suggest запрашивает закрытие через `onOpenChange(false, event, 'option-action')`; родитель может проигнорировать запрос и оставить попап открытым. Возвращаемое значение `onOptionAction` не управляет попапом.
+
+`SuggestOpenChangeReason` дополняет `OpenChangeReason` из Floating UI причинами `input-change` (ввод или очистка поля) и `option-action` (выбор опции).
+
+`onActiveOptionUpdate` передаёт запросы List при взаимодействии с клавиатурой или указателем. Перестановка или удаление опций и закрытие попапа не вызывают дополнительных уведомлений. При каждом открытии активной опции нет. Текст для List берётся из строкового или числового `content`/`children`, иначе используется `value` опции.
+
+## Доступность
+
+При загрузке инпут получает `aria-busy`. Визуально скрытая область статуса в режиме polite сообщает о загрузке, количестве вариантов или отсутствии результатов, когда запрошено открытие. `aria-expanded` и `aria-controls` соответствуют смонтированному List: попап только со спиннером или пользовательским пустым состоянием не обозначается как раскрытый список.
+
+Для пользовательского пустого состояния или ошибки в `renderEmptyOptions` или `renderPopup` задайте собственный `role="status"` (или подходящую live region). Suggest не объявляет стандартное сообщение об отсутствии результатов поверх пользовательского содержимого.

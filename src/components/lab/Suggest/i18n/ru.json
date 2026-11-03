@@ -1,0 +1,5 @@
+{
+  "status_loading": "Загрузка вариантов",
+  "status_empty": "Ничего не найдено",
+  "status_results": "Доступно вариантов: {{count}}"
+}

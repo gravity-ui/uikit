@@ -68,14 +68,17 @@ $transition-timing-function: ease-in-out;
         overflow: hidden;
     }
 
+    &__key {
+        opacity: 0.7;
+    }
+
     &__value {
         display: flex;
-        opacity: 0.7;
         overflow: hidden;
     }
 
     &__separator {
-        margin: 0 4px;
+        margin: 0 4px 0 2px;
     }
 
     &__main-button {

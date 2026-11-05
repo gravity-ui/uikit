@@ -41,7 +41,7 @@ test.describe('ListItemView', {tag: '@ListItemView'}, () => {
             await expect(row, size).toHaveCSS('padding-inline-start', `${PADDING_INLINE[size]}px`);
             await expect(row, size).toHaveCSS('padding-inline-end', `${PADDING_INLINE[size]}px`);
         }
-        // A row without a size has the geometry of `m`
+        // A row without a size has the paddings of `m`
         await expect(page.getByTestId('row-default')).toHaveCSS(
             'padding-inline-start',
             `${PADDING_INLINE.m}px`,

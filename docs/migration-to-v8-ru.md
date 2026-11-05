@@ -243,9 +243,10 @@ being used as a type here» — замените их на `SelectOptionProps` �
 через `getOptionHeight` и `getOptionGroupHeight`.
 
 Горизонтальные отступы строк `List` и `Select` тоже зависят от размера: 8, 12, 16 и 16px для `s`, `m`, `l` и `xl`
-вместо 8px для всех размеров; строки мобильного `Select` — размера `xl`. Заголовок секции `List` и заголовок группы
-`Select` имеют горизонтальный отступ строки своего размера. Чтобы сохранить старый отступ, задайте
-`--g-list-item-view-padding-inline: 8px` на классе списка. Отступы `Menu` не изменились.
+вместо одного отступа для всех размеров; строки мобильного `Select` — размера `xl`. Заголовок секции `List` и
+заголовок группы `Select` имеют горизонтальный отступ строки своего размера. Чтобы сохранить свой отступ, задайте
+`--g-list-item-view-padding-inline` на том же классе, что и высоту выше: `className` у `List`, `popupClassName` и
+`sheetClassName` у `Select`. Отступы `Menu` не изменились.
 
 ## Table и TableColumnSetup
 

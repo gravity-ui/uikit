@@ -58,7 +58,8 @@ the paddings, the corner radius and the size of the controls of the row; `xl` al
 text to `body-2`. The heights are those of the controls — 24, 28, 36 and 44px — and, as in the
 controls, the block paddings come from the height: a single line fills the row exactly, every next
 line adds its line height. The inline paddings grow with the size — 8, 12, 16 and 16px. A row
-without `size` has the geometry of `m`; inside a `<List>` every row gets the size of the list.
+without `size` has the height, the paddings and the radius of `m` with the controls of the base
+view; inside a `<List>` every row gets the size of the list.
 
 <ListItemViewSizes />
 

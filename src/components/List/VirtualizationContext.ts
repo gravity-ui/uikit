@@ -1,6 +1,8 @@
 'use client';
 import * as React from 'react';
 
+import {warnOnce} from '../utils/warn';
+
 import type {ListItemContext} from './types';
 import type {ListContainerDOMProps} from './useList';
 
@@ -47,3 +49,23 @@ export interface ListVirtualizationContextValue {
 export const ListVirtualizationContext = React.createContext<ListVirtualizationContextValue | null>(
     null,
 );
+
+/** Override the outer virtualization estimate with the component's own row heights. */
+export function useListVirtualization<T>(
+    getItemHeight: (item: T, index: number) => number,
+    warningMessage: string,
+) {
+    const outerVirtualization = React.useContext(ListVirtualizationContext);
+    return React.useMemo<ListVirtualizationContextValue | null>(() => {
+        if (!outerVirtualization) {
+            return null;
+        }
+        if (outerVirtualization.estimateItemSize !== undefined) {
+            warnOnce(warningMessage);
+        }
+        return {
+            ...outerVirtualization,
+            estimateItemSize: (ctx: ListItemContext<T>) => getItemHeight(ctx.item, ctx.index),
+        };
+    }, [outerVirtualization, getItemHeight, warningMessage]);
+}

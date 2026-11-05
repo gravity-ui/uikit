@@ -12,13 +12,12 @@ import {
 } from '../../../hooks';
 import {List, useListFocusOwner} from '../../List';
 import type {ListItemActionEvent, ListItemContext, ListItemHelpers} from '../../List';
-import {ListVirtualizationContext} from '../../List/VirtualizationContext';
+import {ListVirtualizationContext, useListVirtualization} from '../../List/VirtualizationContext';
 import {LIST_ITEM_VIEW_MIN_HEIGHT} from '../../ListItemView/constants';
 import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
 import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
-import {warnOnce} from '../../utils/warn';
 
 import i18n from './i18n';
 import type {SuggestProps} from './types';
@@ -98,22 +97,10 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             isLoadingItem(item) ? itemHeight : (getOptionHeight?.(item, index) ?? itemHeight),
         [getOptionHeight, itemHeight],
     );
-    const outerVirtualization = React.useContext(ListVirtualizationContext);
-    const virtualization = React.useMemo(() => {
-        if (!outerVirtualization) {
-            return null;
-        }
-        if (outerVirtualization.estimateItemSize !== undefined) {
-            warnOnce(
-                '[Suggest] `estimateItemSize` of `ListVirtualizer` is not used: row height comes from `getOptionHeight` and the input size.',
-            );
-        }
-        return {
-            ...outerVirtualization,
-            estimateItemSize: (ctx: ListItemContext<SuggestListItem<T>>) =>
-                getItemHeight(ctx.item, ctx.index),
-        };
-    }, [outerVirtualization, getItemHeight]);
+    const virtualization = useListVirtualization(
+        getItemHeight,
+        '[Suggest] `estimateItemSize` of `ListVirtualizer` is not used: row height comes from `getOptionHeight` and the input size.',
+    );
 
     const autoId = useUniqId();
     const componentId = idProp || autoId;

@@ -247,7 +247,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             statusText = t('status_loading');
         } else if (listInputProps['aria-expanded']) {
             statusText = t('status_results', {count: options?.length ?? 0});
-        } else if (!options?.length && !renderPopup && !renderEmptyOptions) {
+        } else if (!options?.length) {
             statusText = t('status_empty');
         }
     }

@@ -331,8 +331,12 @@ for (const {lang, loading, results, empty} of [
         await expect(input).toHaveAttribute('aria-expanded', 'false');
         await expect(input).not.toHaveAttribute('aria-controls');
         await expect(status).toHaveText(empty);
+        await page.getByRole('button', {name: 'custom-empty', exact: true}).click();
+        await expect(status).toHaveText(empty);
+        await expect(page.getByText('No matching planets')).toBeVisible();
         await page.getByRole('button', {name: 'error', exact: true}).click();
-        await expect(status).toBeEmpty();
-        await expect(page.getByRole('status').nth(1)).toHaveText('Request failed');
+        await expect(status).toHaveText(empty);
+        await expect(page.getByText('Request failed')).toBeVisible();
+        await expect(page.getByRole('status')).toHaveCount(1);
     });
 }

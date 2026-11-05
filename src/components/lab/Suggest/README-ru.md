@@ -162,10 +162,7 @@ const [open, setOpen] = React.useState(false);
   onUpdate={setValue}
   options={filteredItems}
   renderEmptyOptions={({filter}) => (
-    <div
-      role="status"
-      style={{padding: 'var(--g-spacing-2)', color: 'var(--g-color-text-secondary)'}}
-    >
+    <div style={{padding: 'var(--g-spacing-2)', color: 'var(--g-color-text-secondary)'}}>
       Ничего не найдено по запросу «{filter}»
     </div>
   )}
@@ -280,4 +277,4 @@ Suggest управляет атрибутами `role`, `aria-expanded`, `aria-c
 
 Инпут получает `aria-busy` только при загрузке без доступных опций. При пагинации статус сообщает количество доступных вариантов вместо загрузки. Визуально скрытая область статуса в режиме polite сообщает о загрузке, количестве вариантов или отсутствии результатов, когда запрошено открытие. `aria-expanded` и `aria-controls` соответствуют смонтированному List: попап только со спиннером или пользовательским пустым состоянием не обозначается как раскрытый список.
 
-Для пользовательского пустого состояния или ошибки в `renderEmptyOptions` или `renderPopup` задайте собственный `role="status"` (или подходящую live region). Suggest не объявляет стандартное сообщение об отсутствии результатов поверх пользовательского содержимого.
+Suggest сообщает об отсутствии результатов, в том числе при пользовательском содержимом в `renderEmptyOptions` или `renderPopup`. Пользовательское пустое состояние отвечает за визуальное отображение и не требует собственной live region.

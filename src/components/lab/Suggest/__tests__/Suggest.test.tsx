@@ -222,19 +222,32 @@ describe('Suggest', () => {
         await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
     });
 
-    test('renders custom empty content with the input filter inside the popup wrapper', async () => {
+    test('keeps input focus when clicking custom popup and empty content', async () => {
         const user = userEvent.setup();
         const renderEmptyOptions = jest.fn(() => <span>No results</span>);
+        const onAction = jest.fn();
         renderSuggest({
             options: [],
             renderEmptyOptions,
-            renderPopup: ({renderList}) => <div>{renderList()}</div>,
+            renderPopup: ({renderList}) => (
+                <div>
+                    <div>Results header</div>
+                    {renderList()}
+                    <button onClick={onAction}>Retry</button>
+                </div>
+            ),
         });
         await user.type(screen.getByRole('combobox'), 'unknown');
 
         expect(screen.getByTestId(QA_POPUP)).toBeVisible();
         expect(screen.getByText('No results')).toBeVisible();
         expect(renderEmptyOptions).toHaveBeenLastCalledWith({filter: 'unknown'});
+        for (const text of ['Results header', 'No results', 'Retry']) {
+            await user.click(screen.getByText(text));
+            expect(screen.getByRole('combobox')).toHaveFocus();
+            expect(screen.getByTestId(QA_POPUP)).toBeVisible();
+        }
+        expect(onAction).toHaveBeenCalledTimes(1);
         expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 

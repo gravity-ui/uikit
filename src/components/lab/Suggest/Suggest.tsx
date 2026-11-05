@@ -351,7 +351,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 style={popupStyle}
                 returnFocus={false}
             >
-                {popupContent}
+                <div
+                    className={b('popup-content')}
+                    role="presentation"
+                    onMouseDown={(event) => event.preventDefault()}
+                >
+                    {popupContent}
+                </div>
             </Popup>
         </React.Fragment>
     );

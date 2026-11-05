@@ -17,6 +17,10 @@
         max-height: 40vh;
     }
 
+    &__popup-content {
+        display: contents;
+    }
+
     &__loader {
         box-sizing: border-box;
         display: flex;

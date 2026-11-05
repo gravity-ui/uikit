@@ -275,6 +275,6 @@ After an option action, an uncontrolled popup closes. With controlled `open`, Su
 
 ## Accessibility
 
-The input is marked `aria-busy` while loading. A visually hidden polite status announces loading, the available option count, or no results while opening is requested. `aria-expanded` and `aria-controls` describe the mounted List, so a popup showing only a loader or custom empty content does not mark the list as expanded.
+The input is marked `aria-busy` only while loading with no options. During pagination, the status announces the available option count instead of loading. A visually hidden polite status announces loading, the available option count, or no results while opening is requested. `aria-expanded` and `aria-controls` describe the mounted List, so a popup showing only a loader or custom empty content does not mark the list as expanded.
 
 For custom empty or error content in `renderEmptyOptions` or `renderPopup`, provide its own `role="status"` (or an appropriate live region). Suggest does not announce a generic empty result over custom content.

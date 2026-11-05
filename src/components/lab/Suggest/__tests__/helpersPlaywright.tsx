@@ -135,7 +135,7 @@ export function SuggestStatus({lang}: {lang: 'en' | 'ru'}) {
     return (
         <LangProvider lang={lang}>
             <div style={{height: 400}}>
-                {['loading', 'results', 'empty', 'error'].map((value) => (
+                {['loading', 'results', 'pagination', 'empty', 'error'].map((value) => (
                     <button key={value} onClick={() => setState(value)}>
                         {value}
                     </button>
@@ -143,8 +143,8 @@ export function SuggestStatus({lang}: {lang: 'en' | 'ru'}) {
                 <Suggest
                     open
                     aria-label="Planets"
-                    loading={state === 'loading'}
-                    options={state === 'results' ? OPTIONS : []}
+                    loading={state === 'loading' || state === 'pagination'}
+                    options={state === 'results' || state === 'pagination' ? OPTIONS : []}
                     renderPopup={
                         state === 'error'
                             ? () => <div role="status">Request failed</div>

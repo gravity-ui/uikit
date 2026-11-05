@@ -323,6 +323,10 @@ for (const {lang, loading, results, empty} of [
             (await page.getByRole('listbox').getAttribute('id')) as string,
         );
         await expect(status).toHaveText(results);
+        await page.getByRole('button', {name: 'pagination', exact: true}).click();
+        await expect(input).not.toHaveAttribute('aria-busy');
+        await expect(status).toHaveText(results);
+        await expect(page.getByRole('listbox').locator('.g-loader')).toBeVisible();
         await page.getByRole('button', {name: 'empty', exact: true}).click();
         await expect(input).toHaveAttribute('aria-expanded', 'false');
         await expect(input).not.toHaveAttribute('aria-controls');

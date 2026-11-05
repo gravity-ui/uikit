@@ -90,6 +90,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const inputValue = value ?? uncontrolledValue;
+    const initialLoading = loading && !options?.length;
     const items = React.useMemo(() => buildListItems(options, loading), [options, loading]);
     const itemHeight = LIST_ITEM_VIEW_MIN_HEIGHT[inputProps.size ?? 'm'];
     const getItemHeight = React.useCallback(
@@ -187,7 +188,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     );
 
     const renderList = () => {
-        if (loading && !options?.length) {
+        if (initialLoading) {
             return (
                 <div className={b('loader')} style={{height: itemHeight}}>
                     <Loader />
@@ -242,7 +243,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const {onKeyDown: onListKeyDown, ...listInputProps} = focusOwner.getInputProps();
     let statusText = '';
     if (open) {
-        if (loading) {
+        if (initialLoading) {
             statusText = t('status_loading');
         } else if (listInputProps['aria-expanded']) {
             statusText = t('status_results', {count: options?.length ?? 0});
@@ -331,7 +332,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     'aria-details': ariaDetails ?? inputProps.controlProps?.['aria-details'],
                     onClick: handleInputClick,
                     ...listInputProps,
-                    'aria-busy': loading || undefined,
+                    'aria-busy': initialLoading || undefined,
                     'aria-autocomplete': 'list',
                 }}
             />

@@ -242,6 +242,11 @@ being used as a type here» — замените их на `SelectOptionProps` �
 `List` и `Select` и заголовки следуют за ней. Высоты, которыми считает `Select`, — оценка виртуализатора и `itemHeight` — задаются
 через `getOptionHeight` и `getOptionGroupHeight`.
 
+Горизонтальные отступы строк `List` и `Select` тоже зависят от размера: 8, 12, 16 и 16px для `s`, `m`, `l` и `xl`
+вместо 8px для всех размеров; строки мобильного `Select` — размера `xl`. Заголовок секции `List` и заголовок группы
+`Select` имеют горизонтальный отступ строки своего размера. Чтобы сохранить старый отступ, задайте
+`--g-list-item-view-padding-inline: 8px` на классе списка. Отступы `Menu` не изменились.
+
 ## Table и TableColumnSetup
 
 `Table`, его HOC (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`, `withTableSorting`) и

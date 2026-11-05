@@ -8,6 +8,7 @@ import {LIST_ITEM_VIEW_MIN_HEIGHT} from '../constants';
 import {CssApiRows, MinHeightRows, SizeRows} from './helpersPlaywright';
 
 const LINE_HEIGHT = {s: 18, m: 18, l: 18, xl: 20} as const;
+const PADDING_INLINE = {s: 8, m: 12, l: 16, xl: 16} as const;
 
 const middle = (locator: Locator) =>
     locator.evaluate((element) => {
@@ -26,6 +27,27 @@ test.describe('ListItemView', {tag: '@ListItemView'}, () => {
             await expect(row, qa).toHaveCSS('padding-block-start', '3px');
             await expect(row, qa).toHaveCSS('border-start-start-radius', '0px');
         }
+        // The section header of a list follows the same variables
+        const header = page.getByTestId('header');
+        expect((await header.boundingBox())?.height).toBe(48);
+        await expect(header).toHaveCSS('padding-inline-start', '20px');
+    });
+
+    test('the inline padding follows the size of the row', async ({mount, page}) => {
+        await mount(<SizeRows />);
+
+        for (const size of ['s', 'm', 'l', 'xl'] as const) {
+            const row = page.getByTestId(`row-${size}`);
+            await expect(row, size).toHaveCSS('padding-inline-start', `${PADDING_INLINE[size]}px`);
+            await expect(row, size).toHaveCSS('padding-inline-end', `${PADDING_INLINE[size]}px`);
+        }
+        // A row without a size has the geometry of `m`
+        await expect(page.getByTestId('row-default')).toHaveCSS(
+            'padding-inline-start',
+            `${PADDING_INLINE.m}px`,
+        );
+        // A container row lays out nothing and has no paddings of its own
+        await expect(page.getByTestId('row-container')).toHaveCSS('padding-inline-start', '0px');
     });
 
     test('a row has the height of a control of its size, the text in the middle', async ({

@@ -35,5 +35,19 @@ test.describe('List section header', {tag: '@List'}, () => {
                 LIST_ITEM_VIEW_MIN_HEIGHT[size] + SEPARATOR_SPACE,
             );
         });
+
+        test(`has the inline padding of a row of size ${size}`, async ({mount, page}) => {
+            await mount(<TestListWithSections size={size} />);
+
+            const header = page.locator('.g-list-section-header').first();
+            const row = page.getByRole('option').first();
+            const rowPadding = await row.evaluate((element) => {
+                const {paddingInlineStart, paddingInlineEnd} = getComputedStyle(element);
+                return {paddingInlineStart, paddingInlineEnd};
+            });
+
+            await expect(header).toHaveCSS('padding-inline-start', rowPadding.paddingInlineStart);
+            await expect(header).toHaveCSS('padding-inline-end', rowPadding.paddingInlineEnd);
+        });
     }
 });

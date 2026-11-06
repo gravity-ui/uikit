@@ -4,7 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 import {setupIntersectionObserverMock} from '../../../../../test-utils/setupIntersectionObserverMock';
 import {act, render, screen, waitFor, within} from '../../../../../test-utils/utils';
+import {LangProvider} from '../../../theme/LangProvider';
 import {Suggest} from '../Suggest';
+import type {SuggestProps} from '../types';
 
 import type {TestSuggestProps} from './TestSuggest';
 import {ITEMS, TestSuggest} from './TestSuggest';
@@ -352,24 +354,6 @@ describe('Suggest', () => {
         );
     });
 
-    describe('keyboard navigation', () => {
-        test('ArrowDown opens popup when closed and value is present', async () => {
-            const user = userEvent.setup();
-            renderSuggest();
-
-            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-            // Type a value first so there's something to show
-            await user.type(input, 'e');
-            // Close popup by pressing Escape
-            await user.keyboard('[Escape]');
-            await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
-
-            // Now ArrowDown should reopen
-            await user.keyboard('[ArrowDown]');
-            expect(await screen.findByTestId(QA_POPUP)).toBeVisible();
-        });
-    });
-
     describe('popup width', () => {
         test('applies popupWidth="fit"', async () => {
             const offsetWidth = jest
@@ -581,15 +565,27 @@ describe('Suggest: new List integration', () => {
         );
     });
 
-    test('supports reopening an uncontrolled defaultValue', async () => {
-        const user = userEvent.setup();
-        render(<Suggest defaultValue="earth" options={ITEMS} />);
-        const input = screen.getByRole('combobox');
-        await user.click(input);
-        await user.keyboard('[Escape][ArrowDown]');
-        expect(screen.getByRole('listbox')).toBeVisible();
-        expect(input).toHaveValue('earth');
-    });
+    test.each(['click', 'ArrowDown', 'ArrowUp', 'typing'])(
+        'prefilled input stays closed on focus and opens on %s',
+        async (gesture) => {
+            const user = userEvent.setup();
+            render(<Suggest defaultValue="earth" options={ITEMS} />);
+            const input = screen.getByRole('combobox');
+            await user.tab();
+            expect(input).toHaveFocus();
+            expect(input).toHaveAttribute('aria-expanded', 'false');
+            await user.tab();
+            await user.tab({shift: true});
+            expect(input).toHaveFocus();
+            expect(input).toHaveAttribute('aria-expanded', 'false');
+            if (gesture === 'click') {
+                await user.click(input);
+            } else {
+                await user.keyboard(gesture === 'typing' ? 'a' : `[${gesture}]`);
+            }
+            expect(screen.getByRole('listbox')).toBeVisible();
+        },
+    );
 
     test('passes Select-like renderer parameters and preserves row semantics', async () => {
         const user = userEvent.setup();
@@ -713,5 +709,63 @@ describe('Suggest: list accessible name', () => {
             </div>,
         );
         expect(screen.getByRole('listbox')).toHaveAccessibleName('Choose a planet');
+    });
+});
+
+describe('Suggest: form submission', () => {
+    test.each([
+        {name: 'submits without an active option', empty: false, activate: false},
+        {name: 'submits when there are no results', empty: true, activate: false},
+        {name: 'selects the active option without submitting', empty: false, activate: true},
+    ])('Enter $name', async ({empty, activate}) => {
+        const user = userEvent.setup();
+        const onSubmit = jest.fn((event: React.FormEvent) => event.preventDefault());
+        const onOptionAction = jest.fn();
+        render(
+            <form onSubmit={onSubmit}>
+                <Suggest options={empty ? [] : ITEMS} onOptionAction={onOptionAction} />
+                <button type="submit">Search</button>
+            </form>,
+        );
+        await user.type(screen.getByRole('combobox'), 'ea');
+        if (activate) {
+            await user.keyboard('[ArrowDown]');
+        }
+        await user.keyboard('[Enter]');
+        expect(onSubmit).toHaveBeenCalledTimes(activate ? 0 : 1);
+        expect(onOptionAction).toHaveBeenCalledTimes(activate ? 1 : 0);
+    });
+});
+
+describe('Suggest: status announcements', () => {
+    test('reports loading, results, pagination and custom empty content', () => {
+        const example = (props: Partial<SuggestProps>) => (
+            <LangProvider lang="en">
+                <Suggest
+                    open
+                    options={[]}
+                    renderPopup={({renderList}) => <div>{renderList()}</div>}
+                    {...props}
+                />
+            </LangProvider>
+        );
+        const {rerender} = render(example({loading: true}));
+        const input = screen.getByRole('combobox');
+        const status = screen.getByRole('status');
+        expect(input).toHaveAttribute('aria-busy', 'true');
+        expect(status).toHaveTextContent('Loading options');
+
+        rerender(example({options: ITEMS.slice(0, 1)}));
+        expect(input).not.toHaveAttribute('aria-busy');
+        expect(status).toHaveTextContent('Options available: 1');
+
+        rerender(example({options: ITEMS.slice(0, 1), loading: true}));
+        expect(input).not.toHaveAttribute('aria-busy');
+        expect(status).toHaveTextContent('Options available: 1');
+
+        rerender(example({renderEmptyOptions: () => <div>No matching planets</div>}));
+        expect(input).not.toHaveAttribute('aria-busy');
+        expect(status).toHaveTextContent('No results found');
+        expect(screen.getByRole('status')).toBe(status);
     });
 });

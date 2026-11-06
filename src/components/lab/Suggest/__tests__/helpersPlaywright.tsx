@@ -3,35 +3,12 @@ import * as React from 'react';
 import {composeStories} from '@storybook/react-webpack5';
 
 import {ListVirtualizer} from '../../../../virtualizer';
-import {LangProvider} from '../../../theme/LangProvider';
 import {Suggest} from '../Suggest';
 import * as SuggestStoriesModule from '../__stories__/Suggest.stories';
 
 export const SuggestStories = composeStories(SuggestStoriesModule);
 
 const OPTIONS = [{value: 'earth', content: 'Earth'}];
-
-export function SuggestForm({empty = false}: {empty?: boolean}) {
-    const [submitCount, setSubmitCount] = React.useState(0);
-    const [selectedValue, setSelectedValue] = React.useState('');
-
-    return (
-        <form
-            onSubmit={(event) => {
-                event.preventDefault();
-                setSubmitCount((count) => count + 1);
-            }}
-        >
-            <Suggest
-                options={empty ? [] : OPTIONS}
-                onOptionAction={(_value, option) => setSelectedValue(option.value)}
-            />
-            <button type="submit">Search</button>
-            <output data-qa="submit-count">{submitCount}</output>
-            <output data-qa="selected-value">{selectedValue}</output>
-        </form>
-    );
-}
 
 const PAGINATED_OPTIONS = Array.from({length: 80}, (_, index) => ({
     value: String(index),
@@ -127,37 +104,5 @@ export function SuggestWithPopupLayout({virtualized}: {virtualized: boolean}) {
             <style>{'.suggest-layout-popup { max-height: 240px; }'}</style>
             {virtualized ? <ListVirtualizer>{suggest}</ListVirtualizer> : suggest}
         </div>
-    );
-}
-
-export function SuggestStatus({lang}: {lang: 'en' | 'ru'}) {
-    const [state, setState] = React.useState('loading');
-    return (
-        <LangProvider lang={lang}>
-            <div style={{height: 400}}>
-                {['loading', 'results', 'pagination', 'empty', 'custom-empty', 'error'].map(
-                    (value) => (
-                        <button key={value} onClick={() => setState(value)}>
-                            {value}
-                        </button>
-                    ),
-                )}
-                <Suggest
-                    open
-                    aria-label="Planets"
-                    loading={state === 'loading' || state === 'pagination'}
-                    options={state === 'results' || state === 'pagination' ? OPTIONS : []}
-                    renderEmptyOptions={
-                        state === 'custom-empty' ? () => <div>No matching planets</div> : undefined
-                    }
-                    renderPopup={({renderList}) => (
-                        <div>
-                            <div>Results header</div>
-                            {state === 'error' ? <div>Request failed</div> : renderList()}
-                        </div>
-                    )}
-                />
-            </div>
-        </LangProvider>
     );
 }

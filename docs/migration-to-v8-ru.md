@@ -246,7 +246,7 @@ being used as a type here» — замените их на `SelectOptionProps` �
 вместо одного отступа для всех размеров; строки мобильного `Select` — размера `xl`. Заголовок секции `List` и
 заголовок группы `Select` имеют горизонтальный отступ строки своего размера. Чтобы сохранить свой отступ, задайте
 `--g-list-item-view-padding-inline` на том же классе, что и высоту выше: `className` у `List`, `popupClassName` и
-`sheetClassName` у `Select`. Отступы `Menu` не изменились.
+`sheetClassName` у `Select`. Пункты `Menu` следуют той же шкале: у пункта размера `l` 16px вместо 12.
 
 ## Table и TableColumnSetup
 

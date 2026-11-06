@@ -244,6 +244,12 @@ their size. Fewer rows fit into a popup or a list of a fixed height. To keep a h
 `sheetClassName` of `Select`; the paddings of `List` and `Select` and the headers follow it. The heights `Select` counts with — the
 virtualizer estimate and `itemHeight` — come from `getOptionHeight` and `getOptionGroupHeight`.
 
+The inline paddings of the rows of `List` and `Select` follow the size as well: 8, 12, 16 and 16px for `s`, `m`, `l`
+and `xl` instead of one padding for every size; the rows of the mobile `Select` are of size `xl`. A section header of
+`List` and a group header of `Select` have the inline padding of a row of their size. To keep a padding of your own, set
+`--g-list-item-view-padding-inline` on the same class as the height above: `className` of `List`, `popupClassName` and
+`sheetClassName` of `Select`. The items of `Menu` follow the same scale: an item of size `l` has 16px instead of 12.
+
 ## Table and TableColumnSetup
 
 `Table`, its HOCs (`withTableActions`, `withTableCopy`, `withTableSelection`, `withTableSettings`,

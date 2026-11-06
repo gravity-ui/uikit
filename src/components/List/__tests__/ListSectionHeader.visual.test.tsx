@@ -9,6 +9,8 @@ import {TestListWithSections} from './helpersPlaywright';
 
 // The space above a header that follows other rows, where the separating line is drawn
 const SEPARATOR_SPACE = 8;
+// The inline padding of a row of the size: the header has the same one
+const PADDING_INLINE = {s: 8, m: 12, l: 16, xl: 16} as const;
 
 const middle = (locator: Locator) =>
     locator.evaluate((element) => {
@@ -34,6 +36,21 @@ test.describe('List section header', {tag: '@List'}, () => {
             expect((await second.boundingBox())?.height).toBe(
                 LIST_ITEM_VIEW_MIN_HEIGHT[size] + SEPARATOR_SPACE,
             );
+        });
+
+        test(`has the inline padding of a row of size ${size}`, async ({mount, page}) => {
+            await mount(<TestListWithSections size={size} />);
+
+            const header = page.locator('.g-list-section-header').first();
+            const row = page.getByRole('option').first();
+            const rowPadding = await row.evaluate((element) => {
+                const {paddingInlineStart, paddingInlineEnd} = getComputedStyle(element);
+                return {paddingInlineStart, paddingInlineEnd};
+            });
+
+            expect(rowPadding.paddingInlineStart).toBe(`${PADDING_INLINE[size]}px`);
+            await expect(header).toHaveCSS('padding-inline-start', rowPadding.paddingInlineStart);
+            await expect(header).toHaveCSS('padding-inline-end', rowPadding.paddingInlineEnd);
         });
     }
 });

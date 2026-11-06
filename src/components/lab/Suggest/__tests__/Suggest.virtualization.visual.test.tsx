@@ -34,8 +34,9 @@ test.describe('Suggest pagination', () => {
             const input = page.getByRole('combobox');
             const list = page.getByRole('listbox');
             await input.focus();
-            for (let index = 0; index < 40; index++) {
-                await input.press('ArrowDown');
+            await input.press('ArrowDown');
+            for (let index = 0; index < 4; index++) {
+                await input.press('PageDown');
             }
             await expect(
                 page.getByRole('option', {name: 'Option 39', exact: true}),

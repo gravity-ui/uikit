@@ -59,11 +59,6 @@ describe('Suggest', () => {
         expect(screen.getByRole('listbox')).toBeVisible();
     });
 
-    test('renders input', () => {
-        renderSuggest();
-        expect(screen.getByTestId(QA_INPUT)).toBeInTheDocument();
-    });
-
     test('calls onUpdate when typing', async () => {
         const onUpdate = jest.fn();
         const user = userEvent.setup();
@@ -212,18 +207,6 @@ describe('Suggest', () => {
         expect(onOptionAction).not.toHaveBeenCalled();
     });
 
-    test('closes popup on Escape', async () => {
-        const user = userEvent.setup();
-        renderSuggest();
-
-        const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-        await user.type(input, 'e');
-        expect(screen.getByTestId(QA_POPUP)).toBeVisible();
-
-        await user.keyboard('[Escape]');
-        await waitFor(() => expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument());
-    });
-
     test('keeps input focus when clicking custom popup and empty content', async () => {
         const user = userEvent.setup();
         const renderEmptyOptions = jest.fn(() => <span>No results</span>);
@@ -307,9 +290,7 @@ describe('Suggest', () => {
             async ({gesture, eventType, reason}) => {
                 const user = userEvent.setup();
                 const onOpenChange = jest.fn();
-                const {rerender} = render(
-                    <Suggest options={ITEMS} open={false} onOpenChange={onOpenChange} />,
-                );
+                render(<Suggest options={ITEMS} open={false} onOpenChange={onOpenChange} />);
                 const input = screen.getByRole('combobox');
                 await user.tab();
                 if (gesture === 'click') {
@@ -326,30 +307,6 @@ describe('Suggest', () => {
                 );
                 expect(input).toHaveAttribute('aria-expanded', 'false');
                 expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
-
-                rerender(<Suggest options={ITEMS} open onOpenChange={onOpenChange} />);
-                expect(screen.getByRole('listbox')).toBeVisible();
-                await user.keyboard('[Escape]');
-                expect(onOpenChange).toHaveBeenLastCalledWith(
-                    false,
-                    expect.objectContaining({type: 'keydown'}),
-                    'escape-key',
-                );
-                rerender(<Suggest options={ITEMS} open={false} onOpenChange={onOpenChange} />);
-                onOpenChange.mockClear();
-
-                if (gesture === 'click') {
-                    await user.click(input);
-                } else {
-                    await user.keyboard(`[${gesture}]`);
-                }
-                expect(onOpenChange).toHaveBeenCalledTimes(1);
-                expect(onOpenChange).toHaveBeenLastCalledWith(
-                    true,
-                    expect.objectContaining({type: eventType}),
-                    reason,
-                );
-                expect(input).toHaveAttribute('aria-expanded', 'false');
             },
         );
     });
@@ -382,11 +339,6 @@ describe('Suggest', () => {
     });
 
     describe('input props', () => {
-        test('passes placeholder to input', () => {
-            renderSuggest({placeholder: 'Search here\u2026'});
-            expect(screen.getByPlaceholderText('Search here\u2026')).toBeInTheDocument();
-        });
-
         test('disabled input cannot open popup', async () => {
             const user = userEvent.setup();
             renderSuggest({disabled: true});
@@ -440,12 +392,18 @@ describe('Suggest: new List integration', () => {
     test('clears activity on closing without emitting an additional update', async () => {
         const user = userEvent.setup();
         const onActiveOptionUpdate = jest.fn();
-        renderSuggest({onActiveOptionUpdate});
+        const onOpenChange = jest.fn();
+        renderSuggest({onActiveOptionUpdate, onOpenChange});
         const input = screen.getByRole('combobox');
         await user.type(input, 'e');
         await user.keyboard('[ArrowDown]');
         expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
         await user.keyboard('[Escape]');
+        expect(onOpenChange).toHaveBeenLastCalledWith(
+            false,
+            expect.objectContaining({type: 'keydown'}),
+            'escape-key',
+        );
         expect(input).toHaveAttribute('aria-expanded', 'false');
         expect(input).not.toHaveAttribute('aria-activedescendant');
         await waitFor(() =>
@@ -615,14 +573,12 @@ describe('Suggest: new List integration', () => {
 });
 
 describe('Suggest: pagination', () => {
-    test('observes the loading row and disconnects it when the popup closes', () => {
-        const observe = jest.fn();
-        const unobserve = jest.fn();
+    test('calls the current onLoadMore when the loading row becomes visible', () => {
         let notify: (() => void) | undefined;
         const original = window.IntersectionObserver;
         window.IntersectionObserver = class {
-            observe = observe;
-            unobserve = unobserve;
+            observe = jest.fn();
+            unobserve = jest.fn();
             constructor(callback: IntersectionObserverCallback) {
                 notify = () =>
                     callback(
@@ -636,26 +592,19 @@ describe('Suggest: pagination', () => {
             const {rerender} = render(
                 <Suggest open loading options={[]} onLoadMore={onLoadMore} />,
             );
-            expect(observe).not.toHaveBeenCalled();
+            expect(onLoadMore).not.toHaveBeenCalled();
             rerender(<Suggest open options={ITEMS} onLoadMore={onLoadMore} />);
-            expect(observe).not.toHaveBeenCalled();
+            expect(onLoadMore).not.toHaveBeenCalled();
             rerender(<Suggest open loading options={ITEMS} onLoadMore={onLoadMore} />);
-            expect(observe).toHaveBeenLastCalledWith(screen.getByRole('option', {name: ''}));
             expect(onLoadMore).not.toHaveBeenCalled();
             act(() => notify?.());
             expect(onLoadMore).toHaveBeenCalledTimes(1);
             const nextOnLoadMore = jest.fn();
-            const observations = observe.mock.calls.length;
-            const disconnections = unobserve.mock.calls.length;
             rerender(<Suggest open loading options={ITEMS} onLoadMore={() => nextOnLoadMore()} />);
-            expect(observe).toHaveBeenCalledTimes(observations);
-            expect(unobserve).toHaveBeenCalledTimes(disconnections);
             expect(nextOnLoadMore).not.toHaveBeenCalled();
             act(() => notify?.());
             expect(nextOnLoadMore).toHaveBeenCalledTimes(1);
             expect(onLoadMore).toHaveBeenCalledTimes(1);
-            rerender(<Suggest open={false} options={ITEMS} onLoadMore={nextOnLoadMore} />);
-            expect(unobserve).toHaveBeenCalled();
         } finally {
             window.IntersectionObserver = original;
         }

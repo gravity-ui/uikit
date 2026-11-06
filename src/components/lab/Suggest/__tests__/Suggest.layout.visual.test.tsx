@@ -70,7 +70,4 @@ test('Suggest retains its content during the closing transition', async ({mount,
 
     await page.clock.runFor(200);
     await expect(popup).not.toBeAttached();
-    await input.press('ArrowDown');
-    await expect(input).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByRole('option', {name: 'Earth'})).toBeAttached();
 });

@@ -448,7 +448,9 @@ describe('Suggest: new List integration', () => {
         await user.keyboard('[Escape]');
         expect(input).toHaveAttribute('aria-expanded', 'false');
         expect(input).not.toHaveAttribute('aria-activedescendant');
-        expect(screen.queryByRole('listbox', {hidden: true})).not.toBeInTheDocument();
+        await waitFor(() =>
+            expect(screen.queryByRole('listbox', {hidden: true})).not.toBeInTheDocument(),
+        );
         expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
         await user.keyboard('[ArrowDown]');
         expect(input).not.toHaveAttribute('aria-activedescendant');

@@ -52,3 +52,25 @@ for (const virtualized of [false, true]) {
         expect(await footer.boundingBox()).toEqual(footerBox);
     });
 }
+
+test('Suggest retains its content during the closing transition', async ({mount, page}) => {
+    await mount(<SuggestInitiallyOpen />);
+    const input = page.getByRole('combobox');
+    const popup = page.getByTestId('suggest-popup');
+    await input.click();
+    await expect(page.getByRole('option', {name: 'Earth'})).toBeVisible();
+    await page.clock.install();
+    await page.clock.pauseAt(new Date(Date.now() + 1000));
+
+    await input.press('Escape');
+    await expect(popup).toBeAttached();
+    await expect(page.getByRole('option', {name: 'Earth'})).toBeAttached();
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+    await expect(input).not.toHaveAttribute('aria-controls');
+
+    await page.clock.runFor(200);
+    await expect(popup).not.toBeAttached();
+    await input.press('ArrowDown');
+    await expect(input).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('option', {name: 'Earth'})).toBeAttached();
+});

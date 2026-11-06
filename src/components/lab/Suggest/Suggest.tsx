@@ -200,7 +200,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     getItemChildren={getItemChildren}
                     getItemContent={defaultRenderOption}
                     getItemTextValue={getItemTextValue}
-                    focusOwner={focusOwner}
+                    focusOwner={open ? focusOwner : undefined}
                     onActiveItemUpdate={onActiveOptionUpdate}
                     onItemAction={handleOptionAction}
                     renderItem={renderItem}
@@ -209,10 +209,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         );
     };
 
-    let popupContent: React.ReactElement | null = null;
-    if (open) {
-        popupContent = renderPopup ? renderPopup({renderList}) : renderList();
-    }
+    const popupContent = renderPopup ? renderPopup({renderList}) : renderList();
     const popupOpen = open && Boolean(popupContent);
 
     const hasLoadMore = Boolean(onLoadMore);

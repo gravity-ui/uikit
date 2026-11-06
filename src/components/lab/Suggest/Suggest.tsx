@@ -320,7 +320,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     'aria-autocomplete': 'list',
                 }}
             />
-            <span className={b('status')} role="status" aria-live="polite" aria-atomic="true">
+            <span className={b('status')} role="status">
                 {statusText}
             </span>
             <Popup

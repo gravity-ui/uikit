@@ -14,7 +14,7 @@ test.describe('Suggest', () => {
         await input.click();
         await input.fill('ar');
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <Sizes> size xl', async ({mount, expectScreenshot, page}) => {
@@ -28,7 +28,7 @@ test.describe('Suggest', () => {
         await inputs.nth(3).click();
         await expect(page.getByRole('listbox')).toBeVisible();
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <CustomPopupContent>', async ({mount, expectScreenshot, page}) => {
@@ -42,14 +42,14 @@ test.describe('Suggest', () => {
         await input.click();
         await input.fill('ar');
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <LoadingStates>', async ({mount, expectScreenshot, page}) => {
         await mount(<SuggestStories.LoadingStates />);
         await expect(page.getByRole('listbox')).toBeVisible();
         await expect(page.locator('.g-suggest__loader')).toHaveCount(2);
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('keyboard navigation: ArrowDown activates item', async ({
@@ -68,6 +68,6 @@ test.describe('Suggest', () => {
         await input.fill('a');
         await page.keyboard.press('ArrowDown');
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 });

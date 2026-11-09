@@ -4,8 +4,6 @@
 
 <!--/GITHUB_BLOCK-->
 
-> `Suggest` is experimental (`lab`) — its API may change in minor releases until it stabilizes.
-
 ```tsx
 import {
   unstable_Suggest as Suggest,

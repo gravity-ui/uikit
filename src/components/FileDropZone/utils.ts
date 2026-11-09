@@ -1,3 +1,5 @@
+import {isEqual} from 'es-toolkit';
+
 export const FILE_REJECTION_REASONS = {
     INVALID_TYPE: 'invalid-type',
     TOO_MANY_FILES: 'too-many-files',
@@ -117,11 +119,11 @@ export function getSeparatedItems(
     dataTransfer: DataTransfer,
     options: ValidateOptions,
 ): {accepted: DataTransferItem[]; rejected: FileRejection[]} {
-    return separateByValidation(
-        Array.from(dataTransfer.items),
-        (item) => ({type: item.type, kind: item.kind}),
-        options,
-    );
+    // Only `kind: 'file'` items can become files on drop: dragged text or links (`kind: 'string'`)
+    // yield `null` from `getAsFile()`, so they must not make the drag look valid.
+    const fileItems = Array.from(dataTransfer.items).filter((item) => item.kind === 'file');
+
+    return separateByValidation(fileItems, (item) => ({type: item.type, kind: item.kind}), options);
 }
 
 export function getSeparatedFiles(
@@ -138,4 +140,27 @@ export function getSeparatedFiles(
         accepted,
         rejected: rejected.map(({item, reasons}) => ({file: item, reasons})),
     };
+}
+
+/**
+ * `React.memo` comparator for `FileDropZone`: shallow, except that `accept` is compared by content
+ * because it is usually passed as an inline array.
+ */
+export function areFileDropZonePropsEqual<T extends {accept?: FileDropZoneAccept}>(
+    prevProps: T,
+    nextProps: T,
+): boolean {
+    const {accept: prevAccept, ...prevRest} = prevProps;
+    const {accept: nextAccept, ...nextRest} = nextProps;
+    const prevKeys = Object.keys(prevRest) as Array<keyof typeof prevRest>;
+
+    return (
+        isEqual(prevAccept, nextAccept) &&
+        prevKeys.length === Object.keys(nextRest).length &&
+        prevKeys.every(
+            (key) =>
+                Object.prototype.hasOwnProperty.call(nextRest, key) &&
+                Object.is(prevRest[key], nextRest[key]),
+        )
+    );
 }

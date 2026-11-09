@@ -10,8 +10,7 @@ import {getSeparatedFiles, getSeparatedItems} from './utils';
 import type {FileDropZoneAccept} from './utils';
 
 interface FileDropZoneContextValue
-    extends
-        Pick<
+    extends Pick<
             FileDropZoneProps,
             | 'title'
             | 'description'
@@ -51,7 +50,7 @@ export type FileDropZoneProviderProps = Pick<
 >;
 
 export const FileDropZoneProvider = ({
-    accept = [],
+    accept: acceptProp,
     onUpdate,
     onUpdateAccepted,
     onUpdateRejected,
@@ -66,6 +65,9 @@ export const FileDropZoneProvider = ({
     children,
     multiple,
 }: FileDropZoneProviderProps) => {
+    const acceptKey = JSON.stringify(acceptProp ?? []);
+    const accept = React.useMemo<FileDropZoneAccept>(() => JSON.parse(acceptKey), [acceptKey]);
+
     const [isInvalidDrag, setIsInvalidDrag] = React.useState(false);
 
     const handleUpdate = React.useCallback(
@@ -101,6 +103,17 @@ export const FileDropZoneProvider = ({
         [accept, multiple],
     );
 
+    const handleDragOver = React.useCallback(
+        (event: DragEvent) => {
+            const dataTransfer = event.dataTransfer;
+
+            if (isInvalidDrag && dataTransfer) {
+                dataTransfer.dropEffect = 'none';
+            }
+        },
+        [isInvalidDrag],
+    );
+
     const handleDropEvent = React.useCallback(
         (event: DragEvent) => {
             const dataTransfer = event.dataTransfer;
@@ -124,6 +137,7 @@ export const FileDropZoneProvider = ({
     const {isDraggingOver, getDroppableProps} = useDropZone({
         disabled,
         onDragEnter: handleDragEnter,
+        onDragOver: handleDragOver,
         onDrop: handleDropEvent,
     });
 

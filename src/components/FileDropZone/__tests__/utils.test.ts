@@ -1,5 +1,6 @@
 import {
     FILE_REJECTION_REASONS,
+    areFileDropZonePropsEqual,
     getSeparatedFiles,
     getSeparatedItems,
     isFileCandidateAccepted,
@@ -147,12 +148,26 @@ describe('getSeparatedItems', () => {
 });
 
 describe('getSeparatedItems (dragenter, no file names)', () => {
-    test('string item with extension accept -> rejected with invalid-type', () => {
-        const dt = {items: [{type: 'text/plain', kind: 'string'}]} as unknown as DataTransfer;
-        const {accepted, rejected} = getSeparatedItems(dt, {accept: ['.csv'], multiple: true});
-        expect(accepted).toHaveLength(0);
-        expect(rejected).toHaveLength(1);
-        expect(rejected[0].reasons).toEqual([FILE_REJECTION_REASONS.INVALID_TYPE]);
+    test.each([[['.csv']], [[]], [['text/plain']]])(
+        'string items are ignored with accept %j',
+        (accept) => {
+            const dt = {items: [{type: 'text/plain', kind: 'string'}]} as unknown as DataTransfer;
+            const {accepted, rejected} = getSeparatedItems(dt, {accept, multiple: true});
+            expect(accepted).toHaveLength(0);
+            expect(rejected).toHaveLength(0);
+        },
+    );
+
+    test('string items do not take the single-file slot', () => {
+        const dt = {
+            items: [
+                {type: 'text/plain', kind: 'string'},
+                {type: 'image/png', kind: 'file'},
+            ],
+        } as unknown as DataTransfer;
+        const {accepted, rejected} = getSeparatedItems(dt, {accept: ['image/*']});
+        expect(accepted).toEqual([dt.items[1]]);
+        expect(rejected).toHaveLength(0);
     });
 
     test('file item without type with extension accept -> potentially valid', () => {
@@ -263,5 +278,50 @@ describe('getSeparatedFiles', () => {
 
     test('empty list -> empty arrays', () => {
         expect(getSeparatedFiles([], {accept: ['.csv']})).toEqual({accepted: [], rejected: []});
+    });
+});
+
+describe('areFileDropZonePropsEqual', () => {
+    const onUpdate = () => {};
+
+    test('inline accept arrays with the same content are equal', () => {
+        expect(
+            areFileDropZonePropsEqual(
+                {accept: ['image/*'], onUpdate, disabled: false},
+                {accept: ['image/*'], onUpdate, disabled: false},
+            ),
+        ).toBe(true);
+    });
+
+    test('missing and empty accept are not equal', () => {
+        expect(areFileDropZonePropsEqual({onUpdate}, {accept: [], onUpdate})).toBe(false);
+    });
+
+    test('different accept content is not equal', () => {
+        expect(
+            areFileDropZonePropsEqual(
+                {accept: ['image/*'], onUpdate},
+                {accept: ['.csv'], onUpdate},
+            ),
+        ).toBe(false);
+    });
+
+    test('other props are compared by reference', () => {
+        expect(
+            areFileDropZonePropsEqual(
+                {accept: ['image/*'], onUpdate},
+                {accept: ['image/*'], onUpdate: () => {}},
+            ),
+        ).toBe(false);
+    });
+
+    test('added or removed props are not equal', () => {
+        expect(
+            areFileDropZonePropsEqual<{accept?: string[]; disabled?: boolean; title?: string}>(
+                {accept: [], disabled: true},
+                {accept: [], title: 'Title'},
+            ),
+        ).toBe(false);
+        expect(areFileDropZonePropsEqual({accept: []}, {accept: [], disabled: true})).toBe(false);
     });
 });

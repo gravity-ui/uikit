@@ -78,18 +78,38 @@ const handleUpdateAccepted = (files: File[]) => {
         gap: '32px',
       }}
     >
-      <FileDropZone.Icon className={iconClassName} />
+      <FileDropZone.Icon />
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-        <FileDropZone.Title className={titleClassName} />
-        <FileDropZone.Description className={descriptionClassName} />
+        <FileDropZone.Title />
+        <FileDropZone.Description />
       </div>
     </div>
-    <div style={{marginLeft: '16px'}}>
-      <FileDropZone.Button className={buttonClassName} />
+    <div style={{marginInlineStart: '16px'}}>
+      <FileDropZone.Button />
     </div>
   </div>
 </FileDropZone>;
 ```
+
+### Собственные действия
+
+Клик в любом месте зоны открывает диалог выбора файлов. Чтобы разместить в кастомном лейауте собственный элемент управления, вызовите `event.preventDefault()` в его обработчике клика: тогда зона не откроет диалог. Нажатия Enter и Space на фокусируемом дочернем элементе остаются этому элементу и тоже не открывают диалог.
+
+```tsx
+<FileDropZone accept={accept} onUpdateAccepted={handleUpdateAccepted}>
+  <FileDropZone.Title />
+  <Button
+    onClick={(event) => {
+      event.preventDefault();
+      // Действие вместо открытия диалога выбора файлов.
+    }}
+  >
+    Вставить из буфера обмена
+  </Button>
+</FileDropZone>
+```
+
+У самой зоны `role="button"`, поэтому скринридеры могут не озвучивать вложенные в неё интерактивные элементы. По возможности размещайте дополнительные действия рядом с зоной.
 
 ### Допустимые типы файлов
 

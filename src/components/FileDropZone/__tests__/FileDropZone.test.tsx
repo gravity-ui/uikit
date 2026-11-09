@@ -384,6 +384,46 @@ describe('FileDropZone', () => {
             expect(zone.className).toMatch(/invalid-drag/);
         });
 
+        test.each([[[]], [['text/plain']]])(
+            'marks dragged text as invalid with accept %j',
+            (accept) => {
+                render(<FileDropZone accept={accept} onUpdate={jest.fn()} qa="drop-zone" />);
+                const zone = screen.getByTestId('drop-zone');
+
+                fireEvent.dragEnter(zone, {
+                    dataTransfer: {
+                        items: [{kind: 'string', type: 'text/plain', getAsFile: () => null}],
+                        files: [],
+                        dropEffect: 'none',
+                    },
+                });
+
+                expect(zone.className).toMatch(/invalid-drag/);
+            },
+        );
+
+        test('sets dropEffect to none on dragOver for an invalid drag', () => {
+            render(<FileDropZone accept={['image/*']} onUpdate={jest.fn()} qa="drop-zone" />);
+            const zone = screen.getByTestId('drop-zone');
+            const dropData = createDropData([createFile('doc.pdf', 'application/pdf')]);
+
+            fireEvent.dragEnter(zone, dropData);
+            fireEvent.dragOver(zone, dropData);
+
+            expect(dropData.dataTransfer.dropEffect).toBe('none');
+        });
+
+        test('keeps dropEffect copy on dragOver for a valid drag', () => {
+            render(<FileDropZone accept={['image/*']} onUpdate={jest.fn()} qa="drop-zone" />);
+            const zone = screen.getByTestId('drop-zone');
+            const dropData = createDropData([createFile('a.png', 'image/png')]);
+
+            fireEvent.dragEnter(zone, dropData);
+            fireEvent.dragOver(zone, dropData);
+
+            expect(dropData.dataTransfer.dropEffect).toBe('copy');
+        });
+
         test('still marks drag as invalid for MIME-only accept', () => {
             render(<FileDropZone accept={['image/*']} onUpdate={jest.fn()} qa="drop-zone" />);
             const zone = screen.getByTestId('drop-zone');
@@ -454,6 +494,61 @@ describe('FileDropZone', () => {
             fireEvent.click(zone);
             fireEvent.keyDown(zone, {key: 'Enter'});
 
+            expect(clickSpy).not.toHaveBeenCalled();
+
+            clickSpy.mockRestore();
+        });
+
+        test('does not open file input when a child prevents the click', async () => {
+            const user = userEvent.setup();
+            const onAction = jest.fn();
+            render(
+                <FileDropZone {...defaultProps}>
+                    <button
+                        type="button"
+                        onClick={(event) => {
+                            event.preventDefault();
+                            onAction();
+                        }}
+                    >
+                        Action
+                    </button>
+                </FileDropZone>,
+            );
+            const input = getFileInput();
+            const clickSpy = jest.spyOn(input, 'click').mockImplementation(() => {});
+
+            await user.click(screen.getByText('Action'));
+
+            expect(onAction).toHaveBeenCalledTimes(1);
+            expect(clickSpy).not.toHaveBeenCalled();
+
+            clickSpy.mockRestore();
+        });
+
+        test('does not open file input when Enter is pressed on a focusable child', async () => {
+            const user = userEvent.setup();
+            const onAction = jest.fn();
+            render(
+                <FileDropZone {...defaultProps}>
+                    <button
+                        type="button"
+                        onClick={(event) => {
+                            event.preventDefault();
+                            onAction();
+                        }}
+                    >
+                        Action
+                    </button>
+                </FileDropZone>,
+            );
+            const input = getFileInput();
+            const clickSpy = jest.spyOn(input, 'click').mockImplementation(() => {});
+
+            screen.getByText('Action').focus();
+            await user.keyboard('{Enter}');
+
+            expect(onAction).toHaveBeenCalledTimes(1);
             expect(clickSpy).not.toHaveBeenCalled();
 
             clickSpy.mockRestore();
@@ -573,6 +668,20 @@ describe('FileDropZone', () => {
             fireEvent.change(getFileInput(), {target: {files: [file]}});
 
             expect(onUpdate).toHaveBeenCalledWith([], [{file, reasons: ['invalid-type']}]);
+        });
+    });
+
+    describe('memoization', () => {
+        test('applies a changed accept list passed inline', () => {
+            const onUpdate = jest.fn();
+
+            const {rerender} = render(<FileDropZone accept={['image/*']} onUpdate={onUpdate} />);
+            rerender(<FileDropZone accept={['image/png', '.csv']} onUpdate={onUpdate} />);
+
+            expect(screen.getByTestId(FileDropZoneQa.FILE_INPUT)).toHaveAttribute(
+                'accept',
+                'image/png,.csv',
+            );
         });
     });
 

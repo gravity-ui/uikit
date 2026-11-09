@@ -78,18 +78,38 @@ const handleUpdateAccepted = (files: File[]) => {
         gap: '32px',
       }}
     >
-      <FileDropZone.Icon className={iconClassName} />
+      <FileDropZone.Icon />
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-        <FileDropZone.Title className={titleClassName} />
-        <FileDropZone.Description className={descriptionClassName} />
+        <FileDropZone.Title />
+        <FileDropZone.Description />
       </div>
     </div>
-    <div style={{marginLeft: '16px'}}>
-      <FileDropZone.Button className={buttonClassName} />
+    <div style={{marginInlineStart: '16px'}}>
+      <FileDropZone.Button />
     </div>
   </div>
 </FileDropZone>;
 ```
+
+### Custom Actions
+
+A click anywhere in the zone opens the file dialog. To place your own control inside a custom layout, call `event.preventDefault()` in its click handler: the zone then does not open the dialog. Enter and Space pressed on a focusable child are left to that child and do not open the dialog either.
+
+```tsx
+<FileDropZone accept={accept} onUpdateAccepted={handleUpdateAccepted}>
+  <FileDropZone.Title />
+  <Button
+    onClick={(event) => {
+      event.preventDefault();
+      // Do something instead of opening the file dialog.
+    }}
+  >
+    Paste from clipboard
+  </Button>
+</FileDropZone>
+```
+
+The zone itself has `role="button"`, so screen readers may not announce interactive content nested inside it. Prefer placing secondary actions next to the zone when possible.
 
 ### Accepted File Types
 

@@ -10,6 +10,7 @@ import {FileDropZoneDescription} from './parts/FileDropZone.Description';
 import {FileDropZoneIcon} from './parts/FileDropZone.Icon';
 import {FileDropZoneTitle} from './parts/FileDropZone.Title';
 import type {FileDropZoneContainerProps, FileDropZoneProps} from './types';
+import {areFileDropZonePropsEqual} from './utils';
 
 import './FileDropZone.scss';
 
@@ -39,6 +40,16 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
         [disabled, triggerProps],
     );
 
+    const handleKeyDown = React.useCallback(
+        (event: React.KeyboardEvent<HTMLDivElement>) => {
+            // Enter or Space on a focusable child (e.g. a custom button) belongs to that child.
+            if (event.target === event.currentTarget) {
+                onKeyDown(event);
+            }
+        },
+        [onKeyDown],
+    );
+
     const handleInputClick = React.useCallback((event: React.MouseEvent<HTMLInputElement>) => {
         event.stopPropagation();
     }, []);
@@ -66,7 +77,7 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
             aria-disabled={disabled || undefined}
             tabIndex={disabled ? -1 : 0}
             onClick={handleClick}
-            onKeyDown={onKeyDown}
+            onKeyDown={handleKeyDown}
             className={cnFileDropZone(
                 {
                     'drag-hover': isDraggingOver,
@@ -101,7 +112,7 @@ const BaseFileDropZone = React.memo<FileDropZoneProps>((rawProps: FileDropZonePr
             </FileDropZoneContent>
         </FileDropZoneProvider>
     );
-});
+}, areFileDropZonePropsEqual);
 
 BaseFileDropZone.displayName = 'FileDropZone';
 

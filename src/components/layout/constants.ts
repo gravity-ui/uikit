@@ -10,8 +10,7 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
         xs: 0,
         s: 576,
         m: 768,
-        // TODO BREAKING CHANGE: Set l to 980
-        l: 1080,
+        l: 980,
         xl: 1200,
         '2xl': 1400,
         '3xl': 1920,

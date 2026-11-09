@@ -36,7 +36,7 @@ export const Container = React.forwardRef<HTMLDivElement, ContainerProps>(functi
             maxInlineSize={size === undefined ? undefined : `min(100%, ${breakpoints[size]}px)`}
             {...props}
             paddingInline={gutters ?? paddingInline ?? containerThemeProps.gutters}
-            style={{...style, '--g-container-row-gap': getSpacingValue(rowGapValue ?? 0)}}
+            style={{...style, '--g-container-row-gap': getSpacingValue(rowGapValue ?? '0')}}
             className={b(null, className)}
             ref={ref}
         />

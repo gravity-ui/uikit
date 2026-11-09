@@ -10,7 +10,7 @@ import {b} from './styles';
 
 const ListItemViewSlot = ({children, className, ...props}: FlexProps) => {
     return (
-        <Flex width={16} className={b('slot', className)} {...props}>
+        <Flex width="16px" className={b('slot', className)} {...props}>
             {children}
         </Flex>
     );

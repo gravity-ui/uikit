@@ -35,13 +35,11 @@ const safeMatchMedia = (query: string): MediaQueryList => {
 };
 
 class Queries {
-    private fix: boolean;
     private queryListsDecl: [MediaType, MediaQueryList][] = [];
 
-    constructor(breakpointsMap: MediaProps<number>, fixBreakpoints: boolean) {
+    constructor(breakpointsMap: MediaProps<number>) {
         const mediaToExpressionMap = makeCurrentActiveMediaExpressions(breakpointsMap);
 
-        this.fix = fixBreakpoints;
         this.queryListsDecl = [
             // order important here
             ['xs', safeMatchMedia(mediaToExpressionMap.xs)],
@@ -57,13 +55,7 @@ class Queries {
     getCurrentActiveMedia(): MediaType {
         const activeMedia = this.queryListsDecl.find(([_, queryList]) => queryList.matches)?.[0];
 
-        if (!activeMedia) {
-            return this.fix ? 'xs' : 's';
-        } else if (activeMedia === 'xs' && !this.fix) {
-            return 's';
-        }
-
-        return activeMedia;
+        return activeMedia ?? 'xs';
     }
 
     addListeners(fn: () => void) {
@@ -82,13 +74,10 @@ class Queries {
  */
 export const useCurrentActiveMediaQuery = (
     breakpointsMap: MediaProps<number>,
-    fixBreakpoints: boolean,
     initialMediaQuery?: MediaType,
     inheritedMediaQuery?: MediaType,
 ) => {
-    const [state, _setState] = React.useState<MediaType>(
-        initialMediaQuery ?? (fixBreakpoints ? 'xs' : 's'),
-    );
+    const [state, _setState] = React.useState<MediaType>(initialMediaQuery ?? 'xs');
 
     const inheritsMediaQuery = inheritedMediaQuery !== undefined;
 
@@ -97,7 +86,7 @@ export const useCurrentActiveMediaQuery = (
             return undefined;
         }
 
-        const queries = new Queries(breakpointsMap, fixBreakpoints);
+        const queries = new Queries(breakpointsMap);
 
         const setState = () => {
             _setState(queries.getCurrentActiveMedia());
@@ -110,7 +99,7 @@ export const useCurrentActiveMediaQuery = (
         return () => {
             queries.removeListeners(setState);
         };
-    }, [breakpointsMap, fixBreakpoints, inheritsMediaQuery]);
+    }, [breakpointsMap, inheritsMediaQuery]);
 
     return inheritedMediaQuery ?? state;
 };

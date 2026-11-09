@@ -27,7 +27,7 @@ type Story = StoryObj<typeof ListItemView>;
 // The view is as wide as its container: every example is given a width of a
 // list rather than of the whole page
 const Rows = ({children}: React.PropsWithChildren) => (
-    <Flex direction="column" width={280}>
+    <Flex direction="column" width="280px">
         {children}
     </Flex>
 );

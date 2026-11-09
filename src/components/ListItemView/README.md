@@ -56,9 +56,10 @@ element as it is passed. Inside a `<List>` the props come ready from `getItemPro
 The `size` prop sets the density of a row — `s`, `m`, `l` or `xl`. It drives the minimum height,
 the paddings, the corner radius and the size of the controls of the row; `xl` also switches the
 text to `body-2`. The heights are those of the controls — 24, 28, 36 and 44px — and, as in the
-controls, the paddings come from the height: a single line fills the row exactly, every next line
-adds its line height. A row without `size` keeps the base geometry of the view, which is close to `m`
-but not the same; inside a `<List>` every row gets the size of the list.
+controls, the block paddings come from the height: a single line fills the row exactly, every next
+line adds its line height. The inline paddings grow with the size — 8, 12, 16 and 16px. A row
+without `size` has the height, the paddings and the radius of `m` with the controls of the base
+view; inside a `<List>` every row gets the size of the list.
 
 <ListItemViewSizes />
 
@@ -168,7 +169,8 @@ and leaves the markup of the row to you, keeping the states and the element.
 The variables apply to a row of any size: `size` only supplies the default geometry — the minimum
 height, the radius, the paddings and the controls — for a variable that is not set. The default
 block padding follows the minimum height and the line height; `--g-list-item-view-padding-block`
-fixes it.
+fixes it. The section header of a list (`List.SectionHeader`) follows the same minimum height and
+inline padding, the variables included, so the rows and the headers of a list keep one edge.
 
 ## Properties
 

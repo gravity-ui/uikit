@@ -73,7 +73,9 @@ list says so in development when neither is passed.
 
 ## Sizes
 
-The `size` prop sets the density of the rows — `s`, `m` (the default), `l` or `xl`.
+The `size` prop sets the density of the rows — `s`, `m` (the default), `l` or `xl`. The rows and
+the section headers of a list have the height and the paddings of their size — see
+[Sizes of `ListItemView`](../ListItemView/README.md#sizes).
 
 <ListSizes />
 

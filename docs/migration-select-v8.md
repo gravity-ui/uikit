@@ -126,7 +126,9 @@ a `Select` can get more than 150 options:
   the height of a row of its size plus 8px above it instead of 5 when it follows other rows, and a
   group with an empty label — a separating line — takes 9px instead of 5 when it follows another row, and nothing at all as the first row of the list, as before — that
   zero is the default one, and `getOptionGroupHeight` overrides it like any other. The `itemHeight` handed to `renderOption` and `renderOptionGroup` carries those numbers, and
-  so does the estimate the virtualizer is given.
+  so does the estimate the virtualizer is given. The inline padding of a row follows the size as well — 8, 12, 16
+  and 16px for `s`, `m`, `l` and `xl` (16px on mobile), the header of a group included;
+  `--g-list-item-view-padding-inline` on `popupClassName`/`sheetClassName` sets a padding of your own.
 
 ## The DOM and the styles
 

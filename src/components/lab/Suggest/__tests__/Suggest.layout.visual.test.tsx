@@ -1,13 +1,14 @@
 import {expect, test} from '~playwright/core';
 
 import {FLOATING_OFFSET} from '../../../Popup/constants';
+import {BORDER_WIDTH} from '../../../utils/popupMiddlewares';
 
 import {SuggestInitiallyOpen, SuggestWithPopupLayout} from './helpersPlaywright';
 
 test('Suggest defaultOpen anchors to the field above its error and note', async ({mount, page}) => {
     await mount(<SuggestInitiallyOpen />);
     const input = page.getByTestId('initial-input').locator('.g-text-input__content');
-    const popup = page.getByTestId('suggest-popup');
+    const popup = page.getByTestId('suggest-popup').locator('..');
     await expect(popup).toBeVisible();
     await expect(page.getByRole('combobox')).toHaveAttribute('aria-expanded', 'true');
     await expect
@@ -21,7 +22,11 @@ test('Suggest defaultOpen anchors to the field above its error and note', async 
                 gap: Math.round(box.y - anchor.y - anchor.height),
             };
         })
-        .toEqual({widthDifference: 0, leftDifference: 0, gap: FLOATING_OFFSET});
+        .toEqual({
+            widthDifference: -2 * BORDER_WIDTH,
+            leftDifference: BORDER_WIDTH,
+            gap: FLOATING_OFFSET,
+        });
 });
 
 for (const virtualized of [false, true]) {
@@ -71,3 +76,29 @@ test('Suggest retains its content during the closing transition', async ({mount,
     await page.clock.runFor(200);
     await expect(popup).not.toBeAttached();
 });
+
+for (const popupWidth of [undefined, 'fit', 300] as const) {
+    test(`Suggest popup width: ${popupWidth ?? 'content'}`, async ({mount, page}) => {
+        await mount(
+            <SuggestInitiallyOpen
+                popupWidth={popupWidth}
+                options={[{value: 'earth', content: 'A very long planet name '.repeat(10)}]}
+            />,
+        );
+        const popup = page.getByTestId('suggest-popup').locator('..');
+        await expect(popup).toBeVisible();
+        await expect
+            .poll(() => popup.evaluate((element) => element.getBoundingClientRect().width))
+            .toBeGreaterThan(0);
+        const width = await popup.evaluate((element) => element.getBoundingClientRect().width);
+        if (popupWidth === undefined) {
+            expect(width).toBeGreaterThan(320);
+            expect(width).toBeLessThanOrEqual((await page.evaluate(() => window.innerWidth)) * 0.9);
+        } else {
+            expect(width).toBeCloseTo(
+                popupWidth === 'fit' ? 320 - 2 * BORDER_WIDTH : popupWidth,
+                0,
+            );
+        }
+    });
+}

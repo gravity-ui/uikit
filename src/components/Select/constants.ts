@@ -28,10 +28,6 @@ export const GROUP_ITEM_MARGIN_TOP = 8;
  */
 export const GROUP_SEPARATOR_HEIGHT = 9;
 
-export const BORDER_WIDTH = 1;
-
-export const POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE = 100;
-
 /**
  * Above this many options a dev warning suggests wrapping the Select in <ListVirtualizer>: a couple
  * of hundred rows is where the DOM of the popup starts to show

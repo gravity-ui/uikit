@@ -311,33 +311,6 @@ describe('Suggest', () => {
         );
     });
 
-    describe('popup width', () => {
-        test('applies popupWidth="fit"', async () => {
-            const offsetWidth = jest
-                .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
-                .mockReturnValue(512);
-            try {
-                const user = userEvent.setup();
-                renderSuggest({popupWidth: 'fit'});
-                await user.type(screen.getByRole('combobox'), 'e');
-                expect(await screen.findByTestId(QA_POPUP)).toHaveStyle({width: '512px'});
-            } finally {
-                offsetWidth.mockRestore();
-            }
-        });
-
-        test('applies popupWidth as pixel number', async () => {
-            const user = userEvent.setup();
-            renderSuggest({popupWidth: 300});
-
-            const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-            await user.type(input, 'e');
-
-            const popup = await screen.findByTestId(QA_POPUP);
-            expect(popup).toHaveStyle({width: '300px'});
-        });
-    });
-
     describe('input props', () => {
         test('disabled input cannot open popup', async () => {
             const user = userEvent.setup();

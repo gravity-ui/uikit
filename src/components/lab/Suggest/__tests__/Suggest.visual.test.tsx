@@ -5,7 +5,7 @@ import {SuggestStories} from './helpersPlaywright';
 test.describe('Suggest', () => {
     test('render story: <Default>', async ({mount, expectScreenshot, page}) => {
         await mount(
-            <div style={{height: 400}}>
+            <div style={{width: 400, height: 400}}>
                 <SuggestStories.Default />
             </div>,
         );
@@ -58,7 +58,7 @@ test.describe('Suggest', () => {
         expectScreenshot,
     }) => {
         await mount(
-            <div style={{height: 400}}>
+            <div style={{width: 400, height: 400}}>
                 <SuggestStories.Default />
             </div>,
         );

@@ -18,6 +18,7 @@ import {Loader} from '../../Loader';
 import {Popup} from '../../Popup';
 import {TextInput} from '../../controls';
 import {block} from '../../utils/cn';
+import {getMiddlewares} from '../../utils/popupMiddlewares';
 
 import i18n from './i18n';
 import type {SuggestProps} from './types';
@@ -51,7 +52,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         getOptionHeight,
         onLoadMore,
 
-        popupWidth = 'fit',
+        popupWidth,
         popupClassName,
         popupPlacement = 'bottom-start',
         disablePortal,
@@ -84,7 +85,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
             setAnchorElement(element?.parentElement ?? null);
         }, []),
     );
-    const [fitWidth, setFitWidth] = React.useState<number>();
     const focusOwner = useListFocusOwner();
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
@@ -236,25 +236,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         }
     }
 
-    useLayoutEffect(() => {
-        if (popupWidth === 'fit' && anchorElement && open) {
-            setFitWidth(anchorElement.offsetWidth);
-        }
-    }, [popupWidth, anchorElement, open]);
-
-    const popupStyle: React.CSSProperties = (() => {
-        if (popupWidth === 'fit') {
-            return fitWidth === undefined ? {} : {width: fitWidth};
-        }
-        if (popupWidth === 'auto') {
-            return {width: 'auto'};
-        }
-        if (typeof popupWidth === 'number' && Number.isFinite(popupWidth) && popupWidth > 0) {
-            return {width: popupWidth};
-        }
-        return {};
-    })();
-
     const handleValueChange = React.useCallback(
         (newValue: string) => {
             if (value === undefined) {
@@ -332,7 +313,11 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 onOpenChange={setOpen}
                 anchorElement={anchorElement}
                 className={b('popup', popupClassName)}
-                style={popupStyle}
+                floatingMiddlewares={getMiddlewares({
+                    width: popupWidth,
+                    disablePortal,
+                    virtualized: Boolean(virtualization),
+                })}
                 returnFocus={false}
             >
                 <div

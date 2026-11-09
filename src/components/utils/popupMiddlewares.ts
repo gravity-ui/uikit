@@ -1,10 +1,16 @@
 import {flip, offset as floatingOffset, limitShift, shift, size} from '@floating-ui/react';
 import type {Middleware} from '@floating-ui/react';
 
-import {FLOATING_OFFSET} from '../../../Popup/constants';
-import {BORDER_WIDTH, POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE} from '../../constants';
+import {FLOATING_OFFSET} from '../Popup/constants';
 
-import type {SelectPopupProps} from './types';
+export const BORDER_WIDTH = 1;
+const POPUP_MIN_WIDTH_IN_VIRTUALIZE_CASE = 100;
+
+interface PopupMiddlewareOptions {
+    width?: 'fit' | number;
+    disablePortal?: boolean;
+    virtualized?: boolean;
+}
 
 const adjustBorderWidth = (width: number) => {
     return width - BORDER_WIDTH * 2;
@@ -21,7 +27,7 @@ const getMinWidth = (referenceWidth: number, virtualized?: boolean) => {
 };
 
 const getPopupWidth = (
-    width: SelectPopupProps['width'],
+    width: PopupMiddlewareOptions['width'],
     controlWidth: number,
     virtualized?: boolean,
 ) => {
@@ -37,9 +43,7 @@ const getPopupWidth = (
     return `${popupWidth}px`;
 };
 
-export function sameWidthMiddleware(
-    args: Pick<SelectPopupProps, 'width' | 'disablePortal' | 'virtualized'>,
-): Middleware {
+export function sameWidthMiddleware(args: PopupMiddlewareOptions): Middleware {
     const {width, virtualized} = args;
 
     return size({
@@ -71,9 +75,7 @@ export function sameWidthMiddleware(
     });
 }
 
-export function getMiddlewares(
-    args: Pick<SelectPopupProps, 'width' | 'disablePortal' | 'virtualized'>,
-): Middleware[] {
+export function getMiddlewares(args: PopupMiddlewareOptions): Middleware[] {
     return [
         floatingOffset({mainAxis: FLOATING_OFFSET, crossAxis: BORDER_WIDTH}),
         flip({altBoundary: args.disablePortal}),

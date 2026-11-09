@@ -4,7 +4,7 @@ import type {Locator, Page} from '@playwright/test';
 import {test} from '~playwright/core';
 
 import {FLOATING_OFFSET} from '../../Popup/constants';
-import {BORDER_WIDTH} from '../constants';
+import {BORDER_WIDTH} from '../../utils/popupMiddlewares';
 
 import {AnchorStand} from './anchorHelpersPlaywright';
 

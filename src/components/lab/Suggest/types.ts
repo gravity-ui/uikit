@@ -48,8 +48,8 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     popupClassName?: string;
     /** Popup placement relative to the input */
     popupPlacement?: PopupPlacement;
-    /** Popup width: `'fit'` matches input width, `'auto'` uses natural width, number sets pixel width */
-    popupWidth?: 'fit' | 'auto' | number;
+    /** Popup width: `'fit'` matches input width, number sets pixel width; defaults to content width */
+    popupWidth?: 'fit' | number;
     /** Render empty-state or error content when there are no options and loading is false. */
     renderEmptyOptions?: (props: {filter: string}) => React.ReactElement | null;
     /**

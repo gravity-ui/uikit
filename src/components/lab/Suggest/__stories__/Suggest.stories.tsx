@@ -131,8 +131,8 @@ export const PopupWidth: Story = {
             <Text variant="subheader-2">{`popupWidth="fit"`}</Text>
             <PopupWidthExample popupWidth="fit" placeholder="Width matches input…" />
 
-            <Text variant="subheader-2">{`popupWidth="auto"`}</Text>
-            <PopupWidthExample popupWidth="auto" placeholder="Width is natural…" />
+            <Text variant="subheader-2">Default popup width</Text>
+            <PopupWidthExample placeholder="Width is natural…" />
 
             <Text variant="subheader-2">{`popupWidth={300}`}</Text>
             <PopupWidthExample popupWidth={300} placeholder="Width is 300px…" />
@@ -144,7 +144,7 @@ function PopupWidthExample({
     popupWidth,
     placeholder,
 }: {
-    popupWidth: SuggestProps<PlanetData>['popupWidth'];
+    popupWidth?: SuggestProps<PlanetData>['popupWidth'];
     placeholder: string;
 }) {
     const [value, setValue] = React.useState('');

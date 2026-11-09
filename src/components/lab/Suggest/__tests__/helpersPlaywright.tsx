@@ -5,6 +5,7 @@ import {composeStories} from '@storybook/react-webpack5';
 import {ListVirtualizer} from '../../../../virtualizer';
 import {Suggest} from '../Suggest';
 import * as SuggestStoriesModule from '../__stories__/Suggest.stories';
+import type {SuggestProps} from '../types';
 
 export const SuggestStories = composeStories(SuggestStoriesModule);
 
@@ -63,12 +64,16 @@ export function SuggestWithLabel() {
     );
 }
 
-export function SuggestInitiallyOpen() {
+export function SuggestInitiallyOpen({
+    popupWidth,
+    options = OPTIONS,
+}: Pick<SuggestProps, 'popupWidth' | 'options'>) {
     return (
         <div style={{width: 320, margin: 40, height: 300}}>
             <Suggest
                 defaultOpen
-                options={OPTIONS}
+                options={options}
+                popupWidth={popupWidth}
                 qa="initial-input"
                 aria-label="Planets"
                 validationState="invalid"

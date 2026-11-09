@@ -104,7 +104,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
     const autoId = useUniqId();
     const componentId = idProp || autoId;
-    const popupId = `${componentId}-popup`;
     const listId = `${componentId}-list`;
     const listLabel =
         ariaLabel ??
@@ -308,7 +307,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 placement={popupPlacement}
                 disablePortal={disablePortal}
                 qa="suggest-popup"
-                id={popupId}
                 open={popupOpen}
                 onOpenChange={setOpen}
                 anchorElement={anchorElement}

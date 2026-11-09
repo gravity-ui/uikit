@@ -31,6 +31,7 @@
 
     &__list {
         box-sizing: border-box;
+        padding: var(--g-spacing-1);
         flex: 1 1 auto;
         min-height: 0;
         overflow: auto;

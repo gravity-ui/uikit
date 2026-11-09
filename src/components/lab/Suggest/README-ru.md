@@ -70,6 +70,11 @@ const handleUpdate = async (query: string) => {
     if (requestId === lastRequestId.current) {
       setOptions(results);
     }
+  } catch (error) {
+    if (requestId === lastRequestId.current) {
+      setOptions([]);
+      handleRequestError(error);
+    }
   } finally {
     if (requestId === lastRequestId.current) {
       setLoading(false);
@@ -91,7 +96,7 @@ const handleUpdate = async (query: string) => {
 
 <!--/GITHUB_BLOCK-->
 
-Только последний запрос обновляет опции и состояние загрузки; предыдущие запросы продолжают выполняться, но их результаты игнорируются. `fetchPlanets` обозначает функцию загрузки данных вашего приложения; обработку ошибок запросов реализуйте в приложении.
+Только последний запрос обновляет опции и состояние загрузки; предыдущие запросы продолжают выполняться, но их результаты игнорируются. `fetchPlanets` обозначает функцию загрузки данных вашего приложения. При ошибке пример очищает опции и вызывает `handleRequestError` — функцию приложения, которая показывает или логирует ошибку.
 
 Чтобы сократить число запросов, добавьте debounce для загрузки, обновляя значение инпута сразу. Сам по себе debounce не защищает от устаревших ответов. Если функция загрузки поддерживает `AbortSignal`, предыдущие запросы также можно отменять через `AbortController`.
 
@@ -157,6 +162,8 @@ const [open, setOpen] = React.useState(false);
 <!--GITHUB_BLOCK-->
 
 ```tsx
+import {Flex, Text} from '@gravity-ui/uikit';
+
 <Suggest
   value={value}
   onUpdate={setValue}
@@ -167,12 +174,14 @@ const [open, setOpen] = React.useState(false);
     </div>
   )}
   renderPopup={({renderList}) => (
-    <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
-      <div style={{padding: 'var(--g-spacing-2)', fontWeight: 600, flexShrink: 0}}>Результаты</div>
+    <Flex direction="column" style={{minHeight: 0}}>
+      <Flex padding="spacing-2" style={{flexShrink: 0}}>
+        <Text variant="subheader-2">Результаты</Text>
+      </Flex>
       {renderList()}
-    </div>
+    </Flex>
   )}
-/>
+/>;
 ```
 
 <!--/GITHUB_BLOCK-->
@@ -235,33 +244,34 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 
 ## Свойства
 
-| Название             | Описание                                                                                          | Тип                                                                                                                        | По умолчанию   |
-| :------------------- | :------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------- | :------------- |
-| className            | CSS-класс корня TextInput                                                                         | `string`                                                                                                                   |                |
-| controlRef           | Ссылка на нативный элемент ввода (см. TextInput)                                                  | `TextInputProps["controlRef"]`                                                                                             |                |
-| defaultOpen          | Начальное состояние открытия (неконтролируемый режим)                                             | `boolean`                                                                                                                  |                |
-| defaultValue         | Начальное значение (неконтролируемый режим)                                                       | `string`                                                                                                                   |                |
-| disablePortal        | Рендерить попап без портала                                                                       | `boolean`                                                                                                                  | `false`        |
-| getOptionHeight      | Высота строки (для переменных высот)                                                              | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |                |
-| id                   | ID нативного input (генерируется автоматически, если не указан)                                   | `string`                                                                                                                   |                |
-| loading              | Добавить строку загрузки; при пустом списке показать отдельный спиннер                            | `boolean`                                                                                                                  | `false`        |
-| onActiveOptionUpdate | Передаёт запросы List на изменение активной опции: её `value` или `null`                          | `(value: string \| null) => void`                                                                                          |                |
-| onLoadMore           | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           | `() => void`                                                                                                               |                |
-| onOpenChange         | Вызывается при изменении состояния попапа                                                         | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void`                                                 |                |
-| onOptionAction       | Вызывается при выборе опции мышью или клавиатурой                                                 | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void`                                       |                |
-| onUpdate             | Вызывается при изменении значения поля                                                            | `(value: string) => void`                                                                                                  |                |
-| open                 | Управлять открытием попапа снаружи                                                                | `boolean`                                                                                                                  |                |
-| options              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` | `SuggestOptionProps<T>[]`                                                                                                  |                |
-| popupClassName       | CSS-класс попапа                                                                                  | `string`                                                                                                                   |                |
-| popupPlacement       | Положение попапа относительно инпута                                                              | `PopupPlacement`                                                                                                           | `bottom-start` |
-| popupWidth           | Ширина попапа: как у поля, авто или фиксированная (px)                                            | `'fit' \| 'auto' \| number`                                                                                                | `'fit'`        |
-| qa                   | Атрибут `data-qa` корневого `span` TextInput                                                      | `string`                                                                                                                   |                |
-| ref                  | Ссылка на корневой `span` TextInput                                                               | `React.Ref<HTMLSpanElement>`                                                                                               |                |
-| renderEmptyOptions   | Пользовательское пустое состояние, когда нет загрузки                                             | `(props: {filter: string}) => ReactElement \| null`                                                                        |                |
-| renderOption         | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |                |
-| renderPopup          | Заменить или обернуть стандартный список внутри попапа                                            | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null`                                                |                |
-| style                | Инлайн-стили корня TextInput                                                                      | `CSSProperties`                                                                                                            |                |
-| value                | Значение поля (контролируемый режим)                                                              | `string`                                                                                                                   |                |
+| Имя                  | Описание                                                                                          | Тип                                                                                                                        | Значение по умолчанию |
+| :------------------- | :------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------- | :-------------------- |
+| className            | CSS-класс корня TextInput                                                                         | `string`                                                                                                                   |                       |
+| controlRef           | Ссылка на нативный элемент ввода (см. TextInput)                                                  | `TextInputProps["controlRef"]`                                                                                             |                       |
+| defaultOpen          | Начальное состояние открытия (неконтролируемый режим)                                             | `boolean`                                                                                                                  |                       |
+| defaultValue         | Начальное значение (неконтролируемый режим)                                                       | `string`                                                                                                                   |                       |
+| disablePortal        | Рендерить попап без портала                                                                       | `boolean`                                                                                                                  | `false`               |
+| getOptionHeight      | Высота строки (для переменных высот)                                                              | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |                       |
+| id                   | ID нативного input (генерируется автоматически, если не указан)                                   | `string`                                                                                                                   |                       |
+| loading              | Добавить строку загрузки; при пустом списке показать отдельный спиннер                            | `boolean`                                                                                                                  | `false`               |
+| onActiveOptionUpdate | Передаёт запросы List на изменение активной опции: её `value` или `null`                          | `(value: string \| null) => void`                                                                                          |                       |
+| onLoadMore           | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           | `() => void`                                                                                                               |                       |
+| onOpenChange         | Вызывается при изменении состояния попапа                                                         | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void`                                                 |                       |
+| onOptionAction       | Вызывается при выборе опции мышью или клавиатурой                                                 | `(value: string, option: SuggestOptionProps<T>, event: ListItemActionEvent) => void`                                       |                       |
+| onUpdate             | Вызывается при изменении значения поля                                                            | `(value: string) => void`                                                                                                  |                       |
+| open                 | Управлять открытием попапа снаружи                                                                | `boolean`                                                                                                                  |                       |
+| options              | Варианты (`value`, `content`, `disabled`, `data?`). У каждой опции должен быть уникальный `value` | `SuggestOptionProps<T>[]`                                                                                                  |                       |
+| popupClassName       | CSS-класс попапа                                                                                  | `string`                                                                                                                   |                       |
+| popupPlacement       | Положение попапа относительно инпута                                                              | `PopupPlacement`                                                                                                           | `'bottom-start'`      |
+| popupWidth           | Ширина попапа: как у поля, авто или фиксированная (px)                                            | `'fit' \| 'auto' \| number`                                                                                                | `'fit'`               |
+| qa                   | Атрибут `data-qa` корневого `span` TextInput                                                      | `string`                                                                                                                   |                       |
+| ref                  | Ссылка на корневой `span` TextInput                                                               | `React.Ref<HTMLSpanElement>`                                                                                               |                       |
+| renderEmptyOptions   | Пользовательское пустое состояние, когда нет загрузки                                             | `(props: {filter: string}) => ReactElement \| null`                                                                        |                       |
+| renderOption         | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |                       |
+| renderPopup          | Заменить или обернуть стандартный список внутри попапа                                            | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null`                                                |                       |
+| size                 | Размер инпута и строк списка                                                                      | `'s' \| 'm' \| 'l' \| 'xl'`                                                                                                | `'m'`                 |
+| style                | Инлайн-стили корня TextInput                                                                      | `CSSProperties`                                                                                                            |                       |
+| value                | Значение поля (контролируемый режим)                                                              | `string`                                                                                                                   |                       |
 
 Suggest принимает все [пропсы TextInput](../../controls/TextInput/README.md) напрямую, а также `aria-label`, `aria-labelledby`, `aria-describedby` и `aria-details`. `ref` указывает на корень TextInput, `controlRef` — на нативный input.
 

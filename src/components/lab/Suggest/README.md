@@ -11,7 +11,7 @@ import {
 } from '@gravity-ui/uikit/unstable';
 ```
 
-`Suggest` is a text input with a dropdown list of options. It handles keyboard navigation, ARIA attributes, and popup positioning. Data fetching, debouncing, and pagination are handled externally.
+`Suggest` implements the [Editable Combobox with List Autocomplete](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/) pattern.
 
 ## Basic usage
 

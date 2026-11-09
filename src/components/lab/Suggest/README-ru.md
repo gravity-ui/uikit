@@ -11,7 +11,7 @@ import {
 } from '@gravity-ui/uikit/unstable';
 ```
 
-`Suggest` — это текстовое поле ввода с выпадающим списком вариантов. Компонент берёт на себя навигацию с клавиатуры, ARIA-атрибуты и позиционирование попапа. Загрузка данных, дебаунс и пагинация реализуются снаружи.
+`Suggest` реализует паттерн [Editable Combobox with List Autocomplete](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-list/).
 
 ## Базовое использование
 

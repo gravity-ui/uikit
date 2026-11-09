@@ -188,19 +188,15 @@ is ignored with a development warning. The loading row uses the standard height 
 
 ## Keyboard Navigation
 
-No option is highlighted automatically when the popup opens.
+List navigation follows the [List keyboard behavior](https://preview.gravity-ui.com/uikit/?path=/docs/components-data-display-list--docs#keyboard). Suggest adds the following popup actions:
 
-| Windows / Linux      | macOS                | Action                                            |
-| :------------------- | :------------------- | :------------------------------------------------ |
-| `↓` Arrow Down       | `↓`                  | Open popup (if closed) or move to next option     |
-| `↑` Arrow Up         | `↑`                  | Open popup (if closed) or move to previous option |
-| `Page Down`          | `Fn + ↓`             | Move active option down ten options               |
-| `Page Up`            | `Fn + ↑`             | Move active option up ten options                 |
-| `Home`               | `Fn + ←`             | Move text cursor to start of input                |
-| `End`                | `Fn + →`             | Move text cursor to end of input                  |
-| `Shift + Home / End` | `Shift + Fn + ← / →` | Extend text selection to start / end              |
-| `Enter`              | `Enter`              | Select active option and close popup              |
-| `Escape`             | `Escape`             | Close popup (input keeps focus)                   |
+| Key       | Action                                      |
+| :-------- | :------------------------------------------ |
+| `↑` / `↓` | Open the popup if closed                    |
+| `Enter`   | Apply the active option and close the popup |
+| `Escape`  | Close the popup, keeping focus in the input |
+
+No option is highlighted automatically when the popup opens.
 
 ## Properties
 

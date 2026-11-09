@@ -87,6 +87,8 @@ export function SheetContent(props: SheetContentProps) {
     const sheetRef = React.useRef<HTMLDivElement>(null);
     const veilRef = React.useRef<HTMLDivElement>(null);
     const isAnimatingRef = React.useRef(false);
+    const presenceStatusRef = React.useRef(presenceStatus);
+    presenceStatusRef.current = presenceStatus;
     const sheetTopRef = React.useRef<HTMLDivElement>(null);
     const sheetMarginBoxRef = React.useRef<HTMLDivElement>(null);
     const sheetScrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -237,10 +239,8 @@ export function SheetContent(props: SheetContentProps) {
         }
     }, [setStyles, removeHash]);
 
-    const getIsExitAnimating = React.useCallback(
-        () => presenceStatus === 'close',
-        [presenceStatus],
-    );
+    // Read through a ref so the resize handlers and observers survive presence status changes.
+    const getIsExitAnimating = React.useCallback(() => presenceStatusRef.current === 'close', []);
 
     const {
         deltaY,
@@ -297,7 +297,9 @@ export function SheetContent(props: SheetContentProps) {
     const activeGesture = dragging || swipeAreaTouched || contentTouched;
 
     const onResize = React.useCallback(() => {
-        if (!sheetRef.current || !sheetScrollContainerRef.current) {
+        // A resize during the exit transition (e.g. content that changes its height while
+        // closing) must not restore the open position.
+        if (!sheetRef.current || !sheetScrollContainerRef.current || getIsExitAnimating()) {
             return;
         }
 
@@ -308,7 +310,10 @@ export function SheetContent(props: SheetContentProps) {
         }
 
         const availableContentHeight = getAvailableContentHeight(sheetContentHeight);
-        const withTransition = isAnimatingRef.current;
+        // A viewport resize during the opening transition (e.g. an autofocused input showing
+        // the keyboard) is applied immediately; otherwise the sheet finishes opening at the old
+        // height and jumps again.
+        const withTransition = isAnimatingRef.current && !inWindowResizeScopeRef.current;
 
         sheetScrollContainerRef.current.style.transition =
             withTransition && prevSheetHeightRef.current > sheetContentHeight
@@ -330,17 +335,17 @@ export function SheetContent(props: SheetContentProps) {
 
         prevSheetHeightRef.current = sheetContentHeight;
         inWindowResizeScopeRef.current = false;
-    }, [getSheetContentHeight, getAvailableContentHeight, getSheetTopHeight]);
+    }, [getSheetContentHeight, getAvailableContentHeight, getSheetTopHeight, getIsExitAnimating]);
 
     const onResizeWindow = React.useCallback(() => {
-        if (isAnimatingRef.current) {
+        if (getIsExitAnimating()) {
             delayedResizeRef.current = true;
             return;
         }
 
         inWindowResizeScopeRef.current = true;
         onResize();
-    }, [onResize]);
+    }, [getIsExitAnimating, onResize]);
 
     const {veilHandlers} = useVeil({
         veilRef,
@@ -353,7 +358,24 @@ export function SheetContent(props: SheetContentProps) {
     // --- componentDidMount / componentWillUnmount ---
     React.useEffect(() => {
         const overlay = sheetRef.current?.parentElement;
-        const overlayObserver = overlay ? new ResizeObserver(() => onResizeWindow()) : null;
+        let overlayWidth = overlay?.clientWidth;
+        let overlayHeight = overlay?.clientHeight;
+        const overlayObserver = overlay
+            ? new ResizeObserver(() => {
+                  // The initial notification is not a viewport change and must not cancel
+                  // the opening transition.
+                  if (
+                      overlay.clientWidth === overlayWidth &&
+                      overlay.clientHeight === overlayHeight
+                  ) {
+                      return;
+                  }
+
+                  overlayWidth = overlay.clientWidth;
+                  overlayHeight = overlay.clientHeight;
+                  onResizeWindow();
+              })
+            : null;
 
         if (overlay && overlayObserver) {
             overlayObserver.observe(overlay);

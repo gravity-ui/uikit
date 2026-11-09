@@ -248,7 +248,7 @@ The inline paddings of the rows of `List` and `Select` follow the size as well: 
 and `xl` instead of one padding for every size; the rows of the mobile `Select` are of size `xl`. A section header of
 `List` and a group header of `Select` have the inline padding of a row of their size. To keep a padding of your own, set
 `--g-list-item-view-padding-inline` on the same class as the height above: `className` of `List`, `popupClassName` and
-`sheetClassName` of `Select`. The items of `Menu` follow the same scale: an item of size `l` has 16px instead of 12.
+`sheetClassName` of `Select`. `Menu` keeps the paddings of its own.
 
 ## Table and TableColumnSetup
 

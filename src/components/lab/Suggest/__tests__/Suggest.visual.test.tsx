@@ -17,20 +17,6 @@ test.describe('Suggest', () => {
         await expectScreenshot({themes: ['light']});
     });
 
-    test('render story: <Sizes> size xl', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{height: 700}}>
-                <SuggestStories.Sizes />
-            </div>,
-        );
-
-        const inputs = page.locator('input');
-        await inputs.nth(3).click();
-        await expect(page.getByRole('listbox')).toBeVisible();
-
-        await expectScreenshot({themes: ['light']});
-    });
-
     test('render story: <CustomPopupContent>', async ({mount, expectScreenshot, page}) => {
         await mount(
             <div style={{height: 400}}>

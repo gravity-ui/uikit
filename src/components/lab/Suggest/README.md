@@ -43,7 +43,7 @@ const options = React.useMemo(
 />;
 ```
 
-By default an option's `content` is rendered, falling back to `children`. Pass `renderOption` to customize the content. Its second argument contains `itemHeight`, `isItemActive`, and `selected` (always `false`, since Suggest does not manage selection). Return a React element.
+By default an option's `content` is rendered, falling back to `children`. Pass `renderOption` to customize the content.
 
 <!--/GITHUB_BLOCK-->
 

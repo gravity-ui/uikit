@@ -43,7 +43,7 @@ const options = React.useMemo(
 />;
 ```
 
-По умолчанию отображается `content` опции, а если он не задан — `children`. Для изменения содержимого передайте `renderOption`. Второй аргумент содержит `itemHeight`, `isItemActive` и `selected` (всегда `false`, поскольку Suggest не управляет выбранными значениями). Верните React-элемент.
+По умолчанию отображается `content` опции, а если он не задан — `children`. Для изменения содержимого передайте `renderOption`.
 
 <!--/GITHUB_BLOCK-->
 

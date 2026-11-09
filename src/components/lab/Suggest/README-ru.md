@@ -49,7 +49,11 @@ const options = React.useMemo(
 
 ## Асинхронная загрузка
 
-Используйте локальный флаг `loading` вместе с `options`. При `loading === true` к существующим опциям добавляется строка загрузки:
+При `loading === true` к существующим опциям добавляется строка загрузки.
+
+Для пагинации показывайте её, пока выполняется запрос или доступны следующие страницы: `loading={isFetching || hasNextPage}`.
+
+`onLoadMore` вызывается, когда строка загрузки становится видимой в непустом списке, с виртуализацией и без неё. Первый запрос запускайте в приложении: при пустом списке `onLoadMore` не вызывается. В примере `options`, `isFetching`, `hasNextPage` и `loadNextPage` предоставляются приложением; обработчик защищает от параллельных запросов.
 
 <!--GITHUB_BLOCK-->
 
@@ -60,7 +64,12 @@ const [value, setValue] = React.useState('');
   value={value}
   onUpdate={setValue}
   options={options}
-  loading={loading}
+  loading={isFetching || hasNextPage}
+  onLoadMore={() => {
+    if (!isFetching && hasNextPage) {
+      loadNextPage();
+    }
+  }}
   onOptionAction={(_value, option) => {
     setValue(option.value);
   }}
@@ -178,23 +187,6 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 измеряет строки переменной высоты. Если передан `getOptionHeight`, он задаёт высоту строки и её
 оценку для виртуализации; иначе оценка определяется размером List. `ListVirtualizer.estimateItemSize`
 игнорируется с предупреждением в режиме разработки. Высота строки загрузки определяется размером инпута.
-
-`onLoadMore` вызывается, когда строка загрузки становится видимой в непустом списке.
-Для пагинации передавайте `loading={hasNextPage}`, пока есть следующие страницы, и защищайте
-загрузку от параллельных запросов. Первый запрос запускается снаружи: отдельный спиннер
-при пустом списке не вызывает `onLoadMore`.
-
-```tsx
-<Suggest
-  options={options}
-  loading={hasNextPage}
-  onLoadMore={() => {
-    if (!isFetching && hasNextPage) {
-      loadNextPage();
-    }
-  }}
-/>
-```
 
 ## Управление с клавиатуры
 

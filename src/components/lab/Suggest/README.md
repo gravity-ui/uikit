@@ -49,7 +49,11 @@ By default an option's `content` is rendered, falling back to `children`. Pass `
 
 ## Async loading
 
-Use a local `loading` flag together with `options`. While `loading` is `true`, a loading row is appended to existing options:
+While `loading` is `true`, a loading row is appended to existing options.
+
+For pagination, keep it visible while a request is in progress or more pages are available: `loading={isFetching || hasNextPage}`.
+
+`onLoadMore` fires when the loading row becomes visible in a non-empty list, with or without virtualization. Start the initial request in your application; an empty list does not trigger `onLoadMore`. The example uses the application-provided `options`, `isFetching`, `hasNextPage`, and `loadNextPage`, and guards against concurrent requests.
 
 <!--GITHUB_BLOCK-->
 
@@ -60,7 +64,12 @@ const [value, setValue] = React.useState('');
   value={value}
   onUpdate={setValue}
   options={options}
-  loading={loading}
+  loading={isFetching || hasNextPage}
+  onLoadMore={() => {
+    if (!isFetching && hasNextPage) {
+      loadNextPage();
+    }
+  }}
   onOptionAction={(_value, option) => {
     setValue(option.value);
   }}
@@ -176,22 +185,6 @@ Rows use the List design and follow `size`. The virtualizer measures variable-he
 rows automatically. `getOptionHeight`, when provided, sets the row height and its virtualization
 estimate; otherwise the List size determines the estimate. `ListVirtualizer.estimateItemSize`
 is ignored with a development warning. The loading row uses the standard height for the input size.
-
-`onLoadMore` fires when the loading row becomes visible in a non-empty list. For pagination,
-keep `loading={hasNextPage}` while more pages are available, and guard against concurrent requests.
-Start the initial request yourself; the standalone loader for an empty list does not call `onLoadMore`.
-
-```tsx
-<Suggest
-  options={options}
-  loading={hasNextPage}
-  onLoadMore={() => {
-    if (!isFetching && hasNextPage) {
-      loadNextPage();
-    }
-  }}
-/>
-```
 
 ## Keyboard Navigation
 

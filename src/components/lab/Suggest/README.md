@@ -49,7 +49,7 @@ By default an option's `content` is rendered, falling back to `children`. Pass `
 
 ## Async loading
 
-Use a local `loading` flag together with `options`. While `loading` is `true`, a loading row is appended to existing options. If there are no options, a standalone spinner is shown:
+Use a local `loading` flag together with `options`. While `loading` is `true`, a loading row is appended to existing options:
 
 <!--GITHUB_BLOCK-->
 
@@ -248,7 +248,7 @@ No option is highlighted automatically when the popup opens.
 | disablePortal        | Render the popup without a portal                                                                    | `boolean`                                                                                                                  | `false`          |
 | getOptionHeight      | Row height function (enables variable-height rows)                                                   | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |                  |
 | id                   | Native input ID (auto-generated if omitted)                                                          | `string`                                                                                                                   |                  |
-| loading              | Append a loading row; show a standalone spinner when options are empty                               | `boolean`                                                                                                                  | `false`          |
+| loading              | Show a loading indicator                                                                             | `boolean`                                                                                                                  | `false`          |
 | onActiveOptionUpdate | Forwards List requests to update the active option by its value or `null`                            | `(value: string \| null) => void`                                                                                          |                  |
 | onLoadMore           | Called when the loading row becomes visible in a non-empty list (pagination)                         | `() => void`                                                                                                               |                  |
 | onOpenChange         | Called when popup open state changes                                                                 | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void`                                                 |                  |

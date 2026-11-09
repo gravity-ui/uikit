@@ -49,7 +49,7 @@ const options = React.useMemo(
 
 ## Асинхронная загрузка
 
-Используйте локальный флаг `loading` вместе с `options`. При `loading === true` к существующим опциям добавляется строка загрузки. Если опций нет, показывается отдельный спиннер:
+Используйте локальный флаг `loading` вместе с `options`. При `loading === true` к существующим опциям добавляется строка загрузки:
 
 <!--GITHUB_BLOCK-->
 
@@ -251,7 +251,7 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 | disablePortal        | Рендерить попап без портала                                                                       | `boolean`                                                                                                                  | `false`               |
 | getOptionHeight      | Высота строки (для переменных высот)                                                              | `(option: SuggestOptionProps<T>, index: number) => number`                                                                 |                       |
 | id                   | ID нативного input (генерируется автоматически, если не указан)                                   | `string`                                                                                                                   |                       |
-| loading              | Добавить строку загрузки; при пустом списке показать отдельный спиннер                            | `boolean`                                                                                                                  | `false`               |
+| loading              | Показать индикатор загрузки                                                                       | `boolean`                                                                                                                  | `false`               |
 | onActiveOptionUpdate | Передаёт запросы List на изменение активной опции: её `value` или `null`                          | `(value: string \| null) => void`                                                                                          |                       |
 | onLoadMore           | Вызывается при появлении строки загрузки в видимой области непустого списка (пагинация)           | `() => void`                                                                                                               |                       |
 | onOpenChange         | Вызывается при изменении состояния попапа                                                         | `(open: boolean, event?: Event, reason?: SuggestOpenChangeReason) => void`                                                 |                       |

@@ -10,7 +10,8 @@ import {getSeparatedFiles, getSeparatedItems} from './utils';
 import type {FileDropZoneAccept} from './utils';
 
 interface FileDropZoneContextValue
-    extends Pick<
+    extends
+        Pick<
             FileDropZoneProps,
             | 'title'
             | 'description'

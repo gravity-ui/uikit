@@ -100,6 +100,7 @@ describe('CopyToClipboard', () => {
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', true);
         });
+        expect(document.querySelector('textarea')).toBeNull();
 
         if (originalClipboardDescriptor) {
             Object.defineProperty(navigator, 'clipboard', originalClipboardDescriptor);
@@ -124,5 +125,39 @@ describe('CopyToClipboard', () => {
         });
 
         (navigator.clipboard.writeText as jest.Mock).mockRestore();
+    });
+
+    test.each([
+        [
+            'throws',
+            jest.fn(() => {
+                throw new Error('Copy failed');
+            }),
+        ],
+        ['returns false', jest.fn().mockReturnValue(false)],
+    ])('should remove the fallback textarea when execCommand %s', async (_, execCommand) => {
+        const onCopy = jest.fn();
+        Object.defineProperty(navigator, 'clipboard', {
+            value: undefined,
+            configurable: true,
+        });
+        Object.defineProperty(document, 'execCommand', {
+            value: execCommand,
+            configurable: true,
+        });
+
+        render(
+            <CopyToClipboard text="text" onCopy={onCopy}>
+                <button>Copy</button>
+            </CopyToClipboard>,
+        );
+
+        fireEvent.click(screen.getByText('Copy'));
+
+        await waitFor(() => {
+            expect(onCopy).toHaveBeenCalledWith('text', false);
+        });
+        expect(execCommand).toHaveBeenCalledWith('copy');
+        expect(document.querySelector('textarea')).toBeNull();
     });
 });

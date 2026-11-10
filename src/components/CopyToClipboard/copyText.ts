@@ -39,19 +39,20 @@ export async function copyText(text: string) {
 async function copyTextFallback(text: string) {
     const activeElement = document.activeElement;
 
+    const textarea = document.createElement('textarea');
+    // Make invisible for screen readers
+    textarea.setAttribute('aria-hidden', 'true');
+    // Reset possible styles for textarea
+    textarea.style.all = 'unset';
+    textarea.style.position = 'absolute';
+    textarea.style.left = '1000%';
+    // Preserve spaces and line breaks
+    textarea.style.whiteSpace = 'pre';
+    // Do not inherit user-select (it may be `none`)
+    textarea.style.userSelect = 'text';
+    textarea.value = text;
+
     try {
-        const textarea = document.createElement('textarea');
-        // Make invisible for screen readers
-        textarea.setAttribute('aria-hidden', 'true');
-        // Reset possible styles for textarea
-        textarea.style.all = 'unset';
-        textarea.style.position = 'absolute';
-        textarea.style.left = '1000%';
-        // Preserve spaces and line breaks
-        textarea.style.whiteSpace = 'pre';
-        // Do not inherit user-select (it may be `none`)
-        textarea.style.userSelect = 'text';
-        textarea.value = text;
         document.body.append(textarea);
         textarea.select();
         const success = document.execCommand('copy');
@@ -59,9 +60,9 @@ async function copyTextFallback(text: string) {
         if (!success) {
             throw new Error('Failed to copy text with document.execCommand("copy")');
         }
-
-        document.body.removeChild(textarea);
     } finally {
+        textarea.remove();
+
         // Restore focus to the previously focused element
         if (
             activeElement &&

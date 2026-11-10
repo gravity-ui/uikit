@@ -18,8 +18,7 @@ import {Portal} from '../../Portal';
 import {useDefaultProps} from '../../theme/useDefaultProps';
 import {block} from '../../utils/cn';
 import {filterDOMProps} from '../../utils/filterDOMProps';
-import {layerManager, useLayer} from '../../utils/layer-manager';
-import {LayerContext, getLayerElement} from '../../utils/layer-manager/LayerContext';
+import {useLayer} from '../../utils/layer-manager';
 import {DRAWER_ANIMATION_DURATION_MS} from '../constants';
 import {useInitialFocus} from '../hooks/useInitialFocus';
 import type {DrawerPlacement, OnResizeHandler} from '../hooks/useResizeHandlers';
@@ -128,10 +127,7 @@ export const Drawer = (rawProps: DrawerProps) => {
         disableLayer = true,
         ...restProps
     } = useDefaultProps('Drawer', rawProps);
-    const overlayRef = React.useRef<HTMLDivElement>(null);
-    const getOverlay = React.useCallback(() => getLayerElement(overlayRef.current), []);
-    const layer = useLayer({open, type: 'drawer', enabled: !disableLayer, getElement: getOverlay});
-    const getLayersAbove = React.useCallback(() => layerManager.getElementsAbove(layer), [layer]);
+    useLayer({open, type: 'drawer', enabled: !disableLayer});
     const floatingNodeId = useFloatingNodeId();
 
     const {refs, context} = useFloating({
@@ -139,6 +135,7 @@ export const Drawer = (rawProps: DrawerProps) => {
         open,
         onOpenChange,
     });
+    const overlayRef = React.useRef(null);
 
     const {isMounted, status} = useFloatingTransition({
         context,
@@ -219,7 +216,6 @@ export const Drawer = (rawProps: DrawerProps) => {
                         modal={isMounted && !disableModal}
                         initialFocus={refs.floating}
                         returnFocus={returnFocus}
-                        getInsideElements={getLayersAbove}
                         visuallyHiddenDismiss={disableVisuallyHiddenDismiss ? false : i18n('close')}
                         restoreFocus={true}
                     >
@@ -240,7 +236,7 @@ export const Drawer = (rawProps: DrawerProps) => {
                             {...filterDOMProps(restProps, {labelable: true})}
                             {...getFloatingProps()}
                         >
-                            <LayerContext.Provider value={layer}>{children}</LayerContext.Provider>
+                            {children}
                         </DrawerItem>
                     </FloatingFocusManager>
                 </FloatingOverlay>

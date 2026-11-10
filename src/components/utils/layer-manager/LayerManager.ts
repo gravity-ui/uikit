@@ -46,44 +46,16 @@ type ContentElement = Element | (VirtualElement & {contains?: (other: Node | nul
 
 export interface LayerConfig extends LayerExtendableProps {
     contentRefs?: Array<React.RefObject<ContentElement | null> | undefined>;
-    /** The layer this one is rendered in: a nested layer is always above it */
-    parent?: LayerConfig | null;
-    /** The element that the layers below must leave to assistive technology */
-    getElement?: () => Element | null;
-    /** Takes part only in the order of the layers: no Escape, clicks or layer count */
-    passive?: boolean;
-}
-
-function isNestedIn(layer: LayerConfig, ancestor: LayerConfig) {
-    for (let parent = layer.parent; parent; parent = parent.parent) {
-        if (parent === ancestor) {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 class LayerManager {
-    /** The open layers from the bottom up, the passive ones included */
     private stack: LayerConfig[] = [];
     private mouseDownLayerTarget?: {layer: LayerConfig; target: HTMLElement};
 
     add(config: LayerConfig) {
-        // A layer opened in the same update as the one it is nested in registers first
-        const nestedIndex = this.stack.findIndex((layer) => isNestedIn(layer, config));
+        this.stack.push(config);
 
-        if (nestedIndex === -1) {
-            this.stack.push(config);
-        } else {
-            this.stack.splice(nestedIndex, 0, config);
-        }
-
-        if (config.passive) {
-            return;
-        }
-
-        if (this.getActiveLayers().length === 1) {
+        if (this.stack.length === 1) {
             this.addListeners();
         }
 
@@ -92,18 +64,9 @@ class LayerManager {
 
     remove(config: LayerConfig) {
         const index = this.stack.indexOf(config);
-
-        if (index === -1) {
-            return;
-        }
-
         this.stack.splice(index, 1);
 
-        if (config.passive) {
-            return;
-        }
-
-        if (this.getActiveLayers().length === 0) {
+        if (this.stack.length === 0) {
             this.removeListeners();
         }
 
@@ -111,25 +74,11 @@ class LayerManager {
     }
 
     getLayersCount() {
-        return this.getActiveLayers().length;
+        return this.stack.length;
     }
 
     getLayers() {
-        return this.getActiveLayers().map(({type}) => ({type}));
-    }
-
-    /** The elements of the layers above the given one: it must not hide them from assistive technology */
-    getElementsAbove(config: LayerConfig) {
-        const index = this.stack.indexOf(config);
-
-        if (index === -1) {
-            return [];
-        }
-
-        return this.stack
-            .slice(index + 1)
-            .map((layer) => layer.getElement?.())
-            .filter((element): element is Element => Boolean(element));
+        return this.stack.map(({type}) => ({type}));
     }
 
     private addListeners() {
@@ -201,14 +150,8 @@ class LayerManager {
         }
     };
 
-    private getActiveLayers() {
-        return this.stack.filter((layer) => !layer.passive);
-    }
-
     private getTopLayer() {
-        const layers = this.getActiveLayers();
-
-        return layers[layers.length - 1];
+        return this.stack[this.stack.length - 1];
     }
 
     private isOutsideClick(

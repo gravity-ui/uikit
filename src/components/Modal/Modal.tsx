@@ -28,8 +28,7 @@ import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, DOMProps, QAProps} from '../types';
 import {block} from '../utils/cn';
 import {filterDOMProps} from '../utils/filterDOMProps';
-import {layerManager, useLayer} from '../utils/layer-manager';
-import {LayerContext, getLayerElement} from '../utils/layer-manager/LayerContext';
+import {useLayer} from '../utils/layer-manager';
 
 import i18n from './i18n';
 
@@ -107,17 +106,12 @@ function ModalComponent(rawProps: ModalProps) {
         disableTransition = false,
         ...restProps
     } = useDefaultProps('Modal', rawProps);
-    const overlayRef = React.useRef<HTMLDivElement>(null);
-    const getOverlay = React.useCallback(() => getLayerElement(overlayRef.current), []);
-    const layer = useLayer({open, type: 'modal', getElement: getOverlay});
-    const getLayersAbove = React.useCallback(() => layerManager.getElementsAbove(layer), [layer]);
+    useLayer({open, type: 'modal'});
     const mobile = useMobile();
     const hasScroll = mobile || contentOverflow === 'auto';
 
+    const overlayRef = React.useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = React.useState(false);
-    // A layer above that holds the focus once the modal has appeared, e.g. a sheet opened along
-    // with it, keeps it. A layer that does not take the focus, such as a hint Popup, does not count
-    const [focusInLayerAbove, setFocusInLayerAbove] = React.useState(false);
 
     const floatingNodeId = useFloatingNodeId();
 
@@ -137,17 +131,11 @@ function ModalComponent(rawProps: ModalProps) {
 
     const handleTransitionInComplete = React.useCallback(() => {
         setIsVisible(true);
-        setFocusInLayerAbove(
-            layerManager
-                .getElementsAbove(layer)
-                .some((element) => element.contains(document.activeElement)),
-        );
         onTransitionInComplete?.();
-    }, [layer, onTransitionInComplete]);
+    }, [onTransitionInComplete]);
 
     const handleTransitionOutComplete = React.useCallback(() => {
         setIsVisible(false);
-        setFocusInLayerAbove(false);
         onTransitionOutComplete?.();
     }, [onTransitionOutComplete]);
 
@@ -210,9 +198,8 @@ function ModalComponent(rawProps: ModalProps) {
                             context={context}
                             disabled={!isMounted || !isVisible}
                             modal={isMounted}
-                            initialFocus={focusInLayerAbove ? -1 : (initialFocus ?? refs.floating)}
+                            initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}
-                            getInsideElements={getLayersAbove}
                             visuallyHiddenDismiss={
                                 disableVisuallyHiddenDismiss ? false : t('close')
                             }
@@ -229,9 +216,7 @@ function ModalComponent(rawProps: ModalProps) {
                                     ref={handleFloatingRef}
                                     {...getFloatingProps()}
                                 >
-                                    <LayerContext.Provider value={layer}>
-                                        {children}
-                                    </LayerContext.Provider>
+                                    {children}
                                 </div>
                             </div>
                         </FloatingFocusManager>

@@ -18,12 +18,12 @@ import type {FloatingFocusManagerProps} from '@floating-ui/react';
 
 import {KeyCode} from '../../constants';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
+import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, QAProps} from '../types';
-import {layerManager, useLayer} from '../utils/layer-manager';
-import {LayerContext, getLayerElement} from '../utils/layer-manager/LayerContext';
+import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
 import {SHEET_TRANSITION_DURATION_MS, sheetBlock} from './constants';
@@ -82,6 +82,9 @@ export interface SheetProps
     /** `Sheet` height will always have the maximum value */
     alwaysFullHeight?: boolean;
 }
+
+// Modal sheets in the order they opened, see getSheetsAbove
+const openModalSheets: Array<() => HTMLElement | null> = [];
 
 function SheetComponent(rawProps: SheetProps) {
     const {
@@ -183,23 +186,41 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete,
     });
 
-    // The overlay also holds the visually hidden dismiss buttons next to the dialog
-    const overlayRef = React.useRef<HTMLDivElement>(null);
-    const getOverlay = React.useCallback(() => getLayerElement(overlayRef.current), []);
-
     // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
     // useDismiss only coordinates within one tree. Release the layer when closing starts.
-    const layer = useLayer({
+    useLayer({
         open: isOpen,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,
-        getElement: getOverlay,
     });
 
-    // A modal sheet hides the rest of the page from assistive technology, but not the layers
-    // above it: they may have opened in the same update, before the sheet hid the page
-    const getLayersAbove = React.useCallback(() => layerManager.getElementsAbove(layer), [layer]);
+    // The overlay also holds the visually hidden dismiss buttons next to the dialog
+    const overlayRef = React.useRef<HTMLDivElement>(null);
+    const getOverlay = React.useCallback(() => overlayRef.current, []);
+
+    useLayoutEffect(() => {
+        if (!isMounted || disableModal) {
+            return undefined;
+        }
+
+        openModalSheets.push(getOverlay);
+
+        return () => {
+            openModalSheets.splice(openModalSheets.indexOf(getOverlay), 1);
+        };
+    }, [disableModal, getOverlay, isMounted]);
+
+    // A modal sheet hides the rest of the page from assistive technology. Sheets opened
+    // in the same commit would hide each other, so a sheet keeps the ones above it.
+    const getSheetsAbove = React.useCallback(() => {
+        const index = openModalSheets.indexOf(getOverlay);
+
+        return openModalSheets
+            .slice(index + 1)
+            .map((getElement) => getElement())
+            .filter((element): element is HTMLElement => element !== null);
+    }, [getOverlay]);
 
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([role]);
@@ -230,7 +251,7 @@ function SheetComponent(rawProps: SheetProps) {
                             initialFocus={initialFocus ?? (disableModal ? -1 : refs.floating)}
                             returnFocus={returnFocus}
                             closeOnFocusOut={false}
-                            getInsideElements={getLayersAbove}
+                            getInsideElements={getSheetsAbove}
                             restoreFocus
                             visuallyHiddenDismiss={
                                 disableVisuallyHiddenDismiss ? false : t('close')
@@ -238,11 +259,7 @@ function SheetComponent(rawProps: SheetProps) {
                         >
                             <SheetContentContainer
                                 id={id}
-                                content={
-                                    <LayerContext.Provider value={layer}>
-                                        {children}
-                                    </LayerContext.Provider>
-                                }
+                                content={children}
                                 contentClassName={contentClassName}
                                 swipeAreaClassName={swipeAreaClassName}
                                 title={title}

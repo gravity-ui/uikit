@@ -1,8 +1,5 @@
 import * as React from 'react';
 
-import {useLayoutEffect} from '../../../hooks/useLayoutEffect';
-
-import {LayerContext} from './LayerContext';
 import {layerManager} from './LayerManager';
 import type {LayerCloseReason, LayerConfig, LayerExtendableProps} from './LayerManager';
 
@@ -22,11 +19,9 @@ export function useLayer({
     onOutsideClick,
     onClose,
     contentRefs,
-    getElement,
     enabled = true,
     type,
 }: LayerProps) {
-    const parent = React.useContext(LayerContext);
     const layerConfigRef = React.useRef<LayerConfig>({
         disableEscapeKeyDown,
         disableOutsideClick,
@@ -35,7 +30,6 @@ export function useLayer({
         onOutsideClick,
         onClose,
         contentRefs,
-        getElement,
         type,
     });
 
@@ -48,7 +42,6 @@ export function useLayer({
             onOutsideClick,
             onClose,
             contentRefs,
-            getElement,
             enabled,
         });
     }, [
@@ -59,26 +52,19 @@ export function useLayer({
         onOutsideClick,
         onClose,
         contentRefs,
-        getElement,
         enabled,
     ]);
 
-    // Registered before the focus managers hide the rest of the page: they leave the layers above.
-    // A disabled layer still takes part in that order
-    useLayoutEffect(() => {
-        if (!open) {
-            return undefined;
+    React.useEffect(() => {
+        if (open && enabled) {
+            const layerConfig = layerConfigRef.current;
+            layerManager.add(layerConfig);
+
+            return () => {
+                layerManager.remove(layerConfig);
+            };
         }
 
-        const layerConfig = layerConfigRef.current;
-        layerConfig.parent = parent;
-        layerConfig.passive = !enabled;
-        layerManager.add(layerConfig);
-
-        return () => {
-            layerManager.remove(layerConfig);
-        };
-    }, [open, enabled, parent]);
-
-    return layerConfigRef.current;
+        return undefined;
+    }, [open, enabled]);
 }

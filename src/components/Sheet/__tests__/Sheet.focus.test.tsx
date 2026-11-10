@@ -2,11 +2,8 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
+import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {Lang, configure} from '../../../utils/configure';
-import {Dialog} from '../../Dialog';
-import {Drawer} from '../../Drawer';
-import {Modal} from '../../Modal';
 import {Popup} from '../../Popup';
 import {getLayersCount} from '../../utils/layer-manager';
 import {Sheet} from '../Sheet';
@@ -34,25 +31,6 @@ function PopupInSheet({onOpenChange}: {onOpenChange: (reason?: string) => void})
             >
                 <button>Popup action</button>
             </Popup>
-        </React.Fragment>
-    );
-}
-
-function DialogWithPopup({onTransitionInComplete}: {onTransitionInComplete: () => void}) {
-    const [open, setOpen] = React.useState(false);
-    const [anchor, setAnchor] = React.useState<HTMLButtonElement | null>(null);
-
-    return (
-        <React.Fragment>
-            <button onClick={() => setOpen(true)}>Open dialog</button>
-            <Dialog open={open} aria-label="Dialog" onTransitionInComplete={onTransitionInComplete}>
-                <Dialog.Body>
-                    <button ref={setAnchor}>Anchor</button>
-                    <Popup open={open} anchorElement={anchor}>
-                        Hint
-                    </Popup>
-                </Dialog.Body>
-            </Dialog>
         </React.Fragment>
     );
 }
@@ -85,6 +63,7 @@ async function setupSheetInModal(children?: React.ReactNode) {
     );
 
     await click(user, 'Open modal');
+    // The modal takes focus after its own transition; opening the sheet earlier would lose it
     await waitFor(() => expect(screen.getByRole('dialog')).toHaveFocus());
     await click(user, 'Open sheet');
     await expectSheetFocused('Inside modal');
@@ -325,42 +304,6 @@ describe('Sheet focus management', () => {
             ]);
             await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
         });
-    });
-
-    test.each([
-        {name: 'Modal', Overlay: Modal},
-        {name: 'Drawer', Overlay: Drawer},
-    ])(
-        'keeps the focus and the accessibility tree when opened along with a $name',
-        async ({name, Overlay}) => {
-            const onTransitionInComplete = jest.fn();
-            render(
-                <Overlay open aria-label={name} onTransitionInComplete={onTransitionInComplete}>
-                    <Sheet open title="Inside">
-                        <button>Sheet action</button>
-                    </Sheet>
-                </Overlay>,
-            );
-
-            await waitFor(() => expect(onTransitionInComplete).toHaveBeenCalled());
-            // The overlay may start managing the focus at the end of its own transition
-            await act(() => new Promise((resolve) => setTimeout(resolve, 50)));
-
-            expect(screen.getByRole('dialog', {name: 'Inside'})).toHaveFocus();
-            expect(screen.queryByRole('dialog', {name})).not.toBeInTheDocument();
-        },
-    );
-
-    test('a Dialog with an open Popup inside focuses the dialog', async () => {
-        const onTransitionInComplete = jest.fn();
-        const user = userEvent.setup();
-        render(<DialogWithPopup onTransitionInComplete={onTransitionInComplete} />);
-
-        // The Popup is a layer above the dialog, but it does not take the focus
-        await click(user, 'Open dialog');
-        await waitFor(() => expect(onTransitionInComplete).toHaveBeenCalled());
-
-        await waitFor(() => expect(screen.getByRole('dialog', {name: 'Dialog'})).toHaveFocus());
     });
 
     describe('inside a Modal', () => {

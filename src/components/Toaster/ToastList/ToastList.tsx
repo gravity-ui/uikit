@@ -1,27 +1,26 @@
 'use client';
 
-import * as React from 'react';
-
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import {block} from '../../utils/cn';
 import {getCSSTransitionClassNames} from '../../utils/transition';
 import {Toast} from '../Toast/Toast';
-import type {InternalToastProps, ToastListProps} from '../types';
+import type {InternalToastProps} from '../types';
 
 import './ToastAnimation.scss';
 import './ToastList.scss';
 
+const desktopTransitionClassNames = getCSSTransitionClassNames(block('toast-animation-desktop'));
+const mobileTransitionClassNames = getCSSTransitionClassNames(block('toast-animation-mobile'));
+
+type ToastListProps = {
+    removeCallback: (name: string) => void;
+    toasts: InternalToastProps[];
+    mobile?: boolean;
+};
+
 export function ToastList(props: ToastListProps) {
     const {toasts, mobile, removeCallback} = props;
-
-    const classNames = React.useMemo(
-        () =>
-            mobile
-                ? getCSSTransitionClassNames(block('toast-animation-mobile'))
-                : getCSSTransitionClassNames(block('toast-animation-desktop')),
-        [mobile],
-    );
 
     return (
         <TransitionGroup component={null}>
@@ -32,7 +31,7 @@ export function ToastList(props: ToastListProps) {
                      * TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
                      */
                     nodeRef={toast.ref as React.Ref<HTMLElement>}
-                    classNames={classNames}
+                    classNames={mobile ? mobileTransitionClassNames : desktopTransitionClassNames}
                     addEndListener={(done) =>
                         toast.ref?.current?.addEventListener('animationend', done)
                     }

@@ -8,10 +8,10 @@ import {block} from '../../utils/cn';
 import {ToastsContext} from '../Provider/ToastsContext';
 import {ToastList} from '../ToastList/ToastList';
 import {useToaster} from '../hooks/useToaster';
-import type {ToastListProps} from '../types';
 
-interface Props extends Pick<ToastListProps, 'mobile'> {
+interface Props {
     className?: string;
+    mobile?: boolean;
     hasPortal?: boolean;
 }
 

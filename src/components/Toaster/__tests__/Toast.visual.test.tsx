@@ -35,6 +35,38 @@ const simpleToastProps: React.ComponentProps<typeof Toast> = {
 };
 
 test.describe('Toast', {tag: '@Toaster'}, () => {
+    test('reduced motion keeps the toast in place during enter', async ({mount, page}) => {
+        await page.emulateMedia({reducedMotion: 'reduce'});
+        await page.addStyleTag({
+            content:
+                '.g-toast-animation-desktop_enter_active { animation-play-state: paused !important; }',
+        });
+        await mount(
+            <ToastStories.ToastPlayground {...simpleToastProps} mobile={false} />,
+            wrapperOptions,
+        );
+
+        const toast = page.locator('[data-toast]');
+        await expect(toast).toHaveClass(/g-toast-animation-desktop_enter_active/);
+        const state = await toast.evaluate((element) => {
+            const animation = element.getAnimations()[0];
+            animation.currentTime = 150;
+            const style = getComputedStyle(element);
+            return {
+                transform: style.transform,
+                opacity: Number(style.opacity),
+                animationName: style.animationName,
+                animationDuration: style.animationDuration,
+            };
+        });
+
+        expect(state.animationName).toBe('g-toast-enter-reduced-motion');
+        expect(state.opacity).toBeGreaterThan(0);
+        expect(state.opacity).toBeLessThan(1);
+        expect(state.transform).toBe('none');
+        expect(state.animationDuration).toBe('0.6s');
+    });
+
     test('render story: <ToastPlayground> (normal)', async ({mount, expectScreenshot}) => {
         await mount(
             <ToastStories.ToastPlayground

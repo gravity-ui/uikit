@@ -90,30 +90,34 @@ $desktop-slide-easing: linear(
 @each $platform in ('mobile', 'desktop') {
     #{'.#{variables.$ns}toast-animation-#{$platform}'} {
         &_enter {
+            @include hidden-toast-opacity;
             position: absolute;
 
             @if ($platform == 'desktop') {
-                @include desktop-hidden-toast-opacity;
-                @include desktop-hidden-toast-move;
-            } @else {
-                @include hidden-toast-opacity;
+                @media (prefers-reduced-motion: no-preference) {
+                    @include desktop-hidden-toast-opacity;
+                    @include desktop-hidden-toast-move;
+                }
             }
         }
 
         &_enter_active {
-            animation: #{variables.$ns}toast-enter-#{$platform}
-                $animation-duration
-                ease-out
-                forwards;
             position: relative;
 
             @if ($platform == 'desktop') {
-                animation-duration: $desktop-animation-duration;
-                animation-timing-function: ease;
+                animation: #{variables.$ns}toast-enter-#{$platform}
+                    $desktop-animation-duration
+                    forwards;
+            } @else {
+                animation: #{variables.$ns}toast-enter-#{$platform}
+                    $animation-duration
+                    ease-out
+                    forwards;
             }
 
             @media (prefers-reduced-motion: reduce) {
-                animation-name: #{variables.$ns}toast-enter-reduced-motion;
+                animation: #{variables.$ns}toast-enter-reduced-motion $animation-duration ease-out
+                    forwards;
             }
         }
 

@@ -388,6 +388,8 @@ export const ToasterDemo = ({
         </Button>
     );
 
+    const component = React.useMemo(() => <ToasterComponent />, []);
+
     return (
         <React.Fragment>
             <p>{normalToastBtn}</p>
@@ -403,7 +405,7 @@ export const ToasterDemo = ({
             <p>{singletonToasterBtn}</p>
             <p>{clearBtn}</p>
 
-            <ToasterComponent />
+            {component}
         </React.Fragment>
     );
 };

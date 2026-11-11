@@ -32,16 +32,14 @@ const views: ButtonView[] = [
     'contrast-dark',
 ];
 
-function selectControl<T>(name: string, options: T[]) {
+function viewSelect(name: string) {
     return {
         name,
         control: 'select' as const,
-        options,
+        defaultValue: 'outlined',
+        options: views,
+        if: {arg: 'setActions'},
     };
-}
-
-function viewSelect(name: string) {
-    return {...selectControl(name, views), defaultValue: 'outlined', if: {arg: 'setActions'}};
 }
 
 const disabledControl = {

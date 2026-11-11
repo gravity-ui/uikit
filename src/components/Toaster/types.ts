@@ -53,9 +53,3 @@ export interface ToasterPublicMethods extends ToasterContextMethods {}
 export interface ToasterImplementation extends ToasterContextMethods {
     subscribe(callback: (toasts: InternalToastProps[]) => void): VoidFunction;
 }
-
-export type ToastListProps = {
-    removeCallback: (name: string) => void;
-    toasts: InternalToastProps[];
-    mobile?: boolean;
-};

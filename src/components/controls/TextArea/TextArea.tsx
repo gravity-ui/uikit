@@ -38,153 +38,153 @@ export type TextAreaPin = InputControlPin;
 export type TextAreaSize = InputControlSize;
 export type TextAreaView = InputControlView;
 
-export const TextArea = React.forwardRef<HTMLSpanElement, TextAreaProps>(
-    function TextArea(rawProps, ref) {
-        const props = useDefaultProps('TextArea', rawProps);
-        const {
-            view = 'normal',
-            size = 'm',
-            pin = 'round-round',
-            name,
-            value,
-            defaultValue,
-            disabled,
-            readOnly,
-            hasClear = false,
-            errorMessage,
-            validationState,
-            autoComplete,
-            id: idProp,
-            tabIndex,
-            style,
-            className,
-            qa,
-            controlProps,
-            note,
-            onUpdate,
-            onChange,
-        } = props;
+export const TextArea: React.ForwardRefExoticComponent<
+    React.PropsWithoutRef<TextAreaProps> & React.RefAttributes<HTMLSpanElement>
+> = React.forwardRef<HTMLSpanElement, TextAreaProps>(function TextArea(rawProps, ref) {
+    const props = useDefaultProps('TextArea', rawProps);
+    const {
+        view = 'normal',
+        size = 'm',
+        pin = 'round-round',
+        name,
+        value,
+        defaultValue,
+        disabled,
+        readOnly,
+        hasClear = false,
+        errorMessage,
+        validationState,
+        autoComplete,
+        id: idProp,
+        tabIndex,
+        style,
+        className,
+        qa,
+        controlProps,
+        note,
+        onUpdate,
+        onChange,
+    } = props;
 
-        const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
-        const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
-        const fieldRef = useFormResetHandler({initialValue: inputValue, onReset: setInputValue});
-        const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
-        const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
-        const state = getInputControlState(validationState);
-        const innerId = useUniqId();
+    const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
+    const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
+    const fieldRef = useFormResetHandler({initialValue: inputValue, onReset: setInputValue});
+    const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
+    const [hasVerticalScrollbar, setHasVerticalScrollbar] = React.useState(false);
+    const state = getInputControlState(validationState);
+    const innerId = useUniqId();
 
-        const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
-        const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
-        const id = idProp || innerId;
+    const isErrorMsgVisible = validationState === 'invalid' && Boolean(errorMessage);
+    const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
+    const id = idProp || innerId;
 
-        const errorMessageId = useUniqId();
-        const noteId = useUniqId();
-        const ariaDescribedBy = [
-            controlProps?.['aria-describedby'],
-            note ? noteId : undefined,
-            isErrorMsgVisible ? errorMessageId : undefined,
-        ]
-            .filter(Boolean)
-            .join(' ');
+    const errorMessageId = useUniqId();
+    const noteId = useUniqId();
+    const ariaDescribedBy = [
+        controlProps?.['aria-describedby'],
+        note ? noteId : undefined,
+        isErrorMsgVisible ? errorMessageId : undefined,
+    ]
+        .filter(Boolean)
+        .join(' ');
 
-        const commonProps = {
-            id,
-            tabIndex,
-            name,
-            onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-                setInputValue(event.target.value);
-                if (onChange) {
-                    onChange(event);
-                }
-            },
-            autoComplete: prepareAutoComplete(autoComplete),
-            controlProps: {
-                ...controlProps,
-                'aria-describedby': ariaDescribedBy || undefined,
-                'aria-invalid': validationState === 'invalid' || undefined,
-            },
-        };
+    const commonProps = {
+        id,
+        tabIndex,
+        name,
+        onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+            setInputValue(event.target.value);
+            if (onChange) {
+                onChange(event);
+            }
+        },
+        autoComplete: prepareAutoComplete(autoComplete),
+        controlProps: {
+            ...controlProps,
+            'aria-describedby': ariaDescribedBy || undefined,
+            'aria-invalid': validationState === 'invalid' || undefined,
+        },
+    };
 
-        const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {
-            const control = innerControlRef.current;
+    const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {
+        const control = innerControlRef.current;
 
-            if (control) {
-                control.focus();
+        if (control) {
+            control.focus();
 
-                const syntheticEvent = Object.create(event);
-                syntheticEvent.target = control;
-                syntheticEvent.currentTarget = control;
+            const syntheticEvent = Object.create(event);
+            syntheticEvent.target = control;
+            syntheticEvent.currentTarget = control;
 
-                control.value = '';
+            control.value = '';
 
-                if (onChange) {
-                    onChange(syntheticEvent);
-                }
+            if (onChange) {
+                onChange(syntheticEvent);
+            }
+        }
+
+        setInputValue('');
+    };
+
+    React.useEffect(() => {
+        if (!isClearControlVisible) {
+            if (hasVerticalScrollbar) {
+                setHasVerticalScrollbar(false);
             }
 
-            setInputValue('');
-        };
+            return;
+        }
 
-        React.useEffect(() => {
-            if (!isClearControlVisible) {
-                if (hasVerticalScrollbar) {
-                    setHasVerticalScrollbar(false);
-                }
+        const control = innerControlRef.current;
 
-                return;
+        if (control) {
+            const currHasVerticalScrollbar = control.scrollHeight > control.clientHeight;
+
+            if (hasVerticalScrollbar !== currHasVerticalScrollbar) {
+                setHasVerticalScrollbar(currHasVerticalScrollbar);
             }
+        }
+    }, [inputValue, isClearControlVisible, hasVerticalScrollbar]);
 
-            const control = innerControlRef.current;
-
-            if (control) {
-                const currHasVerticalScrollbar = control.scrollHeight > control.clientHeight;
-
-                if (hasVerticalScrollbar !== currHasVerticalScrollbar) {
-                    setHasVerticalScrollbar(currHasVerticalScrollbar);
-                }
-            }
-        }, [inputValue, isClearControlVisible, hasVerticalScrollbar]);
-
-        return (
-            <span
-                ref={ref}
-                style={style}
-                className={b(
-                    {
-                        view,
-                        size,
-                        disabled,
-                        state,
-                        pin: view === 'clear' ? undefined : pin,
-                        'has-clear': isClearControlVisible,
-                        'has-scrollbar': isClearControlVisible && hasVerticalScrollbar,
-                    },
-                    className,
-                )}
-                data-qa={qa}
-            >
-                <span className={b('content')}>
-                    <TextAreaControl
-                        {...props}
-                        {...commonProps}
-                        controlRef={handleRef}
-                        inputValue={inputValue}
-                    />
-                    {isClearControlVisible && (
-                        <ClearButton
-                            className={b('clear', {size})}
-                            size={mapTextInputSizeToButtonSize(size)}
-                            onClick={handleClear}
-                        />
-                    )}
-                </span>
-                <OuterAdditionalContent
-                    errorMessage={isErrorMsgVisible ? errorMessage : null}
-                    errorMessageId={errorMessageId}
-                    note={note}
-                    noteId={noteId}
+    return (
+        <span
+            ref={ref}
+            style={style}
+            className={b(
+                {
+                    view,
+                    size,
+                    disabled,
+                    state,
+                    pin: view === 'clear' ? undefined : pin,
+                    'has-clear': isClearControlVisible,
+                    'has-scrollbar': isClearControlVisible && hasVerticalScrollbar,
+                },
+                className,
+            )}
+            data-qa={qa}
+        >
+            <span className={b('content')}>
+                <TextAreaControl
+                    {...props}
+                    {...commonProps}
+                    controlRef={handleRef}
+                    inputValue={inputValue}
                 />
+                {isClearControlVisible && (
+                    <ClearButton
+                        className={b('clear', {size})}
+                        size={mapTextInputSizeToButtonSize(size)}
+                        onClick={handleClear}
+                    />
+                )}
             </span>
-        );
-    },
-);
+            <OuterAdditionalContent
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                errorMessageId={errorMessageId}
+                note={note}
+                noteId={noteId}
+            />
+        </span>
+    );
+});

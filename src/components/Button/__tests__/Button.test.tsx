@@ -498,7 +498,7 @@ describe('Button', () => {
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
+        const style = {color: 'rgb(255, 0, 0)'};
 
         render(<Button style={style} qa={qaId} />);
         const button = screen.getByTestId(qaId);

@@ -130,7 +130,7 @@ test('should not call onUpdate if default prevented', async () => {
     await user.click(tabComponent1);
     await user.click(tabComponent2);
 
-    expect(onUpdateFn).toBeCalledTimes(1);
+    expect(onUpdateFn).toHaveBeenCalledTimes(1);
     expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
 });
 

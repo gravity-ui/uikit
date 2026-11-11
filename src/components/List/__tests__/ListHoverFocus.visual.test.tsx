@@ -81,6 +81,7 @@ for (const virtualized of [false, true]) {
 test.describe('List: focus under virtualization', {tag: '@List'}, () => {
     test('the focus follows a hover that unmounts the focused row', async ({mount, page}) => {
         await mount(<ScrollTestList virtualized activeItemId="Item 1" />);
+        await expect(page.getByRole('listbox').locator('[data-index]')).not.toHaveCount(0);
         await getRow(page, 'Item 1').focus();
         // The wheel takes the focused row out of the window of the virtualizer
         await page.getByRole('listbox').evaluate((root) => root.scrollTo({top: 3000}));

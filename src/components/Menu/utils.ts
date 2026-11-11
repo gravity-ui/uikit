@@ -1,6 +1,9 @@
 import * as React from 'react';
 
-export function isComponentType(component: unknown, type: string): component is React.ReactElement {
+export function isComponentType<P = unknown>(
+    component: unknown,
+    type: string,
+): component is React.ReactElement<P> {
     if (!React.isValidElement(component)) {
         return false;
     }

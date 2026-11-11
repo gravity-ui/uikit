@@ -149,6 +149,26 @@ describe('FileDropZone', () => {
 
             expect(onUpdate).not.toHaveBeenCalled();
         });
+
+        test('does not call callbacks on input change when disabled', () => {
+            const onUpdate = jest.fn();
+            const onUpdateAccepted = jest.fn();
+            render(
+                <FileDropZone
+                    {...defaultProps}
+                    onUpdate={onUpdate}
+                    onUpdateAccepted={onUpdateAccepted}
+                    disabled
+                />,
+            );
+
+            fireEvent.change(screen.getByTestId(FileDropZoneQa.FILE_INPUT), {
+                target: {files: [createFile('a.png', 'image/png')]},
+            });
+
+            expect(onUpdate).not.toHaveBeenCalled();
+            expect(onUpdateAccepted).not.toHaveBeenCalled();
+        });
     });
 
     describe('drag and drop', () => {
@@ -298,6 +318,80 @@ describe('FileDropZone', () => {
                 },
             ]);
         });
+
+        test('ignores string items on drop in single-file mode', () => {
+            const onUpdate = jest.fn();
+            render(<FileDropZone accept={[]} onUpdate={onUpdate} qa="drop-zone" />);
+            const file = createFile('a.png', 'image/png');
+
+            fireEvent.drop(screen.getByTestId('drop-zone'), {
+                dataTransfer: {
+                    items: [
+                        {kind: 'string', type: 'text/uri-list', getAsFile: () => null},
+                        {kind: 'file', type: file.type, getAsFile: () => file},
+                    ],
+                    files: [file],
+                    dropEffect: 'none',
+                },
+            });
+
+            expect(onUpdate).toHaveBeenCalledTimes(1);
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
+        });
+
+        test('accepts dropped file without MIME type by extension', () => {
+            const onUpdate = jest.fn();
+            render(<FileDropZone accept={['.csv']} onUpdate={onUpdate} qa="drop-zone" />);
+            const file = createFile('data.csv', '');
+
+            fireEvent.drop(screen.getByTestId('drop-zone'), createDropData([file]));
+
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
+        });
+
+        test('matches dropped file extension case-insensitively', () => {
+            const onUpdate = jest.fn();
+            render(<FileDropZone accept={['.csv']} onUpdate={onUpdate} qa="drop-zone" />);
+            const file = createFile('Data.CSV', 'text/csv');
+
+            fireEvent.drop(screen.getByTestId('drop-zone'), createDropData([file]));
+
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
+        });
+
+        test('does not mark drag as invalid for file items with extension accept', () => {
+            render(<FileDropZone accept={['.csv']} onUpdate={jest.fn()} qa="drop-zone" />);
+            const zone = screen.getByTestId('drop-zone');
+
+            fireEvent.dragEnter(zone, createDropData([createFile('data.csv', '')]));
+
+            expect(zone.className).toMatch(/drag-hover/);
+            expect(zone.className).not.toMatch(/invalid-drag/);
+        });
+
+        test('marks dragged text as invalid with extension accept', () => {
+            render(<FileDropZone accept={['.csv']} onUpdate={jest.fn()} qa="drop-zone" />);
+            const zone = screen.getByTestId('drop-zone');
+
+            fireEvent.dragEnter(zone, {
+                dataTransfer: {
+                    items: [{kind: 'string', type: 'text/plain', getAsFile: () => null}],
+                    files: [],
+                    dropEffect: 'none',
+                },
+            });
+
+            expect(zone.className).toMatch(/invalid-drag/);
+        });
+
+        test('still marks drag as invalid for MIME-only accept', () => {
+            render(<FileDropZone accept={['image/*']} onUpdate={jest.fn()} qa="drop-zone" />);
+            const zone = screen.getByTestId('drop-zone');
+
+            fireEvent.dragEnter(zone, createDropData([createFile('doc.pdf', 'application/pdf')]));
+
+            expect(zone.className).toMatch(/invalid-drag/);
+        });
     });
 
     describe('file input (container click)', () => {
@@ -414,7 +508,7 @@ describe('FileDropZone', () => {
             expect(onUpdate.mock.calls[0][1]).toEqual([]);
         });
 
-        test('passes selected input files through without additional validation', () => {
+        test('validates files selected via input', () => {
             const onUpdate = jest.fn();
             const onUpdateRejected = jest.fn();
             render(
@@ -431,8 +525,54 @@ describe('FileDropZone', () => {
             fireEvent.change(getFileInput(), {target: {files: [firstFile, secondFile]}});
 
             expect(onUpdate).toHaveBeenCalledTimes(1);
-            expect(onUpdate).toHaveBeenCalledWith([firstFile, secondFile], []);
-            expect(onUpdateRejected).not.toHaveBeenCalled();
+            expect(onUpdate).toHaveBeenCalledWith(
+                [firstFile],
+                [{file: secondFile, reasons: ['too-many-files']}],
+            );
+            expect(onUpdateRejected).toHaveBeenCalledWith([
+                {file: secondFile, reasons: ['too-many-files']},
+            ]);
+        });
+
+        test('rejects input files with a type that does not match accept', () => {
+            const onUpdate = jest.fn();
+            const onUpdateAccepted = jest.fn();
+            const onUpdateRejected = jest.fn();
+            render(
+                <FileDropZone
+                    accept={['image/*']}
+                    onUpdate={onUpdate}
+                    onUpdateAccepted={onUpdateAccepted}
+                    onUpdateRejected={onUpdateRejected}
+                />,
+            );
+            const file = createFile('doc.pdf', 'application/pdf');
+
+            fireEvent.change(getFileInput(), {target: {files: [file]}});
+
+            expect(onUpdate).toHaveBeenCalledWith([], [{file, reasons: ['invalid-type']}]);
+            expect(onUpdateAccepted).not.toHaveBeenCalled();
+            expect(onUpdateRejected).toHaveBeenCalledWith([{file, reasons: ['invalid-type']}]);
+        });
+
+        test('accepts input files matching an extension', () => {
+            const onUpdate = jest.fn();
+            render(<FileDropZone accept={['.csv']} onUpdate={onUpdate} />);
+            const file = createFile('report.csv', 'text/csv');
+
+            fireEvent.change(getFileInput(), {target: {files: [file]}});
+
+            expect(onUpdate).toHaveBeenCalledWith([file], []);
+        });
+
+        test('rejects input files not matching an extension', () => {
+            const onUpdate = jest.fn();
+            render(<FileDropZone accept={['.csv']} onUpdate={onUpdate} />);
+            const file = createFile('notes.txt', 'text/plain');
+
+            fireEvent.change(getFileInput(), {target: {files: [file]}});
+
+            expect(onUpdate).toHaveBeenCalledWith([], [{file, reasons: ['invalid-type']}]);
         });
     });
 

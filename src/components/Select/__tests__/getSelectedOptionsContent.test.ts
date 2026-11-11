@@ -39,14 +39,14 @@ describe('getSelectedOptionsContent', () => {
         test('single. Should be called once with an array of the option', async () => {
             getSelectedOptionsContent(options, presenceValue, getKey, renderSelectedOptions);
 
-            expect(renderSelectedOptions).toBeCalledTimes(1);
-            expect(renderSelectedOptions).toBeCalledWith([options[0]]);
+            expect(renderSelectedOptions).toHaveBeenCalledTimes(1);
+            expect(renderSelectedOptions).toHaveBeenCalledWith([options[0]]);
         });
         test('multiple. Should be called once with the options in the order of value', async () => {
             getSelectedOptionsContent(options, ['val2', 'val1'], getKey, renderSelectedOptions);
 
-            expect(renderSelectedOptions).toBeCalledTimes(1);
-            expect(renderSelectedOptions).toBeCalledWith([options[1], options[0]]);
+            expect(renderSelectedOptions).toHaveBeenCalledTimes(1);
+            expect(renderSelectedOptions).toHaveBeenCalledWith([options[1], options[0]]);
         });
         test('option NOT presence. Should be called with generated object', async () => {
             getSelectedOptionsContent(
@@ -56,7 +56,7 @@ describe('getSelectedOptionsContent', () => {
                 renderSelectedOptions,
             );
 
-            expect(renderSelectedOptions).toBeCalledWith([
+            expect(renderSelectedOptions).toHaveBeenCalledWith([
                 options[0],
                 {value: notPresenceValue[0]},
             ]);
@@ -65,7 +65,7 @@ describe('getSelectedOptionsContent', () => {
             const result = getSelectedOptionsContent(options, [], getKey, renderSelectedOptions);
 
             expect(result).toBeNull();
-            expect(renderSelectedOptions).not.toBeCalled();
+            expect(renderSelectedOptions).not.toHaveBeenCalled();
         });
     });
 });

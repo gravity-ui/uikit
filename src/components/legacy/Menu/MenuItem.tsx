@@ -23,8 +23,7 @@ export interface MenuItemProps extends DOMProps, QAProps {
     onClick?: React.MouseEventHandler<HTMLDivElement | HTMLAnchorElement>;
     theme?: 'normal' | 'danger';
     extraProps?:
-        | React.HTMLAttributes<HTMLDivElement>
-        | React.AnchorHTMLAttributes<HTMLAnchorElement>;
+        React.HTMLAttributes<HTMLDivElement> | React.AnchorHTMLAttributes<HTMLAnchorElement>;
     children?: React.ReactNode;
 }
 

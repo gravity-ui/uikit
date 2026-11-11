@@ -416,7 +416,7 @@ export const Links: Story = {
                     target="_blank"
                     rel="noopener noreferrer"
                     {...getItemProps({
-                        'aria-label': `${ctx.item.name}, opens in a new tab`,
+                        'aria-description': 'Opens in a new tab',
                     })}
                     {...getItemViewProps()}
                     description={ctx.item.description}

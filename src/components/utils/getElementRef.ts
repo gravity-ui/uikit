@@ -7,5 +7,5 @@ export function getElementRef(element: React.ReactElement) {
             return (element as any).ref;
         }
     }
-    return element.props.ref ?? (element as any).ref;
+    return (element.props as {ref?: React.Ref<unknown>}).ref ?? (element as any).ref;
 }

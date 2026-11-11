@@ -208,7 +208,7 @@ describe('Table', () => {
             const props: TableProps<DataItem> = {data, columns: [], getRowId: getRowIdMock};
             const id = Table.getRowId(props, data[0]);
 
-            expect(getRowIdMock).toBeCalled();
+            expect(getRowIdMock).toHaveBeenCalled();
             expect(id).toBe('__id__' + data[0].name);
         });
 
@@ -256,7 +256,7 @@ describe('Table', () => {
             const column: TableColumnConfig<DataItem> = {id: 'name', name: nameMock};
             const {container} = render(Table.getHeadCellContent(column) as React.ReactElement);
 
-            expect(nameMock).toBeCalled();
+            expect(nameMock).toHaveBeenCalled();
             expect(container).toHaveTextContent('__name__');
         });
 
@@ -300,7 +300,7 @@ describe('Table', () => {
             const column: TableColumnConfig<DataItem> = {id: 'name', template: templateMock};
             const content = Table.getBodyCellContent(column, data[0], 0);
 
-            expect(templateMock).toBeCalled();
+            expect(templateMock).toHaveBeenCalled();
             expect(content).toBe('__content__');
         });
 

@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 
 import {setupIntersectionObserverMock} from '../../../../test-utils/setupIntersectionObserverMock';
-import {render, screen} from '../../../../test-utils/utils';
+import {render, screen, waitFor} from '../../../../test-utils/utils';
 import {getSectionHeader, mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {TextInput} from '../../controls';
@@ -29,6 +29,9 @@ const openSelect = async (props: Parameters<typeof setup>[0] = {}, mobile?: bool
     const user = userEvent.setup();
     const trigger = screen.getByTestId(TEST_QA);
     await user.click(trigger);
+    if (props.filterable && !mobile) {
+        await waitFor(() => expect(screen.getByPlaceholderText(FILTER_PLACEHOLDER)).toHaveFocus());
+    }
 
     return {user, trigger};
 };

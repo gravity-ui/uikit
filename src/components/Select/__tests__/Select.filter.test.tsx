@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import userEvent from '@testing-library/user-event';
 
-import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
 import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../../Sheet/constants';
 import {TextInput} from '../../controls';
 import {MobileProvider} from '../../mobile';
@@ -110,7 +110,7 @@ describe('Select filter', () => {
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
         // check filterPlaceholder property and default filter autofocus
-        expect(getByPlaceholderText(FILTER_PLACEHOLDER)).toHaveFocus();
+        await waitFor(() => expect(getByPlaceholderText(FILTER_PLACEHOLDER)).toHaveFocus());
         await user.keyboard('1');
         // 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31
         expect(getAllByRole('option').length).toBe(13);
@@ -120,7 +120,7 @@ describe('Select filter', () => {
         await user.keyboard('1');
         // empty
         expect(queryAllByRole('option').length).toBe(0);
-        expect(onFilterChange).toBeCalledTimes(3);
+        expect(onFilterChange).toHaveBeenCalledTimes(3);
     });
 
     test('should select active option on Enter key when filter is focused and popup is open', async () => {
@@ -134,6 +134,7 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         const filterInput = getByPlaceholderText(FILTER_PLACEHOLDER);
         expect(filterInput).toHaveFocus();
 
@@ -154,6 +155,7 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         getByPlaceholderText(FILTER_PLACEHOLDER);
 
         await user.keyboard('[ArrowDown]');
@@ -174,6 +176,7 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         getByPlaceholderText(FILTER_PLACEHOLDER);
 
         await user.keyboard('[ArrowUp]');
@@ -192,6 +195,7 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         await user.keyboard('z');
         expect(queryAllByRole('option').length).toBe(0);
         getByTestId(EMPTY_OPTIONS_QA);
@@ -206,6 +210,7 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         await user.keyboard('[a][b][c][1][2]');
         // filter shouldn`t work due to initialized filterOption
         expect(queryAllByRole('option').length).toBe(40);
@@ -221,6 +226,7 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         expect(filterOption).toHaveBeenCalled();
         // 10, 20, 30, 40
         expect(queryAllByRole('option').length).toBe(4);
@@ -234,6 +240,7 @@ describe('Select filter', () => {
         const user = userEvent.setup();
         const selectControl = getByTestId(TEST_QA);
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         // The group headers are no longer options: 4 groups with one option each
         expect(queryAllByRole('option').length).toBe(4);
         await user.keyboard('definitely not option');
@@ -367,6 +374,7 @@ describe('Select filter', () => {
         const selectControl = getByTestId(TEST_QA);
 
         await user.click(selectControl);
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
         expect(getByPlaceholderText(FILTER_PLACEHOLDER)).toHaveFocus();
 
         await user.keyboard('[Escape]');

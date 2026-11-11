@@ -29,13 +29,11 @@ export const PaginationPageSizer = ({
     className,
     view,
 }: Props) => {
-    const options = pageSizeOptions.map(
-        (pageSizeOption): SelectOptionProps => ({
-            value: String(pageSizeOption),
-            content: pageSizeOption,
-            qa: getPaginationPageSizeOptionQa(pageSizeOption),
-        }),
-    );
+    const options = pageSizeOptions.map((pageSizeOption): SelectOptionProps => ({
+        value: String(pageSizeOption),
+        content: pageSizeOption,
+        qa: getPaginationPageSizeOptionQa(pageSizeOption),
+    }));
 
     const handleUpdate = ([newPageSizeOnUpdate]: string[]) => {
         const newPageSize = Number(newPageSizeOnUpdate);

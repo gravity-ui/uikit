@@ -61,7 +61,7 @@ describe('FilePreview', () => {
         const user = userEvent.setup();
         await user.click(filePreview);
 
-        expect(clickHandler).toBeCalled();
+        expect(clickHandler).toHaveBeenCalled();
     });
 
     test('Renders actions', () => {
@@ -123,8 +123,8 @@ describe('FilePreview', () => {
             await user.click(actionButton);
         }
 
-        expect(firstActionsClickHandler).toBeCalled();
-        expect(secondActionsClickHandler).toBeCalled();
+        expect(firstActionsClickHandler).toHaveBeenCalled();
+        expect(secondActionsClickHandler).toHaveBeenCalled();
     });
 
     test("Don't Call disabled action click handler", async () => {
@@ -172,7 +172,7 @@ describe('FilePreview', () => {
             }
         }
 
-        expect(mockFn).toBeCalledTimes(5);
+        expect(mockFn).toHaveBeenCalledTimes(5);
     });
 
     test('closes the mobile actions menu on Escape key press', async () => {
@@ -239,7 +239,7 @@ describe('FilePreview', () => {
 
         await user.click(within(menu).getByRole('option', {name: 'some hint'}));
 
-        expect(actionClickHandler).toBeCalledTimes(1);
+        expect(actionClickHandler).toHaveBeenCalledTimes(1);
         // The sheet unmounts once its hiding transition is over
         act(() => {
             jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);

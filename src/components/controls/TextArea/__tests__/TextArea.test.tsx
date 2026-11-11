@@ -61,7 +61,7 @@ describe('TextArea', () => {
             render(<TextArea onChange={onChangeFn} />);
             fireEvent.change(screen.getByRole('textbox'), {target: {value: '1'}});
 
-            expect(onChangeFn).toBeCalled();
+            expect(onChangeFn).toHaveBeenCalled();
         });
 
         test('call onUpdate with certain value when input changes value', () => {
@@ -71,7 +71,7 @@ describe('TextArea', () => {
             render(<TextArea onUpdate={onUpdateFn} />);
             fireEvent.change(screen.getByRole('textbox'), {target: {value}});
 
-            expect(onUpdateFn).toBeCalledWith(value);
+            expect(onUpdateFn).toHaveBeenCalledWith(value);
         });
 
         test('call onChange when click to clean button', async () => {
@@ -86,7 +86,7 @@ describe('TextArea', () => {
                 await user.click(clear);
             }
 
-            expect(onChangeFn).toBeCalled();
+            expect(onChangeFn).toHaveBeenCalled();
         });
     });
 

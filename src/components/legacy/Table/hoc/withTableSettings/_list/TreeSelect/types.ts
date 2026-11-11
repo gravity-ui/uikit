@@ -14,7 +14,8 @@ export type TreeSelectRenderItem<T, P extends {} = {}> = TreeListRenderItem<T, P
 export type TreeSelectRenderContainer<T> = TreeListRenderContainer<T>;
 
 export interface TreeSelectProps<T, P extends {} = {}>
-    extends Pick<TreeListProps<T, P>, 'renderItem' | 'mapItemDataToContentProps'>,
+    extends
+        Pick<TreeListProps<T, P>, 'renderItem' | 'mapItemDataToContentProps'>,
         Pick<UseOpenProps, 'open' | 'onOpenChange'> {
     className?: string;
     items: T[];

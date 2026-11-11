@@ -11,9 +11,7 @@ import type {LayoutComponentProps} from '../types';
 const b = block('box');
 
 export interface BoxProps<T extends React.ElementType = 'div'>
-    extends QAProps,
-        DOMProps,
-        BaseStyleProps {
+    extends QAProps, DOMProps, BaseStyleProps {
     as?: T;
     children?: React.ReactNode;
 }

@@ -32,10 +32,7 @@ import {getElementRef} from '../utils/getElementRef';
 import './Tooltip.scss';
 
 export interface TooltipProps
-    extends Pick<PortalProps, 'container' | 'disablePortal'>,
-        AriaLabelingProps,
-        QAProps,
-        DOMProps {
+    extends Pick<PortalProps, 'container' | 'disablePortal'>, AriaLabelingProps, QAProps, DOMProps {
     /** Anchor node */
     children:
         | ((props: Record<string, unknown>, ref: React.Ref<HTMLElement>) => React.ReactElement)
@@ -164,10 +161,13 @@ export function Tooltip(rawProps: TooltipProps) {
     // Memoized so that the delay group state changes do not re-render the anchor
     const anchorNode = React.useMemo(() => {
         if (React.isValidElement<any>(children)) {
-            return React.cloneElement(children, {
-                ...getReferenceProps(children.props),
-                ref: anchorRef,
-            });
+            return React.cloneElement(
+                children as React.ReactElement<React.HTMLProps<HTMLElement>>,
+                {
+                    ...getReferenceProps(children.props as React.HTMLProps<HTMLElement>),
+                    ref: anchorRef,
+                },
+            );
         }
 
         return children(getReferenceProps(), anchorRef);

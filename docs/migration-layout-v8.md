@@ -68,8 +68,7 @@ declare them:
 
 ```tsx
 interface PanelProps
-  extends BoxProps,
-    Omit<React.ComponentPropsWithoutRef<'div'>, keyof BoxProps> {}
+  extends BoxProps, Omit<React.ComponentPropsWithoutRef<'div'>, keyof BoxProps> {}
 ```
 
 ## `Box`

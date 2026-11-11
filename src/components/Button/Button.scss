@@ -402,15 +402,15 @@ $block: '.#{variables.$ns}button';
             --_--border-width: 0;
 
             &:is(
-                    #{$block}_view_flat,
-                    #{$block}_view_flat-secondary,
-                    #{$block}_view_flat-info,
-                    #{$block}_view_flat-success,
-                    #{$block}_view_flat-warning,
-                    #{$block}_view_flat-danger,
-                    #{$block}_view_flat-utility,
-                    #{$block}_view_flat-action
-                ) {
+                #{$block}_view_flat,
+                #{$block}_view_flat-secondary,
+                #{$block}_view_flat-info,
+                #{$block}_view_flat-success,
+                #{$block}_view_flat-warning,
+                #{$block}_view_flat-danger,
+                #{$block}_view_flat-utility,
+                #{$block}_view_flat-action
+            ) {
                 --_--background-color: transparent;
                 --_--background-color-hover: transparent;
             }

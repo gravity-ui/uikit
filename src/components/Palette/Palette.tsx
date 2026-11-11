@@ -33,10 +33,7 @@ export type PaletteOption = Pick<ButtonProps, 'disabled' | 'title'> & {
 };
 
 export interface PaletteProps
-    extends AriaLabelingProps,
-        Pick<ButtonProps, 'disabled' | 'size'>,
-        DOMProps,
-        QAProps {
+    extends AriaLabelingProps, Pick<ButtonProps, 'disabled' | 'size'>, DOMProps, QAProps {
     /**
      * Allows selecting multiple options.
      * @default true
@@ -81,8 +78,9 @@ export interface PaletteProps
     onBlur?: (event: React.FocusEvent) => void;
 }
 
-interface PaletteComponent
-    extends React.ForwardRefExoticComponent<PaletteProps & React.RefAttributes<HTMLDivElement>> {}
+interface PaletteComponent extends React.ForwardRefExoticComponent<
+    PaletteProps & React.RefAttributes<HTMLDivElement>
+> {}
 
 export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(
     function Palette(rawProps, ref) {

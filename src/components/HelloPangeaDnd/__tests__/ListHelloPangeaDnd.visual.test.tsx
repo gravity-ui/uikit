@@ -48,10 +48,10 @@ function readDragged(page: Page, x: number, y: number) {
             return {
                 underPointer: Boolean(
                     rect &&
-                        py >= rect.top &&
-                        py <= rect.bottom &&
-                        px >= rect.left &&
-                        px <= rect.right,
+                    py >= rect.top &&
+                    py <= rect.bottom &&
+                    px >= rect.left &&
+                    px <= rect.right,
                 ),
                 onTop: Boolean(dragged && topmost && dragged.contains(topmost)),
             };

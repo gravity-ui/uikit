@@ -129,7 +129,7 @@ describe('Disclosure', () => {
 
         await user.click(disclosure);
 
-        expect(onUpdateFn).toBeCalled();
+        expect(onUpdateFn).toHaveBeenCalled();
     });
 
     test('content is visible when expanded', () => {

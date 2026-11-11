@@ -85,7 +85,7 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
     } else if (isComponentSvgData(data)) {
         ({viewBox} = data.defaultProps);
     } else if (isSvgrData(data)) {
-        const el = data({}) as React.ReactElement;
+        const el = data({}) as React.ReactElement<React.SVGProps<SVGSVGElement>>;
 
         if (el) {
             ({viewBox} = el.props);
@@ -141,7 +141,7 @@ export const Icon: React.ForwardRefExoticComponent<IconProps & React.RefAttribut
     // So we removing width and height for internal component so only external one is specifying them
 
     const IconComponent = data;
-    if (IconComponent.defaultProps) {
+    if ('defaultProps' in IconComponent && IconComponent.defaultProps) {
         IconComponent.defaultProps.width = IconComponent.defaultProps.height = undefined;
     }
 

@@ -3,7 +3,7 @@ import type * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {SelectQa} from '..';
-import {act, cleanup, render, screen} from '../../../../test-utils/utils';
+import {act, cleanup, render, screen, waitFor} from '../../../../test-utils/utils';
 import {mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {TYPEAHEAD_TIMEOUT} from '../../List/utils';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
@@ -369,6 +369,9 @@ describe('Select base actions', () => {
             const {getByTestId} = setup({options: generateOptions(40), filterable: true});
             const user = userEvent.setup();
             await user.click(getByTestId(TEST_QA));
+            await waitFor(() =>
+                expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus(),
+            );
 
             await user.keyboard('3');
 

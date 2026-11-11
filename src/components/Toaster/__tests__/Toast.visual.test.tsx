@@ -125,8 +125,7 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
                     const toast = element.closest('[data-toast]');
                     return Boolean(
                         toast &&
-                            element.getBoundingClientRect().top >
-                                toast.getBoundingClientRect().bottom,
+                        element.getBoundingClientRect().top > toast.getBoundingClientRect().bottom,
                     );
                 }),
             )

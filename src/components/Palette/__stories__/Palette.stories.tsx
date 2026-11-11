@@ -132,23 +132,19 @@ const icons = {
     ArrowRotateLeft,
     ArrowRotateRight,
 };
-const iconsOptions = Object.entries(icons).map(
-    ([key, icon]): PaletteOption => ({
-        content: <Icon data={icon} />,
-        value: key,
-        title: key,
-    }),
-);
+const iconsOptions = Object.entries(icons).map(([key, icon]): PaletteOption => ({
+    content: <Icon data={icon} />,
+    value: key,
+    title: key,
+}));
 
 export const Icons: Story = {
     args: {...Default.args, options: iconsOptions},
 };
 
-const alphabetOptions = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(
-    (letter): PaletteOption => ({
-        value: letter,
-    }),
-);
+const alphabetOptions = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((letter): PaletteOption => ({
+    value: letter,
+}));
 
 export const Alphabet: Story = {
     args: {...Default.args, options: alphabetOptions},

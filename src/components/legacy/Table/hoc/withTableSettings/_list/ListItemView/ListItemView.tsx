@@ -21,7 +21,8 @@ export interface ListItemViewCommonProps {
 }
 
 export interface ListItemViewProps
-    extends ListItemViewCommonProps,
+    extends
+        ListItemViewCommonProps,
         Omit<React.HTMLAttributes<HTMLLIElement>, keyof ListItemViewCommonProps> {
     /**
      * Add active styles and change selection behavior during dnd is performing

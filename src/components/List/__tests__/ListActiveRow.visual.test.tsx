@@ -116,6 +116,11 @@ for (const virtualized of [false, true]) {
                         top={OFF_THE_EDGE}
                     />,
                 );
+                if (virtualized) {
+                    await expect(page.getByRole('listbox').locator('[data-index]')).not.toHaveCount(
+                        0,
+                    );
+                }
                 await expectActiveInView(page, 'Item 150');
                 await expect.poll(async () => (await readView(page)).toBottomEdge).toBe(0);
                 const {scrollTop} = await readView(page);
@@ -146,6 +151,11 @@ for (const virtualized of [false, true]) {
                         top={OFF_THE_EDGE}
                     />,
                 );
+                if (virtualized) {
+                    await expect(page.getByRole('listbox').locator('[data-index]')).not.toHaveCount(
+                        0,
+                    );
+                }
                 await getRow(page, 'Item 1').focus();
                 // A key scrolls even while the pointer is over the list
                 await movePointerOverList(page);
@@ -298,6 +308,7 @@ test.describe('List: the scroll of the virtualization layer', {tag: '@List'}, ()
 
     test('keys pressed faster than the list settles end at the last row', async ({mount, page}) => {
         await mount(<ScrollTestList virtualized wrap activeItemId="Item 1" />);
+        await expect(page.getByRole('listbox').locator('[data-index]')).not.toHaveCount(0);
         await getRow(page, 'Item 1').focus();
 
         for (let press = 0; press < 30; press += 1) {

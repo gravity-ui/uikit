@@ -11,8 +11,10 @@ import './Row.scss';
 
 const b = block('row');
 
-export interface RowProps<T extends React.ElementType = 'div'>
-    extends Omit<GridProps<T>, 'columns'> {}
+export interface RowProps<T extends React.ElementType = 'div'> extends Omit<
+    GridProps<T>,
+    'columns'
+> {}
 
 /** A 12-track CSS Grid. Use gap, rowGap, and columnGap for spacing. */
 export const Row = React.forwardRef<HTMLDivElement, RowProps>(function Row(

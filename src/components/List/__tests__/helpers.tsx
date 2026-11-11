@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as tabbable from 'tabbable';
+import tabbable from 'tabbable';
 
 import {fireEvent, screen} from '../../../../test-utils/utils';
 import {loadVirtualizedListRoot} from '../../Virtualizer/loadVirtualizedListRoot';
@@ -85,6 +85,7 @@ export function mockLayout({
     let offsetHeightSpy: jest.SpyInstance;
     let offsetWidthSpy: jest.SpyInstance;
     let clientHeightSpy: jest.SpyInstance;
+    let scrollHeightSpy: jest.SpyInstance;
 
     beforeEach(() => {
         clientHeightSpy = jest
@@ -92,6 +93,12 @@ export function mockLayout({
             .mockImplementation(function (this: Element) {
                 const role = this.getAttribute('role');
                 return role === 'listbox' || role === 'grid' ? viewport : 0;
+            });
+        scrollHeightSpy = jest
+            .spyOn(Element.prototype, 'scrollHeight', 'get')
+            .mockImplementation(function (this: HTMLElement) {
+                const sizer = this.firstElementChild as HTMLElement | null;
+                return Math.max(this.clientHeight, parseFloat(sizer?.style.height || '0'));
             });
         offsetHeightSpy = jest
             .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
@@ -112,6 +119,7 @@ export function mockLayout({
         offsetHeightSpy.mockRestore();
         offsetWidthSpy.mockRestore();
         clientHeightSpy.mockRestore();
+        scrollHeightSpy.mockRestore();
     });
 }
 

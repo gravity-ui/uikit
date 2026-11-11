@@ -15,7 +15,7 @@ export default {
     component: Accordion,
     parameters: {
         a11y: {
-            element: '#storybook-root',
+            context: '#storybook-root',
             config: {
                 rules: [
                     {

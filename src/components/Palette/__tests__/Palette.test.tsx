@@ -94,7 +94,7 @@ describe('Palette', () => {
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
+        const style = {color: 'rgb(255, 0, 0)'};
 
         render(<Palette options={defaultOptions} style={style} disabled={false} qa={qaId} />);
 

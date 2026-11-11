@@ -292,7 +292,7 @@ function renderControlOption(Control: typeof Radio | typeof Checkbox): SelectPro
         return (
             <span className={b('control-option')}>
                 {/* Decoration: out of focus and the a11y tree (React 19: `inert`) */}
-                <span {...{inert: ''}} className={b('control-option-indicator')}>
+                <span {...{inert: true}} className={b('control-option-indicator')}>
                     <Control value={option.value} checked={selected} />
                 </span>
                 {option.content}

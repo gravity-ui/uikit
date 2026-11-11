@@ -456,7 +456,7 @@ describe('List: virtualization layer', () => {
                             <div
                                 {...getItemProps({
                                     onClick: () => calls.push(`override:${ctx.id}`),
-                                    style: {color: 'red'},
+                                    style: {color: 'rgb(255, 0, 0)'},
                                 })}
                                 className="custom-card"
                             >
@@ -472,7 +472,7 @@ describe('List: virtualization layer', () => {
             expect(option).toHaveAttribute('tabindex', '0');
             expect(option).toHaveAttribute('aria-setsize', '2');
             expect(option).toHaveAttribute('aria-posinset', '1');
-            expect(option).toHaveStyle({color: 'red'});
+            expect(option).toHaveStyle({color: 'rgb(255, 0, 0)'});
             // eslint-disable-next-line testing-library/no-node-access
             expect(option.parentElement).toHaveStyle({position: 'absolute', top: '0px'});
 

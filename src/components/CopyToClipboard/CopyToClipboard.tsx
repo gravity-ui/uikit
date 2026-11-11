@@ -16,10 +16,11 @@ export function CopyToClipboard(rawProps: CopyToClipboardProps) {
     const textRef = React.useRef('');
     const [status, setStatus] = React.useState<CopyToClipboardStatus>(INITIAL_STATUS);
 
-    const timerIdRef = React.useRef<number>();
+    const timerIdRef = React.useRef<number | undefined>(undefined);
 
-    const content: React.ReactElement<React.HTMLAttributes<HTMLElement>> =
-        typeof children === 'function' ? children(status) : children;
+    const content = (
+        typeof children === 'function' ? children(status) : children
+    ) as React.ReactElement<React.HTMLAttributes<HTMLElement>>;
     const contentOnClick = content.props?.onClick;
 
     const handleCopy = React.useCallback(

@@ -47,221 +47,216 @@ export type TextInputPin = InputControlPin;
 export type TextInputSize = InputControlSize;
 export type TextInputView = InputControlView;
 
-export const TextInput = React.forwardRef<HTMLSpanElement, TextInputProps>(
-    function TextInput(rawProps, ref) {
-        const props = useDefaultProps('TextInput', rawProps);
-        const {
-            view = 'normal',
-            size = 'm',
-            pin = 'round-round',
-            name,
-            value,
-            defaultValue,
-            label,
-            disabled,
-            readOnly,
-            hasClear = false,
-            errorMessage,
-            errorPlacement = 'outside',
-            validationState,
-            autoComplete,
-            id: idProp,
-            tabIndex,
-            style,
-            className,
-            qa,
-            controlProps: controlPropsProp,
-            startContent,
-            endContent,
-            note,
-            onUpdate,
-            onChange,
-        } = props;
+export const TextInput: React.ForwardRefExoticComponent<
+    React.PropsWithoutRef<TextInputProps> & React.RefAttributes<HTMLSpanElement>
+> = React.forwardRef<HTMLSpanElement, TextInputProps>(function TextInput(rawProps, ref) {
+    const props = useDefaultProps('TextInput', rawProps);
+    const {
+        view = 'normal',
+        size = 'm',
+        pin = 'round-round',
+        name,
+        value,
+        defaultValue,
+        label,
+        disabled,
+        readOnly,
+        hasClear = false,
+        errorMessage,
+        errorPlacement = 'outside',
+        validationState,
+        autoComplete,
+        id: idProp,
+        tabIndex,
+        style,
+        className,
+        qa,
+        controlProps: controlPropsProp,
+        startContent,
+        endContent,
+        note,
+        onUpdate,
+        onChange,
+    } = props;
 
-        const direction = useDirection();
+    const direction = useDirection();
 
-        const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
-        const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
-        const fieldRef = useFormResetHandler({initialValue: inputValue, onReset: setInputValue});
-        const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
-        const labelRef = React.useRef<HTMLLabelElement>(null);
-        const startContentRef = React.useRef<HTMLDivElement>(null);
-        const state = getInputControlState(validationState);
+    const [inputValue, setInputValue] = useControlledState(value, defaultValue ?? '', onUpdate);
+    const innerControlRef = React.useRef<HTMLTextAreaElement | HTMLInputElement>(null);
+    const fieldRef = useFormResetHandler({initialValue: inputValue, onReset: setInputValue});
+    const handleRef = useForkRef(props.controlRef, innerControlRef, fieldRef);
+    const labelRef = React.useRef<HTMLLabelElement>(null);
+    const startContentRef = React.useRef<HTMLDivElement>(null);
+    const state = getInputControlState(validationState);
 
-        const isLabelVisible = Boolean(label);
-        const isErrorMsgVisible =
-            validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
-        const isErrorIconVisible =
-            validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
-        const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
-        const isStartContentVisible = Boolean(startContent);
-        const isEndContentVisible = Boolean(endContent);
-        const isAutoCompleteOff =
-            isLabelVisible && !idProp && !name && typeof autoComplete === 'undefined';
+    const isLabelVisible = Boolean(label);
+    const isErrorMsgVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'outside';
+    const isErrorIconVisible =
+        validationState === 'invalid' && Boolean(errorMessage) && errorPlacement === 'inside';
+    const isClearControlVisible = Boolean(hasClear && !disabled && !readOnly && inputValue);
+    const isStartContentVisible = Boolean(startContent);
+    const isEndContentVisible = Boolean(endContent);
+    const isAutoCompleteOff =
+        isLabelVisible && !idProp && !name && typeof autoComplete === 'undefined';
 
-        const innerId = useUniqId();
-        const id = isLabelVisible ? idProp || innerId : idProp;
+    const innerId = useUniqId();
+    const id = isLabelVisible ? idProp || innerId : idProp;
 
-        const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
-        const startContentSize = useElementSize(
-            isStartContentVisible ? startContentRef : null,
-            size,
-        );
+    const labelSize = useElementSize(isLabelVisible ? labelRef : null, size);
+    const startContentSize = useElementSize(isStartContentVisible ? startContentRef : null, size);
 
-        const errorMessageId = useUniqId();
-        const noteId = useUniqId();
-        const ariaDescribedBy = [
-            controlPropsProp?.['aria-describedby'],
-            note ? noteId : undefined,
-            isErrorMsgVisible ? errorMessageId : undefined,
-        ]
-            .filter(Boolean)
-            .join(' ');
+    const errorMessageId = useUniqId();
+    const noteId = useUniqId();
+    const ariaDescribedBy = [
+        controlPropsProp?.['aria-describedby'],
+        note ? noteId : undefined,
+        isErrorMsgVisible ? errorMessageId : undefined,
+    ]
+        .filter(Boolean)
+        .join(' ');
 
-        const controlProps: TextInputProps['controlProps'] = {
-            ...controlPropsProp,
-            style: {
-                ...controlPropsProp?.style,
-                ...(isLabelVisible && labelSize.width
-                    ? {paddingInlineStart: `${labelSize.width}px`}
-                    : {}),
-            },
-            'aria-invalid': validationState === 'invalid' || undefined,
-            'aria-describedby': ariaDescribedBy || undefined,
-        };
-        const commonProps = {
-            id,
-            tabIndex,
-            name,
-            onChange(event: React.ChangeEvent<HTMLInputElement>) {
-                setInputValue(event.target.value);
+    const controlProps: TextInputProps['controlProps'] = {
+        ...controlPropsProp,
+        style: {
+            ...controlPropsProp?.style,
+            ...(isLabelVisible && labelSize.width
+                ? {paddingInlineStart: `${labelSize.width}px`}
+                : {}),
+        },
+        'aria-invalid': validationState === 'invalid' || undefined,
+        'aria-describedby': ariaDescribedBy || undefined,
+    };
+    const commonProps = {
+        id,
+        tabIndex,
+        name,
+        onChange(event: React.ChangeEvent<HTMLInputElement>) {
+            setInputValue(event.target.value);
 
-                if (onChange) {
-                    onChange(event);
-                }
-            },
-            autoComplete: isAutoCompleteOff ? 'off' : prepareAutoComplete(autoComplete),
-            controlProps,
-        };
-
-        const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {
-            setInputValue('');
-
-            const control = innerControlRef.current;
-            if (control) {
-                const syntheticEvent = Object.create(event);
-                syntheticEvent.target = control;
-                syntheticEvent.currentTarget = control;
-
-                control.value = '';
-
-                if (onChange) {
-                    onChange(syntheticEvent);
-                }
+            if (onChange) {
+                onChange(event);
             }
-        };
+        },
+        autoComplete: isAutoCompleteOff ? 'off' : prepareAutoComplete(autoComplete),
+        controlProps,
+    };
 
-        const handleAdditionalContentClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
-            const needActivateInput =
-                !event.currentTarget.contains(document.activeElement) &&
-                event.currentTarget.contains(event.target as HTMLElement);
-            const hasSelection = Boolean(document.getSelection()?.toString());
+    const handleClear = (event: React.MouseEvent<HTMLSpanElement>) => {
+        setInputValue('');
 
-            if (needActivateInput && !hasSelection) {
-                innerControlRef.current?.focus();
+        const control = innerControlRef.current;
+        if (control) {
+            const syntheticEvent = Object.create(event);
+            syntheticEvent.target = control;
+            syntheticEvent.currentTarget = control;
+
+            control.value = '';
+
+            if (onChange) {
+                onChange(syntheticEvent);
             }
-        };
+        }
+    };
 
-        return (
-            <span
-                ref={ref}
-                style={style}
-                className={b(
-                    {
-                        view,
-                        size,
-                        disabled,
-                        state,
-                        pin: view === 'clear' ? undefined : pin,
-                        'has-clear': isClearControlVisible,
-                        'has-start-content': isStartContentVisible,
-                        'has-end-content': isEndContentVisible,
-                    },
-                    className,
+    const handleAdditionalContentClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+        const needActivateInput =
+            !event.currentTarget.contains(document.activeElement) &&
+            event.currentTarget.contains(event.target as HTMLElement);
+        const hasSelection = Boolean(document.getSelection()?.toString());
+
+        if (needActivateInput && !hasSelection) {
+            innerControlRef.current?.focus();
+        }
+    };
+
+    return (
+        <span
+            ref={ref}
+            style={style}
+            className={b(
+                {
+                    view,
+                    size,
+                    disabled,
+                    state,
+                    pin: view === 'clear' ? undefined : pin,
+                    'has-clear': isClearControlVisible,
+                    'has-start-content': isStartContentVisible,
+                    'has-end-content': isEndContentVisible,
+                },
+                className,
+            )}
+            data-qa={qa}
+        >
+            <span className={b('content')}>
+                {isStartContentVisible && (
+                    <AdditionalContent
+                        ref={startContentRef}
+                        placement="start"
+                        onClick={handleAdditionalContentClick}
+                    >
+                        {startContent}
+                    </AdditionalContent>
                 )}
-                data-qa={qa}
-            >
-                <span className={b('content')}>
-                    {isStartContentVisible && (
-                        <AdditionalContent
-                            ref={startContentRef}
-                            placement="start"
-                            onClick={handleAdditionalContentClick}
-                        >
-                            {startContent}
-                        </AdditionalContent>
-                    )}
-                    {isLabelVisible && (
-                        <label
-                            ref={labelRef}
-                            style={{
-                                insetInlineStart: isStartContentVisible
-                                    ? startContentSize.width
-                                    : undefined,
-                                maxWidth: `calc(50% - ${startContentSize.width}px)`,
-                            }}
-                            className={b('label')}
-                            title={label}
-                            htmlFor={id}
-                        >
-                            {`${label}`}
-                        </label>
-                    )}
-                    <TextInputControl {...props} {...commonProps} controlRef={handleRef} />
-                    {isClearControlVisible && (
-                        <ClearButton
-                            size={mapTextInputSizeToButtonSize(size)}
-                            onClick={handleClear}
-                            className={b('clear', {size})}
-                        />
-                    )}
-                    {isErrorIconVisible && (
-                        <Popover
-                            placement={
-                                direction === 'rtl' ? ['left', 'bottom'] : ['right', 'bottom']
-                            }
-                            className={b('error-popover')}
-                            hasArrow
-                            content={
-                                <Alert
-                                    className={b('error-popover-content')}
-                                    theme="clear"
-                                    message={<div role="presentation">{errorMessage}</div>}
-                                />
-                            }
-                        >
-                            <span data-qa={CONTROL_ERROR_ICON_QA}>
-                                <Icon
-                                    data={TriangleExclamation}
-                                    className={b('error-icon')}
-                                    size={size === 's' ? 12 : 16}
-                                />
-                            </span>
-                        </Popover>
-                    )}
-                    {isEndContentVisible && (
-                        <AdditionalContent placement="end" onClick={handleAdditionalContentClick}>
-                            {endContent}
-                        </AdditionalContent>
-                    )}
-                </span>
-                <OuterAdditionalContent
-                    note={note}
-                    errorMessage={isErrorMsgVisible ? errorMessage : null}
-                    noteId={noteId}
-                    errorMessageId={errorMessageId}
-                />
+                {isLabelVisible && (
+                    <label
+                        ref={labelRef}
+                        style={{
+                            insetInlineStart: isStartContentVisible
+                                ? startContentSize.width
+                                : undefined,
+                            maxWidth: `calc(50% - ${startContentSize.width}px)`,
+                        }}
+                        className={b('label')}
+                        title={label}
+                        htmlFor={id}
+                    >
+                        {`${label}`}
+                    </label>
+                )}
+                <TextInputControl {...props} {...commonProps} controlRef={handleRef} />
+                {isClearControlVisible && (
+                    <ClearButton
+                        size={mapTextInputSizeToButtonSize(size)}
+                        onClick={handleClear}
+                        className={b('clear', {size})}
+                    />
+                )}
+                {isErrorIconVisible && (
+                    <Popover
+                        placement={direction === 'rtl' ? ['left', 'bottom'] : ['right', 'bottom']}
+                        className={b('error-popover')}
+                        hasArrow
+                        content={
+                            <Alert
+                                className={b('error-popover-content')}
+                                theme="clear"
+                                message={<div role="presentation">{errorMessage}</div>}
+                            />
+                        }
+                    >
+                        <span data-qa={CONTROL_ERROR_ICON_QA}>
+                            <Icon
+                                data={TriangleExclamation}
+                                className={b('error-icon')}
+                                size={size === 's' ? 12 : 16}
+                            />
+                        </span>
+                    </Popover>
+                )}
+                {isEndContentVisible && (
+                    <AdditionalContent placement="end" onClick={handleAdditionalContentClick}>
+                        {endContent}
+                    </AdditionalContent>
+                )}
             </span>
-        );
-    },
-);
+            <OuterAdditionalContent
+                note={note}
+                errorMessage={isErrorMsgVisible ? errorMessage : null}
+                noteId={noteId}
+                errorMessageId={errorMessageId}
+            />
+        </span>
+    );
+});

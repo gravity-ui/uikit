@@ -62,6 +62,8 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
             return undefined;
         }
 
+        const getBackStartIndex = (index: number) => (index < 0 ? items.length : index);
+
         const handleKeyDown = (event: KeyboardEvent) => {
             const shouldProcessKeydown = onAnchorKeyDown?.(activeItemIndex, event);
             if (shouldProcessKeydown === false) {
@@ -84,7 +86,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     // Go 1 step back
                     setActiveItemIndex((previousActiveItemIndex) =>
-                        moveBack(items, previousActiveItemIndex, 1, skip),
+                        moveBack(items, getBackStartIndex(previousActiveItemIndex), 1, skip),
                     );
 
                     break;
@@ -112,7 +114,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
 
                     // Go pageSize steps back
                     setActiveItemIndex((previousActiveItemIndex) =>
-                        moveBack(items, previousActiveItemIndex, pageSize, skip),
+                        moveBack(items, getBackStartIndex(previousActiveItemIndex), pageSize, skip),
                     );
 
                     break;
@@ -125,9 +127,7 @@ export function useListNavigation<ItemType, AnchorType extends HTMLElement>({
                     event.preventDefault();
 
                     // Go to the start of the list
-                    setActiveItemIndex((previousActiveItemIndex) =>
-                        moveBack(items, previousActiveItemIndex, previousActiveItemIndex, skip),
-                    );
+                    setActiveItemIndex(moveForward(items, -1, 1, skip));
 
                     break;
                 }

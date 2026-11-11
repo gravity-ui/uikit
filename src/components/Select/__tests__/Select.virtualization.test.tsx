@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {act, render, screen, within} from '../../../../test-utils/utils';
+import {act, render, screen, waitFor, within} from '../../../../test-utils/utils';
 import {LIST_VIRTUALIZATION_FALLBACK_ROWS_COUNT} from '../../List/VirtualizationContext';
 import {mockLayout, preloadListVirtualizer} from '../../List/__tests__/helpers';
 import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
@@ -78,6 +78,9 @@ async function openWithRootWrapper(props: Partial<SelectProps>) {
     const utils = renderWithRootWrapper(props);
     const user = userEvent.setup();
     await user.click(screen.getByTestId(TEST_QA));
+    if (props.filterable) {
+        await waitFor(() => expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus());
+    }
     return {...utils, user};
 }
 

@@ -7,11 +7,10 @@ import {useFormResetHandler} from '../useFormResetHandler';
 
 import type {RadioGroupContextProps} from './types';
 
-interface OptionsProps<ValueType extends string = string>
-    extends Omit<
-        ControlGroupProps<ValueType>,
-        'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate' | 'value'
-    > {
+interface OptionsProps<ValueType extends string = string> extends Omit<
+    ControlGroupProps<ValueType>,
+    'options' | 'defaultValue' | 'aria-label' | 'aria-labelledby' | 'onUpdate' | 'value'
+> {
     value: ValueType;
     checked: boolean;
     content: ControlGroupOption['content'];

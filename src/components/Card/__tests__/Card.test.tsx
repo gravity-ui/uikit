@@ -152,7 +152,7 @@ describe('Card', () => {
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
+        const style = {color: 'rgb(255, 0, 0)'};
 
         render(
             <Card style={style} qa={qaId}>

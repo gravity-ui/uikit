@@ -23,7 +23,8 @@ import {block} from '../utils/cn';
 import {getElementRef} from '../utils/getElementRef';
 
 export interface PopoverProps
-    extends AriaLabelingProps,
+    extends
+        AriaLabelingProps,
         QAProps,
         DOMProps,
         Pick<
@@ -117,10 +118,10 @@ function PopoverComponent(rawProps: PopoverProps) {
         React.isValidElement(children) ? getElementRef(children) : undefined,
     );
     const anchorProps = React.isValidElement<any>(children)
-        ? getReferenceProps(children.props)
+        ? getReferenceProps(children.props as React.HTMLProps<HTMLElement>)
         : getReferenceProps();
     const anchorNode = React.isValidElement<any>(children)
-        ? React.cloneElement(children, {
+        ? React.cloneElement(children as React.ReactElement<React.HTMLProps<HTMLElement>>, {
               ...anchorProps,
               ref: anchorRef,
           })

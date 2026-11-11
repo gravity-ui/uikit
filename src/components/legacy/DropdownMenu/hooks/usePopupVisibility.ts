@@ -5,8 +5,7 @@ import {useConditionallyControlledState} from '../../../../hooks/private';
 export function usePopupVisibility(
     visible?: boolean,
     onChangeVisibility?:
-        | React.Dispatch<React.SetStateAction<boolean>>
-        | ((visible: boolean) => void),
+        React.Dispatch<React.SetStateAction<boolean>> | ((visible: boolean) => void),
     disabled?: boolean,
 ) {
     const [isPopupShown, setPopupShown] = useConditionallyControlledState<boolean>(

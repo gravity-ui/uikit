@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import {Select} from '..';
 import type {SelectOptionProps} from '..';
-import {render, screen} from '../../../../test-utils/utils';
+import {render, screen, waitFor} from '../../../../test-utils/utils';
 import {DefaultPropsProvider} from '../../theme';
 import {SelectQa} from '../constants';
 
@@ -85,6 +85,9 @@ describe('Select with non-string values', () => {
 
             expect(getControl()).toHaveTextContent('10');
             await user.click(getControl());
+            await waitFor(() =>
+                expect(screen.getByRole('combobox', {name: 'Filter'})).toHaveFocus(),
+            );
             await user.keyboard('2');
             expect(screen.getAllByRole('option').map((row) => row.id)).toEqual([
                 `select-popup-${SELECT_ID}-item-25`,

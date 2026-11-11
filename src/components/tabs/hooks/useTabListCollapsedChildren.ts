@@ -14,13 +14,13 @@ export type UseTabListCollapsedChildrenResult = {
     shownChildren: React.ReactElement[];
     collapsedChildren: React.ReactElement[];
     triggerChild: React.ReactElement | null;
-    collapseItemRef: React.RefObject<HTMLButtonElement>;
+    collapseItemRef: React.MutableRefObject<HTMLButtonElement | null>;
 };
 
 export const useTabListCollapsedChildren = (
     children: React.ReactNode,
     tabListValue: string | undefined,
-    containerRef: React.RefObject<HTMLElement>,
+    containerRef: React.RefObject<HTMLElement | null>,
     enabled: boolean,
 ): UseTabListCollapsedChildrenResult => {
     const collapseItemRef = React.useRef<HTMLButtonElement>(null);

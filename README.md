@@ -100,6 +100,8 @@ itself.
 
 ## Development
 
+Use Node.js 24 or newer and npm 11 or newer for development.
+
 ```shell
 git clone git@github.com:gravity-ui/uikit.git
 cd uikit

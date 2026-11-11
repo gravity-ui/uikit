@@ -34,7 +34,7 @@ export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url';
     /**
      * Blur a focused number input on vertical wheel scrolling to preserve its value and allow scrolling.
-     * @default true
+     * @default false
      */
     disableWheelChange?: boolean;
     /** The control's html attributes */

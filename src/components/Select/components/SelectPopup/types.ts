@@ -22,6 +22,5 @@ export type SelectPopupProps = {
     onAfterClose?: () => void;
     /** The element the mobile sheet focuses on open: the sheet itself by default */
     sheetInitialFocus?: SheetProps['initialFocus'];
-    /** The ids that name the mobile sheet */
     sheetLabelledBy?: string;
 };

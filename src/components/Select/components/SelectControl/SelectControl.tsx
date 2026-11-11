@@ -52,7 +52,6 @@ type ControlProps = {
     open: boolean;
     popupId: string;
     selectId: string;
-    /** The id of the label element */
     labelId: string;
     /** The `aria-labelledby` of the default control: the Select names its list by the same ids */
     labelledBy?: string;

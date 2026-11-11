@@ -416,3 +416,12 @@ This type describes individual dropdown menu items.
 | :---------- | :------------------------------------------------------------- | :----------: |
 | `onClick`   | Called when the switcher is clicked.                           | `() => void` |
 | `onKeyDown` | Called when the switcher is focused and action key is pressed. | `() => void` |
+
+By default, keyboard activation focuses the first menu item. Up/Down move focus between items; Right/Left
+open and close submenus (reversed in RTL). Tab closes the menu and moves to the next page
+control; Shift+Tab closes it and returns to the switcher. Escape closes the current submenu
+or the root menu. Native keyboard activation of nested controls is preserved, and a nested
+popup can handle Escape before the menu does. Clicks still bubble to the containing menu item.
+
+`renderSwitcher` also receives `aria-haspopup="menu"` and `aria-expanded`. Forward these
+attributes to the trigger along with its event handlers.

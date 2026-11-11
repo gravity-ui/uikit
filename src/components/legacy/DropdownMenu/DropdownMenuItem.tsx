@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import {ChevronLeft, ChevronRight} from '@gravity-ui/icons';
 
+import {useForkRef, useUniqId} from '../../../hooks';
 import {Icon} from '../../Icon';
 import type {PopupPlacement, PopupProps} from '../../Popup';
 import {useDirection} from '../../theme';
@@ -21,6 +22,7 @@ export type DropdownMenuItemProps<T> = Omit<DropdownMenuListItem<T>, 'path'> & {
     children?: React.ReactNode;
     path?: number[];
     size?: DropdownMenuSize;
+    itemRef?: React.Ref<HTMLElement>;
 };
 
 export const DropdownMenuItem = <T,>({
@@ -32,10 +34,15 @@ export const DropdownMenuItem = <T,>({
     children,
     path,
     size,
+    itemRef,
     ...props
 }: DropdownMenuItemProps<T>) => {
     const {toggle, data} = React.useContext(DropdownMenuContext);
     const menuItemRef = React.useRef(null);
+    const handleRef = useForkRef(menuItemRef, itemRef);
+    const generatedSubmenuId = useUniqId();
+    const submenuId = popupProps?.id ?? generatedSubmenuId;
+    const [focusOnOpen, setFocusOnOpen] = React.useState(false);
     const direction = useDirection();
 
     const {hasSubmenu, isSubmenuOpen, closeSubmenu, openSubmenu} = useSubmenu({
@@ -72,9 +79,13 @@ export const DropdownMenuItem = <T,>({
             );
 
             if (hasSubmenu) {
+                if (event.detail === 0) {
+                    event.preventDefault();
+                }
                 if (isSubmenuOpen) {
                     closeSubmenu();
                 } else {
+                    setFocusOnOpen(true);
                     openSubmenu();
                 }
 
@@ -99,12 +110,20 @@ export const DropdownMenuItem = <T,>({
     const extraProps = React.useMemo(() => {
         return {
             ...props.extraProps,
+            ...(hasSubmenu
+                ? {
+                      'aria-haspopup': 'menu' as const,
+                      'aria-expanded': isSubmenuOpen,
+                      'aria-controls': isSubmenuOpen ? submenuId : undefined,
+                  }
+                : {}),
             onMouseEnter: (
                 event: React.MouseEvent<HTMLDivElement, MouseEvent> &
                     React.MouseEvent<HTMLAnchorElement, MouseEvent>,
             ) => {
                 props.extraProps?.onMouseEnter?.(event);
                 if (hasSubmenu) {
+                    setFocusOnOpen(false);
                     openSubmenu();
                 }
             },
@@ -118,7 +137,7 @@ export const DropdownMenuItem = <T,>({
                 }
             },
         };
-    }, [props.extraProps, closeSubmenu, hasSubmenu, openSubmenu]);
+    }, [props.extraProps, closeSubmenu, hasSubmenu, isSubmenuOpen, openSubmenu, submenuId]);
 
     const subMenuPlacement = React.useMemo<PopupPlacement>(
         () => (direction === 'rtl' ? ['left-start', 'right-start'] : ['right-start', 'left-start']),
@@ -142,7 +161,7 @@ export const DropdownMenuItem = <T,>({
     return (
         <React.Fragment>
             <Menu.Item
-                ref={menuItemRef}
+                ref={handleRef}
                 {...props}
                 extraProps={extraProps}
                 onClick={handleMenuItemClick}
@@ -154,6 +173,7 @@ export const DropdownMenuItem = <T,>({
                 <DropdownMenuPopup
                     popupProps={{
                         ...popupProps,
+                        id: submenuId,
                         className: cnDropdownMenu('sub-menu', popupProps?.className),
                         placement: subMenuPlacement,
                     }}
@@ -163,6 +183,7 @@ export const DropdownMenuItem = <T,>({
                     open={isSubmenuOpen}
                     anchorRef={menuItemRef}
                     onClose={handleCloseMenu}
+                    focusOnOpen={focusOnOpen}
                 />
             )}
         </React.Fragment>

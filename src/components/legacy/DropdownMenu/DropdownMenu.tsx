@@ -2,7 +2,9 @@
 
 import * as React from 'react';
 
+import {getTabbableOptions} from '@floating-ui/react/utils';
 import {Ellipsis} from '@gravity-ui/icons';
+import {tabbable} from 'tabbable';
 
 import {useActionHandlers} from '../../../hooks/useActionHandlers';
 import {Button} from '../../Button';
@@ -32,6 +34,8 @@ import {toItemList} from './utils/toItemList';
 import './DropdownMenu.scss';
 
 type SwitcherProps = {
+    'aria-haspopup': 'menu';
+    'aria-expanded': boolean;
     onKeyDown: React.KeyboardEventHandler<HTMLElement>;
     onClick: React.MouseEventHandler<HTMLElement>;
 };
@@ -119,6 +123,8 @@ const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMen
         children,
     } = useDefaultProps('DropdownMenu', rawProps);
     const anchorRef = React.useRef<HTMLDivElement | null>(null);
+    const popupContentRef = React.useRef<HTMLDivElement | null>(null);
+    const [focusOnOpen, setFocusOnOpen] = React.useState(false);
 
     const {isPopupShown, togglePopup, closePopup} = usePopupVisibility(
         open,
@@ -149,7 +155,7 @@ const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMen
             }
 
             onSwitcherClick?.(event);
-
+            setFocusOnOpen(event.type === 'keydown' || event.detail === 0);
             togglePopup();
         },
         [disabled, onSwitcherClick, togglePopup],
@@ -159,10 +165,12 @@ const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMen
 
     const switcherProps = React.useMemo<SwitcherProps>(
         () => ({
+            'aria-haspopup': 'menu',
+            'aria-expanded': isPopupShown,
             onClick: handleSwitcherClick,
             onKeyDown: handleSwitcherKeyDown,
         }),
-        [handleSwitcherClick, handleSwitcherKeyDown],
+        [handleSwitcherClick, handleSwitcherKeyDown, isPopupShown],
     );
 
     return (
@@ -170,8 +178,36 @@ const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMen
             {/* FIXME remove switcher prop and this wrapper */}
             <div
                 ref={anchorRef}
+                onKeyDownCapture={(event) => {
+                    if (
+                        !event.defaultPrevented &&
+                        !event.altKey &&
+                        !event.ctrlKey &&
+                        !event.metaKey &&
+                        isPopupShown &&
+                        (event.key === 'ArrowDown' ||
+                            event.key === 'ArrowUp' ||
+                            event.key === 'Home' ||
+                            event.key === 'End')
+                    ) {
+                        event.preventDefault();
+                        const content = popupContentRef.current;
+                        if (content) {
+                            const targets = tabbable(content, getTabbableOptions());
+                            const index =
+                                event.key === 'ArrowUp' || event.key === 'End'
+                                    ? targets.length - 1
+                                    : 0;
+                            targets[index]?.focus({
+                                preventScroll: true,
+                            });
+                        }
+                    }
+                }}
                 className={cnDropdownMenu('switcher-wrapper', switcherWrapperClassName)}
-                {...(renderSwitcher ? {} : switcherProps)}
+                {...(renderSwitcher
+                    ? {}
+                    : {onClick: switcherProps.onClick, onKeyDown: switcherProps.onKeyDown})}
             >
                 {renderSwitcher?.(switcherProps) || switcher || (
                     <Button
@@ -182,6 +218,8 @@ const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMen
                         {...defaultSwitcherProps}
                         className={cnDropdownMenu('switcher-button', defaultSwitcherClassName)}
                         disabled={disabled}
+                        aria-haspopup="menu"
+                        aria-expanded={isPopupShown}
                     >
                         {icon}
                     </Button>
@@ -196,6 +234,8 @@ const DropdownMenu = <T,>(rawProps: DropdownMenuProps<T> | ControlledDropdownMen
                     anchorRef={anchorRef}
                     onClose={closePopup}
                     popupProps={popupProps}
+                    focusOnOpen={focusOnOpen}
+                    contentRef={popupContentRef}
                 >
                     {children}
                 </DropdownMenuPopup>

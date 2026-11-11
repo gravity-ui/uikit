@@ -37,6 +37,11 @@ const b = block('text-input');
 export type TextInputProps = BaseInputControlProps<HTMLInputElement> & {
     /** The control's [type](https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML5_input_types) */
     type?: 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url';
+    /**
+     * Blur a focused number input on vertical wheel scrolling to preserve its value and allow scrolling.
+     * @default true
+     */
+    disableWheelChange?: boolean;
     /** The control's html attributes */
     controlProps?: React.InputHTMLAttributes<HTMLInputElement>;
     /** Help text rendered to the left of the input node */

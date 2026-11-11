@@ -1,5 +1,6 @@
-import type * as React from 'react';
+import * as React from 'react';
 
+import {useForkRef} from '../../../hooks';
 import {block} from '../../utils/cn';
 
 import type {TextInputProps} from './TextInput';
@@ -16,6 +17,7 @@ export function TextInputControl(props: Props) {
         controlProps,
         controlRef,
         type,
+        disableWheelChange = true,
         name,
         id,
         tabIndex,
@@ -33,10 +35,38 @@ export function TextInputControl(props: Props) {
         onKeyUp,
     } = props;
 
+    const innerRef = React.useRef<HTMLInputElement>(null);
+    const handleRef = useForkRef(controlRef, innerRef);
+
+    React.useEffect(() => {
+        const input = innerRef.current;
+
+        if (!input || type !== 'number' || !disableWheelChange) {
+            return undefined;
+        }
+
+        const handleWheel = (event: WheelEvent) => {
+            if (
+                !event.ctrlKey &&
+                event.deltaY !== 0 &&
+                input === input.ownerDocument.activeElement
+            ) {
+                input.blur();
+            }
+        };
+
+        // Run before native stepping and scrolling, without cancelling the scroll gesture.
+        input.addEventListener('wheel', handleWheel, {passive: false});
+
+        return () => {
+            input.removeEventListener('wheel', handleWheel);
+        };
+    }, [type, disableWheelChange]);
+
     return (
         <input
             {...controlProps}
-            ref={controlRef}
+            ref={handleRef}
             className={b('control', {type: 'input'}, controlProps.className)}
             type={type}
             name={name}

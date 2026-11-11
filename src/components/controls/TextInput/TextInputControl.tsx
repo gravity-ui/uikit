@@ -17,7 +17,7 @@ export function TextInputControl(props: Props) {
         controlProps,
         controlRef,
         type,
-        disableWheelChange = true,
+        disableWheelChange = false,
         name,
         id,
         tabIndex,

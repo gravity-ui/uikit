@@ -251,18 +251,17 @@ SANDBOX-->
 
 ## Number inputs and scrolling
 
-For `type="number"`, wheel and touchpad scrolling do not change the value by default.
-A vertical scroll gesture over the focused input blurs it and continues scrolling the page.
-This triggers `onBlur`, including any validation attached to it. Typing and keyboard stepping
-remain available after focusing the input again.
-
-Set `disableWheelChange={false}` to allow native value changes through scrolling:
+For `type="number"`, set `disableWheelChange` to prevent wheel and touchpad scrolling from
+changing the value. A vertical scroll gesture over the focused input blurs it and continues
+scrolling the page. This triggers `onBlur`, including any validation attached to it.
+Typing and keyboard stepping remain available after focusing the input again.
 
 ```tsx
-<TextInput type="number" disableWheelChange={false} />
+<TextInput type="number" disableWheelChange />
 ```
 
-The option defaults to `true` and has no effect on other input types or pinch-to-zoom gestures.
+The option defaults to `false`, preserving native behavior, and has no effect on other input
+types or pinch-to-zoom gestures.
 
 ## Properties
 
@@ -275,7 +274,7 @@ The option defaults to `true` and has no effect on other input types or pinch-to
 | controlRef         | React ref provided to the control                                                                                       |                     `React.Ref<HTMLInputElement>`                     |                 |
 | defaultValue       | The control's default value, used when the component is not controlled                                                  |                               `string`                                |                 |
 | disabled           | Indicates that the user cannot interact with the control                                                                |                           `React.ReactNode`                           |                 |
-| disableWheelChange | Blur focused number inputs on vertical wheel scrolling, preserving the value and page scrolling                         |                               `boolean`                               |     `true`      |
+| disableWheelChange | Blur focused number inputs on vertical wheel scrolling, preserving the value and page scrolling                         |                               `boolean`                               |     `false`     |
 | endContent         | User`s node rendered after input node, clear button and error icon                                                      |                               `string`                                |                 |
 | errorMessage       | Error text                                                                                                              |                               `string`                                |                 |
 | errorPlacement     | Error placement                                                                                                         |                          `outside` `inside`                           |    `outside`    |

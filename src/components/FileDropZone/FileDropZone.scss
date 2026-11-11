@@ -80,6 +80,18 @@ $block: '.#{variables.$ns}file-drop-zone';
             border-color: var(--g-color-line-generic-active);
         }
 
+        &#{$block}_error {
+            @media (hover: hover) {
+                &:hover {
+                    border-color: var(--g-color-line-danger);
+                }
+            }
+
+            &:focus {
+                border-color: var(--g-color-line-danger);
+            }
+        }
+
         #{$block}__icon {
             color: var(--g-color-text-hint);
         }

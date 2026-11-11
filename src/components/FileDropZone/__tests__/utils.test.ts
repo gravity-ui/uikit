@@ -1,8 +1,9 @@
 import {
     FILE_REJECTION_REASONS,
-    areFileDropZonePropsEqual,
+    canValidateDraggedFiles,
     getSeparatedFiles,
     getSeparatedItems,
+    hasDraggedFiles,
     isFileCandidateAccepted,
 } from '../utils';
 
@@ -222,18 +223,12 @@ describe('isFileCandidateAccepted', () => {
         );
     });
 
-    test('unknown name and file kind is potentially valid for extension tokens', () => {
-        expect(isFileCandidateAccepted({type: '', kind: 'file'}, ['.csv'])).toBe(true);
-    });
-
-    test('unknown name and string kind is not valid for extension tokens', () => {
-        expect(isFileCandidateAccepted({type: 'text/plain', kind: 'string'}, ['.csv'])).toBe(false);
+    test('unknown name is potentially valid for extension tokens', () => {
+        expect(isFileCandidateAccepted({type: ''}, ['.csv'])).toBe(true);
     });
 
     test('unknown name does not relax MIME tokens', () => {
-        expect(isFileCandidateAccepted({type: 'application/pdf', kind: 'file'}, ['image/*'])).toBe(
-            false,
-        );
+        expect(isFileCandidateAccepted({type: 'application/pdf'}, ['image/*'])).toBe(false);
     });
 
     test('empty type never matches MIME tokens', () => {
@@ -281,47 +276,32 @@ describe('getSeparatedFiles', () => {
     });
 });
 
-describe('areFileDropZonePropsEqual', () => {
-    const onUpdate = () => {};
+describe('hasDraggedFiles / canValidateDraggedFiles', () => {
+    function createDataTransfer(kinds: string[], types: string[] = []): DataTransfer {
+        return {items: kinds.map((kind) => ({kind, type: ''})), types} as unknown as DataTransfer;
+    }
 
-    test('inline accept arrays with the same content are equal', () => {
-        expect(
-            areFileDropZonePropsEqual(
-                {accept: ['image/*'], onUpdate, disabled: false},
-                {accept: ['image/*'], onUpdate, disabled: false},
-            ),
-        ).toBe(true);
+    test('file items -> has files, can validate', () => {
+        const dt = createDataTransfer(['file'], ['Files']);
+        expect(hasDraggedFiles(dt)).toBe(true);
+        expect(canValidateDraggedFiles(dt)).toBe(true);
     });
 
-    test('missing and empty accept are not equal', () => {
-        expect(areFileDropZonePropsEqual({onUpdate}, {accept: [], onUpdate})).toBe(false);
+    test('only string items -> no files', () => {
+        const dt = createDataTransfer(['string'], ['text/plain']);
+        expect(hasDraggedFiles(dt)).toBe(false);
+        expect(canValidateDraggedFiles(dt)).toBe(false);
     });
 
-    test('different accept content is not equal', () => {
-        expect(
-            areFileDropZonePropsEqual(
-                {accept: ['image/*'], onUpdate},
-                {accept: ['.csv'], onUpdate},
-            ),
-        ).toBe(false);
+    test('Safari: no items but "Files" in types -> has files, cannot validate yet', () => {
+        const dt = createDataTransfer([], ['Files']);
+        expect(hasDraggedFiles(dt)).toBe(true);
+        expect(canValidateDraggedFiles(dt)).toBe(false);
     });
 
-    test('other props are compared by reference', () => {
-        expect(
-            areFileDropZonePropsEqual(
-                {accept: ['image/*'], onUpdate},
-                {accept: ['image/*'], onUpdate: () => {}},
-            ),
-        ).toBe(false);
-    });
-
-    test('added or removed props are not equal', () => {
-        expect(
-            areFileDropZonePropsEqual<{accept?: string[]; disabled?: boolean; title?: string}>(
-                {accept: [], disabled: true},
-                {accept: [], title: 'Title'},
-            ),
-        ).toBe(false);
-        expect(areFileDropZonePropsEqual({accept: []}, {accept: [], disabled: true})).toBe(false);
+    test('missing items and types -> no files', () => {
+        const dt = {} as DataTransfer;
+        expect(hasDraggedFiles(dt)).toBe(false);
+        expect(canValidateDraggedFiles(dt)).toBe(false);
     });
 });

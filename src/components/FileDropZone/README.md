@@ -91,26 +91,6 @@ const handleUpdateAccepted = (files: File[]) => {
 </FileDropZone>;
 ```
 
-### Custom Actions
-
-A click anywhere in the zone opens the file dialog. To place your own control inside a custom layout, call `event.preventDefault()` in its click handler: the zone then does not open the dialog. Enter and Space pressed on a focusable child are left to that child and do not open the dialog either.
-
-```tsx
-<FileDropZone accept={accept} onUpdateAccepted={handleUpdateAccepted}>
-  <FileDropZone.Title />
-  <Button
-    onClick={(event) => {
-      event.preventDefault();
-      // Do something instead of opening the file dialog.
-    }}
-  >
-    Paste from clipboard
-  </Button>
-</FileDropZone>
-```
-
-The zone itself has `role="button"`, so screen readers may not announce interactive content nested inside it. Prefer placing secondary actions next to the zone when possible.
-
 ### Accepted File Types
 
 `accept` uses the format of the HTML `accept` attribute. A file is accepted when it matches at least one entry:
@@ -121,7 +101,7 @@ The zone itself has `role="button"`, so screen readers may not announce interact
 
 The same rules apply to dropped files and to files selected in the dialog.
 
-While a file is only being dragged over the zone, its name is not available yet, so extension entries do not mark the drag as invalid. The final check runs on drop.
+While a file is only being dragged over the zone, its name is not available yet, so extension entries do not mark the drag as invalid. The final check runs on drop: a file with a non-matching type is highlighted while dragging, but it can still be dropped and is passed to `onUpdateRejected`. A drag without files, such as selected text or a link, cannot be dropped on the zone.
 
 MIME entries are checked against `File.type`, which is provided by the operating system. It may be empty for unknown extensions (`File.type === ''`) or differ from what you expect: for example, Chrome on Windows reports `.csv` as `application/vnd.ms-excel` when Excel is installed and `.zip` as `application/x-zip-compressed`. The file dialog filters by extensions, so it can show such a file, but it is rejected with `invalid-type` after selection. To accept such files reliably, list the extension next to the MIME type, e.g. `['text/csv', '.csv']` or `['image/*', '.heic']`.
 

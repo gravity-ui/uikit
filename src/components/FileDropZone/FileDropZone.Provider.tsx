@@ -6,7 +6,12 @@ import {useDropZone} from '../../hooks/useDropZone';
 import type {UseDropZoneStateWithoutRef} from '../../hooks/useDropZone';
 
 import type {DropZoneFileRejection, FileDropZoneProps} from './types';
-import {getSeparatedFiles, getSeparatedItems} from './utils';
+import {
+    canValidateDraggedFiles,
+    getSeparatedFiles,
+    getSeparatedItems,
+    hasDraggedFiles,
+} from './utils';
 import type {FileDropZoneAccept} from './utils';
 
 interface FileDropZoneContextValue
@@ -90,7 +95,18 @@ export const FileDropZoneProvider = ({
         (event: DragEvent) => {
             const dataTransfer = event.dataTransfer;
 
-            if (!dataTransfer?.items) {
+            if (!dataTransfer) {
+                return;
+            }
+
+            if (!hasDraggedFiles(dataTransfer)) {
+                setIsInvalidDrag(true);
+                return;
+            }
+
+            if (!canValidateDraggedFiles(dataTransfer)) {
+                // The files are checked on drop.
+                setIsInvalidDrag(false);
                 return;
             }
 
@@ -104,16 +120,17 @@ export const FileDropZoneProvider = ({
         [accept, multiple],
     );
 
-    const handleDragOver = React.useCallback(
-        (event: DragEvent) => {
-            const dataTransfer = event.dataTransfer;
+    const handleDragOver = React.useCallback((event: DragEvent) => {
+        const dataTransfer = event.dataTransfer;
 
-            if (isInvalidDrag && dataTransfer) {
-                dataTransfer.dropEffect = 'none';
-            }
-        },
-        [isInvalidDrag],
-    );
+        // `useDropZone` sets `dropEffect = 'copy'` before calling `onDragOver`. A drag without
+        // files (e.g. selected text or a link) cannot be dropped, so the browser shows
+        // the "not allowed" cursor and cancels the drop. Files of a non-matching type are only
+        // highlighted: they still reach the drop and `onUpdateRejected`.
+        if (dataTransfer && !hasDraggedFiles(dataTransfer)) {
+            dataTransfer.dropEffect = 'none';
+        }
+    }, []);
 
     const handleDropEvent = React.useCallback(
         (event: DragEvent) => {

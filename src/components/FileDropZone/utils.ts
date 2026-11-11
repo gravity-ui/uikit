@@ -1,5 +1,3 @@
-import {isEqual} from 'es-toolkit';
-
 export const FILE_REJECTION_REASONS = {
     INVALID_TYPE: 'invalid-type',
     TOO_MANY_FILES: 'too-many-files',
@@ -45,8 +43,6 @@ export interface FileCandidate {
     type: string;
     /** `undefined` when the name is not available yet (e.g. on `dragenter`) */
     name?: string;
-    /** `DataTransferItem.kind` when known (`'file'` | `'string'`); `undefined` for `File` objects */
-    kind?: string;
 }
 
 function isExtensionToken(token: string): boolean {
@@ -56,9 +52,8 @@ function isExtensionToken(token: string): boolean {
 function candidateMatchesToken(candidate: FileCandidate, token: string): boolean {
     if (isExtensionToken(token)) {
         if (candidate.name === undefined) {
-            // The name is unknown until the drop: a dragged file may match the extension,
-            // dragged text or links cannot.
-            return candidate.kind !== 'string';
+            // The name is unknown until the drop, so a dragged file may still match the extension.
+            return true;
         }
 
         return candidate.name.toLowerCase().endsWith(token);
@@ -115,6 +110,25 @@ function separateByValidation<T>(
     return {accepted, rejected};
 }
 
+function hasFileItems(dataTransfer: DataTransfer): boolean {
+    return Array.from(dataTransfer.items ?? []).some((item) => item.kind === 'file');
+}
+
+/**
+ * Whether the drag carries files. Safari exposes no file items until the drop (WebKit bug 223517),
+ * but lists `'Files'` in `types`.
+ */
+export function hasDraggedFiles(dataTransfer: DataTransfer): boolean {
+    return hasFileItems(dataTransfer) || Array.from(dataTransfer.types ?? []).includes('Files');
+}
+
+/**
+ * Whether the dragged files can be validated before the drop: Safari exposes them only on drop.
+ */
+export function canValidateDraggedFiles(dataTransfer: DataTransfer): boolean {
+    return hasFileItems(dataTransfer);
+}
+
 export function getSeparatedItems(
     dataTransfer: DataTransfer,
     options: ValidateOptions,
@@ -123,7 +137,7 @@ export function getSeparatedItems(
     // yield `null` from `getAsFile()`, so they must not make the drag look valid.
     const fileItems = Array.from(dataTransfer.items).filter((item) => item.kind === 'file');
 
-    return separateByValidation(fileItems, (item) => ({type: item.type, kind: item.kind}), options);
+    return separateByValidation(fileItems, (item) => ({type: item.type}), options);
 }
 
 export function getSeparatedFiles(
@@ -140,27 +154,4 @@ export function getSeparatedFiles(
         accepted,
         rejected: rejected.map(({item, reasons}) => ({file: item, reasons})),
     };
-}
-
-/**
- * `React.memo` comparator for `FileDropZone`: shallow, except that `accept` is compared by content
- * because it is usually passed as an inline array.
- */
-export function areFileDropZonePropsEqual<T extends {accept?: FileDropZoneAccept}>(
-    prevProps: T,
-    nextProps: T,
-): boolean {
-    const {accept: prevAccept, ...prevRest} = prevProps;
-    const {accept: nextAccept, ...nextRest} = nextProps;
-    const prevKeys = Object.keys(prevRest) as Array<keyof typeof prevRest>;
-
-    return (
-        isEqual(prevAccept, nextAccept) &&
-        prevKeys.length === Object.keys(nextRest).length &&
-        prevKeys.every(
-            (key) =>
-                Object.prototype.hasOwnProperty.call(nextRest, key) &&
-                Object.is(prevRest[key], nextRest[key]),
-        )
-    );
 }

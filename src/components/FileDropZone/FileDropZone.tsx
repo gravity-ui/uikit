@@ -10,7 +10,6 @@ import {FileDropZoneDescription} from './parts/FileDropZone.Description';
 import {FileDropZoneIcon} from './parts/FileDropZone.Icon';
 import {FileDropZoneTitle} from './parts/FileDropZone.Title';
 import type {FileDropZoneContainerProps, FileDropZoneProps} from './types';
-import {areFileDropZonePropsEqual} from './utils';
 
 import './FileDropZone.scss';
 
@@ -31,24 +30,11 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
 
     const hasError = Boolean(errorMessage);
 
-    const handleClick = React.useCallback(
-        (event: React.MouseEvent<HTMLDivElement>) => {
-            if (!disabled && !event.defaultPrevented) {
-                triggerProps.onClick();
-            }
-        },
-        [disabled, triggerProps],
-    );
-
-    const handleKeyDown = React.useCallback(
-        (event: React.KeyboardEvent<HTMLDivElement>) => {
-            // Enter or Space on a focusable child (e.g. a custom button) belongs to that child.
-            if (event.target === event.currentTarget) {
-                onKeyDown(event);
-            }
-        },
-        [onKeyDown],
-    );
+    const handleClick = React.useCallback(() => {
+        if (!disabled) {
+            triggerProps.onClick();
+        }
+    }, [disabled, triggerProps]);
 
     const handleInputClick = React.useCallback((event: React.MouseEvent<HTMLInputElement>) => {
         event.stopPropagation();
@@ -77,7 +63,7 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
             aria-disabled={disabled || undefined}
             tabIndex={disabled ? -1 : 0}
             onClick={handleClick}
-            onKeyDown={handleKeyDown}
+            onKeyDown={onKeyDown}
             className={cnFileDropZone(
                 {
                     'drag-hover': isDraggingOver,
@@ -112,7 +98,7 @@ const BaseFileDropZone = React.memo<FileDropZoneProps>((rawProps: FileDropZonePr
             </FileDropZoneContent>
         </FileDropZoneProvider>
     );
-}, areFileDropZonePropsEqual);
+});
 
 BaseFileDropZone.displayName = 'FileDropZone';
 

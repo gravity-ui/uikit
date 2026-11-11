@@ -13,16 +13,14 @@ import './ToastAnimation.scss';
 import './ToastList.scss';
 
 export function ToastList(props: ToastListProps) {
-    const {toasts, mobile, alternateAnimationFunction, removeCallback} = props;
+    const {toasts, mobile, removeCallback} = props;
 
     const classNames = React.useMemo(
         () =>
             mobile
                 ? getCSSTransitionClassNames(block('toast-animation-mobile'))
-                : getCSSTransitionClassNames(block('toast-animation-desktop'), {
-                      feature: alternateAnimationFunction ? 'alternate-animation-timing-fn' : false,
-                  }),
-        [alternateAnimationFunction, mobile],
+                : getCSSTransitionClassNames(block('toast-animation-desktop')),
+        [mobile],
     );
 
     return (

@@ -5,13 +5,13 @@
 $transition-distance: 10px;
 $animation-duration: 0.6s;
 
-$alternate-height-duration: math.div($animation-duration, 2);
-$alternate-slide-duration: 0.75s;
-$alternate-animation-duration: $alternate-height-duration + $alternate-slide-duration;
-$alternate-height-phase-end: math.percentage(
-    math.div($alternate-height-duration, $alternate-animation-duration)
+$desktop-height-duration: math.div($animation-duration, 2);
+$desktop-slide-duration: 0.75s;
+$desktop-animation-duration: $desktop-height-duration + $desktop-slide-duration;
+$desktop-height-phase-end: math.percentage(
+    math.div($desktop-height-duration, $desktop-animation-duration)
 );
-$alternate-slide-easing: linear(
+$desktop-slide-easing: linear(
     0,
     0.002 0.3%,
     0.007 0.6%,
@@ -69,13 +69,13 @@ $alternate-slide-easing: linear(
     transform: translateX(0);
 }
 
-@mixin alternate-hidden-toast-move {
+@mixin desktop-hidden-toast-move {
     transform: translateX(
         calc(var(--g-flow-direction) * (100% + #{toastList.$list-inset-end-position * 2}))
     );
 }
 
-@mixin alternate-hidden-toast-opacity {
+@mixin desktop-hidden-toast-opacity {
     opacity: 0.5;
 }
 
@@ -90,14 +90,13 @@ $alternate-slide-easing: linear(
 @each $platform in ('mobile', 'desktop') {
     #{'.#{variables.$ns}toast-animation-#{$platform}'} {
         &_enter {
-            opacity: 0;
             position: absolute;
-        }
 
-        @if ($platform == 'desktop') {
-            &_enter#{&}_feature_alternate-animation-timing-fn {
-                @include alternate-hidden-toast-opacity;
-                @include alternate-hidden-toast-move;
+            @if ($platform == 'desktop') {
+                @include desktop-hidden-toast-opacity;
+                @include desktop-hidden-toast-move;
+            } @else {
+                @include hidden-toast-opacity;
             }
         }
 
@@ -108,21 +107,13 @@ $alternate-slide-easing: linear(
                 forwards;
             position: relative;
 
+            @if ($platform == 'desktop') {
+                animation-duration: $desktop-animation-duration;
+                animation-timing-function: ease;
+            }
+
             @media (prefers-reduced-motion: reduce) {
                 animation-name: #{variables.$ns}toast-enter-reduced-motion;
-            }
-        }
-
-        @if ($platform == 'desktop') {
-            // Alternative animation timing function
-            &_enter_active#{&}_feature_alternate-animation-timing-fn {
-                animation: #{variables.$ns}toast-enter-alternate-#{$platform}
-                    $alternate-animation-duration
-                    forwards;
-
-                @media (prefers-reduced-motion: reduce) {
-                    animation-name: #{variables.$ns}toast-enter-reduced-motion;
-                }
             }
         }
 
@@ -132,24 +123,6 @@ $alternate-slide-easing: linear(
             @media (prefers-reduced-motion: reduce) {
                 animation-name: #{variables.$ns}toast-exit-reduced-motion;
             }
-        }
-    }
-
-    @keyframes #{variables.$ns}toast-enter-#{$platform} {
-        0% {
-            @include hidden-toast-height;
-            @include hidden-toast-opacity;
-            @include hidden-toast-move($platform);
-        }
-        50% {
-            @include visible-toast-height;
-            @include hidden-toast-opacity;
-            @include hidden-toast-move($platform);
-        }
-        100% {
-            @include visible-toast-height;
-            @include visible-toast-opacity;
-            @include visible-toast-move;
         }
     }
 
@@ -172,18 +145,36 @@ $alternate-slide-easing: linear(
     }
 
     @if ($platform == 'desktop') {
-        @keyframes #{variables.$ns}toast-enter-alternate-#{$platform} {
+        @keyframes #{variables.$ns}toast-enter-#{$platform} {
             0% {
                 @include hidden-toast-height;
-                @include alternate-hidden-toast-opacity;
-                @include alternate-hidden-toast-move;
+                @include desktop-hidden-toast-opacity;
+                @include desktop-hidden-toast-move;
                 animation-timing-function: ease-out;
             }
-            #{$alternate-height-phase-end} {
+            #{$desktop-height-phase-end} {
                 @include visible-toast-height;
-                @include alternate-hidden-toast-opacity;
-                @include alternate-hidden-toast-move;
-                animation-timing-function: $alternate-slide-easing;
+                @include desktop-hidden-toast-opacity;
+                @include desktop-hidden-toast-move;
+                animation-timing-function: $desktop-slide-easing;
+            }
+            100% {
+                @include visible-toast-height;
+                @include visible-toast-opacity;
+                @include visible-toast-move;
+            }
+        }
+    } @else {
+        @keyframes #{variables.$ns}toast-enter-#{$platform} {
+            0% {
+                @include hidden-toast-height;
+                @include hidden-toast-opacity;
+                @include hidden-toast-move($platform);
+            }
+            50% {
+                @include visible-toast-height;
+                @include hidden-toast-opacity;
+                @include hidden-toast-move($platform);
             }
             100% {
                 @include visible-toast-height;

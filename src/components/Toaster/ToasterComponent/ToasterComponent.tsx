@@ -10,30 +10,20 @@ import {ToastList} from '../ToastList/ToastList';
 import {useToaster} from '../hooks/useToaster';
 import type {ToastListProps} from '../types';
 
-interface Props extends Pick<ToastListProps, 'mobile' | 'alternateAnimationFunction'> {
+interface Props extends Pick<ToastListProps, 'mobile'> {
     className?: string;
     hasPortal?: boolean;
 }
 
 const b = block('toaster');
 
-export function ToasterComponent({
-    className,
-    mobile,
-    alternateAnimationFunction,
-    hasPortal = true,
-}: Props) {
+export function ToasterComponent({className, mobile, hasPortal = true}: Props) {
     const defaultMobile = useMobile();
     const {remove} = useToaster();
     const list = React.useContext(ToastsContext);
 
     const toaster = (
-        <ToastList
-            toasts={list}
-            removeCallback={remove}
-            mobile={mobile ?? defaultMobile}
-            alternateAnimationFunction={alternateAnimationFunction}
-        />
+        <ToastList toasts={list} removeCallback={remove} mobile={mobile ?? defaultMobile} />
     );
 
     if (!hasPortal) {

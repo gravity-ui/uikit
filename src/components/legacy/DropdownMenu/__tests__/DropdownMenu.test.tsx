@@ -3,6 +3,19 @@ import userEvent from '@testing-library/user-event';
 import {fireEvent, render, screen, waitFor} from '../../../../../test-utils/utils';
 import {DropdownMenu} from '../DropdownMenu';
 
+test('group separators are excluded from menu actions and tab stops', () => {
+    render(
+        <DropdownMenu
+            open
+            items={[[{text: 'Rename', action: () => {}}], [{text: 'Delete', action: () => {}}]]}
+        />,
+    );
+
+    expect(screen.getAllByRole('menuitem')).toHaveLength(2);
+    expect(screen.getByRole('separator', {hidden: true})).toHaveAttribute('tabindex', '-1');
+    expect(screen.queryByRole('separator')).not.toBeInTheDocument();
+});
+
 describe('DropdownMenu keyboard navigation', () => {
     const mockAction = jest.fn();
     const mockSubAction = jest.fn();

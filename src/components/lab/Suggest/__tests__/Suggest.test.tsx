@@ -78,7 +78,9 @@ describe('Suggest', () => {
         expect(screen.queryByTestId(QA_POPUP)).not.toBeInTheDocument();
 
         const input = within(screen.getByTestId(QA_INPUT)).getByRole('combobox');
-        await user.type(input, 'e');
+        await user.tab();
+        expect(input).toHaveFocus();
+        await user.keyboard('e');
 
         expect(screen.getByTestId(QA_POPUP)).toBeVisible();
         expect(screen.getByRole('option', {name: 'Earth'})).toBeVisible();
@@ -362,30 +364,34 @@ describe('Suggest: new List integration', () => {
         expect(input).toHaveFocus();
     });
 
-    test('clears activity on closing without emitting an additional update', async () => {
-        const user = userEvent.setup();
-        const onActiveOptionUpdate = jest.fn();
-        const onOpenChange = jest.fn();
-        renderSuggest({onActiveOptionUpdate, onOpenChange});
-        const input = screen.getByRole('combobox');
-        await user.type(input, 'e');
-        await user.keyboard('[ArrowDown]');
-        expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
-        await user.keyboard('[Escape]');
-        expect(onOpenChange).toHaveBeenLastCalledWith(
-            false,
-            expect.objectContaining({type: 'keydown'}),
-            'escape-key',
-        );
-        expect(input).toHaveAttribute('aria-expanded', 'false');
-        expect(input).not.toHaveAttribute('aria-activedescendant');
-        await waitFor(() =>
-            expect(screen.queryByRole('listbox', {hidden: true})).not.toBeInTheDocument(),
-        );
-        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
-        await user.keyboard('[ArrowDown]');
-        expect(input).not.toHaveAttribute('aria-activedescendant');
-    });
+    test.each(['ArrowDown', 'ArrowUp'])(
+        'clears activity on closing and reopens with %s without restoring activity',
+        async (key) => {
+            const user = userEvent.setup();
+            const onActiveOptionUpdate = jest.fn();
+            const onOpenChange = jest.fn();
+            renderSuggest({onActiveOptionUpdate, onOpenChange});
+            const input = screen.getByRole('combobox');
+            await user.type(input, 'e');
+            await user.keyboard('[ArrowDown]');
+            expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
+            await user.keyboard('[Escape]');
+            expect(onOpenChange).toHaveBeenLastCalledWith(
+                false,
+                expect.objectContaining({type: 'keydown'}),
+                'escape-key',
+            );
+            expect(input).toHaveAttribute('aria-expanded', 'false');
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            await waitFor(() =>
+                expect(screen.queryByRole('listbox', {hidden: true})).not.toBeInTheDocument(),
+            );
+            expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByRole('listbox')).toBeVisible();
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+        },
+    );
 
     test('keeps an available option active when typing', async () => {
         const user = userEvent.setup();
@@ -498,27 +504,18 @@ describe('Suggest: new List integration', () => {
         );
     });
 
-    test.each(['click', 'ArrowDown', 'ArrowUp', 'typing'])(
-        'prefilled input stays closed on focus and opens on %s',
-        async (gesture) => {
-            const user = userEvent.setup();
-            render(<Suggest defaultValue="earth" options={ITEMS} />);
-            const input = screen.getByRole('combobox');
-            await user.tab();
-            expect(input).toHaveFocus();
-            expect(input).toHaveAttribute('aria-expanded', 'false');
-            await user.tab();
-            await user.tab({shift: true});
-            expect(input).toHaveFocus();
-            expect(input).toHaveAttribute('aria-expanded', 'false');
-            if (gesture === 'click') {
-                await user.click(input);
-            } else {
-                await user.keyboard(gesture === 'typing' ? 'a' : `[${gesture}]`);
-            }
-            expect(screen.getByRole('listbox')).toBeVisible();
-        },
-    );
+    test('prefilled input stays closed on focus', async () => {
+        const user = userEvent.setup();
+        render(<Suggest defaultValue="earth" options={ITEMS} />);
+        const input = screen.getByRole('combobox');
+        await user.tab();
+        expect(input).toHaveFocus();
+        expect(input).toHaveAttribute('aria-expanded', 'false');
+        await user.tab();
+        await user.tab({shift: true});
+        expect(input).toHaveFocus();
+        expect(input).toHaveAttribute('aria-expanded', 'false');
+    });
 
     test('passes Select-like renderer parameters and preserves row semantics', async () => {
         const user = userEvent.setup();

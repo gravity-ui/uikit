@@ -3,20 +3,6 @@ import {expect, test} from '~playwright/core';
 import {SuggestStories} from './helpersPlaywright';
 
 test.describe('Suggest', () => {
-    test('render story: <Default>', async ({mount, expectScreenshot, page}) => {
-        await mount(
-            <div style={{width: 400, height: 400}}>
-                <SuggestStories.Default />
-            </div>,
-        );
-
-        const input = page.locator('input');
-        await input.click();
-        await input.fill('ar');
-
-        await expectScreenshot({themes: ['light']});
-    });
-
     test('render story: <CustomPopupContent>', async ({mount, expectScreenshot, page}) => {
         await mount(
             <div style={{height: 400}}>

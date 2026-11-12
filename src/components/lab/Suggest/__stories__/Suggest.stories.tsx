@@ -260,7 +260,7 @@ export const CustomPopupContent: Story = {
                     setValue(option.value);
                 }}
                 renderEmptyOptions={({filter}) => (
-                    <Text as="div" color="secondary" role="status">
+                    <Text as="div" color="secondary">
                         Nothing matched &ldquo;{filter}&rdquo;
                     </Text>
                 )}

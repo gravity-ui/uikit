@@ -23,7 +23,7 @@ export const Row = React.forwardRef<HTMLDivElement, RowProps>(function Row(
         <Grid
             {...props}
             className={b(null, className)}
-            columns={repeat(12, minmax(0, '1fr'))}
+            columns={repeat(12, minmax('0', '1fr'))}
             ref={ref}
         />
     );

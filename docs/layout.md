@@ -60,8 +60,14 @@ own styles (e.g. `--g-spacing-half` for the `0.5` step):
 }
 ```
 
-**3. The `spacing()` utility** — for one-off margins/paddings on any element without hand-writing
-class names. It returns a generated class name string:
+**3. The `spacing()` utility, deprecated** — retained for compatibility. For new code, use logical
+margin and padding props on `Box` or `Flex` with `spacing-*` tokens, or `--g-spacing-*` variables
+in custom CSS. For example, replace `spacing({mt: 2, px: 4})` on a `Box` with
+`marginBlockStart="spacing-2" paddingInline="spacing-4"`. Use CSS strings such as `"8px"` for fixed lengths;
+numeric spacing and size values are not supported, including `0`. Use the string `"0"` for zero. Logical props adapt to RTL; use physical CSS properties if the original
+left/right behavior must remain unchanged.
+
+The existing utility returns a generated class name string:
 
 ```tsx
 import {spacing} from '@gravity-ui/uikit';
@@ -72,7 +78,7 @@ import {spacing} from '@gravity-ui/uikit';
 </>;
 ```
 
-`sp` is a shorter alias: `import {sp} from '@gravity-ui/uikit'` → `sp({mr: 5})`.
+`sp` is a deprecated shorter alias: `import {sp} from '@gravity-ui/uikit'` → `sp({mr: 5})`.
 
 Supported keys (each takes a scale step):
 
@@ -89,8 +95,8 @@ Supported keys (each takes a scale step):
 
 You can pass a second argument to merge extra class names: `spacing({mr: 5}, myClassName)`.
 
-> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Grid`; the `spacing()`/`sp()`
-> utility for one-off offsets on an element; raw `--g-spacing-*` variables inside your own CSS.
+> **Rule of thumb:** `gap` for spacing between siblings in a `Flex`/`Grid`; logical margin/padding
+> props for offsets on `Box` or `Flex`; `--g-spacing-*` variables inside your own CSS.
 > Always use scale steps, never hard-coded pixels.
 
 ### Customization
@@ -114,7 +120,7 @@ const config: LayoutTheme = {
 
 export const App = () => {
     return (
-        <Provider layout={{config, fixBreakpoints: true}}>
+        <Provider layout={{config}}>
             {...}
         </Provider>
     );
@@ -129,7 +135,7 @@ The default breakpoints are:
 - `xs` - < 576px
 - `s` - ≥ 576px;
 - `m` - ≥ 768px;
-- `l` - ≥ 1080px;
+- `l` - ≥ 980px;
 - `xl` - ≥ 1200px;
 - `2xl` - ≥ 1400px;
 - `3xl` - ≥ 1920px;
@@ -151,7 +157,7 @@ const APP_LAYOUT_THEME: LayoutTheme = {
     },
     breakpoints: {
         s: 320,
-        l: 980,
+        l: 1080,
     },
 };
 
@@ -160,12 +166,10 @@ const APP_LAYOUT_THEME: LayoutTheme = {
 </Provider>;
 ```
 
-Use `LayoutProvider` to configure layout for a subtree. Unspecified settings, including
-`fixBreakpoints` and the active breakpoint during SSR and updates, are inherited from the parent.
-Partial `config` merges with the parent theme without mutating it. Custom breakpoints or a different
-`fixBreakpoints` mode calculate a local active breakpoint; `initialMediaQuery` overrides its initial
-value. Without a parent, the defaults remain `fixBreakpoints=false` and initial breakpoint `s`
-(`xs` with `fixBreakpoints=true`).
+Use `LayoutProvider` to configure layout for a subtree. Unspecified settings, including the active
+breakpoint during SSR and updates, are inherited from the parent. Partial `config` merges with the
+parent theme without mutating it. Custom breakpoints calculate a local active breakpoint;
+`initialMediaQuery` overrides its initial value. Without a parent, the initial breakpoint is `xs`.
 
 ## Box
 
@@ -211,8 +215,8 @@ import {Row, Col} from '@gravity-ui/uikit';
 - `columnGap` sets horizontal spacing;
 - `rowGap` sets vertical spacing.
 
-All gaps accept responsive objects, `spacing-*` tokens, CSS lengths, and numbers as pixels.
-For example, `gap="spacing-2"` uses the spacing scale, while `gap={2}` means `2px`.
+All gaps accept responsive objects, `spacing-*` tokens, and CSS length strings.
+For example, `gap="spacing-2"` uses the spacing scale, while `gap="2px"` means `2px`.
 Use `gap` alone, or separate `rowGap` and `columnGap` for different axis values. These props map
 directly to CSS; mixing shorthand and longhands makes precedence depend on declaration order and
 can cause conflicts during React updates.
@@ -230,7 +234,8 @@ Must be used as a child of `Row` component.
 - `size` - number of grid tracks to span. If omitted, the column spans all 12 tracks on its own row.
 
 Use `size` for responsive sizing. The separate breakpoint props `s`, `m`, `l`, `xl`, and `xxl`
-have been removed; for example, use `size={{s: 12, m: 6}}` instead of `s={12} m={6}`.
+have been removed; for example, use `size={{xs: 12, m: 6}}` instead of `s={12} m={6}` when `s`
+previously applied to the narrowest screens. See [the breakpoint migration](migration-to-v8.md#layout-breakpoints-and-container-gutters).
 
 ```tsx
 import {Row, Col} from '@gravity-ui/uikit';
@@ -239,7 +244,7 @@ import {Row, Col} from '@gravity-ui/uikit';
   /**
    * In this example we override default theme behavior.
    *
-   * gap={{s: 'spacing-1', xl: 'spacing-5'}}
+   * gap={{xs: 'spacing-1', xl: 'spacing-5'}}
    */
   gap="spacing-5"
 >
@@ -271,17 +276,17 @@ padding, width, and spacing between rows.
 **Props**
 
 - `gutters` sets logical horizontal padding, defaulting to the layout theme. It accepts responsive
-  objects, `spacing-*` tokens, CSS lengths, and numbers in pixels;
+  objects, `spacing-*` tokens, and CSS length strings;
 - `size` caps the content width at the configured breakpoint width. Gutters and borders are added
   outside that cap. For example, `size="l"` uses `layout.breakpoints.l`;
-- `maxWidth` accepts a CSS length or number in pixels, not a breakpoint name. Explicit `maxWidth`,
+- `maxWidth` accepts a CSS length string, not a breakpoint name. Explicit `maxWidth`,
   `maxInlineSize`, or `style.maxInlineSize` overrides the `size` cap;
 - `rowGap` sets `margin-block-start` between adjacent direct-child `Row` elements, defaulting to
-  the layout theme. It accepts responsive objects, spacing tokens, CSS lengths, and pixel values;
+  the layout theme. It accepts responsive objects, spacing tokens, and CSS length strings;
 - all other `Box` style props are supported. Flex container alignment and gap props are not.
 
 Like `Box` and `Flex`, `Container` does not set `box-sizing`. With the default `content-box`,
-`size="l"` allows 1080px of content plus gutters and borders. Leave width unset to fit a narrower
+`size="l"` allows 980px of content plus gutters and borders. Leave width unset to fit a narrower
 parent automatically; `width="100%"` with gutters can overflow it. Application CSS can override
 box sizing. Without `size`, no breakpoint cap is applied.
 
@@ -297,7 +302,7 @@ import {Container} from '@gravity-ui/uikit';
 </Container>;
 ```
 
-Set `gutters={0}` to disable gutters. The theme configuration uses `gutters` and
+Set `gutters="0"` to disable gutters. The theme configuration uses `gutters` and
 `rowGap` too. All three components support polymorphic `as`, native props, and refs.
 The standard `paddingInline` style prop is also supported and overrides theme defaults. Explicit
 `gutters` takes precedence over `paddingInline`.
@@ -343,7 +348,7 @@ import {Flex, TextInput, Button} from '@gravity-ui/uikit';
 <Flex
   // direction: column will be applied to l, xl, 2xl, 3xl screen sizes here
   direction={{l: 'column'}}
-  gap={{s: 'spacing-5', m: 'spacing-3'}}
+  gap={{xs: 'spacing-5', m: 'spacing-3'}}
 >
   <TextInput />
   <Button />

@@ -78,7 +78,7 @@ export const Links = {
 
 export const RootContext = {
     render: (args) => (
-        <Box overflow="hidden" width={200} style={{padding: 2}}>
+        <Box overflow="hidden" width="200px" style={{padding: 2}}>
             <Breadcrumbs {...args} showRoot>
                 <Breadcrumbs.Item key="home">Home</Breadcrumbs.Item>
                 <Breadcrumbs.Item key="trendy">Trendy</Breadcrumbs.Item>

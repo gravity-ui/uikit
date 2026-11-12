@@ -1,10 +1,15 @@
-import {fireEvent, render, screen, waitFor} from '../../../../test-utils/utils';
+import userEvent from '@testing-library/user-event';
+
+import {render, screen, waitFor} from '../../../../test-utils/utils';
 import {CopyToClipboard} from '../CopyToClipboard';
 import type {CopyToClipboardContent} from '../types';
 
 describe('CopyToClipboard', () => {
+    let user: ReturnType<typeof userEvent.setup>;
+
     beforeEach(() => {
         jest.clearAllMocks();
+        user = userEvent.setup();
         Object.defineProperty(navigator, 'clipboard', {
             value: {
                 writeText: jest.fn().mockResolvedValue(undefined),
@@ -48,7 +53,7 @@ describe('CopyToClipboard', () => {
             </CopyToClipboard>,
         );
 
-        fireEvent.click(screen.getByText('Copy'));
+        await user.click(screen.getByText('Copy'));
 
         await waitFor(() => {
             expect(navigator.clipboard.writeText).toHaveBeenCalledWith(text);
@@ -68,7 +73,7 @@ describe('CopyToClipboard', () => {
             </CopyToClipboard>,
         );
 
-        fireEvent.click(screen.getByText('Copy'));
+        await user.click(screen.getByText('Copy'));
 
         await waitFor(() => {
             expect(getText).toHaveBeenCalled();
@@ -95,12 +100,12 @@ describe('CopyToClipboard', () => {
             </CopyToClipboard>,
         );
 
-        fireEvent.click(screen.getByText('Copy'));
+        await user.click(screen.getByText('Copy'));
 
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', true);
         });
-        expect(document.querySelector('textarea')).toBeNull();
+        expect(screen.queryByRole('textbox', {hidden: true})).not.toBeInTheDocument();
 
         if (originalClipboardDescriptor) {
             Object.defineProperty(navigator, 'clipboard', originalClipboardDescriptor);
@@ -118,7 +123,7 @@ describe('CopyToClipboard', () => {
             </CopyToClipboard>,
         );
 
-        fireEvent.click(screen.getByText('Copy'));
+        await user.click(screen.getByText('Copy'));
 
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', true);
@@ -152,12 +157,12 @@ describe('CopyToClipboard', () => {
             </CopyToClipboard>,
         );
 
-        fireEvent.click(screen.getByText('Copy'));
+        await user.click(screen.getByText('Copy'));
 
         await waitFor(() => {
             expect(onCopy).toHaveBeenCalledWith('text', false);
         });
         expect(execCommand).toHaveBeenCalledWith('copy');
-        expect(document.querySelector('textarea')).toBeNull();
+        expect(screen.queryByRole('textbox', {hidden: true})).not.toBeInTheDocument();
     });
 });

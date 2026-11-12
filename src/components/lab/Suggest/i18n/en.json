@@ -1,0 +1,5 @@
+{
+  "status_loading": "Loading options",
+  "status_empty": "No results found",
+  "status_results": "Options available: {{count}}"
+}

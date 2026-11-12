@@ -4,9 +4,10 @@ import * as React from 'react';
 
 import {List} from '../../../List';
 import type {ListFocusOwner, ListItemContext, ListItemHelpers} from '../../../List';
-import {ListVirtualizationContext} from '../../../List/VirtualizationContext';
-import type {ListVirtualizationContextValue} from '../../../List/VirtualizationContext';
-import {warnOnce} from '../../../utils/warn';
+import {
+    ListVirtualizationContext,
+    useListVirtualization,
+} from '../../../List/VirtualizationContext';
 import {SelectQa, selectListBlock} from '../../constants';
 import {
     buildSelectListNodes,
@@ -139,24 +140,10 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
          * the outer `ListVirtualizer` is re-wrapped here, since the type of an option row never
          * leaves the Select and the consumer has nothing to write it against
          */
-        const outerVirtualization = React.useContext(ListVirtualizationContext);
-        const virtualization = React.useMemo<ListVirtualizationContextValue | null>(() => {
-            if (!outerVirtualization) {
-                return null;
-            }
-
-            if (outerVirtualization.estimateItemSize !== undefined) {
-                warnOnce(
-                    '[Select] `estimateItemSize` of `ListVirtualizer` is not used by the Select: the height of a row comes from `getOptionHeight`/`getOptionGroupHeight` and the size of the Select.',
-                );
-            }
-
-            return {
-                ...outerVirtualization,
-                estimateItemSize: (ctx: ListItemContext<SelectListNode>) =>
-                    getItemHeight(ctx.item, ctx.index),
-            };
-        }, [outerVirtualization, getItemHeight]);
+        const virtualization = useListVirtualization(
+            getItemHeight,
+            '[Select] `estimateItemSize` of `ListVirtualizer` is not used by the Select: the height of a row comes from `getOptionHeight`/`getOptionGroupHeight` and the size of the Select.',
+        );
 
         const handleItemAction = React.useCallback(
             (_id: string, node: SelectListNode) => {

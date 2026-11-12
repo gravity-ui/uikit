@@ -6,6 +6,7 @@ export type DropdownMenuNavigationContextType = {
     activeMenuPath: number[];
     setActiveMenuPath: (path: number[]) => void;
     anchorRef: React.RefObject<HTMLDivElement | null>;
+    popupContainer: HTMLDivElement | null;
 };
 
 const rootMenuPath: number[] = [];
@@ -15,6 +16,7 @@ export const DropdownMenuNavigationContext = React.createContext<DropdownMenuNav
         activeMenuPath: rootMenuPath,
         setActiveMenuPath: () => {},
         anchorRef: {current: null},
+        popupContainer: null,
     },
 );
 
@@ -42,6 +44,7 @@ export const DropdownMenuNavigationContextProvider = ({
             activeMenuPath,
             setActiveMenuPath,
             anchorRef,
+            popupContainer: null,
         }),
         [activeMenuPath, anchorRef],
     );

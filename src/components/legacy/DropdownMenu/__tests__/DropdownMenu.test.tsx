@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 
-import {fireEvent, render, screen, waitFor} from '../../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor} from '../../../../../test-utils/utils';
 import {DropdownMenu} from '../DropdownMenu';
 
 test('group separators are excluded from menu actions and tab stops', () => {
@@ -219,7 +219,6 @@ describe('DropdownMenu keyboard navigation', () => {
 
         const regularItem = screen.getByRole('menuitem', {name: 'Item without submenu'});
 
-        await user.tab();
         expect(regularItem).toHaveFocus();
         await user.keyboard('{Enter}');
 
@@ -240,7 +239,6 @@ describe('DropdownMenu keyboard navigation', () => {
 
         const regularItem = screen.getByRole('menuitem', {name: 'Item without submenu'});
 
-        await user.tab();
         expect(regularItem).toHaveFocus();
         await user.keyboard(' ');
 
@@ -261,7 +259,7 @@ describe('DropdownMenu keyboard navigation', () => {
 
         const itemWithSubmenu = screen.getByRole('menuitem', {name: 'Item with submenu'});
 
-        itemWithSubmenu.focus();
+        act(() => itemWithSubmenu.focus());
 
         await user.keyboard('{Enter}');
 
@@ -290,7 +288,7 @@ describe('DropdownMenu keyboard navigation', () => {
 
         const itemWithSubmenu = screen.getByRole('menuitem', {name: 'Item with submenu'});
 
-        itemWithSubmenu.focus();
+        act(() => itemWithSubmenu.focus());
 
         await user.keyboard(' ');
 
@@ -341,7 +339,7 @@ describe('DropdownMenu keyboard navigation', () => {
         render(<DropdownMenu items={menuItems} open />);
 
         const menu = screen.getByRole('menu');
-        menu.focus();
+        act(() => menu.focus());
 
         await user.keyboard('{ArrowDown}');
         await user.keyboard('{ArrowDown}');
@@ -364,10 +362,9 @@ describe('DropdownMenu keyboard navigation', () => {
 
         const itemWithSubmenu = screen.getByRole('menuitem', {name: 'Item with submenu'});
 
-        itemWithSubmenu.focus();
+        act(() => itemWithSubmenu.focus());
 
         await user.keyboard(' ');
-        await user.tab();
 
         const subMenuItem = screen.getByRole('menuitem', {name: 'Submenu item 1'});
 

@@ -138,7 +138,7 @@ const CustomLayoutTemplate: StoryFn<typeof FileDropZone> = (args) => {
                         <FileDropZone.Description />
                     </div>
                 </div>
-                <div style={{marginLeft: '16px'}}>
+                <div style={{marginInlineStart: '16px'}}>
                     <FileDropZone.Button />
                 </div>
             </div>

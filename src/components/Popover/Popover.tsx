@@ -82,17 +82,25 @@ function PopoverComponent(rawProps: PopoverProps) {
     const [floatingElement, setFloatingElement] = React.useState<HTMLDivElement | null>(null);
 
     const [isOpen, setIsOpen] = useControlledState(open, false, onOpenChange);
+    const [isClickOpen, setIsClickOpen] = React.useState(false);
+    const handleOpenChange = React.useCallback<NonNullable<PopoverProps['onOpenChange']>>(
+        (nextOpen, event, reason) => {
+            setIsClickOpen(nextOpen && reason === 'click');
+            setIsOpen(nextOpen, event, reason);
+        },
+        [setIsOpen],
+    );
 
     const context = useFloatingRootContext({
         open: isOpen && !disabled,
-        onOpenChange: setIsOpen,
+        onOpenChange: handleOpenChange,
         elements: {
             reference: anchorElement,
             floating: floatingElement,
         },
     });
 
-    const isHoverEnabled = trigger === 'all';
+    const isHoverEnabled = trigger === 'all' && !(isOpen && isClickOpen);
 
     const hover = useHover(context, {
         enabled: isHoverEnabled,
@@ -103,7 +111,6 @@ function PopoverComponent(rawProps: PopoverProps) {
     });
     const click = useClick(context, {
         toggle,
-        ignoreMouse: isHoverEnabled,
     });
     const role = useRole(context, {
         role: 'dialog',

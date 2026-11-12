@@ -42,20 +42,38 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
 
         const mobile = useMobile();
         const [sheetOpen, setSheetOpen] = React.useState(false);
+        const [popoverActivated, setPopoverActivated] = React.useState(false);
         const {onOpenChange: onSheetOpenChange, ...restSheetProps} = sheetProps ?? {};
+        const {onOpenChange: onPopoverOpenChange} = popoverProps ?? {};
 
-        const handleMobileButtonClick = React.useCallback<
-            React.MouseEventHandler<HTMLButtonElement>
-        >(
+        const handleButtonClick = React.useCallback<React.MouseEventHandler<HTMLButtonElement>>(
             (event) => {
                 onClick?.(event);
 
-                if (!event.defaultPrevented && !sheetOpen) {
-                    setSheetOpen(true);
-                    onSheetOpenChange?.(true, event.nativeEvent);
+                if (!event.defaultPrevented) {
+                    if (mobile) {
+                        if (!sheetOpen) {
+                            setSheetOpen(true);
+                            onSheetOpenChange?.(true, event.nativeEvent);
+                        }
+                    } else {
+                        setPopoverActivated(true);
+                    }
                 }
             },
-            [onClick, onSheetOpenChange, sheetOpen],
+            [mobile, onClick, onSheetOpenChange, sheetOpen],
+        );
+
+        const handlePopoverOpenChange = React.useCallback<
+            NonNullable<PopoverProps['onOpenChange']>
+        >(
+            (open, event, reason) => {
+                if (open && reason === 'hover') {
+                    setPopoverActivated(false);
+                }
+                onPopoverOpenChange?.(open, event, reason);
+            },
+            [onPopoverOpenChange],
         );
 
         const handleSheetOpenChange = React.useCallback<NonNullable<SheetProps['onOpenChange']>>(
@@ -73,9 +91,10 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
                 type="button"
                 className={b({size}, className)}
                 data-qa={qa}
-                aria-expanded={mobile ? sheetOpen : undefined}
-                aria-haspopup={mobile ? 'dialog' : undefined}
-                onClick={mobile ? handleMobileButtonClick : onClick}
+                {...(mobile
+                    ? {'aria-expanded': sheetOpen, 'aria-haspopup': 'dialog' as const}
+                    : {})}
+                onClick={handleButtonClick}
             >
                 <Icon data={CircleQuestion} size={ICON_SIZE_MAP[size]} className={b('icon')} />
             </button>
@@ -100,7 +119,9 @@ export const HelpMark = React.forwardRef<HTMLButtonElement, HelpMarkProps>(
             <Popover
                 content={<div className={b('popover')}>{children}</div>}
                 hasArrow
+                modal={popoverActivated}
                 {...popoverProps}
+                onOpenChange={handlePopoverOpenChange}
             >
                 {button}
             </Popover>

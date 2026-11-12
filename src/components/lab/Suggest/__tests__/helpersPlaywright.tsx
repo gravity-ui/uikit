@@ -111,3 +111,26 @@ export function SuggestWithPopupLayout({virtualized}: {virtualized: boolean}) {
         </div>
     );
 }
+
+export function SuggestWithFocusablePopup() {
+    const [actions, setActions] = React.useState(0);
+    return (
+        <div>
+            <Suggest
+                options={OPTIONS}
+                label="Planet"
+                startContent={<span>Search icon</span>}
+                endContent={<span>Suffix</span>}
+                disablePortal
+                renderPopup={({renderList}) => (
+                    <div>
+                        {renderList()}
+                        <button onClick={() => setActions((count) => count + 1)}>Retry</button>
+                    </div>
+                )}
+            />
+            <button>Next field</button>
+            <output data-qa="retry-count">{actions}</output>
+        </div>
+    );
+}

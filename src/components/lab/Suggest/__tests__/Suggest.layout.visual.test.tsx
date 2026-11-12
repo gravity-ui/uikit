@@ -3,7 +3,11 @@ import {expect, test} from '~playwright/core';
 import {FLOATING_OFFSET} from '../../../Popup/constants';
 import {BORDER_WIDTH} from '../../../utils/popupMiddlewares';
 
-import {SuggestInitiallyOpen, SuggestWithPopupLayout} from './helpersPlaywright';
+import {
+    SuggestInitiallyOpen,
+    SuggestWithFocusablePopup,
+    SuggestWithPopupLayout,
+} from './helpersPlaywright';
 
 test('Suggest defaultOpen anchors to the field above its error and note', async ({mount, page}) => {
     await mount(<SuggestInitiallyOpen />);
@@ -102,3 +106,38 @@ for (const popupWidth of [undefined, 'fit', 300] as const) {
         }
     });
 }
+
+test('Suggest keeps its popup open when clicking field decorations', async ({mount, page}) => {
+    await mount(<SuggestWithFocusablePopup />);
+    await page.clock.install();
+    const input = page.getByRole('combobox');
+    await input.click();
+    await expect(page.getByRole('listbox')).toBeVisible();
+    for (const text of ['Search icon', 'Suffix', 'Planet']) {
+        await page.getByText(text, {exact: true}).click({delay: 50});
+        await page.clock.runFor(200);
+        await expect(input).toBeFocused();
+        await expect(input).toHaveAttribute('aria-expanded', 'true');
+    }
+});
+
+test('Suggest allows Tab into custom popup content and closes on leaving', async ({
+    mount,
+    page,
+}) => {
+    await mount(<SuggestWithFocusablePopup />);
+    await page.clock.install();
+    const input = page.getByRole('combobox');
+    await input.click();
+    const retry = page.getByRole('button', {name: 'Retry'});
+    await expect(retry).toBeVisible();
+    await input.press('Tab');
+    await page.clock.runFor(200);
+    await expect(retry).toBeFocused();
+    await retry.press('Enter');
+    await expect(page.getByTestId('retry-count')).toHaveText('1');
+    await expect(page.getByRole('listbox')).toBeVisible();
+    await retry.press('Tab');
+    await expect(page.getByRole('button', {name: 'Next field'})).toBeFocused();
+    await expect(page.getByRole('listbox')).toBeHidden();
+});

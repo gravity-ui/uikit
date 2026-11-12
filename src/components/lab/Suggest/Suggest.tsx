@@ -113,17 +113,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const listLabelledBy = ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'];
 
     const [open, setOpen] = useControlledState(openProp, defaultOpen ?? false, onOpenChange);
-    const {onFocus, onBlur} = inputProps;
-    const {focusWithinProps} = useFocusWithin<HTMLInputElement>({
-        onFocusWithin: onFocus,
-        onBlurWithin: React.useCallback(
-            (event: React.FocusEvent<HTMLInputElement>) => {
-                onBlur?.(event);
-                setOpen(false, event.nativeEvent, 'focus-out');
-            },
-            [onBlur, setOpen],
-        ),
-    });
 
     const handleOptionAction = React.useCallback(
         (id: string, option: SuggestListItem<T>, event: ListItemActionEvent) => {
@@ -210,6 +199,20 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
     const popupContent = renderPopup ? renderPopup({renderList}) : renderList();
     const popupOpen = open && Boolean(popupContent);
+
+    const {onFocus, onBlur} = inputProps;
+    const {focusWithinProps} = useFocusWithin<HTMLInputElement>({
+        onFocusWithin: onFocus,
+        onBlurWithin: React.useCallback(
+            (event: React.FocusEvent<HTMLInputElement>) => {
+                onBlur?.(event);
+                if (!popupOpen) {
+                    setOpen(false, event.nativeEvent, 'focus-out');
+                }
+            },
+            [onBlur, popupOpen, setOpen],
+        ),
+    });
 
     const hasLoadMore = Boolean(onLoadMore);
     const onLoadMoreRef = React.useRef(onLoadMore);

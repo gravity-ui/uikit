@@ -316,6 +316,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 className={b('popup', popupClassName)}
                 floatingMiddlewares={getMiddlewares({
                     width: popupWidth,
+                    placement: popupPlacement,
                     disablePortal,
                     virtualized: Boolean(virtualization),
                 })}

@@ -134,3 +134,11 @@ export function SuggestWithFocusablePopup() {
         </div>
     );
 }
+
+export function SuggestWithPlacement({popupPlacement}: Pick<SuggestProps, 'popupPlacement'>) {
+    return (
+        <div style={{position: 'fixed', left: 20, bottom: 20, width: 200}}>
+            <Suggest defaultOpen options={OPTIONS} popupPlacement={popupPlacement} />
+        </div>
+    );
+}

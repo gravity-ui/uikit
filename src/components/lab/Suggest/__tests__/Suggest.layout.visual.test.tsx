@@ -6,6 +6,7 @@ import {BORDER_WIDTH} from '../../../utils/popupMiddlewares';
 import {
     SuggestInitiallyOpen,
     SuggestWithFocusablePopup,
+    SuggestWithPlacement,
     SuggestWithPopupLayout,
 } from './helpersPlaywright';
 
@@ -141,3 +142,17 @@ test('Suggest allows Tab into custom popup content and closes on leaving', async
     await expect(page.getByRole('button', {name: 'Next field'})).toBeFocused();
     await expect(page.getByRole('listbox')).toBeHidden();
 });
+
+for (const {placement, expected} of [
+    {placement: 'auto' as const, expected: 'right'},
+    {
+        placement: ['bottom-start', 'right-start'] as ['bottom-start', 'right-start'],
+        expected: 'right-start',
+    },
+]) {
+    test(`Suggest respects popupPlacement=${placement}`, async ({mount, page}) => {
+        await mount(<SuggestWithPlacement popupPlacement={placement} />);
+        const popup = page.getByTestId('suggest-popup').locator('..');
+        await expect(popup).toHaveAttribute('data-floating-ui-placement', expected);
+    });
+}

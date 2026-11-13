@@ -1,5 +1,20 @@
 # Changelog
 
+## [8.1.0](https://github.com/gravity-ui/uikit/compare/v8.0.0...v8.1.0) (2026-11-13)
+
+
+### Features
+
+* bump all dependencies ([#2926](https://github.com/gravity-ui/uikit/issues/2926)) ([32621e5](https://github.com/gravity-ui/uikit/commit/32621e544acb02f206522211a217e9a6426913b1))
+
+
+### Bug Fixes
+
+* **FileDropZone:** reject non-file drags, use design tokens and stabilize memoization ([#2928](https://github.com/gravity-ui/uikit/issues/2928)) ([12c51f2](https://github.com/gravity-ui/uikit/commit/12c51f2d6fa45b5c57e817edc90dc4a047403872))
+* **FileDropZone:** validate accept extensions on drop and files from the dialog ([#2921](https://github.com/gravity-ui/uikit/issues/2921)) ([fd8a20e](https://github.com/gravity-ui/uikit/commit/fd8a20e1f972a8bc9f175d65dcf07b24daf243a4))
+* **ListItemView:** set correct inline paddings due to desing system ([#2927](https://github.com/gravity-ui/uikit/issues/2927)) ([6a79127](https://github.com/gravity-ui/uikit/commit/6a7912799155c5bee7c3499a0a5dae18584d77c6))
+* **useListNavigation:** select the first enabled item on Home ([#2925](https://github.com/gravity-ui/uikit/issues/2925)) ([1fefe85](https://github.com/gravity-ui/uikit/commit/1fefe85798abfb852adcefa320b26c577181847c))
+
 ## [8.0.0](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.2...v8.0.0) (2026-10-23)
 
 

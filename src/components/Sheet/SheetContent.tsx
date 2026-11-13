@@ -6,6 +6,7 @@ import type {UseInteractionsReturn} from '@floating-ui/react';
 import {useMergeRefs} from '@floating-ui/react';
 
 import type {UseFloatingTransitionResult} from '../../hooks/private/useFloatingTransition';
+import {useUniqId} from '../../hooks/useUniqId';
 import {MobileContext} from '../mobile';
 import {warnOnce} from '../utils/warn';
 
@@ -48,7 +49,8 @@ interface SheetContentBaseProps {
     content: React.ReactNode;
     presenceStatus: SheetPresenceStatus;
     id?: string;
-    title?: string;
+    title?: React.ReactNode;
+    stickyTitle?: boolean;
     contentClassName?: string;
     swipeAreaClassName?: string;
     hideTopBar?: boolean;
@@ -70,6 +72,7 @@ export function SheetContent(props: SheetContentProps) {
         swipeAreaClassName,
         hideTopBar,
         title,
+        stickyTitle,
         presenceStatus,
         requestDismiss,
         floatingRef,
@@ -79,6 +82,11 @@ export function SheetContent(props: SheetContentProps) {
         id = 'sheet',
         allowHideOnContentScroll = true,
     } = props;
+
+    const titleId = useUniqId();
+    const isTextTitle = typeof title === 'string' || typeof title === 'number';
+    const hasCustomTitle =
+        !isTextTitle && title !== undefined && title !== null && typeof title !== 'boolean';
 
     const {platform, useHistory, useLocation} = React.useContext(MobileContext);
     const history = useHistory();
@@ -434,7 +442,10 @@ export function SheetContent(props: SheetContentProps) {
                 ref={handleSheetRef}
                 className={sheetBlock('sheet', {'with-transition': withTransition})}
                 aria-modal="true"
-                {...getFloatingProps({'aria-label': title})}
+                {...getFloatingProps({
+                    'aria-label': isTextTitle ? String(title) : undefined,
+                    'aria-labelledby': hasCustomTitle ? titleId : undefined,
+                })}
             >
                 {!hideTopBar && (
                     <div
@@ -455,6 +466,8 @@ export function SheetContent(props: SheetContentProps) {
                     marginBoxRef={sheetMarginBoxRef}
                     contentClassName={contentClassName}
                     title={title}
+                    titleId={titleId}
+                    stickyTitle={stickyTitle}
                     withoutScroll={contentWithoutScroll}
                     alwaysFullHeight={alwaysFullHeight}
                     {...contentAreaHandlers}

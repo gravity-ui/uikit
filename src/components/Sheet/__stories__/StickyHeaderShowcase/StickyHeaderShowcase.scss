@@ -1,0 +1,26 @@
+.sheet-stories-sticky-header-showcase {
+    &__header {
+        padding-block: var(--g-spacing-4);
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+
+    &__extra-title-content {
+        min-block-size: 100vh;
+    }
+
+    &__title {
+        margin: 0;
+        min-width: 0;
+    }
+
+    &__projects {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    &__project {
+        padding-block: var(--g-spacing-4);
+        border-block-end: 1px solid var(--g-color-line-generic);
+    }
+}

@@ -12,13 +12,19 @@ const OPTIONS = [
 
 export interface AnchorStandProps {
     /** Where the Select stands: at the bottom of the viewport the popup flips up */
-    position?: 'top' | 'bottom';
+    position?: 'top' | 'bottom' | 'center';
     width?: SelectProps['width'];
     customControl?: boolean;
+    popupPlacement?: SelectProps['popupPlacement'];
 }
 
 /** A Select with the error message under the control and a stand for its trigger */
-export function AnchorStand({position = 'top', width, customControl}: AnchorStandProps) {
+export function AnchorStand({
+    position = 'top',
+    width,
+    customControl,
+    popupPlacement,
+}: AnchorStandProps) {
     const renderControl: SelectProps['renderControl'] = ({ref, triggerProps}) => (
         <Button ref={ref as React.Ref<HTMLButtonElement>} {...triggerProps} qa="custom-control">
             Custom control
@@ -30,7 +36,9 @@ export function AnchorStand({position = 'top', width, customControl}: AnchorStan
             style={{
                 boxSizing: 'border-box',
                 display: 'flex',
-                alignItems: position === 'top' ? 'flex-start' : 'flex-end',
+                alignItems: ({top: 'flex-start', bottom: 'flex-end', center: 'center'} as const)[
+                    position
+                ],
                 width: 400,
                 height: '100vh',
                 padding: 20,
@@ -39,6 +47,7 @@ export function AnchorStand({position = 'top', width, customControl}: AnchorStan
             <div style={{flexGrow: 1}}>
                 <Select
                     options={OPTIONS}
+                    popupPlacement={popupPlacement}
                     width={width}
                     validationState="invalid"
                     errorMessage="The error message under the control"

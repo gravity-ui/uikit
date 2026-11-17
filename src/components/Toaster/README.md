@@ -112,17 +112,18 @@ These are the props of the `ToasterComponent` component.
 
 It accepts the `toastOptions` argument with the ongoing notification details:
 
-| Parameter  | Type                                    | Required | Default     | Description                                                                                                                                                                                                                                              |
-| :--------- | :-------------------------------------- | :------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name       | `string`                                | yes      |             | Unique notification name. Notifications with identical names are collapsed into one                                                                                                                                                                      |
-| title      | `string`                                |          |             | Notification title                                                                                                                                                                                                                                       |
-| className  | `string`                                |          |             | CSS class                                                                                                                                                                                                                                                |
-| autoHiding | `number` or `false`                     |          | 5000        | Number of ms to delay hiding the notification. Use `false` to disable hiding the toast after timeout                                                                                                                                                     |
-| content    | `node`                                  |          | `undefined` | Notification content. This may be [anything that can be rendered: numbers, strings, elements, or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)                                                                          |
-| theme      | `string`                                |          | `"normal"`  | Notification theme. The possible values are `"normal"`, `"info"`, `"success"`, `"warning"`, `danger`, and `"utility"`. If `theme` is set to anything but `"normal"`, the icon will be added into the notification title. _By default, there is no icon_. |
-| isClosable | `boolean`                               |          | `true`      | Configuration that manages the visibility of the X icon, which allows the user to close the notification                                                                                                                                                 |
-| actions    | `ToastAction[] \| () => ReactElement`   |          | `undefined` | Array of [actions](./types.ts#L9) that are displayed after `content`, or callback, that returned required actions                                                                                                                                        |
-| renderIcon | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Used to customize the toast icon. Type-based behavior is used by default                                                                                                                                                                                 |
+| Parameter    | Type                                    | Required | Default     | Description                                                                                                                                                                                                                                              |
+| :----------- | :-------------------------------------- | :------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name         | `string`                                | yes      |             | Unique notification name. Notifications with identical names are collapsed into one                                                                                                                                                                      |
+| title        | `string`                                |          |             | Notification title                                                                                                                                                                                                                                       |
+| className    | `string`                                |          |             | CSS class                                                                                                                                                                                                                                                |
+| autoHiding   | `number` or `false`                     |          | 5000        | Number of ms to delay hiding the notification. Use `false` to disable hiding the toast after timeout                                                                                                                                                     |
+| content      | `node`                                  |          | `undefined` | Notification content. This may be [anything that can be rendered: numbers, strings, elements, or an array](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)                                                                          |
+| theme        | `string`                                |          | `"normal"`  | Notification theme. The possible values are `"normal"`, `"info"`, `"success"`, `"warning"`, `danger`, and `"utility"`. If `theme` is set to anything but `"normal"`, the icon will be added into the notification title. _By default, there is no icon_. |
+| isClosable   | `boolean`                               |          | `true`      | Configuration that manages the visibility of the X icon, which allows the user to close the notification                                                                                                                                                 |
+| actions      | `ToastAction[] \| () => ReactElement`   |          | `undefined` | Array of [actions](./types.ts#L9) that are displayed after `content`, or callback, that returned required actions                                                                                                                                        |
+| renderIcon   | `(toastProps: ToastProps) => ReactNode` |          | `undefined` | Used to customize the toast icon. Type-based behavior is used by default                                                                                                                                                                                 |
+| renderFooter | `({onClose}) => ReactNode`              |          | `undefined` | Renders a separate footer after the content and actions. `onClose` closes the toast through its regular close handler.                                                                                                                                   |
 
 Every `action` is an object with following parameters:
 
@@ -132,6 +133,29 @@ Every `action` is an object with following parameters:
 | onClick          | `() => void`                                   | yes      |            | On-action click handler                                                  |
 | view             | [`ButtonView`](../Button/README.md#properties) |          | `outlined` | Action appearance, same as `view` for `<Button/>`                        |
 | removeAfterClick | `boolean`                                      |          | `true`     | Enables or disables closing the notification after the action is clicked |
+
+## Footer
+
+Use `renderFooter` to add custom content below the toast body. The footer works independently of
+both declarative actions and a custom actions renderer. Its `onClose` callback closes the toast
+and invokes the toast's `onClose` handler.
+
+```tsx
+toaster.add({
+  name: 'saved',
+  title: 'Changes saved',
+  renderFooter: ({onClose}) => (
+    <Button view="flat" onClick={onClose}>
+      Dismiss
+    </Button>
+  ),
+});
+```
+
+The footer spans the full toast width, including the icon area, and has a top divider and the same
+inline padding as the body. Footer content controls its own vertical spacing. Return `null`,
+`undefined`, or `false` to omit the footer. Updating `renderFooter` does not replace actions or reset
+the body content. Set `renderFooter: undefined` in `update` to remove an existing footer.
 
 ## CSS API
 

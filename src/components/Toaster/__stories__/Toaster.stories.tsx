@@ -4,8 +4,10 @@ import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {toaster} from '../../../toaster-singleton';
+import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
+import {Flex} from '../../layout';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
@@ -89,6 +91,7 @@ export const Default: Story = {
         theme: disabledControl,
         isClosable: disabledControl,
         actions: disabledControl,
+        renderFooter: disabledControl,
         removeCallback: disabledControl,
         createSameName: booleanControl('Same name'),
         showCloseIcon: booleanControl('Show close icon'),
@@ -127,6 +130,7 @@ export const ToastPlayground: Story = {
         name: disabledControl,
         addedAt: disabledControl,
         renderIcon: disabledControl,
+        renderFooter: disabledControl,
         removeCallback: disabledControl,
     },
     render: (args, context) => {
@@ -148,5 +152,33 @@ export const ToastPlayground: Story = {
                 hasPortal={context.globals.screenshotTests !== true}
             />
         );
+    },
+};
+
+export const WithFooter: Story = {
+    ...ToastPlayground,
+    name: 'Toast with a footer',
+    args: {
+        ...ToastPlayground.args,
+        title: 'Changes saved',
+        content: 'Your changes have been saved.',
+        theme: 'success',
+        isClosable: true,
+        actions: [{label: 'View details', onClick: () => {}, removeAfterClick: false}],
+        renderFooter: ({onClose}) => (
+            <Flex
+                role="group"
+                aria-label="Additional information"
+                alignItems="center"
+                justifyContent="space-between"
+                gap="spacing-3"
+                paddingBlock="spacing-2"
+            >
+                Additional information
+                <Button view="flat" size="s" onClick={onClose}>
+                    Dismiss
+                </Button>
+            </Flex>
+        ),
     },
 };

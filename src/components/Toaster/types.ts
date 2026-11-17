@@ -25,6 +25,7 @@ export type ToastProps = {
     theme?: ToastTheme;
     isClosable?: boolean;
     actions?: (() => React.ReactElement) | ToastAction[];
+    renderFooter?: (context: {onClose: VoidFunction}) => React.ReactNode;
 
     onClose?: () => void;
 

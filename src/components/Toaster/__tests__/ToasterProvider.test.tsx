@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
+import {Button} from '../../Button';
 import {Modal} from '../../Modal/Modal';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
@@ -290,6 +291,95 @@ describe('api.has', () => {
             jest.advanceTimersByTime(toastTimeout);
         });
         expect(toasterInstance.has(toastProps.name)).toBe(false);
+    });
+});
+
+describe('toast footer', () => {
+    it.each(['declarative', 'custom'])('should render a footer alongside %s actions', (kind) => {
+        setup();
+        const onAction = jest.fn();
+        const toastWithFooter = {
+            ...toastProps,
+            autoHiding: false as const,
+            actions:
+                kind === 'declarative'
+                    ? [{label: 'Primary action', onClick: onAction, removeAfterClick: false}]
+                    : () => <Button onClick={onAction}>Primary action</Button>,
+            renderFooter: () => 'Additional details',
+        };
+
+        act(() => toasterInstance.add(toastWithFooter));
+
+        expect(screen.getByText('Additional details')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('button', {name: 'Primary action'}));
+        expect(onAction).toHaveBeenCalledTimes(1);
+        expect(screen.getByText('Additional details')).toBeInTheDocument();
+    });
+
+    it('should close the toast from the footer and notify onClose once', () => {
+        setup();
+        const onClose = jest.fn();
+        const toastWithFooter = {
+            ...toastProps,
+            autoHiding: false as const,
+            onClose,
+            renderFooter: ({onClose: closeToast}: {onClose: () => void}) => (
+                <Button onClick={closeToast}>Dismiss notification</Button>
+            ),
+        };
+
+        act(() => toasterInstance.add(toastWithFooter));
+        const toast = getToast();
+        fireEvent.click(screen.getByRole('button', {name: 'Dismiss notification'}));
+        tick(toast, 0);
+
+        expect(toast).not.toBeInTheDocument();
+        expect(onClose).toHaveBeenCalledTimes(1);
+    });
+
+    it('should update the footer independently without resetting content', () => {
+        setup();
+        act(() => {
+            toasterInstance.add({
+                ...toastProps,
+                autoHiding: false,
+                content: <input aria-label="Draft" defaultValue="" />,
+                actions: [{label: 'Primary action', onClick() {}}],
+            });
+        });
+        fireEvent.change(screen.getByRole('textbox', {name: 'Draft'}), {
+            target: {value: 'Keep this draft'},
+        });
+
+        const footerPatch = {renderFooter: () => 'Additional details'};
+        act(() => toasterInstance.update(toastProps.name, footerPatch));
+
+        expect(screen.getByText('Additional details')).toBeInTheDocument();
+        expect(screen.getByRole('button', {name: 'Primary action'})).toBeInTheDocument();
+        expect(screen.getByRole('textbox', {name: 'Draft'})).toHaveValue('Keep this draft');
+
+        act(() => {
+            toasterInstance.update(toastProps.name, {
+                actions: [{label: 'Updated action', onClick() {}}],
+            });
+        });
+        expect(screen.getByText('Additional details')).toBeInTheDocument();
+
+        const emptyFooterPatch = {renderFooter: undefined};
+        act(() => toasterInstance.update(toastProps.name, emptyFooterPatch));
+
+        expect(screen.queryByText('Additional details')).not.toBeInTheDocument();
+        expect(screen.getByRole('button', {name: 'Updated action'})).toBeInTheDocument();
+        expect(screen.getByRole('textbox', {name: 'Draft'})).toHaveValue('Keep this draft');
+    });
+
+    it('should render numeric footer content', () => {
+        setup();
+        const toastWithFooter = {...toastProps, renderFooter: () => 0};
+
+        act(() => toasterInstance.add(toastWithFooter));
+
+        expect(screen.getByText('0')).toBeInTheDocument();
     });
 });
 

@@ -106,6 +106,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
         className,
         theme = 'normal',
         renderIcon,
+        renderFooter,
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
         mobile = false,
@@ -134,27 +135,33 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
     const {t} = i18n.useTranslation();
 
     const icon = renderIcon ? renderIcon(props) : renderIconByType({theme});
+    const footer = renderFooter?.({onClose: handleClose});
     return (
         <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
-            {icon && <div className={b('icon-container')}>{icon}</div>}
-            <div className={b('container')}>
-                {hasTitle && <h3 className={b('title')}>{title}</h3>}
-                {isClosable && (
-                    <Button
-                        size="s"
-                        view="flat"
-                        className={b('btn-close')}
-                        onClick={handleClose}
-                        aria-label={t('label_close-button')}
-                    >
-                        <Icon data={Xmark} />
-                    </Button>
-                )}
-                {hasContent && (
-                    <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
-                )}
-                {renderActions({actions, onClose: handleClose})}
+            <div className={b('body')}>
+                {icon && <div className={b('icon-container')}>{icon}</div>}
+                <div className={b('container')}>
+                    {hasTitle && <h3 className={b('title')}>{title}</h3>}
+                    {isClosable && (
+                        <Button
+                            size="s"
+                            view="flat"
+                            className={b('btn-close')}
+                            onClick={handleClose}
+                            aria-label={t('label_close-button')}
+                        >
+                            <Icon data={Xmark} />
+                        </Button>
+                    )}
+                    {hasContent && (
+                        <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
+                    )}
+                    {renderActions({actions, onClose: handleClose})}
+                </div>
             </div>
+            {React.Children.toArray(footer).length > 0 && (
+                <div className={b('footer')}>{footer}</div>
+            )}
         </div>
     );
 });

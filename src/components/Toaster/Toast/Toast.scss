@@ -13,11 +13,11 @@ $block: '.#{variables.$ns}toast';
     --_--background-color: var(--g-color-base-background);
 
     display: flex;
+    flex-direction: column;
     box-sizing: border-box;
     position: relative;
     width: inherit;
     margin-block-end: var(--g-toaster-item-gap, var(--_--item-gap));
-    padding: var(--g-toaster-item-padding, var(--_--item-padding));
     font-size: var(--g-text-body-2-font-size);
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--g-color-sfx-shadow);
@@ -67,6 +67,20 @@ $block: '.#{variables.$ns}toast';
             --_--container-background-color: var(--g-color-base-utility-light);
             --_--icon-color: var(--g-color-text-utility-heavy);
         }
+    }
+
+    &__body {
+        display: flex;
+        min-width: 0;
+        padding: var(--g-toaster-item-padding, var(--_--item-padding));
+    }
+
+    &__footer {
+        min-width: 0;
+        padding: var(--g-toaster-item-padding, var(--_--item-padding));
+        padding-block: 0;
+        border-block-start: 1px solid var(--g-color-line-generic);
+        overflow-wrap: break-word;
     }
 
     &__container {

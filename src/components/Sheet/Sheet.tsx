@@ -18,7 +18,6 @@ import type {FloatingFocusManagerProps} from '@floating-ui/react';
 
 import {KeyCode} from '../../constants';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
-import {useLayoutEffect} from '../../hooks/useLayoutEffect';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
@@ -82,9 +81,6 @@ export interface SheetProps
     /** `Sheet` height will always have the maximum value */
     alwaysFullHeight?: boolean;
 }
-
-// Modal sheets in the order they opened, see getSheetsAbove
-const openModalSheets: Array<() => HTMLElement | null> = [];
 
 function SheetComponent(rawProps: SheetProps) {
     const {
@@ -195,33 +191,6 @@ function SheetComponent(rawProps: SheetProps) {
         onEscapeKeyDown: handleEscapeKeyDown,
     });
 
-    // The overlay also holds the visually hidden dismiss buttons next to the dialog
-    const overlayRef = React.useRef<HTMLDivElement>(null);
-    const getOverlay = React.useCallback(() => overlayRef.current, []);
-
-    useLayoutEffect(() => {
-        if (!isMounted) {
-            return undefined;
-        }
-
-        openModalSheets.push(getOverlay);
-
-        return () => {
-            openModalSheets.splice(openModalSheets.indexOf(getOverlay), 1);
-        };
-    }, [getOverlay, isMounted]);
-
-    // A modal sheet hides the rest of the page from assistive technology. Sheets opened
-    // in the same commit would hide each other, so a sheet keeps the ones above it.
-    const getSheetsAbove = React.useCallback(() => {
-        const index = openModalSheets.indexOf(getOverlay);
-
-        return openModalSheets
-            .slice(index + 1)
-            .map((getElement) => getElement())
-            .filter((element): element is HTMLElement => element !== null);
-    }, [getOverlay]);
-
     const role = useRole(context, {role: 'dialog'});
     const {getFloatingProps} = useInteractions([role]);
 
@@ -230,7 +199,6 @@ function SheetComponent(rawProps: SheetProps) {
             {isMounted || keepMounted ? (
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
-                        ref={overlayRef}
                         data-qa={qa}
                         data-floating-ui-status={status}
                         className={sheetBlock({'without-top-bar': hideTopBar}, className)}
@@ -248,7 +216,6 @@ function SheetComponent(rawProps: SheetProps) {
                             // Focusing a text field on open would show the on-screen keyboard
                             initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}
-                            getInsideElements={getSheetsAbove}
                             restoreFocus
                             visuallyHiddenDismiss={
                                 disableVisuallyHiddenDismiss ? false : t('close')

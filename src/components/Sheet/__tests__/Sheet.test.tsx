@@ -94,26 +94,6 @@ describe('Sheet', () => {
 
             expect(screen.getByRole('dialog', {name: 'Sorting'})).toBeInTheDocument();
         });
-
-        test('keeps only the upper one of the sheets opened together accessible', () => {
-            render(
-                <React.Fragment>
-                    <Sheet open title="Lower sheet">
-                        Lower content
-                    </Sheet>
-                    <Sheet open title="Upper sheet" qa="upper-sheet">
-                        Upper content
-                    </Sheet>
-                </React.Fragment>,
-            );
-
-            expect(screen.getByRole('dialog', {name: 'Upper sheet'})).toBeInTheDocument();
-            expect(screen.queryByRole('dialog', {name: 'Lower sheet'})).toBeNull();
-            // The visually hidden dismiss buttons sit next to the dialog rather than inside it
-            for (const button of screen.getAllByRole('button', {name: 'Close'})) {
-                expect(screen.getByTestId('upper-sheet')).toContainElement(button);
-            }
-        });
     });
 
     describe('control mode', () => {
@@ -407,7 +387,9 @@ describe('Sheet', () => {
 
             expect(upperOnOpenChange).not.toHaveBeenCalled();
             expect(lowerOnOpenChange).not.toHaveBeenCalled();
-            expect(screen.getByRole('dialog', {name: 'Upper sheet'})).toBeInTheDocument();
+            expect(
+                screen.getByRole('dialog', {name: 'Upper sheet', hidden: true}),
+            ).toBeInTheDocument();
             expect(
                 screen.getByRole('dialog', {name: 'Lower sheet', hidden: true}),
             ).toBeInTheDocument();

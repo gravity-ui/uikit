@@ -1,5 +1,6 @@
 import type * as React from 'react';
 
+import {ListSectionHeader} from '../../List/SectionHeader';
 import {ListItemView} from '../ListItemView';
 
 const SIZES = ['s', 'm', 'l', 'xl'] as const;
@@ -22,6 +23,9 @@ export function CssApiRows() {
                 </ListItemView>
             ))}
             <ListItemView data-qa="row-default">default</ListItemView>
+            <ListSectionHeader qa="header" data-first-row="">
+                header
+            </ListSectionHeader>
         </div>
     );
 }
@@ -57,6 +61,9 @@ export function SizeRows() {
                 </ListItemView>
             ))}
             <ListItemView data-qa="row-default">default</ListItemView>
+            <ListItemView isContainer data-qa="row-container">
+                container
+            </ListItemView>
         </div>
     );
 }

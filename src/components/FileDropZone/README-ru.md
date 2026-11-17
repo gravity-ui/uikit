@@ -78,14 +78,14 @@ const handleUpdateAccepted = (files: File[]) => {
         gap: '32px',
       }}
     >
-      <FileDropZone.Icon className={iconClassName} />
+      <FileDropZone.Icon />
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-        <FileDropZone.Title className={titleClassName} />
-        <FileDropZone.Description className={descriptionClassName} />
+        <FileDropZone.Title />
+        <FileDropZone.Description />
       </div>
     </div>
-    <div style={{marginLeft: '16px'}}>
-      <FileDropZone.Button className={buttonClassName} />
+    <div style={{marginInlineStart: '16px'}}>
+      <FileDropZone.Button />
     </div>
   </div>
 </FileDropZone>;
@@ -101,7 +101,7 @@ const handleUpdateAccepted = (files: File[]) => {
 
 Правила одинаковы для перетаскиваемых файлов и файлов, выбранных в диалоге.
 
-Пока файл только перетаскивается над зоной, его имя еще неизвестно, поэтому элементы-расширения не помечают перетаскивание как невалидное. Окончательная проверка выполняется при drop.
+Пока файл только перетаскивается над зоной, его имя еще неизвестно, поэтому элементы-расширения не помечают перетаскивание как невалидное. Окончательная проверка выполняется при drop: файл с неподходящим типом подсвечивается при перетаскивании, но его все равно можно бросить, и он передается в `onUpdateRejected`. Перетаскивание без файлов, например выделенного текста или ссылки, на зону бросить нельзя.
 
 MIME-элементы сравниваются с `File.type`, который определяет операционная система. Для неизвестных расширений он может быть пустым (`File.type === ''`) или отличаться от ожидаемого: например, Chrome на Windows с установленным Excel сообщает тип `.csv` как `application/vnd.ms-excel`, а `.zip` — как `application/x-zip-compressed`. Диалог выбора файлов фильтрует по расширениям, поэтому может показать такой файл, но после выбора он будет отклонен с причиной `invalid-type`. Чтобы надежно принимать такие файлы, указывайте расширение рядом с MIME-типом, например `['text/csv', '.csv']` или `['image/*', '.heic']`.
 

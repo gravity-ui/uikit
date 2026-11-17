@@ -30,14 +30,11 @@ const FileDropZoneContent = ({className, children, qa}: FileDropZoneContainerPro
 
     const hasError = Boolean(errorMessage);
 
-    const handleClick = React.useCallback(
-        (event: React.MouseEvent<HTMLDivElement>) => {
-            if (!disabled && !event.defaultPrevented) {
-                triggerProps.onClick();
-            }
-        },
-        [disabled, triggerProps],
-    );
+    const handleClick = React.useCallback(() => {
+        if (!disabled) {
+            triggerProps.onClick();
+        }
+    }, [disabled, triggerProps]);
 
     const handleInputClick = React.useCallback((event: React.MouseEvent<HTMLInputElement>) => {
         event.stopPropagation();

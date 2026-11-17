@@ -22,5 +22,18 @@ test.describe('Select rows', {tag: '@Select'}, () => {
             expect((await option.boundingBox())?.height).toBe(controlHeight);
             expect((await header.boundingBox())?.height).toBe(controlHeight);
         });
+
+        test(`the text of a group header starts where the text of a row does, size ${size}`, async ({
+            mount,
+            page,
+        }) => {
+            await mount(<GroupedSelect size={size} />);
+            await page.locator('.g-select-control').click();
+            await page.getByTestId('select-popup').waitFor();
+            const optionText = page.getByRole('option', {name: 'Apple'}).getByText('Apple');
+            const headerText = page.locator('.g-list-section-header__text').first();
+
+            expect((await headerText.boundingBox())?.x).toBe((await optionText.boundingBox())?.x);
+        });
     }
 });

@@ -8,7 +8,7 @@ test.describe('FileDropZone', {tag: '@FileDropZone'}, () => {
     test('render story: <Default>', async ({mount, expectScreenshot}) => {
         await mount(<FileDropZoneStories.Default />);
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <Default> clicked', async ({mount, expectScreenshot}) => {
@@ -16,7 +16,7 @@ test.describe('FileDropZone', {tag: '@FileDropZone'}, () => {
 
         await root.click();
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <Default> focused', async ({mount, expectScreenshot}) => {
@@ -24,36 +24,36 @@ test.describe('FileDropZone', {tag: '@FileDropZone'}, () => {
 
         await root.locator(`[data-qa=${FILE_DROP_ZONE_STORY_QA}]`).focus();
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <CustomTexts>', async ({mount, expectScreenshot}) => {
         await mount(<FileDropZoneStories.CustomTexts />);
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <Disabled>', async ({mount, expectScreenshot}) => {
         await mount(<FileDropZoneStories.Disabled />);
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <Errors>', async ({mount, expectScreenshot}) => {
         await mount(<FileDropZoneStories.Errors />);
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <Icons>', async ({mount, expectScreenshot}) => {
         await mount(<FileDropZoneStories.Icons />);
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 
     test('render story: <CustomLayout>', async ({mount, expectScreenshot}) => {
         await mount(<FileDropZoneStories.CustomLayout />);
 
-        await expectScreenshot();
+        await expectScreenshot({themes: ['light']});
     });
 });

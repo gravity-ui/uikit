@@ -78,14 +78,14 @@ const handleUpdateAccepted = (files: File[]) => {
         gap: '32px',
       }}
     >
-      <FileDropZone.Icon className={iconClassName} />
+      <FileDropZone.Icon />
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-        <FileDropZone.Title className={titleClassName} />
-        <FileDropZone.Description className={descriptionClassName} />
+        <FileDropZone.Title />
+        <FileDropZone.Description />
       </div>
     </div>
-    <div style={{marginLeft: '16px'}}>
-      <FileDropZone.Button className={buttonClassName} />
+    <div style={{marginInlineStart: '16px'}}>
+      <FileDropZone.Button />
     </div>
   </div>
 </FileDropZone>;
@@ -101,7 +101,7 @@ const handleUpdateAccepted = (files: File[]) => {
 
 The same rules apply to dropped files and to files selected in the dialog.
 
-While a file is only being dragged over the zone, its name is not available yet, so extension entries do not mark the drag as invalid. The final check runs on drop.
+While a file is only being dragged over the zone, its name is not available yet, so extension entries do not mark the drag as invalid. The final check runs on drop: a file with a non-matching type is highlighted while dragging, but it can still be dropped and is passed to `onUpdateRejected`. A drag without files, such as selected text or a link, cannot be dropped on the zone.
 
 MIME entries are checked against `File.type`, which is provided by the operating system. It may be empty for unknown extensions (`File.type === ''`) or differ from what you expect: for example, Chrome on Windows reports `.csv` as `application/vnd.ms-excel` when Excel is installed and `.zip` as `application/x-zip-compressed`. The file dialog filters by extensions, so it can show such a file, but it is rejected with `invalid-type` after selection. To accept such files reliably, list the extension next to the MIME type, e.g. `['text/csv', '.csv']` or `['image/*', '.heic']`.
 

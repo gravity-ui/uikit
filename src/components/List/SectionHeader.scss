@@ -4,10 +4,12 @@
 $block: '.#{variables.$ns}list-section-header';
 
 #{$block} {
-    /* Paddings as in the row view */
+    /* Paddings as in the row view: the inline padding of the size, the block padding from the
+       height; the CSS API of the row view applies to a header as well */
     --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-m});
     --_--line-height: 18px;
     --_--padding-block: calc((var(--_--min-height) - var(--_--line-height)) / 2);
+    --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-3));
 
     display: flex;
     align-items: center;
@@ -17,7 +19,8 @@ $block: '.#{variables.$ns}list-section-header';
        padding included — the virtualizer is given the same number */
     box-sizing: border-box;
 
-    padding: var(--_--padding-block) var(--g-spacing-2);
+    padding-block: var(--_--padding-block);
+    padding-inline: var(--_--padding-inline);
     color: var(--g-color-text-primary);
 
     @include mixins.text-body-1;
@@ -32,14 +35,17 @@ $block: '.#{variables.$ns}list-section-header';
 
     &_size_s {
         --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-s});
+        --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-2));
     }
 
     &_size_l {
         --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-l});
+        --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-4));
     }
 
     &_size_xl {
         --_--min-height: var(--g-list-item-view-min-height, #{variables.$height-xl});
+        --_--padding-inline: var(--g-list-item-view-padding-inline, var(--g-spacing-4));
         --_--line-height: 20px;
 
         @include mixins.text-body-2;

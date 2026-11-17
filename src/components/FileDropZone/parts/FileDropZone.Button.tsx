@@ -20,6 +20,8 @@ export const FileDropZoneButton = ({className}: FileDropZoneButtonProps) => {
         <Button
             component="span"
             role={undefined}
+            // Decorative: the zone itself is the focusable control
+            tabIndex={-1}
             className={cnFileDropZone('button', className)}
             qa={FileDropZoneQa.BUTTON}
         >

@@ -4,7 +4,7 @@ import type {Locator, Page} from '@playwright/test';
 import {test} from '~playwright/core';
 
 import {FLOATING_OFFSET} from '../../Popup/constants';
-import {BORDER_WIDTH} from '../constants';
+import {BORDER_WIDTH} from '../../utils/popupMiddlewares';
 
 import {AnchorStand} from './anchorHelpersPlaywright';
 
@@ -106,3 +106,23 @@ test.describe('Select popup anchor', {tag: '@Select'}, () => {
         });
     }
 });
+
+for (const {placement, expected} of [
+    {placement: 'auto' as const, expected: 'right'},
+    {
+        placement: ['bottom-start', 'right-start'] as ['bottom-start', 'right-start'],
+        expected: 'right-start',
+    },
+]) {
+    test(`Select respects popupPlacement=${placement}`, async ({mount, page}) => {
+        await mount(
+            <AnchorStand
+                position={placement === 'auto' ? 'center' : 'bottom'}
+                width={200}
+                popupPlacement={placement}
+            />,
+        );
+        await getTrigger(page).click();
+        await expect(getFloating(page)).toHaveAttribute('data-floating-ui-placement', expected);
+    });
+}

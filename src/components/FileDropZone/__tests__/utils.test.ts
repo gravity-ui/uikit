@@ -1,7 +1,9 @@
 import {
     FILE_REJECTION_REASONS,
+    canValidateDraggedFiles,
     getSeparatedFiles,
     getSeparatedItems,
+    hasDraggedFiles,
     isFileCandidateAccepted,
 } from '../utils';
 
@@ -147,12 +149,26 @@ describe('getSeparatedItems', () => {
 });
 
 describe('getSeparatedItems (dragenter, no file names)', () => {
-    test('string item with extension accept -> rejected with invalid-type', () => {
-        const dt = {items: [{type: 'text/plain', kind: 'string'}]} as unknown as DataTransfer;
-        const {accepted, rejected} = getSeparatedItems(dt, {accept: ['.csv'], multiple: true});
-        expect(accepted).toHaveLength(0);
-        expect(rejected).toHaveLength(1);
-        expect(rejected[0].reasons).toEqual([FILE_REJECTION_REASONS.INVALID_TYPE]);
+    test.each([[['.csv']], [[]], [['text/plain']]])(
+        'string items are ignored with accept %j',
+        (accept) => {
+            const dt = {items: [{type: 'text/plain', kind: 'string'}]} as unknown as DataTransfer;
+            const {accepted, rejected} = getSeparatedItems(dt, {accept, multiple: true});
+            expect(accepted).toHaveLength(0);
+            expect(rejected).toHaveLength(0);
+        },
+    );
+
+    test('string items do not take the single-file slot', () => {
+        const dt = {
+            items: [
+                {type: 'text/plain', kind: 'string'},
+                {type: 'image/png', kind: 'file'},
+            ],
+        } as unknown as DataTransfer;
+        const {accepted, rejected} = getSeparatedItems(dt, {accept: ['image/*']});
+        expect(accepted).toEqual([dt.items[1]]);
+        expect(rejected).toHaveLength(0);
     });
 
     test('file item without type with extension accept -> potentially valid', () => {
@@ -207,18 +223,12 @@ describe('isFileCandidateAccepted', () => {
         );
     });
 
-    test('unknown name and file kind is potentially valid for extension tokens', () => {
-        expect(isFileCandidateAccepted({type: '', kind: 'file'}, ['.csv'])).toBe(true);
-    });
-
-    test('unknown name and string kind is not valid for extension tokens', () => {
-        expect(isFileCandidateAccepted({type: 'text/plain', kind: 'string'}, ['.csv'])).toBe(false);
+    test('unknown name is potentially valid for extension tokens', () => {
+        expect(isFileCandidateAccepted({type: ''}, ['.csv'])).toBe(true);
     });
 
     test('unknown name does not relax MIME tokens', () => {
-        expect(isFileCandidateAccepted({type: 'application/pdf', kind: 'file'}, ['image/*'])).toBe(
-            false,
-        );
+        expect(isFileCandidateAccepted({type: 'application/pdf'}, ['image/*'])).toBe(false);
     });
 
     test('empty type never matches MIME tokens', () => {
@@ -263,5 +273,35 @@ describe('getSeparatedFiles', () => {
 
     test('empty list -> empty arrays', () => {
         expect(getSeparatedFiles([], {accept: ['.csv']})).toEqual({accepted: [], rejected: []});
+    });
+});
+
+describe('hasDraggedFiles / canValidateDraggedFiles', () => {
+    function createDataTransfer(kinds: string[], types: string[] = []): DataTransfer {
+        return {items: kinds.map((kind) => ({kind, type: ''})), types} as unknown as DataTransfer;
+    }
+
+    test('file items -> has files, can validate', () => {
+        const dt = createDataTransfer(['file'], ['Files']);
+        expect(hasDraggedFiles(dt)).toBe(true);
+        expect(canValidateDraggedFiles(dt)).toBe(true);
+    });
+
+    test('only string items -> no files', () => {
+        const dt = createDataTransfer(['string'], ['text/plain']);
+        expect(hasDraggedFiles(dt)).toBe(false);
+        expect(canValidateDraggedFiles(dt)).toBe(false);
+    });
+
+    test('Safari: no items but "Files" in types -> has files, cannot validate yet', () => {
+        const dt = createDataTransfer([], ['Files']);
+        expect(hasDraggedFiles(dt)).toBe(true);
+        expect(canValidateDraggedFiles(dt)).toBe(false);
+    });
+
+    test('missing items and types -> no files', () => {
+        const dt = {} as DataTransfer;
+        expect(hasDraggedFiles(dt)).toBe(false);
+        expect(canValidateDraggedFiles(dt)).toBe(false);
     });
 });

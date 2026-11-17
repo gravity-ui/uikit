@@ -50,6 +50,7 @@ export const Slider = React.forwardRef(function Slider(
         apiRef,
         'aria-label': ariaLabelForHandle,
         'aria-labelledby': ariaLabelledByForHandle,
+        'aria-describedby': ariaDescribedByForHandle,
         name,
         form,
         ...restProps
@@ -104,12 +105,19 @@ export const Slider = React.forwardRef(function Slider(
         originHandle: HandleWithTooltipProps['originHandle'],
         originHandleProps: HandleWithTooltipProps['originHandleProps'],
     ) => {
+        const ariaDescribedBy = Array.isArray(ariaDescribedByForHandle)
+            ? ariaDescribedByForHandle[originHandleProps.index]
+            : ariaDescribedByForHandle;
+        const handleWithAria = React.cloneElement(originHandle, {
+            'aria-describedby': ariaDescribedBy,
+            'aria-invalid': stateModifiers.error || undefined,
+        });
         const handle =
             innerState.tooltipDisplay === 'off' ? (
-                originHandle
+                handleWithAria
             ) : (
                 <HandleWithTooltip
-                    originHandle={originHandle}
+                    originHandle={handleWithAria}
                     originHandleProps={originHandleProps}
                     stateModifiers={stateModifiers}
                     className={b('tooltip')}

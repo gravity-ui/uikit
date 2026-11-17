@@ -1,10 +1,10 @@
 import type {SliderProps} from '../Slider';
+import {calculateMarksArray} from '../Slider/utils';
 
-export interface RangeInputDomain {
+export interface SliderInputDomain {
     min: number;
     max: number;
     step: number | null;
-    marks: number | number[];
     markPoints: number[];
 }
 
@@ -14,36 +14,12 @@ const DEFAULT_STEP = 1;
 const DEFAULT_MARKS = 2;
 const FLOATING_POINT_TOLERANCE = 4;
 
-function getMarkPoints(marks: number, min: number, max: number) {
-    if (marks === 0) {
-        return [];
-    }
-
-    if (min === max) {
-        return [min];
-    }
-
-    if (marks === 1) {
-        return [Math.round(((min + max) / 2) * 100) / 100];
-    }
-
-    if (marks === 2) {
-        return [min, max];
-    }
-
-    const distance = (max - min) / (marks - 1);
-    return Array.from(
-        {length: marks},
-        (_, index) => Math.round((min + distance * index) * 100) / 100,
-    );
-}
-
-export function prepareRangeInputDomain({
+export function prepareSliderInputDomain({
     min: minProp = DEFAULT_MIN,
     max: maxProp = DEFAULT_MAX,
     step: stepProp = DEFAULT_STEP,
     marks: marksProp = DEFAULT_MARKS,
-}: Pick<SliderProps<number>, 'min' | 'max' | 'step' | 'marks'>): RangeInputDomain {
+}: Pick<SliderProps<number>, 'min' | 'max' | 'step' | 'marks'>): SliderInputDomain {
     const finiteMin = Number.isFinite(minProp) ? minProp : DEFAULT_MIN;
     const finiteMax = Number.isFinite(maxProp) ? maxProp : DEFAULT_MAX;
     const min = Math.min(finiteMin, finiteMax);
@@ -53,20 +29,20 @@ export function prepareRangeInputDomain({
         step = Number.isFinite(stepProp) && stepProp > 0 ? stepProp : DEFAULT_STEP;
     }
 
-    let marks: number | number[];
-    if (Array.isArray(marksProp)) {
-        marks = Array.from(
-            new Set(
-                marksProp.filter((point) => Number.isFinite(point) && point >= min && point <= max),
-            ),
-        ).sort((left, right) => left - right);
-    } else {
-        marks = Number.isFinite(marksProp) && marksProp > 0 ? Math.floor(marksProp) : 0;
-    }
+    const rawMarkPoints = Array.isArray(marksProp)
+        ? marksProp
+        : calculateMarksArray({
+              count: Number.isFinite(marksProp) && marksProp > 0 ? Math.floor(marksProp) : 0,
+              min,
+              max,
+          });
+    const markPoints = Array.from(
+        new Set(
+            rawMarkPoints.filter((point) => Number.isFinite(point) && point >= min && point <= max),
+        ),
+    ).sort((left, right) => left - right);
 
-    const markPoints = Array.isArray(marks) ? marks : getMarkPoints(marks, min, max);
-
-    return {min, max, step, marks, markPoints};
+    return {min, max, step, markPoints};
 }
 
 function clamp(value: number, min: number, max: number) {
@@ -78,7 +54,7 @@ function getDecimalPlaces(value: number) {
     return String(value).split('.')[1]?.length ?? 0;
 }
 
-function roundToDomainPrecision(value: number, domain: RangeInputDomain) {
+function roundToDomainPrecision(value: number, domain: SliderInputDomain) {
     const precision = Math.min(
         100,
         Math.max(
@@ -100,7 +76,7 @@ function areClose(left: number, right: number) {
     return Math.abs(left - right) <= Number.EPSILON * scale * FLOATING_POINT_TOLERANCE;
 }
 
-function getCandidates(value: number, domain: RangeInputDomain) {
+function getCandidates(value: number, domain: SliderInputDomain) {
     const candidates = [...domain.markPoints];
 
     if (domain.step !== null) {
@@ -119,7 +95,7 @@ function getCandidates(value: number, domain: RangeInputDomain) {
     return candidates;
 }
 
-export function alignRangeInputValue(value: number, domain: RangeInputDomain) {
+export function alignSliderInputValue(value: number, domain: SliderInputDomain) {
     const safeValue = Number.isFinite(value) ? clamp(value, domain.min, domain.max) : domain.min;
 
     const candidates = getCandidates(safeValue, domain);
@@ -130,10 +106,10 @@ export function alignRangeInputValue(value: number, domain: RangeInputDomain) {
     }, candidates[0]);
 }
 
-export function getAdjacentRangeInputValue(
+export function getAdjacentSliderInputValue(
     value: number,
     direction: 'up' | 'down',
-    domain: RangeInputDomain,
+    domain: SliderInputDomain,
 ) {
     const candidates = new Set([domain.min, domain.max, ...domain.markPoints]);
 
@@ -174,7 +150,7 @@ export function getAdjacentRangeInputValue(
     return domain.min;
 }
 
-export function parseRangeInputDraft(value: string) {
+export function parseSliderInputDraft(value: string) {
     const normalized = value.trim().replace(',', '.');
     if (!/^[+-]?(?:\d+|\d*\.\d+)$/.test(normalized)) {
         return undefined;

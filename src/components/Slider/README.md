@@ -88,7 +88,7 @@ SANDBOX-->
 
 ### Error
 
-This `Slider` state is for incorrect user input. To change the `Slider` appearance, use the `validationState` property with the `"invalid"` value. Optionally, you can provide an error message through the `errorMessage` property. This message text will be rendered under the slider.
+This `Slider` state is for incorrect user input. To change the `Slider` appearance, use the `validationState` property with the `"invalid"` value. Each enabled handle then receives `aria-invalid="true"`. Optionally, you can provide an error message through the `errorMessage` property. This message text will be rendered under the slider.
 
 <!--SANDBOX
 import {Box, Slider} from '@gravity-ui/uikit';
@@ -394,6 +394,7 @@ You are able to change display format of tooltip value by using `tooltipFormat` 
 | Name                             | Description                                                                                                                                                                              |                         Type                         | Default |
 | :------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------: | :-----: |
 | apiRef                           | Ref to Slider's component props of focus and blur                                                                                                                                        |                `RefObject<SliderRef>`                |         |
+| aria-describedby                 | ID of the element that describes the handle, or IDs for range handles                                                                                                                    |             `string` `[string, string]`              |         |
 | autoFocus                        | The control's `autofocus` attribute                                                                                                                                                      |                      `boolean`                       |         |
 | className                        | The control's wrapper class name                                                                                                                                                         |                       `string`                       |         |
 | [defaultValue](#slider-variants) | The control's default value, used when the component is not controlled. It uses the minimal `Slider` value by default.                                                                   |             `number` `[number, number]`              |         |
@@ -416,3 +417,25 @@ You are able to change display format of tooltip value by using `tooltipFormat` 
 | [tooltipFormat](#tooltip)        | Formatter for the tooltip's displayed value. Uses `marksFormat` if not set                                                                                                               |             `(value: number) => string`              |         |
 | [validationState](#error)        | Validation state                                                                                                                                                                         |                     `"invalid"`                      |         |
 | [value](#slider-variants)        | The value of the control                                                                                                                                                                 |             `number` `[number, number]`              |         |
+
+## CSS API
+
+| Name                                          | Description                                                                                                     |
+| :-------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| `--g-slider-rail-size`                        | Height (thickness) of the rail and the filled track                                                             |
+| `--g-slider-rail-color`                       | Rail background color                                                                                           |
+| `--g-slider-rail-disabled-color`              | Rail background color in the disabled state                                                                     |
+| `--g-slider-rail-error-color`                 | Rail background color in the invalid state                                                                      |
+| `--g-slider-track-color`                      | Filled track color                                                                                              |
+| `--g-slider-handle-size`                      | Handle diameter                                                                                                 |
+| `--g-slider-handle-background-color`          | Handle center color                                                                                             |
+| `--g-slider-handle-border-color`              | Handle border color                                                                                             |
+| `--g-slider-handle-border-width`              | Handle border width                                                                                             |
+| `--g-slider-handle-disabled-background-color` | Handle center color in the disabled state                                                                       |
+| `--g-slider-handle-error-background-color`    | Handle center color in the invalid state                                                                        |
+| `--g-slider-handle-focus-color`               | Handle focus ring color                                                                                         |
+| `--g-slider-handle-focus-error-color`         | Handle focus ring color in the invalid state                                                                    |
+| `--g-slider-dot-size`                         | Mark dot diameter                                                                                               |
+| `--g-slider-dot-color`                        | Mark dot color                                                                                                  |
+| `--g-slider-edge-offset`                      | Horizontal inset keeping the handle inside the control at the edge positions (defaults to half the handle size) |
+| `--g-slider-mark-space`                       | Vertical space reserved under the rail for the marks                                                            |

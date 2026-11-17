@@ -43,7 +43,15 @@ function prepareArrayValue({
     ].sort((v1, v2) => v1 - v2) as [number, number];
 }
 
-function calculateMarksArray({count = 0, max, min}: {min: number; max: number; count?: number}) {
+export function calculateMarksArray({
+    count = 0,
+    max,
+    min,
+}: {
+    min: number;
+    max: number;
+    count?: number;
+}) {
     if (!count) {
         return [];
     }

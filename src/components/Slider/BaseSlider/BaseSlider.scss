@@ -343,7 +343,10 @@ $track-border-radius: 4px;
         }
 
         &_error {
-            background-color: #{slider-variables.$slider-error-color};
+            background-color: var(
+                --g-slider-rail-error-color,
+                #{slider-variables.$slider-error-color}
+            );
         }
     }
 

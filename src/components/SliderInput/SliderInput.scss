@@ -1,0 +1,130 @@
+@use '../variables';
+
+$block: '.#{variables.$ns}slider-input';
+$text-input: '.#{variables.$ns}text-input';
+$base-slider: '.#{variables.$ns}base-slider';
+$base-slider-track: '#{$base-slider}__track';
+$slider-mark: '.rc-slider-mark';
+$slider-mark-text: '#{$slider-mark}-text';
+$slider-dot: '.rc-slider-dot';
+
+#{$block} {
+    --_--slider-input-handle-size: 11px;
+    --_--slider-input-track-size: 3px;
+    --_--slider-input-slider-overlap: 1px;
+    --_--slider-input-marks-area: 20px;
+    --_--slider-input-mark-gap: 4px;
+    --_--slider-input-mark-line-height: var(--g-text-body-short-line-height);
+    --_--slider-input-track-start-inset: 4px;
+    --_--slider-input-track-start-offset: calc(
+        var(--_--slider-input-track-start-inset) - var(--_--slider-input-handle-size) / 2
+    );
+    --_--slider-input-mark-space: calc(
+        var(--_--slider-input-marks-area) +
+            var(--_--slider-input-slider-overlap) - var(--_--slider-input-handle-size) / 2
+    );
+    --_--slider-input-mark-offset: calc(
+        var(--_--slider-input-handle-size) /
+            2 - var(--_--slider-input-slider-overlap) - var(--_--slider-input-mark-gap)
+    );
+
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+
+    &_size {
+        &_s {
+            --_--slider-input-handle-size: 9px;
+            --_--slider-input-track-size: 2px;
+            --_--slider-input-slider-overlap: 0.5px;
+            --_--slider-input-track-start-inset: 3.5px;
+        }
+
+        &_m {
+            --_--slider-input-handle-size: 11px;
+        }
+
+        &_l {
+            --_--slider-input-handle-size: 12px;
+            --_--slider-input-track-size: 4px;
+            --_--slider-input-track-start-inset: 6px;
+        }
+
+        &_xl {
+            --_--slider-input-handle-size: 12px;
+            --_--slider-input-track-size: 4px;
+            --_--slider-input-marks-area: 26px;
+            --_--slider-input-mark-gap: 6px;
+            --_--slider-input-mark-line-height: var(--g-text-body-2-line-height);
+            --_--slider-input-track-start-inset: 7px;
+        }
+    }
+
+    // Do not touch the invalid state: TextInput must keep its danger border
+    // and danger focus outline there (WCAG 1.4.11).
+    &:hover:not(#{$block}_disabled):not(#{$block}_invalid) #{$text-input}__content,
+    &:focus-within:not(#{$block}_disabled):not(#{$block}_invalid) #{$text-input}__content {
+        border-color: var(--g-color-line-generic-active);
+    }
+
+    &__input {
+        position: relative;
+        z-index: 0;
+    }
+
+    &__slider {
+        --g-slider-handle-size: var(--_--slider-input-handle-size);
+        --g-slider-edge-offset: calc(var(--_--slider-input-handle-size) / 2);
+        --g-slider-rail-size: var(--_--slider-input-track-size);
+        --g-slider-dot-size: 2px;
+        --g-slider-mark-space: var(--_--slider-input-mark-space);
+        --g-slider-rail-color: transparent;
+        --g-slider-track-color: var(--g-color-base-brand);
+        --g-slider-dot-color: var(--g-color-base-brand);
+        --g-slider-handle-background-color: var(--g-color-base-brand);
+        --g-slider-handle-border-color: var(--g-color-base-brand);
+        --g-slider-handle-border-width: 0px;
+        --g-slider-handle-disabled-background-color: var(--g-color-text-hint);
+        --g-slider-handle-error-background-color: var(--g-color-line-danger);
+
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        margin-block-start: calc(
+            var(--_--slider-input-handle-size) / -2 - var(--_--slider-input-slider-overlap)
+        );
+
+        #{$base-slider-track} {
+            background-color: transparent;
+
+            &::before {
+                width: auto;
+                inset-inline: var(--_--slider-input-track-start-offset) 0;
+            }
+        }
+
+        #{$slider-mark} {
+            inset-block-end: var(--_--slider-input-mark-offset);
+        }
+
+        #{$slider-mark-text} {
+            line-height: var(--_--slider-input-mark-line-height);
+        }
+
+        #{$slider-dot} {
+            inset-block-start: calc(
+                (var(--_--slider-input-handle-size) - var(--g-slider-dot-size)) / 2
+            );
+        }
+    }
+}
+
+#{$block} #{$block}__slider #{$base-slider}__rail {
+    inset-inline: var(--_--slider-input-track-start-offset);
+}
+
+#{$block}_fixed #{$block}__slider {
+    #{$base-slider}__handle {
+        inset-inline-start: 0;
+    }
+}

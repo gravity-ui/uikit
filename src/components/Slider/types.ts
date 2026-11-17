@@ -62,6 +62,7 @@ export type SliderProps<ValueType = number | [number, number]> = {
     apiRef?: React.Ref<BaseSliderRefType>;
     'aria-label'?: string | [string, string];
     'aria-labelledby'?: string | [string, string];
+    'aria-describedby'?: string | [string, string];
     id?: string;
     /** Name attribute of the hidden input element. */
     name?: string;

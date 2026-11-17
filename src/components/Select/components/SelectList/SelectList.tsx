@@ -4,9 +4,11 @@ import * as React from 'react';
 
 import {List} from '../../../List';
 import type {ListFocusOwner, ListItemContext, ListItemHelpers} from '../../../List';
-import {ListVirtualizationContext} from '../../../List/VirtualizationContext';
+import {
+    ListVirtualizationContext,
+    useListVirtualizationItemSize,
+} from '../../../List/VirtualizationContext';
 import type {ListVirtualizationContextValue} from '../../../List/VirtualizationContext';
-import {warnOnce} from '../../../utils/warn';
 import {SelectQa, selectListBlock} from '../../constants';
 import {
     buildSelectListNodes,
@@ -140,24 +142,11 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
          * rows the filter left. The height a row comes out as is also its estimate: the estimate of
          * the outer `ListVirtualizer` is re-wrapped, the type of an option row never leaves the Select
          */
-        const virtualization = React.useMemo<ListVirtualizationContextValue | null>(() => {
-            if (!selectVirtualization) {
-                return null;
-            }
-
-            if (selectVirtualization.estimateItemSize !== undefined) {
-                warnOnce(
-                    '[Select] `estimateItemSize` of `ListVirtualizer` is not used by the Select: the height of a row comes from `getOptionHeight`/`getOptionGroupHeight` and the size of the Select.',
-                );
-            }
-
-            return {
-                ...selectVirtualization,
-                minItemsCount: 0,
-                estimateItemSize: (ctx: ListItemContext<SelectListNode>) =>
-                    getItemHeight(ctx.item, ctx.index),
-            };
-        }, [selectVirtualization, getItemHeight]);
+        const virtualization = useListVirtualizationItemSize(
+            selectVirtualization,
+            getItemHeight,
+            '[Select] `estimateItemSize` of `ListVirtualizer` is not used by the Select: the height of a row comes from `getOptionHeight`/`getOptionGroupHeight` and the size of the Select.',
+        );
         const virtualized = virtualization !== null;
 
         const handleItemAction = React.useCallback(

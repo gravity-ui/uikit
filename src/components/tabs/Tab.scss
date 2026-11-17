@@ -27,6 +27,7 @@ $blockMenuItem: '.#{variables.$ns}tab-menu-item';
     }
 
     &__title {
+        user-select: text;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

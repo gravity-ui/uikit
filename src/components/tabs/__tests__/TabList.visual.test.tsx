@@ -5,7 +5,9 @@ import {expect, test} from '~playwright/core';
 import type {TabListProps} from '../types';
 
 import {sizeCases, valueCases} from './cases';
+import {tab1, tab2} from './constants';
 import {
+    ControlledTabs,
     TestTabList,
     TestTabListCollapse,
     TestTabListCollapseSelectedAsTrigger,
@@ -14,7 +16,49 @@ import {
     TestTabListWithCustomTabs,
 } from './helpers';
 
+const textSelectionCases = [
+    {name: 'one tab', tabs: [tab1]},
+    {name: 'two tabs', tabs: [tab1, tab2]},
+];
+
 test.describe('TabList', {tag: '@TabList'}, () => {
+    textSelectionCases.forEach(({name, tabs}) => {
+        test(`tab titles can be selected with the mouse: ${name}`, async ({mount, page}) => {
+            await mount(<ControlledTabs value={tab1.value} tabs={tabs} />);
+
+            for (const tab of tabs) {
+                const title = page.getByRole('tab', {name: tab.title}).getByText(tab.title);
+                const bounds = await title.boundingBox();
+
+                if (!bounds) {
+                    throw new Error('Tab title is not visible');
+                }
+
+                const y = bounds.y + bounds.height / 2;
+
+                await page.mouse.move(bounds.x, y);
+                await page.mouse.down();
+                await page.mouse.move(bounds.x + bounds.width, y, {steps: 10});
+                await page.mouse.up();
+
+                await expect
+                    .poll(() => page.evaluate(() => window.getSelection()?.toString()))
+                    .toBe(tab.title);
+            }
+
+            if (tabs.length === 2) {
+                const firstTab = page.getByRole('tab', {name: tab1.title});
+                const secondTab = page.getByRole('tab', {name: tab2.title});
+
+                await firstTab.click();
+                await secondTab.click();
+
+                await expect(secondTab).toHaveAttribute('aria-selected', 'true');
+                await expect(firstTab).toHaveAttribute('aria-selected', 'false');
+            }
+        });
+    });
+
     test('smoke', {tag: ['@smoke']}, async ({mount, expectScreenshot}) => {
         const smokeScenarios = createSmokeScenarios<TabListProps>(
             {

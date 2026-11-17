@@ -7,18 +7,23 @@ import type {TabListProps} from '../types';
 
 import {panel1qa, panel2qa, tab1, tab2} from './constants';
 
-export const ControlledTabs = ({value}: {value?: string}) => {
+export const ControlledTabs = ({
+    value,
+    tabs = [tab1, tab2],
+}: {
+    value?: string;
+    tabs?: (typeof tab1)[];
+}) => {
     const [stateValue, setStateValue] = React.useState(value);
 
     return (
         <TabProvider value={stateValue} onUpdate={setStateValue}>
             <TabList>
-                <Tab value={tab1.value} qa={tab1.qa}>
-                    {tab1.title}
-                </Tab>
-                <Tab value={tab2.value} qa={tab2.qa}>
-                    {tab2.title}
-                </Tab>
+                {tabs.map((tab) => (
+                    <Tab key={tab.value} value={tab.value} qa={tab.qa}>
+                        {tab.title}
+                    </Tab>
+                ))}
             </TabList>
             <TabPanel value={tab1.value} qa={panel1qa}>
                 panel1

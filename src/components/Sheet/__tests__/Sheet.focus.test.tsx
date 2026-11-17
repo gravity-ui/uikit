@@ -146,6 +146,17 @@ describe('Sheet focus management', () => {
         });
     });
 
+    test('stops managing the focus when a kept mounted sheet closes', async () => {
+        const user = userEvent.setup();
+        render(<TestSheet title="Example" keepMounted />);
+
+        await openSheet(user);
+        await user.keyboard('{Escape}');
+
+        await waitFor(() => expect(screen.getByRole('button', {name: 'Show modal'})).toHaveFocus());
+        expect(screen.queryByRole('button', {name: 'Close'})).not.toBeInTheDocument();
+    });
+
     describe('accessible dismissal', () => {
         test('closes an uncontrolled sheet through the hidden dismiss control', async () => {
             const onTransitionOutComplete = jest.fn();

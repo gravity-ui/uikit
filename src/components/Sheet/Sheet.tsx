@@ -213,6 +213,8 @@ function SheetComponent(rawProps: SheetProps) {
                     >
                         <FloatingFocusManager
                             context={context}
+                            // The sheet is hidden while unmounted: kept mounted after closing, or about to open
+                            disabled={status === 'unmounted'}
                             // Focusing a text field on open would show the on-screen keyboard
                             initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}

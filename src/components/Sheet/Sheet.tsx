@@ -57,9 +57,7 @@ export interface SheetProps
     disableEscapeKeyDown?: boolean;
     /** Disables closing the sheet by clicking the veil */
     disableOutsideClick?: boolean;
-    /** Disables modal focus management: the sheet neither traps focus nor hides the page behind it */
-    disableModal?: boolean;
-    /** Index of the tabbable element or ref to focus on open. By default a modal sheet focuses itself and a sheet with `disableModal` leaves focus where it is */
+    /** Index of the tabbable element or ref to focus on open. The sheet itself by default */
     initialFocus?: FloatingFocusManagerProps['initialFocus'];
     /** Element to return focus to, or `false` to disable it */
     returnFocus?: FloatingFocusManagerProps['returnFocus'];
@@ -101,7 +99,6 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete,
         disableEscapeKeyDown,
         disableOutsideClick,
-        disableModal = false,
         initialFocus,
         returnFocus,
         disableVisuallyHiddenDismiss,
@@ -203,7 +200,7 @@ function SheetComponent(rawProps: SheetProps) {
     const getOverlay = React.useCallback(() => overlayRef.current, []);
 
     useLayoutEffect(() => {
-        if (!isMounted || disableModal) {
+        if (!isMounted) {
             return undefined;
         }
 
@@ -212,7 +209,7 @@ function SheetComponent(rawProps: SheetProps) {
         return () => {
             openModalSheets.splice(openModalSheets.indexOf(getOverlay), 1);
         };
-    }, [disableModal, getOverlay, isMounted]);
+    }, [getOverlay, isMounted]);
 
     // A modal sheet hides the rest of the page from assistive technology. Sheets opened
     // in the same commit would hide each other, so a sheet keeps the ones above it.
@@ -248,12 +245,9 @@ function SheetComponent(rawProps: SheetProps) {
                     >
                         <FloatingFocusManager
                             context={context}
-                            modal={!disableModal}
-                            // Focusing a text field on open would show the on-screen keyboard.
-                            // A non-modal sheet leaves focus where it is, as a non-modal Popup does
-                            initialFocus={initialFocus ?? (disableModal ? -1 : refs.floating)}
+                            // Focusing a text field on open would show the on-screen keyboard
+                            initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}
-                            closeOnFocusOut={false}
                             getInsideElements={getSheetsAbove}
                             restoreFocus
                             visuallyHiddenDismiss={

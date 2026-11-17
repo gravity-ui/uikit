@@ -79,30 +79,6 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
         });
     }
 
-    test('leaves focus outside with disableModal and still closes on Escape', async ({
-        mount,
-        page,
-    }) => {
-        const calls: Array<[string, string | undefined]> = [];
-        await mount(
-            <StackedSheets
-                disableModal
-                onOpenChange={(sheet, reason) => calls.push([sheet, reason])}
-            />,
-        );
-        const trigger = page.getByRole('button', {name: 'Open parent'});
-        await trigger.click();
-        await expect(page.getByRole('dialog', {name: 'Parent'})).toBeVisible();
-        await expect(trigger).toBeFocused();
-        await page.keyboard.press('Tab');
-        await expect(page.getByRole('button', {name: 'Background action'})).toBeFocused();
-
-        await page.keyboard.press('Escape');
-
-        await expect(page.getByRole('dialog', {name: 'Parent'})).toHaveCount(0);
-        await expect.poll(() => calls).toEqual([['parent', 'escape-key']]);
-    });
-
     test('does not draw a focus ring around a sheet that takes focus itself', async ({
         mount,
         page,

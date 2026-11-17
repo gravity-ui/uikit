@@ -55,12 +55,10 @@ export const TestSheet = ({
 export interface StackedSheetsProps {
     /** Renders the child sheet next to the parent one instead of inside it */
     sibling?: boolean;
-    /** `disableModal` of the parent sheet */
-    disableModal?: boolean;
     onOpenChange?: (sheet: 'parent' | 'child', reason?: SheetOpenChangeReason) => void;
 }
 
-export function StackedSheets({sibling = false, disableModal, onOpenChange}: StackedSheetsProps) {
+export function StackedSheets({sibling = false, onOpenChange}: StackedSheetsProps) {
     const [parentOpen, setParentOpen] = React.useState(false);
     const [childOpen, setChildOpen] = React.useState(false);
 
@@ -84,7 +82,6 @@ export function StackedSheets({sibling = false, disableModal, onOpenChange}: Sta
             <Sheet
                 open={parentOpen}
                 title="Parent"
-                disableModal={disableModal}
                 onOpenChange={(open, _event, reason) => {
                     onOpenChange?.('parent', reason);
                     setParentOpen(open);

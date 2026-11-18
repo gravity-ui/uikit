@@ -44,6 +44,7 @@ $block: '.#{variables.$ns}definition-list';
 
     &__definition {
         flex: 0 1 auto;
+        min-width: 0;
         margin: 0;
     }
 

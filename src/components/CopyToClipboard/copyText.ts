@@ -38,9 +38,10 @@ export async function copyText(text: string) {
 
 async function copyTextFallback(text: string) {
     const activeElement = document.activeElement;
+    let textarea: HTMLTextAreaElement | undefined;
 
     try {
-        const textarea = document.createElement('textarea');
+        textarea = document.createElement('textarea');
         // Make invisible for screen readers
         textarea.setAttribute('aria-hidden', 'true');
         // Reset possible styles for textarea
@@ -59,9 +60,9 @@ async function copyTextFallback(text: string) {
         if (!success) {
             throw new Error('Failed to copy text with document.execCommand("copy")');
         }
-
-        document.body.removeChild(textarea);
     } finally {
+        textarea?.remove();
+
         // Restore focus to the previously focused element
         if (
             activeElement &&

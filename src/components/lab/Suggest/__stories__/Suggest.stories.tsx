@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
-import {useForkRef, useLayoutEffect} from '../../../../hooks';
 import {ListVirtualizer} from '../../../../virtualizer';
 import {Text} from '../../../Text';
 import {TextArea} from '../../../controls';
@@ -337,6 +336,46 @@ const TEXT_OPTIONS = [
         content:
             'The issue has been resolved. Please try again and let us know whether everything works as expected.',
     },
+    {
+        value: 'investigating',
+        content:
+            'Thank you for your patience. Our team is investigating the issue.\n\nWe will share an update as soon as we have more information.',
+    },
+    {
+        value: 'feedback',
+        content:
+            'Thank you for your feedback. We have shared your suggestions with the product team and will consider them when planning future improvements.',
+    },
+    {
+        value: 'request-received',
+        content:
+            'Thank you for contacting us. Your request has been received and assigned to our support team.\n\nYou can reply to this message to add more details.',
+    },
+    {
+        value: 'request-details',
+        content:
+            'Could you provide more details about your request? Please include the steps you followed, the result you expected, and what happened instead.',
+    },
+    {
+        value: 'request-screenshot',
+        content:
+            'Please attach a screenshot of the error message and tell us which browser you are using. Make sure to hide any personal information before sharing it.',
+    },
+    {
+        value: 'account-access',
+        content:
+            'If you cannot access your account, please reset your password using the sign-in page.\n\nIf the reset email does not arrive, check your spam folder or contact our support team.',
+    },
+    {
+        value: 'account-settings',
+        content:
+            'You can update your account details in Settings. Open your profile, make the necessary changes, and select Save to apply them.',
+    },
+    {
+        value: 'workaround',
+        content:
+            'As a temporary workaround, please refresh the page and try again in a private browser window. Your saved work will remain available in your account.',
+    },
 ];
 
 export const LongOptions: Story = {
@@ -385,49 +424,34 @@ function LongOptionsExample({
     );
 }
 
-function CustomTextArea({
-    inputProps,
-    textareaRef,
-    onOpen,
-}: {
-    inputProps: SuggestRenderInputProps;
-    textareaRef: React.Ref<HTMLTextAreaElement>;
-    onOpen: () => void;
-}) {
+function CustomTextArea({inputProps}: {inputProps: SuggestRenderInputProps}) {
     const {
         ref,
         controlRef,
         anchorRef: _anchorRef,
         onKeyDown,
-        onClick: _onClick,
+        onClick,
         controlProps,
         open,
         ...props
     } = inputProps;
-    const handleControlRef = useForkRef(controlRef, textareaRef);
 
     return (
         <TextArea
             {...props}
             ref={ref}
-            controlRef={handleControlRef}
+            controlRef={controlRef}
             minRows={4}
             maxRows={12}
             controlProps={{
                 ...controlProps,
+                onClick,
                 role: undefined,
                 'aria-expanded': undefined,
             }}
             onKeyDown={(event) => {
                 if (event.nativeEvent.isComposing || event.keyCode === 229) return;
-                if (event.ctrlKey && event.key === 'Enter') {
-                    event.preventDefault();
-                    onOpen();
-                } else if (
-                    open &&
-                    event.altKey &&
-                    ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)
-                ) {
+                if (open && event.altKey && ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
                     onKeyDown(event);
                     // Keep Alt+Enter from inserting a newline when no option is active.
                     if (event.key === 'Enter') event.preventDefault();
@@ -440,58 +464,36 @@ function CustomTextArea({
 export const CustomInput: Story = {
     render: () => {
         const [value, setValue] = React.useState('');
-        const [open, setOpen] = React.useState(false);
-        const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
-        const cursorRef = React.useRef<number | null>(null);
-
-        // Restore the caret even when selecting an option doesn't change the value.
-        useLayoutEffect(() => {
-            if (cursorRef.current !== null) {
-                textareaRef.current?.setSelectionRange(cursorRef.current, cursorRef.current);
-                cursorRef.current = null;
-            }
-        }, [open, value]);
+        const items = React.useMemo(() => {
+            const query = value.trim().toLowerCase();
+            return TEXT_OPTIONS.filter((option) => option.content.toLowerCase().includes(query));
+        }, [value]);
 
         return (
             <Flex direction="column" gap="spacing-2" style={{width: 480, maxWidth: '100%'}}>
                 <Text>
-                    Ctrl+Enter (Mac: Control+Return): open suggestions. While open, Alt+↑/↓ (Mac:
-                    Option+↑/↓): navigate. Alt+Enter (Mac: Option+Return): insert at the cursor.
+                    Click to show replies or type to filter them by their text. Alt+↑/↓ (Mac:
+                    Option+↑/↓): navigate. Alt+Enter (Mac: Option+Return): replace the entire text.
                     Plain arrows and Enter/Return edit the text. Escape closes suggestions.
                 </Text>
                 <Suggest
                     aria-label="Reply"
                     value={value}
                     onUpdate={setValue}
-                    open={open}
-                    onOpenChange={(nextOpen, _event, reason) => {
-                        if (reason !== 'input-change' && reason !== 'click') {
-                            setOpen(nextOpen);
-                        }
-                    }}
-                    options={TEXT_OPTIONS}
+                    options={items}
                     popupWidth="fit"
+                    renderEmptyOptions={() => (
+                        <Flex padding="spacing-2">
+                            <Text color="secondary">No matching replies</Text>
+                        </Flex>
+                    )}
                     renderOption={(option) => (
                         <Text style={{whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>
                             {option.content}
                         </Text>
                     )}
-                    onOptionAction={(_id, option) => {
-                        const control = textareaRef.current;
-                        if (!control) return;
-                        const start = control.selectionStart;
-                        const end = control.selectionEnd;
-                        const text = String(option.content);
-                        cursorRef.current = start + text.length;
-                        setValue(value.slice(0, start) + text + value.slice(end));
-                    }}
-                    renderInput={(inputProps) => (
-                        <CustomTextArea
-                            inputProps={inputProps}
-                            textareaRef={textareaRef}
-                            onOpen={() => setOpen(true)}
-                        />
-                    )}
+                    onOptionAction={(_id, option) => setValue(String(option.content))}
+                    renderInput={(inputProps) => <CustomTextArea inputProps={inputProps} />}
                 />
             </Flex>
         );

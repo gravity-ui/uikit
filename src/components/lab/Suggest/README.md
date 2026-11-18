@@ -256,6 +256,10 @@ Forward `controlRef` to the native input/textarea and `ref` to the control root.
 
 Call the supplied `onKeyDown` or `onClick` only when Suggest should handle that interaction. To keep the browser's caret movement or line breaks, do not call `onKeyDown` for those keys; no `preventDefault()` is needed. Use controlled `open` and `onOpenChange` to implement custom opening shortcuts or ignore automatic `input-change` requests. Popup dismissal still requests closing through `onOpenChange`. The renderer receives the requested `open` state; the popup also needs content to appear. When implementing shortcuts, ignore events while `event.nativeEvent.isComposing` or `event.keyCode === 229`, so IME confirmation does not open the popup or select an option.
 
-For a multiline TextArea, preserve textbox semantics: omit `role` (override the supplied value with `undefined`) and `aria-expanded` from its `controlProps`, while preserving the list relationship and active descendant. The **CustomInput** Storybook example demonstrates this wiring, custom shortcuts and insertion at the caret. The consumer handles selection replacement and cursor restoration in `onOptionAction`. The example restores the cursor when the value or open state changes, so replacing identical text relies on closing the popup after selection. Screen-reader behavior when switching from list navigation back to text editing still needs manual verification; an active option remains referenced while the popup is open.
+For a multiline TextArea, preserve textbox semantics: omit `role` (override the supplied value with `undefined`) and `aria-expanded` from its `controlProps`, while preserving the list relationship and active descendant.
 
-Long option content can wrap through `renderOption`. The example uses a non-virtualized list; with virtualization, supply `getOptionHeight` matching the rendered row heights.
+Suggest displays the supplied `options` without filtering them. Use `onUpdate` to update the query and supply locally filtered options or async results. Use `onOptionAction` to update the field value: replace the entire text or insert the selected option at the caret. Insertion, selection replacement, and caret restoration are handled by the consumer.
+
+Screen-reader behavior when switching from list navigation back to text editing still needs manual verification; an active option remains referenced while the popup is open.
+
+Long option content can wrap through `renderOption`. With virtualization, supply `getOptionHeight` matching the rendered row heights.

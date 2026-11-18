@@ -36,6 +36,8 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     defaultOpen?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
+    /** `Sheet` will not be removed from the DOM upon hiding */
+    keepMounted?: boolean;
     /** Called when the opening transition starts */
     onTransitionIn?: () => void;
     /** Called when the opening transition completes */
@@ -74,6 +76,7 @@ function SheetComponent(rawProps: SheetProps) {
         open,
         defaultOpen,
         onOpenChange,
+        keepMounted = false,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
@@ -141,13 +144,13 @@ function SheetComponent(rawProps: SheetProps) {
 
     return (
         <FloatingNode id={floatingNodeId}>
-            {isMounted ? (
+            {isMounted || keepMounted ? (
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
                         data-qa={qa}
                         data-floating-ui-status={status}
                         className={sheetBlock({'without-top-bar': hideTopBar}, className)}
-                        lockScroll
+                        lockScroll={isMounted}
                         style={
                             {
                                 overflow: undefined,

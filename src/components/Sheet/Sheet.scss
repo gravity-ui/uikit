@@ -12,6 +12,10 @@ $block: '.#{variables.$ns}sheet';
 
     --_--top-height: 20px;
 
+    &[data-floating-ui-status='unmounted'] {
+        display: none;
+    }
+
     &_without-top-bar {
         --_--top-height: 0;
     }

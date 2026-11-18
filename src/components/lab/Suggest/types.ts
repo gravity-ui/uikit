@@ -5,6 +5,7 @@ import type {OpenChangeReason} from '@floating-ui/react';
 import type {ListItemActionEvent} from '../../List';
 import type {PopupPlacement} from '../../Popup';
 import type {TextInputProps} from '../../controls';
+import type {BaseInputControlProps} from '../../controls/types';
 import type {AriaLabelingProps, ControlGroupOption, QAProps} from '../../types';
 
 export type SuggestOpenChangeReason = OpenChangeReason | 'input-change' | 'option-action';
@@ -12,8 +13,40 @@ export type SuggestOpenChangeReason = OpenChangeReason | 'input-change' | 'optio
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SuggestOptionProps<T = any> = QAProps & ControlGroupOption & {data?: T};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps {
+export type SuggestRenderInputProps = Omit<
+    BaseInputControlProps<HTMLInputElement | HTMLTextAreaElement>,
+    'controlRef' | 'defaultValue' | 'onChange' | 'onKeyUp'
+> & {
+    note?: React.ReactNode;
+    ref: React.Ref<HTMLSpanElement>;
+    controlRef: React.RefCallback<HTMLInputElement | HTMLTextAreaElement>;
+    /** Optional popup anchor; defaults to the native control's parent element. */
+    anchorRef: React.RefCallback<HTMLElement>;
+    id: string;
+    value: string;
+    /** The requested open state; the popup also needs content to be rendered. */
+    open: boolean;
+    onUpdate: (value: string) => void;
+    onFocus: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    onBlur: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    onKeyDown: React.KeyboardEventHandler<HTMLElement>;
+    onClick: React.MouseEventHandler<HTMLElement>;
+    controlProps: React.AriaAttributes & {role?: React.AriaRole};
+};
+
+type DefaultInputProp =
+    | 'controlProps'
+    | 'controlRef'
+    | 'onChange'
+    | 'onKeyDown'
+    | 'onKeyUp'
+    | 'type'
+    | 'label'
+    | 'startContent'
+    | 'endContent';
+
+interface SuggestBaseProps<T>
+    extends Omit<TextInputProps, DefaultInputProp | 'onFocus' | 'onBlur'>, AriaLabelingProps {
     /** Initial open state (uncontrolled mode) */
     defaultOpen?: boolean;
     /** Render the popup without a portal */
@@ -28,6 +61,8 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
      * do not emit additional notifications.
      */
     onActiveOptionUpdate?: (value: string | null) => void;
+    onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+    onFocus?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     /** Called when the loading row becomes visible in a non-empty list (for pagination) */
     onLoadMore?: () => void;
     /** Callback when popup open state changes */
@@ -64,3 +99,17 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
         renderList: () => React.ReactElement | null;
     }) => React.ReactElement | null;
 }
+
+type SuggestDefaultInputProps = Pick<TextInputProps, DefaultInputProp> & {
+    renderInput?: undefined;
+};
+
+type SuggestCustomInputProps = {
+    [K in DefaultInputProp]?: never;
+} & {
+    renderInput: (props: SuggestRenderInputProps) => React.ReactElement;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type SuggestProps<T = any> = SuggestBaseProps<T> &
+    (SuggestDefaultInputProps | SuggestCustomInputProps);

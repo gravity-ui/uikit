@@ -3,7 +3,8 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {setupIntersectionObserverMock} from '../../../../../test-utils/setupIntersectionObserverMock';
-import {act, render, screen, waitFor, within} from '../../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor, within} from '../../../../../test-utils/utils';
+import {TextArea} from '../../../controls';
 import {LangProvider} from '../../../theme/LangProvider';
 import {Suggest} from '../Suggest';
 import type {SuggestProps} from '../types';
@@ -58,6 +59,88 @@ describe('Suggest', () => {
         expect(onClick).toHaveBeenCalledTimes(1);
         expect(screen.getByRole('listbox')).toBeVisible();
     });
+
+    describe('custom TextArea', () => {
+        const renderInput: SuggestProps['renderInput'] = ({
+            anchorRef: _anchorRef,
+            onClick: _onClick,
+            open: _open,
+            controlProps,
+            ...props
+        }) => (
+            <TextArea
+                {...props}
+                controlProps={{...controlProps, role: undefined, 'aria-expanded': undefined}}
+            />
+        );
+
+        test('forwards shared control props', () => {
+            const props: SuggestProps = {
+                renderInput,
+                'aria-label': 'Reply',
+                placeholder: 'Write a reply',
+                name: 'reply',
+                defaultValue: 'Draft',
+                qa: 'custom-input',
+            };
+            const {rerender} = render(<Suggest {...props} disabled />);
+            const input = screen.getByRole('textbox', {name: 'Reply'});
+            expect(input.tagName).toBe('TEXTAREA');
+            expect(input).toBeDisabled();
+            expect(input).toHaveValue('Draft');
+            expect(input).toHaveAttribute('placeholder', 'Write a reply');
+            expect(input).toHaveAttribute('name', 'reply');
+            expect(screen.getByTestId('custom-input')).toContainElement(input);
+
+            rerender(<Suggest {...props} disabled={false} />);
+            expect(input).toBeEnabled();
+        });
+
+        test('allows editing after readOnly is removed', async () => {
+            const user = userEvent.setup();
+            const {rerender} = render(
+                <Suggest renderInput={renderInput} defaultValue="Draft" readOnly />,
+            );
+            const input = screen.getByRole('textbox');
+            expect(input).toHaveAttribute('readonly');
+            await user.type(input, ' text');
+            expect(input).toHaveValue('Draft');
+
+            rerender(<Suggest renderInput={renderInput} defaultValue="Draft" readOnly={false} />);
+            await user.type(input, ' text');
+            expect(input).toHaveValue('Draft text');
+        });
+
+        test('forwards focus and blur callbacks', async () => {
+            const user = userEvent.setup();
+            const onFocus = jest.fn();
+            const onBlur = jest.fn();
+            render(<Suggest renderInput={renderInput} onFocus={onFocus} onBlur={onBlur} />);
+
+            await user.click(screen.getByRole('textbox'));
+            expect(onFocus).toHaveBeenCalledTimes(1);
+            await user.tab();
+            await waitFor(() => expect(onBlur).toHaveBeenCalledTimes(1));
+        });
+    });
+
+    test.each([{isComposing: true}, {keyCode: 229}])(
+        'does not select an option during IME composition: %j',
+        async (composition) => {
+            const user = userEvent.setup();
+            const onOptionAction = jest.fn();
+            renderSuggest({open: true, onOptionAction});
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+            await user.keyboard('[ArrowDown]');
+            expect(input).toHaveAttribute('aria-activedescendant');
+
+            fireEvent.keyDown(input, {key: 'Enter', ...composition});
+            expect(onOptionAction).not.toHaveBeenCalled();
+            await user.keyboard('[Enter]');
+            expect(onOptionAction).toHaveBeenCalledTimes(1);
+        },
+    );
 
     test('calls onUpdate when typing', async () => {
         const onUpdate = jest.fn();
@@ -689,4 +772,25 @@ describe('Suggest: status announcements', () => {
         expect(status).toHaveTextContent('No results found');
         expect(screen.getByRole('status')).toBe(status);
     });
+});
+
+// Checked by npm run typecheck: custom controls own their native handlers, refs and attributes.
+test('rejects default-input props when renderInput is provided (type checks)', () => {
+    const renderInput: NonNullable<SuggestProps['renderInput']> = () => <textarea />;
+    <Suggest renderInput={renderInput} disabled placeholder="Reply" onFocus={() => {}} />;
+    <Suggest onKeyDown={() => {}} label="Reply" controlProps={{maxLength: 100}} />;
+    // @ts-expect-error Native keyboard handlers belong on the custom control.
+    <Suggest renderInput={renderInput} onKeyDown={() => {}} />;
+    // @ts-expect-error Native change handlers belong on the custom control.
+    <Suggest renderInput={renderInput} onChange={() => {}} />;
+    // @ts-expect-error Native keyboard handlers belong on the custom control.
+    <Suggest renderInput={renderInput} onKeyUp={() => {}} />;
+    // @ts-expect-error An input ref cannot represent a custom textarea.
+    <Suggest renderInput={renderInput} controlRef={React.createRef<HTMLInputElement>()} />;
+    // @ts-expect-error TextInput-only content is not rendered by a custom control.
+    <Suggest renderInput={renderInput} label="Reply" />;
+    // @ts-expect-error Native attributes belong on the custom control.
+    <Suggest renderInput={renderInput} controlProps={{maxLength: 100}} />;
+    // @ts-expect-error Spreading default-input props must not bypass the contract.
+    <Suggest {...{onKeyDown: () => {}}} renderInput={renderInput} />;
 });

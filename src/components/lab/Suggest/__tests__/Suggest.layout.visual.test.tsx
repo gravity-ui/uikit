@@ -5,6 +5,7 @@ import {BORDER_WIDTH} from '../../../utils/popupMiddlewares';
 
 import {
     SuggestInitiallyOpen,
+    SuggestStories,
     SuggestWithFocusablePopup,
     SuggestWithPlacement,
     SuggestWithPopupLayout,
@@ -156,3 +157,90 @@ for (const {placement, expected} of [
         await expect(popup).toHaveAttribute('data-floating-ui-placement', expected);
     });
 }
+
+test('Suggest custom TextArea preserves plain arrows and Enter while an option is active', async ({
+    mount,
+    page,
+}) => {
+    await mount(<SuggestStories.CustomInput />);
+    const input = page.getByRole('textbox', {name: 'Reply'});
+    await input.fill('First line\nSecond line');
+    await input.press('Home');
+    await input.press('ArrowUp');
+    await expect
+        .poll(() => input.evaluate((element: HTMLTextAreaElement) => element.selectionStart))
+        .toBe(0);
+    await expect(page.getByRole('listbox')).toHaveCount(0);
+
+    await input.press('Control+Enter');
+    await input.press('Alt+ArrowDown');
+    await expect(input).toHaveAttribute(
+        'aria-activedescendant',
+        await page
+            .getByRole('option')
+            .first()
+            .evaluate((element) => element.id),
+    );
+    await input.press('Enter');
+    await expect(input).toHaveValue('\nFirst line\nSecond line');
+    await input.press('ArrowDown');
+    await input.press('Home');
+    await expect
+        .poll(() => input.evaluate((element: HTMLTextAreaElement) => element.selectionStart))
+        .toBe('\nFirst line\n'.length);
+    await expect(page.getByRole('listbox')).toBeVisible();
+});
+
+test('Suggest custom TextArea inserts an option at the caret', async ({mount, page}) => {
+    await mount(<SuggestStories.CustomInput />);
+    const input = page.getByRole('textbox', {name: 'Reply'});
+    const prefix = 'First line\n';
+    const suffix = 'Second line';
+    await input.fill(prefix + suffix);
+    await input.press('Home');
+    await input.press('Control+Enter');
+    const text = await page.getByRole('option').first().innerText();
+    await input.press('Alt+ArrowDown');
+    await input.press('Alt+Enter');
+
+    await expect(input).toHaveValue(prefix + text + suffix);
+    await expect(input).toBeFocused();
+    await expect(page.getByRole('listbox')).toBeHidden();
+    await expect
+        .poll(() =>
+            input.evaluate((element: HTMLTextAreaElement) => [
+                element.selectionStart,
+                element.selectionEnd,
+            ]),
+        )
+        .toEqual([prefix.length + text.length, prefix.length + text.length]);
+});
+
+test('Suggest custom TextArea collapses selection when inserting the same text', async ({
+    mount,
+    page,
+}) => {
+    await mount(<SuggestStories.CustomInput />);
+    const input = page.getByRole('textbox', {name: 'Reply'});
+    await input.press('Control+Enter');
+    const text = await page.getByRole('option').first().innerText();
+    await input.press('Escape');
+    await expect(page.getByRole('listbox')).toBeHidden();
+    await input.fill(text);
+    await input.selectText();
+    await input.press('Control+Enter');
+    await input.press('Alt+ArrowDown');
+    await input.press('Alt+Enter');
+
+    await expect(input).toHaveValue(text);
+    await expect(input).toBeFocused();
+    await expect(page.getByRole('listbox')).toBeHidden();
+    await expect
+        .poll(() =>
+            input.evaluate((element: HTMLTextAreaElement) => [
+                element.selectionStart,
+                element.selectionEnd,
+            ]),
+        )
+        .toEqual([text.length, text.length]);
+});

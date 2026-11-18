@@ -2,11 +2,13 @@ import * as React from 'react';
 
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
+import {useForkRef, useLayoutEffect} from '../../../../hooks';
 import {ListVirtualizer} from '../../../../virtualizer';
 import {Text} from '../../../Text';
+import {TextArea} from '../../../controls';
 import {Flex} from '../../../layout';
 import {Suggest} from '../Suggest';
-import type {SuggestOptionProps, SuggestProps} from '../types';
+import type {SuggestOptionProps, SuggestProps, SuggestRenderInputProps} from '../types';
 
 const meta: Meta<typeof Suggest> = {
     title: 'Lab/Suggest',
@@ -320,6 +322,178 @@ export const Virtualized: Story = {
                     onFocus={() => setOpen(true)}
                 />
             </ListVirtualizer>
+        );
+    },
+};
+
+const TEXT_OPTIONS = [
+    {
+        value: 'follow-up',
+        content:
+            'Thank you for the detailed description. We will review the information and get back to you with the next steps.\n\nPlease let us know if anything changes in the meantime.',
+    },
+    {
+        value: 'resolved',
+        content:
+            'The issue has been resolved. Please try again and let us know whether everything works as expected.',
+    },
+];
+
+export const LongOptions: Story = {
+    render: () => (
+        <Flex gap="spacing-4" wrap="wrap">
+            <LongOptionsExample title="Default: wrap at spaces" />
+            <LongOptionsExample
+                title="Custom: single line with ellipsis"
+                renderOption={(option) => <Text ellipsis>{option.content}</Text>}
+            />
+            <LongOptionsExample
+                title="Custom: preserve paragraphs and wrap long words"
+                renderOption={(option) => (
+                    <Text style={{whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>
+                        {option.content}
+                    </Text>
+                )}
+            />
+        </Flex>
+    ),
+};
+
+function LongOptionsExample({
+    title,
+    renderOption,
+}: {
+    title: string;
+    renderOption?: SuggestProps['renderOption'];
+}) {
+    const [value, setValue] = React.useState('');
+
+    return (
+        <Flex direction="column" gap="spacing-2" style={{width: 320, maxWidth: '100%'}}>
+            <Text>{title}</Text>
+            <Suggest
+                aria-label={title}
+                placeholder="Click to compare long options"
+                value={value}
+                onUpdate={setValue}
+                options={TEXT_OPTIONS}
+                popupWidth="fit"
+                renderOption={renderOption}
+                onOptionAction={(_id, option) => setValue(String(option.content))}
+            />
+        </Flex>
+    );
+}
+
+function CustomTextArea({
+    inputProps,
+    textareaRef,
+    onOpen,
+}: {
+    inputProps: SuggestRenderInputProps;
+    textareaRef: React.Ref<HTMLTextAreaElement>;
+    onOpen: () => void;
+}) {
+    const {
+        ref,
+        controlRef,
+        anchorRef: _anchorRef,
+        onKeyDown,
+        onClick: _onClick,
+        controlProps,
+        open,
+        ...props
+    } = inputProps;
+    const handleControlRef = useForkRef(controlRef, textareaRef);
+
+    return (
+        <TextArea
+            {...props}
+            ref={ref}
+            controlRef={handleControlRef}
+            minRows={4}
+            maxRows={12}
+            controlProps={{
+                ...controlProps,
+                role: undefined,
+                'aria-expanded': undefined,
+            }}
+            onKeyDown={(event) => {
+                if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+                if (event.ctrlKey && event.key === 'Enter') {
+                    event.preventDefault();
+                    onOpen();
+                } else if (
+                    open &&
+                    event.altKey &&
+                    ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)
+                ) {
+                    onKeyDown(event);
+                    // Keep Alt+Enter from inserting a newline when no option is active.
+                    if (event.key === 'Enter') event.preventDefault();
+                }
+            }}
+        />
+    );
+}
+
+export const CustomInput: Story = {
+    render: () => {
+        const [value, setValue] = React.useState('');
+        const [open, setOpen] = React.useState(false);
+        const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
+        const cursorRef = React.useRef<number | null>(null);
+
+        // Restore the caret even when selecting an option doesn't change the value.
+        useLayoutEffect(() => {
+            if (cursorRef.current !== null) {
+                textareaRef.current?.setSelectionRange(cursorRef.current, cursorRef.current);
+                cursorRef.current = null;
+            }
+        }, [open, value]);
+
+        return (
+            <Flex direction="column" gap="spacing-2" style={{width: 480, maxWidth: '100%'}}>
+                <Text>
+                    Ctrl+Enter (Mac: Control+Return): open suggestions. While open, Alt+↑/↓ (Mac:
+                    Option+↑/↓): navigate. Alt+Enter (Mac: Option+Return): insert at the cursor.
+                    Plain arrows and Enter/Return edit the text. Escape closes suggestions.
+                </Text>
+                <Suggest
+                    aria-label="Reply"
+                    value={value}
+                    onUpdate={setValue}
+                    open={open}
+                    onOpenChange={(nextOpen, _event, reason) => {
+                        if (reason !== 'input-change' && reason !== 'click') {
+                            setOpen(nextOpen);
+                        }
+                    }}
+                    options={TEXT_OPTIONS}
+                    popupWidth="fit"
+                    renderOption={(option) => (
+                        <Text style={{whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>
+                            {option.content}
+                        </Text>
+                    )}
+                    onOptionAction={(_id, option) => {
+                        const control = textareaRef.current;
+                        if (!control) return;
+                        const start = control.selectionStart;
+                        const end = control.selectionEnd;
+                        const text = String(option.content);
+                        cursorRef.current = start + text.length;
+                        setValue(value.slice(0, start) + text + value.slice(end));
+                    }}
+                    renderInput={(inputProps) => (
+                        <CustomTextArea
+                            inputProps={inputProps}
+                            textareaRef={textareaRef}
+                            onOpen={() => setOpen(true)}
+                        />
+                    )}
+                />
+            </Flex>
         );
     },
 };

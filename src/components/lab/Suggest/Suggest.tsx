@@ -69,6 +69,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
         onActiveOptionUpdate,
 
+        renderInput,
         renderPopup,
         renderEmptyOptions,
 
@@ -83,12 +84,14 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 ) {
     const {t} = i18n.useTranslation();
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
-    const handleControlRef = useForkRef(
-        inputProps.controlRef,
-        React.useCallback((element: HTMLInputElement | null) => {
+    const [customAnchorElement, setCustomAnchorElement] = React.useState<HTMLElement | null>(null);
+    const setControlRef = React.useCallback(
+        (element: HTMLInputElement | HTMLTextAreaElement | null) => {
             setAnchorElement(element?.parentElement ?? null);
-        }, []),
+        },
+        [],
     );
+    const handleControlRef = useForkRef(inputProps.controlRef, setControlRef);
     const focusOwner = useListFocusOwner();
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
@@ -207,10 +210,10 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const popupOpen = open && Boolean(popupContent);
 
     const {onFocus, onBlur} = inputProps;
-    const {focusWithinProps} = useFocusWithin<HTMLInputElement>({
+    const {focusWithinProps} = useFocusWithin<HTMLInputElement | HTMLTextAreaElement>({
         onFocusWithin: onFocus,
         onBlurWithin: React.useCallback(
-            (event: React.FocusEvent<HTMLInputElement>) => {
+            (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                 onBlur?.(event);
                 if (!popupOpen) {
                     setOpen(false, event.nativeEvent, 'focus-out');
@@ -256,17 +259,19 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     );
 
     const handleInputClick = React.useCallback(
-        (e: React.MouseEvent<HTMLInputElement>) => {
+        (e: React.MouseEvent<HTMLElement>) => {
             if (!open) {
                 setOpen(true, e.nativeEvent, 'click');
             }
-            inputProps.controlProps?.onClick?.(e);
         },
-        [open, setOpen, inputProps],
+        [open, setOpen],
     );
 
     const handleInputKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<HTMLInputElement>) => {
+        (e: React.KeyboardEvent<HTMLElement>) => {
+            if (e.nativeEvent.isComposing || e.keyCode === 229) {
+                return;
+            }
             const {key} = e;
 
             if (popupOpen) {
@@ -277,38 +282,63 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 e.preventDefault();
                 setOpen(true, e.nativeEvent, 'list-navigation');
             }
-
-            inputProps.onKeyDown?.(e);
         },
-        [open, popupOpen, setOpen, inputProps, onListKeyDown],
+        [open, popupOpen, setOpen, onListKeyDown],
     );
+
+    const controlProps = {
+        'aria-label': ariaLabel ?? inputProps.controlProps?.['aria-label'],
+        'aria-labelledby': ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'],
+        'aria-describedby': ariaDescribedBy ?? inputProps.controlProps?.['aria-describedby'],
+        'aria-details': ariaDetails ?? inputProps.controlProps?.['aria-details'],
+        ...listInputProps,
+        'aria-busy': initialLoading || undefined,
+        'aria-autocomplete': 'list' as const,
+    };
 
     return (
         <React.Fragment>
-            <TextInput
-                autoComplete={false}
-                {...inputProps}
-                {...focusWithinProps}
-                ref={ref}
-                controlRef={handleControlRef}
-                id={componentId}
-                value={inputValue}
-                onUpdate={handleValueChange}
-                onKeyDown={handleInputKeyDown}
-                controlProps={{
-                    ...inputProps.controlProps,
-                    'aria-label': ariaLabel ?? inputProps.controlProps?.['aria-label'],
-                    'aria-labelledby':
-                        ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'],
-                    'aria-describedby':
-                        ariaDescribedBy ?? inputProps.controlProps?.['aria-describedby'],
-                    'aria-details': ariaDetails ?? inputProps.controlProps?.['aria-details'],
+            {renderInput ? (
+                renderInput({
+                    ...inputProps,
+                    autoComplete: inputProps.autoComplete ?? false,
+                    ref,
+                    controlRef: setControlRef,
+                    anchorRef: setCustomAnchorElement,
+                    id: componentId,
+                    value: inputValue,
+                    open,
+                    onUpdate: handleValueChange,
+                    onFocus: (event) => focusWithinProps.onFocus?.(event),
+                    onBlur: (event) => focusWithinProps.onBlur?.(event),
+                    onKeyDown: handleInputKeyDown,
                     onClick: handleInputClick,
-                    ...listInputProps,
-                    'aria-busy': initialLoading || undefined,
-                    'aria-autocomplete': 'list',
-                }}
-            />
+                    controlProps,
+                })
+            ) : (
+                <TextInput
+                    autoComplete={false}
+                    {...inputProps}
+                    {...focusWithinProps}
+                    ref={ref}
+                    controlRef={handleControlRef}
+                    id={componentId}
+                    value={inputValue}
+                    onUpdate={handleValueChange}
+                    onKeyDown={(event) => {
+                        handleInputKeyDown(event);
+                        inputProps.onKeyDown?.(event);
+                    }}
+                    controlProps={{
+                        ...inputProps.controlProps,
+                        ...controlProps,
+                        onClick: (event) => {
+                            handleInputClick(event);
+                            inputProps.controlProps?.onClick?.(event);
+                        },
+                    }}
+                />
+            )}
             <span className={b('status')} role="status">
                 {statusText}
             </span>
@@ -318,7 +348,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 qa="suggest-popup"
                 open={popupOpen}
                 onOpenChange={setOpen}
-                anchorElement={anchorElement}
+                anchorElement={customAnchorElement ?? anchorElement}
                 className={b('popup', popupClassName)}
                 floatingMiddlewares={getMiddlewares({
                     width: popupWidth,

@@ -202,8 +202,8 @@ No option is highlighted automatically when the popup opens.
 
 | Name                 | Description                                                                                          | Type                                                                                                                       | Default          |
 | :------------------- | :--------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | :--------------- |
-| className            | CSS class for the TextInput root                                                                     | `string`                                                                                                                   |                  |
-| controlRef           | Ref to the native input control (see TextInput)                                                      | `TextInputProps["controlRef"]`                                                                                             |                  |
+| className            | CSS class for the TextInput root or the custom-control wrapper                                       | `string`                                                                                                                   |                  |
+| controlRef           | Native input ref; ignored with `renderControl`                                                       | `TextInputProps["controlRef"]`                                                                                             |                  |
 | defaultOpen          | Initial open state (uncontrolled)                                                                    | `boolean`                                                                                                                  |                  |
 | defaultValue         | Initial value (uncontrolled)                                                                         | `string`                                                                                                                   |                  |
 | disablePortal        | Render the popup without a portal                                                                    | `boolean`                                                                                                                  | `false`          |
@@ -220,17 +220,17 @@ No option is highlighted automatically when the popup opens.
 | popupClassName       | CSS class for the popup                                                                              | `string`                                                                                                                   |                  |
 | popupPlacement       | Popup placement relative to the input                                                                | `PopupPlacement`                                                                                                           | `'bottom-start'` |
 | popupWidth           | Popup width                                                                                          | `'fit' \| number`                                                                                                          |                  |
-| qa                   | `data-qa` on the field root (TextInput or custom control)                                            | `string`                                                                                                                   |                  |
-| ref                  | Ref to the field root (TextInput or custom control)                                                  | `React.Ref<HTMLSpanElement>`                                                                                               |                  |
+| qa                   | `data-qa` on the TextInput root; ignored with `renderControl`                                        | `string`                                                                                                                   |                  |
+| ref                  | TextInput root ref, or the focusable element with `renderControl`                                    | `React.Ref<HTMLElement>`                                                                                                   |                  |
+| renderControl        | Custom control renderer; see [Custom control](#custom-control)                                       | `(props: SuggestRenderControlProps) => ReactElement`                                                                       |                  |
 | renderEmptyOptions   | Custom empty content when not loading                                                                | `(props: {filter: string}) => ReactElement \| null`                                                                        |                  |
-| renderInput          | Custom input renderer; see Custom input                                                              | `(props) => ReactElement`                                                                                                  |                  |
 | renderOption         | Custom option content renderer (defaults to `content`, falling back to `children`)                   | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |                  |
 | renderPopup          | Replace or wrap the default list inside the popup                                                    | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null`                                                |                  |
 | size                 | Size of the input and list rows                                                                      | `'s' \| 'm' \| 'l' \| 'xl'`                                                                                                | `'m'`            |
-| style                | Inline styles for the TextInput root                                                                 | `CSSProperties`                                                                                                            |                  |
+| style                | Inline styles for the TextInput root or the custom-control wrapper                                   | `CSSProperties`                                                                                                            |                  |
 | value                | Input value (controlled)                                                                             | `string`                                                                                                                   |                  |
 
-Without `renderInput`, Suggest accepts all [TextInput props](../../controls/TextInput/README.md) directly, plus `aria-label`, `aria-labelledby`, `aria-describedby`, and `aria-details`. `ref` points to the TextInput root; `controlRef` points to the native input.
+Without `renderControl`, Suggest accepts all [TextInput props](../../controls/TextInput/README.md) directly, plus `aria-label`, `aria-labelledby`, `aria-describedby`, and `aria-details`. `ref` points to the TextInput root; `controlRef` points to the native input.
 
 Suggest manages `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, `aria-autocomplete`, and `aria-busy`; these attributes cannot be overridden through `controlProps`.
 
@@ -246,19 +246,69 @@ The input is marked `aria-busy` only while loading with no options. During pagin
 
 Suggest announces when no results are available, including when `renderEmptyOptions` or `renderPopup` provides custom content. Custom empty content controls the visual presentation and does not need its own live region.
 
-## Custom input
+## Custom control
 
-Use `renderInput` to replace TextInput, for example with TextArea. The callback receives `SuggestRenderInputProps`, including `open`, `id`, `value`, `onUpdate`, `onFocus`, `onBlur`, `controlRef`, `ref`, `controlProps`, and optional interaction handlers `onKeyDown` and `onClick`.
+`renderControl` replaces TextInput with a TextArea, native element, or another focusable text editor. Suggest wraps the control in an element that takes `className` and `style`, anchors the popup, and tracks focus leaving the control. The callback receives `SuggestRenderControlProps`:
 
-> **Required wiring:** Forward `ref`, `controlRef`, `id`, `value`, `onUpdate`, `onFocus`, `onBlur`, and the ARIA attributes in `controlProps` to the appropriate elements of your custom control. For built-in keyboard navigation, call the supplied `onKeyDown` for the keys Suggest should handle. Without that call, built-in keyboard navigation will not work.
+| Prop           | Purpose                                                                                 |
+| :------------- | :-------------------------------------------------------------------------------------- |
+| `controlProps` | DOM attributes (`id`, `role`, ARIA) and `onClick`/`onKeyDown` for the focusable element |
+| `disabled`     | Whether the control is disabled                                                         |
+| `onUpdate`     | Call with the new text                                                                  |
+| `open`         | The requested open state; the popup also needs content to appear                        |
+| `ref`          | Attach to the focusable element; cast to its element type if necessary                  |
+| `value`        | The current text                                                                        |
 
-Forward `controlRef` to the native input/textarea and `ref` to the control root. The popup is anchored to the native control's parent; attach `anchorRef` to another element to use a different anchor. Forward `id`, `value`, `onUpdate`, the focus handlers, and the ARIA attributes in `controlProps`. Shared control props (`disabled`, `readOnly`, `placeholder`, `name`, `autoComplete`, `autoFocus`, `tabIndex`, `size`, `view`, `pin`, `hasClear`, validation props, `note`, `className`, `style`, and `qa`) are forwarded. Before spreading props onto a UIKit TextInput or TextArea, separate `open` and `anchorRef`: use `open` in your interaction logic and attach `anchorRef` only to a custom popup anchor if needed. Then override individual props or handlers as needed, as shown in the **CustomInput** story. For a native input/textarea or another component, explicitly map the supplied props to its API; do not spread the entire callback argument onto a DOM element. `onFocus` and `onBlur` on Suggest are forwarded through the supplied focus handlers; their event target is `HTMLInputElement | HTMLTextAreaElement`. Other native callbacks (`onChange`, `onKeyDown`, `onKeyUp`) and `controlRef` on Suggest remain specific to the default TextInput; attach them directly to the custom control. TypeScript rejects these default-input props when `renderInput` is provided, including `controlProps`; use the top-level ARIA labeling props on Suggest and configure native attributes inside the renderer. TextInput-only props such as `type`, `label`, `startContent`, and `endContent` are not forwarded. The callback supplies managed ARIA attributes in its `controlProps`.
+> **Required wiring:** Connect `ref`, `value`, `onUpdate`, and the DOM attributes in `controlProps`. Forward `disabled` to your control. Call `controlProps.onClick` to open on click and `controlProps.onKeyDown` for built-in keyboard navigation.
 
-Call the supplied `onKeyDown` or `onClick` only when Suggest should handle that interaction. To keep the browser's caret movement or line breaks, do not call `onKeyDown` for those keys; no `preventDefault()` is needed. Use controlled `open` and `onOpenChange` to implement custom opening shortcuts or ignore automatic `input-change` requests. Popup dismissal still requests closing through `onOpenChange`. The renderer receives the requested `open` state; the popup also needs content to appear. When implementing shortcuts, ignore events while `event.nativeEvent.isComposing` or `event.keyCode === 229`, so IME confirmation does not open the popup or select an option.
+UIKit `TextInput` and `TextArea` take `id` and `onKeyDown` as top-level props; pass them there rather than only inside `controlProps`.
 
-For a multiline TextArea, preserve textbox semantics: omit `role` (override the supplied value with `undefined`) and `aria-expanded` from its `controlProps`, while preserving the list relationship and active descendant.
+The keyboard handler opens the popup with the arrows, navigates the list, and selects the active option on Enter. To keep a key for editing, do not delegate it. Custom shortcuts should ignore IME composition (`event.nativeEvent.isComposing` or `event.keyCode === 229`). Popup dismissal still requests closing through `onOpenChange`.
 
-Suggest displays the supplied `options` without filtering them. Use `onUpdate` to update the query and supply locally filtered options or async results. Use `onOptionAction` to update the field value: replace the entire text or insert the selected option at the caret. Insertion, selection replacement, and caret restoration are handled by the consumer.
+With `renderControl`, TextInput-specific props are ignored: `view`, `pin`, `label`, `placeholder`, `hasClear`, validation props, `note`, `startContent`, `endContent`, `type`, `qa`, native attributes (`name`, `autoComplete`, `autoFocus`, `readOnly`, `tabIndex`, `controlProps`, `controlRef`) and handlers (`onChange`, `onKeyDown`, `onKeyUp`, `onFocus`, `onBlur`). Set them directly on your custom control. `size` still controls the list rows. Use Suggest's top-level ARIA labeling props to name the control and list.
+
+A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` from the supplied `controlProps`, preserving the list relationship and active descendant.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+<Suggest
+  aria-label="Reply"
+  value={value}
+  onUpdate={setValue}
+  options={options}
+  onOptionAction={(_id, option) => setValue(String(option.content))}
+  renderControl={({ref, value, onUpdate, disabled, controlProps}) => {
+    const {id, onKeyDown, ...attributes} = controlProps;
+    return (
+      <TextArea
+        controlRef={ref as React.Ref<HTMLTextAreaElement>}
+        id={id}
+        value={value}
+        onUpdate={onUpdate}
+        disabled={disabled}
+        minRows={3}
+        controlProps={{...attributes, role: undefined, 'aria-expanded': undefined}}
+        onKeyDown={(event) => {
+          if (
+            event.altKey &&
+            !event.nativeEvent.isComposing &&
+            event.keyCode !== 229 &&
+            ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)
+          ) {
+            onKeyDown?.(event);
+            if (event.key === 'Enter') event.preventDefault();
+          }
+        }}
+      />
+    );
+  }}
+/>
+```
+
+<!--/GITHUB_BLOCK-->
+
+Suggest displays the supplied `options` without filtering. Use `onUpdate` to supply locally filtered options or async results. In `onOptionAction`, the consumer decides whether to replace the entire text or insert at the caret, including any selection and caret handling.
 
 Screen-reader behavior when switching from list navigation back to text editing still needs manual verification; an active option remains referenced while the popup is open.
 

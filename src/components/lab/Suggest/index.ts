@@ -3,5 +3,5 @@ export type {
     SuggestOpenChangeReason,
     SuggestOptionProps,
     SuggestProps,
-    SuggestRenderInputProps,
+    SuggestRenderControlProps,
 } from './types';

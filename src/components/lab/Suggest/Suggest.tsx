@@ -41,7 +41,7 @@ function defaultRenderOption<T>(option: SuggestListItem<T>): React.ReactNode {
 const getItemChildren = () => undefined;
 
 type SuggestComponent = <T>(
-    props: SuggestProps<T> & {ref?: React.Ref<HTMLSpanElement>},
+    props: SuggestProps<T> & {ref?: React.Ref<HTMLElement>},
 ) => React.ReactElement;
 
 export const Suggest = React.forwardRef(function Suggest<T>(
@@ -69,7 +69,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
         onActiveOptionUpdate,
 
-        renderInput,
+        renderControl,
         renderPopup,
         renderEmptyOptions,
 
@@ -80,17 +80,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         'aria-details': ariaDetails,
         ...inputProps
     }: SuggestProps<T>,
-    ref: React.Ref<HTMLSpanElement>,
+    ref: React.Ref<HTMLElement>,
 ) {
     const {t} = i18n.useTranslation();
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
-    const [customAnchorElement, setCustomAnchorElement] = React.useState<HTMLElement | null>(null);
-    const setControlRef = React.useCallback(
-        (element: HTMLInputElement | HTMLTextAreaElement | null) => {
-            setAnchorElement(element?.parentElement ?? null);
-        },
-        [],
-    );
+    const setControlRef = React.useCallback((element: HTMLInputElement | null) => {
+        setAnchorElement(element?.parentElement ?? null);
+    }, []);
     const handleControlRef = useForkRef(inputProps.controlRef, setControlRef);
     const focusOwner = useListFocusOwner();
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
@@ -114,12 +110,14 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const autoId = useUniqId();
     const componentId = idProp || autoId;
     const listId = `${componentId}-list`;
+    // TextInput-only props are ignored with renderControl, including list label fallbacks.
+    const nativeControlProps = renderControl ? undefined : inputProps.controlProps;
     const listLabel =
         ariaLabel ??
-        inputProps.controlProps?.['aria-label'] ??
-        inputProps.label ??
-        inputProps.placeholder;
-    const listLabelledBy = ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'];
+        (renderControl
+            ? undefined
+            : (nativeControlProps?.['aria-label'] ?? inputProps.label ?? inputProps.placeholder));
+    const listLabelledBy = ariaLabelledBy ?? nativeControlProps?.['aria-labelledby'];
 
     const [open, setOpen] = useControlledState(openProp, defaultOpen ?? false, onOpenChange);
 
@@ -209,17 +207,31 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const popupContent = renderPopup ? renderPopup({renderList}) : renderList();
     const popupOpen = open && Boolean(popupContent);
 
+    // Track focus on the default input to preserve its onFocus/onBlur events.
     const {onFocus, onBlur} = inputProps;
-    const {focusWithinProps} = useFocusWithin<HTMLInputElement | HTMLTextAreaElement>({
+    const {focusWithinProps} = useFocusWithin<HTMLInputElement>({
         onFocusWithin: onFocus,
         onBlurWithin: React.useCallback(
-            (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            (event: React.FocusEvent<HTMLInputElement>) => {
                 onBlur?.(event);
                 if (!popupOpen) {
                     setOpen(false, event.nativeEvent, 'focus-out');
                 }
             },
             [onBlur, popupOpen, setOpen],
+        ),
+    });
+
+    // Track focus on the wrapper; custom controls manage their own focus callbacks.
+    // Close a pending popup on blur; visible popups handle focus-out themselves.
+    const {focusWithinProps: customFocusWithinProps} = useFocusWithin<HTMLElement>({
+        onBlurWithin: React.useCallback(
+            (event: React.FocusEvent<HTMLElement>) => {
+                if (!popupOpen) {
+                    setOpen(false, event.nativeEvent, 'focus-out');
+                }
+            },
+            [popupOpen, setOpen],
         ),
     });
 
@@ -287,10 +299,10 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     );
 
     const controlProps = {
-        'aria-label': ariaLabel ?? inputProps.controlProps?.['aria-label'],
-        'aria-labelledby': ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'],
-        'aria-describedby': ariaDescribedBy ?? inputProps.controlProps?.['aria-describedby'],
-        'aria-details': ariaDetails ?? inputProps.controlProps?.['aria-details'],
+        'aria-label': ariaLabel ?? nativeControlProps?.['aria-label'],
+        'aria-labelledby': ariaLabelledBy ?? nativeControlProps?.['aria-labelledby'],
+        'aria-describedby': ariaDescribedBy ?? nativeControlProps?.['aria-describedby'],
+        'aria-details': ariaDetails ?? nativeControlProps?.['aria-details'],
         ...listInputProps,
         'aria-busy': initialLoading || undefined,
         'aria-autocomplete': 'list' as const,
@@ -298,29 +310,33 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
     return (
         <React.Fragment>
-            {renderInput ? (
-                renderInput({
-                    ...inputProps,
-                    autoComplete: inputProps.autoComplete ?? false,
-                    ref,
-                    controlRef: setControlRef,
-                    anchorRef: setCustomAnchorElement,
-                    id: componentId,
-                    value: inputValue,
-                    open,
-                    onUpdate: handleValueChange,
-                    onFocus: (event) => focusWithinProps.onFocus?.(event),
-                    onBlur: (event) => focusWithinProps.onBlur?.(event),
-                    onKeyDown: handleInputKeyDown,
-                    onClick: handleInputClick,
-                    controlProps,
-                })
+            {renderControl ? (
+                <div
+                    ref={setAnchorElement}
+                    className={b('control', inputProps.className)}
+                    style={inputProps.style}
+                    {...customFocusWithinProps}
+                >
+                    {renderControl({
+                        controlProps: {
+                            ...controlProps,
+                            id: componentId,
+                            onClick: handleInputClick,
+                            onKeyDown: handleInputKeyDown,
+                        },
+                        disabled: inputProps.disabled,
+                        onUpdate: handleValueChange,
+                        open,
+                        ref,
+                        value: inputValue,
+                    })}
+                </div>
             ) : (
                 <TextInput
                     autoComplete={false}
                     {...inputProps}
                     {...focusWithinProps}
-                    ref={ref}
+                    ref={ref as React.Ref<HTMLSpanElement>}
                     controlRef={handleControlRef}
                     id={componentId}
                     value={inputValue}
@@ -348,7 +364,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 qa="suggest-popup"
                 open={popupOpen}
                 onOpenChange={setOpen}
-                anchorElement={customAnchorElement ?? anchorElement}
+                anchorElement={anchorElement}
                 className={b('popup', popupClassName)}
                 floatingMiddlewares={getMiddlewares({
                     width: popupWidth,

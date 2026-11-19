@@ -7,7 +7,7 @@ import {Text} from '../../../Text';
 import {TextArea} from '../../../controls';
 import {Flex} from '../../../layout';
 import {Suggest} from '../Suggest';
-import type {SuggestOptionProps, SuggestProps, SuggestRenderInputProps} from '../types';
+import type {SuggestOptionProps, SuggestProps, SuggestRenderControlProps} from '../types';
 
 const meta: Meta<typeof Suggest> = {
     title: 'Lab/Suggest',
@@ -424,35 +424,34 @@ function LongOptionsExample({
     );
 }
 
-function CustomTextArea({inputProps}: {inputProps: SuggestRenderInputProps}) {
-    const {
-        ref,
-        controlRef,
-        anchorRef: _anchorRef,
-        onKeyDown,
-        onClick,
-        controlProps,
-        open,
-        ...props
-    } = inputProps;
+function CustomTextArea({
+    controlProps,
+    disabled,
+    onUpdate,
+    open,
+    ref,
+    value,
+}: SuggestRenderControlProps) {
+    const {id, onKeyDown, ...attributes} = controlProps;
 
     return (
         <TextArea
-            {...props}
-            ref={ref}
-            controlRef={controlRef}
+            controlRef={ref as React.Ref<HTMLTextAreaElement>}
+            id={id}
+            value={value}
+            onUpdate={onUpdate}
+            disabled={disabled}
             minRows={4}
             maxRows={12}
             controlProps={{
-                ...controlProps,
-                onClick,
+                ...attributes,
                 role: undefined,
                 'aria-expanded': undefined,
             }}
             onKeyDown={(event) => {
                 if (event.nativeEvent.isComposing || event.keyCode === 229) return;
                 if (open && event.altKey && ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
-                    onKeyDown(event);
+                    onKeyDown?.(event);
                     // Keep Alt+Enter from inserting a newline when no option is active.
                     if (event.key === 'Enter') event.preventDefault();
                 }
@@ -493,7 +492,7 @@ export const CustomInput: Story = {
                         </Text>
                     )}
                     onOptionAction={(_id, option) => setValue(String(option.content))}
-                    renderInput={(inputProps) => <CustomTextArea inputProps={inputProps} />}
+                    renderControl={CustomTextArea}
                 />
             </Flex>
         );

@@ -5,7 +5,6 @@ import type {OpenChangeReason} from '@floating-ui/react';
 import type {ListItemActionEvent} from '../../List';
 import type {PopupPlacement} from '../../Popup';
 import type {TextInputProps} from '../../controls';
-import type {BaseInputControlProps} from '../../controls/types';
 import type {AriaLabelingProps, ControlGroupOption, QAProps} from '../../types';
 
 export type SuggestOpenChangeReason = OpenChangeReason | 'input-change' | 'option-action';
@@ -13,40 +12,20 @@ export type SuggestOpenChangeReason = OpenChangeReason | 'input-change' | 'optio
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SuggestOptionProps<T = any> = QAProps & ControlGroupOption & {data?: T};
 
-export type SuggestRenderInputProps = Omit<
-    BaseInputControlProps<HTMLInputElement | HTMLTextAreaElement>,
-    'controlRef' | 'defaultValue' | 'onChange' | 'onKeyUp'
-> & {
-    note?: React.ReactNode;
-    ref: React.Ref<HTMLSpanElement>;
-    controlRef: React.RefCallback<HTMLInputElement | HTMLTextAreaElement>;
-    /** Optional popup anchor; defaults to the native control's parent element. */
-    anchorRef: React.RefCallback<HTMLElement>;
-    id: string;
-    value: string;
-    /** The requested open state; the popup also needs content to be rendered. */
-    open: boolean;
+export type SuggestRenderControlProps = {
+    /** Attributes and event handlers to attach to the custom control's focusable element. */
+    controlProps: React.AriaAttributes &
+        Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'role' | 'onClick' | 'onKeyDown'>;
+    disabled?: boolean;
     onUpdate: (value: string) => void;
-    onFocus: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-    onBlur: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-    onKeyDown: React.KeyboardEventHandler<HTMLElement>;
-    onClick: React.MouseEventHandler<HTMLElement>;
-    controlProps: React.AriaAttributes & {role?: React.AriaRole};
+    /** Whether opening is requested; the popup is only shown when it has content. */
+    open: boolean;
+    ref: React.Ref<HTMLElement>;
+    value: string;
 };
 
-type DefaultInputProp =
-    | 'controlProps'
-    | 'controlRef'
-    | 'onChange'
-    | 'onKeyDown'
-    | 'onKeyUp'
-    | 'type'
-    | 'label'
-    | 'startContent'
-    | 'endContent';
-
-interface SuggestBaseProps<T>
-    extends Omit<TextInputProps, DefaultInputProp | 'onFocus' | 'onBlur'>, AriaLabelingProps {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps {
     /** Initial open state (uncontrolled mode) */
     defaultOpen?: boolean;
     /** Render the popup without a portal */
@@ -61,8 +40,6 @@ interface SuggestBaseProps<T>
      * do not emit additional notifications.
      */
     onActiveOptionUpdate?: (value: string | null) => void;
-    onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-    onFocus?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
     /** Called when the loading row becomes visible in a non-empty list (for pagination) */
     onLoadMore?: () => void;
     /** Callback when popup open state changes */
@@ -85,6 +62,8 @@ interface SuggestBaseProps<T>
     popupPlacement?: PopupPlacement;
     /** Popup width */
     popupWidth?: 'fit' | number;
+    /** Render a custom control using the provided ref, controlProps, value and onUpdate. */
+    renderControl?: (props: SuggestRenderControlProps) => React.ReactElement;
     /** Render empty-state or error content when there are no options and loading is false. */
     renderEmptyOptions?: (props: {filter: string}) => React.ReactElement | null;
     /**
@@ -99,17 +78,3 @@ interface SuggestBaseProps<T>
         renderList: () => React.ReactElement | null;
     }) => React.ReactElement | null;
 }
-
-type SuggestDefaultInputProps = Pick<TextInputProps, DefaultInputProp> & {
-    renderInput?: undefined;
-};
-
-type SuggestCustomInputProps = {
-    [K in DefaultInputProp]?: never;
-} & {
-    renderInput: (props: SuggestRenderInputProps) => React.ReactElement;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type SuggestProps<T = any> = SuggestBaseProps<T> &
-    (SuggestDefaultInputProps | SuggestCustomInputProps);

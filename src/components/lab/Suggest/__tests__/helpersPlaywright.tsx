@@ -142,3 +142,26 @@ export function SuggestWithPlacement({popupPlacement}: Pick<SuggestProps, 'popup
         </div>
     );
 }
+
+export function SuggestWithCustomControlAnchor() {
+    return (
+        <Suggest
+            aria-label="Custom control"
+            className="custom-control-anchor"
+            style={{width: 400, padding: 24}}
+            popupWidth="fit"
+            options={OPTIONS}
+            renderControl={({ref, value, onUpdate, controlProps}) => (
+                <div style={{width: 200}}>
+                    <textarea
+                        {...controlProps}
+                        ref={ref as React.Ref<HTMLTextAreaElement>}
+                        value={value}
+                        onChange={(event) => onUpdate(event.target.value)}
+                        style={{width: '100%'}}
+                    />
+                </div>
+            )}
+        />
+    );
+}

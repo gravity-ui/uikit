@@ -45,6 +45,8 @@ const options = React.useMemo(
 
 By default an option's `content` is rendered, falling back to `children`. Pass `renderOption` to customize the content.
 
+Long option content can wrap through `renderOption`. Virtualized rows are measured automatically; `getOptionHeight` sets an explicit row height.
+
 <!--/GITHUB_BLOCK-->
 
 ## Async loading
@@ -326,5 +328,3 @@ A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` 
 Suggest displays the supplied `options` without filtering. Use `onUpdate` to supply locally filtered options or async results. In `onOptionAction`, the consumer decides whether to replace the entire text or insert at the caret, including any selection and caret handling.
 
 Call `resetActiveOption()` when the control returns to text editing: caret navigation, text changes, composition start, or a click in the field. It clears the active option and `aria-activedescendant` while keeping the popup open. Calling it with no active option has no effect. The next delegated arrow key starts list navigation again.
-
-Long option content can wrap through `renderOption`. With virtualization, supply `getOptionHeight` matching the rendered row heights.

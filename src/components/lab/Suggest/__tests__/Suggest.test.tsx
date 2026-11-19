@@ -214,6 +214,24 @@ describe('Suggest', () => {
         },
     );
 
+    test.each(['ArrowDown', 'ArrowUp'])(
+        '%s does not open the popup during IME composition',
+        async (key) => {
+            const user = userEvent.setup();
+            const onOpenChange = jest.fn();
+            render(<Suggest aria-label="Reply" options={ITEMS} onOpenChange={onOpenChange} />);
+            const input = screen.getByRole('combobox', {name: 'Reply'});
+            await user.tab();
+
+            fireEvent.keyDown(input, {key, isComposing: true});
+            expect(onOpenChange).not.toHaveBeenCalled();
+            expect(input).toHaveAttribute('aria-expanded', 'false');
+
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByRole('listbox')).toBeVisible();
+        },
+    );
+
     test('calls onUpdate when typing', async () => {
         const onUpdate = jest.fn();
         const user = userEvent.setup();

@@ -71,6 +71,9 @@ export interface SpacingProps {
 
 /**
  * Utility to generate predefined css classes to describe position between components
+ * @deprecated Use logical margin and padding props on Box or Flex with spacing-* tokens
+ * (e.g. paddingInline="spacing-4"), or --g-spacing-* CSS variables in custom styles.
+ * For spacing between siblings, use gap on Flex or Grid.
  * ---
  * Storybook - https://preview.gravity-ui.com/uikit/?path=/docs/layout--playground#spacing-utility
  */
@@ -94,5 +97,10 @@ export const spacing = (props: SpacingProps, className?: string) => {
     return classes.join(' ');
 };
 
-// alias
+/**
+ * Alias for spacing.
+ * @deprecated Use logical margin and padding props on Box or Flex with spacing-* tokens
+ * (e.g. paddingInline="spacing-4"), or --g-spacing-* CSS variables in custom styles.
+ * For spacing between siblings, use gap on Flex or Grid.
+ */
 export const sp = spacing;

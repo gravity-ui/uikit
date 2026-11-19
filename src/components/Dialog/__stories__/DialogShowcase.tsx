@@ -1,7 +1,7 @@
 import * as React from 'react';
 
+import {useUniqId} from '../../../hooks';
 import {Button} from '../../Button';
-import {Loader} from '../../Loader';
 import {Select} from '../../Select';
 import {TextInput} from '../../controls';
 import {Flex} from '../../layout/Flex/Flex';
@@ -36,6 +36,7 @@ function OtherDialog() {
     const [open, setOpen] = React.useState(false);
     const [errorVisible, setErrorVisible] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const formId = useUniqId();
 
     const [openSelect, setOpenSelect] = React.useState(false);
 
@@ -63,11 +64,13 @@ function OtherDialog() {
             </Button>
             <Dialog
                 open={open}
-                onClose={switchVisibility}
+                onOpenChange={(nextOpen) => {
+                    setOpen(nextOpen);
+                    if (!nextOpen) setErrorVisible(false);
+                }}
                 className="my-custom-class-for-dialog"
                 hasCloseButton
                 keepMounted
-                onEnterKeyDown={handleApply}
                 qa="darthVader"
                 onTransitionInComplete={() => {
                     selectRef?.current?.focus();
@@ -76,34 +79,45 @@ function OtherDialog() {
             >
                 <Dialog.Body>
                     <pre>{darthVader}</pre>
-                    <Flex direction="column" gap="3">
-                        <TextInput />
-                        <Flex gap="2">
-                            <Select
-                                filterable
-                                ref={selectRef}
-                                open={openSelect}
-                                onOpenChange={setOpenSelect}
-                                disablePortal
-                            >
-                                <Select.Option value="dark">Dark side</Select.Option>
-                                <Select.Option value="some">Something in the middle</Select.Option>
-                                <Select.Option value="light">Light side</Select.Option>
-                            </Select>
-                            <Select filterable>
-                                <Select.Option value="dark">Dark side</Select.Option>
-                                <Select.Option value="some">Something in the middle</Select.Option>
-                                <Select.Option value="light">Light side</Select.Option>
-                            </Select>
+                    <form
+                        id={formId}
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            handleApply();
+                        }}
+                    >
+                        <Flex direction="column" gap="spacing-3">
+                            <TextInput />
+                            <Flex gap="spacing-2">
+                                <Select
+                                    filterable
+                                    ref={selectRef}
+                                    open={openSelect}
+                                    onOpenChange={setOpenSelect}
+                                    disablePortal
+                                >
+                                    <Select.Option value="dark">Dark side</Select.Option>
+                                    <Select.Option value="some">
+                                        Something in the middle
+                                    </Select.Option>
+                                    <Select.Option value="light">Light side</Select.Option>
+                                </Select>
+                                <Select filterable>
+                                    <Select.Option value="dark">Dark side</Select.Option>
+                                    <Select.Option value="some">
+                                        Something in the middle
+                                    </Select.Option>
+                                    <Select.Option value="light">Light side</Select.Option>
+                                </Select>
+                            </Flex>
                         </Flex>
-                    </Flex>
+                    </form>
                 </Dialog.Body>
                 <Dialog.Footer
                     preset="default"
                     onClickButtonCancel={switchVisibility}
-                    onClickButtonApply={handleApply}
                     textButtonApply="attack"
-                    propsButtonApply={{className: 'my-custom-apply-btn-class'}}
+                    propsButtonApply={{className: 'my-custom-apply-btn-class', form: formId}}
                     textButtonCancel="fend off attack"
                     propsButtonCancel={{className: 'my-custom-cancel-btn-class'}}
                     loading={loading}
@@ -124,90 +138,33 @@ function OtherDialog() {
     );
 }
 
-function DynamicHeightDialog() {
+function WithoutTransitionDialog() {
     const [open, setOpen] = React.useState(false);
-    const [isFirstDynamicPartOpen, setIsFirstDynamicPartOpen] = React.useState(false);
-    const [isSecondDynamicPartOpen, setIsSecondDynamicPartOpen] = React.useState(false);
-
-    const switchVisibility = () => {
-        setOpen((prevOpen) => !prevOpen);
-    };
-
-    React.useEffect(() => {
-        const timers: number[] = [];
-        if (open) {
-            timers[0] = window.setTimeout(() => {
-                setIsFirstDynamicPartOpen(true);
-            }, 2000);
-            timers[1] = window.setTimeout(() => {
-                setIsSecondDynamicPartOpen(true);
-            }, 4000);
-        } else {
-            setIsFirstDynamicPartOpen(false);
-            setIsSecondDynamicPartOpen(false);
-        }
-        return () => {
-            timers.forEach((t) => {
-                window.clearTimeout(t);
-            });
-        };
-    }, [open]);
+    const titleId = useUniqId();
 
     return (
         <div>
-            <Button view="outlined" size="l" onClick={switchVisibility}>
-                dialog with dynamic height transition
+            <Button view="outlined" size="l" onClick={() => setOpen(true)}>
+                dialog without transition
             </Button>
             <Dialog
                 open={open}
-                onClose={switchVisibility}
-                className="my-custom-class-for-dialog"
-                hasCloseButton
-                keepMounted
-                qa="dynamicHeight"
+                onOpenChange={setOpen}
+                disableTransition
+                maxWidth="s"
+                fullWidth
+                aria-labelledby={titleId}
             >
+                <Dialog.Header caption="Dialog without transition" id={titleId} />
                 <Dialog.Body>
-                    <div>
-                        <div style={{marginTop: '24px', marginBottom: '24px'}}>
-                            This is a dialog with dynamic height
-                        </div>
-                        {isFirstDynamicPartOpen && (
-                            <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-                                <div>Content loaded</div>
-                                <div>This is the description</div>
-                                <div>More content to come</div>
-                            </div>
-                        )}
-                        {(!isFirstDynamicPartOpen || !isSecondDynamicPartOpen) && (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    marginTop: '24px',
-                                }}
-                            >
-                                <Loader />
-                            </div>
-                        )}
-                        {isSecondDynamicPartOpen && (
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '24px',
-                                    marginTop: '24px',
-                                }}
-                            >
-                                <div>Second part loaded</div>
-                                <div>This is the description part 1</div>
-                                <div>This is the description part 2</div>
-                                <div>This is the description part 3</div>
-                                <div>No more content to load</div>
-                            </div>
-                        )}
-                    </div>
+                    This dialog opens and closes immediately. It contains a header, body, and
+                    footer, just like a regular dialog.
                 </Dialog.Body>
-                <Dialog.Footer preset="default" textButtonApply="Yes" textButtonCancel="No" />
+                <Dialog.Footer
+                    preset="default"
+                    textButtonCancel="Close"
+                    onClickButtonCancel={() => setOpen(false)}
+                />
             </Dialog>
         </div>
     );
@@ -251,10 +208,12 @@ export function DialogShowcase() {
             </div>
             <Dialog
                 open={open}
-                onClose={switchVisibility}
+                onOpenChange={(nextOpen) => {
+                    setOpen(nextOpen);
+                    if (!nextOpen) setErrorVisible(false);
+                }}
                 className="my-custom-class-for-dialog"
                 hasCloseButton
-                onEnterKeyDown={handleApply}
                 initialFocus="apply"
             >
                 <Dialog.Header
@@ -302,7 +261,7 @@ export function DialogShowcase() {
                 <OtherDialog />
             </div>
             <div style={{marginTop: 10}}>
-                <DynamicHeightDialog />
+                <WithoutTransitionDialog />
             </div>
         </div>
     );

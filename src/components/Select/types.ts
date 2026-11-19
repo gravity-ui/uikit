@@ -37,27 +37,28 @@ export type SelectRenderControlProps<T extends HTMLElement = HTMLElement> = {
     triggerProps: SelectRenderTriggerProps;
 };
 
-export type SelectRenderControlOptions = {
-    value: SelectProps['value'];
+export type SelectRenderControlOptions<V = string> = {
+    value: SelectProps<any, V>['value'];
 };
-export type SelectRenderControl<T extends HTMLElement = HTMLElement> = (
+export type SelectRenderControl<T extends HTMLElement = HTMLElement, V = string> = (
     props: SelectRenderControlProps<T>,
-    options: SelectRenderControlOptions,
+    options: SelectRenderControlOptions<V>,
 ) => React.ReactElement;
 
 export type SelectRenderOptionViewParams = {
     itemHeight: number;
-    isItemActive?: boolean; // FIXME: make this field required in the next major
+    isItemActive: boolean;
+    selected: boolean;
 };
 
-export type SelectRenderOption<T> = (
-    option: SelectOption<T>,
+export type SelectRenderOption<T, V = string> = (
+    option: SelectOptionProps<T, V>,
     options: SelectRenderOptionViewParams,
 ) => React.ReactElement;
 
 export type SelectRenderOptionGroup<T> = (
-    option: Pick<SelectOptionGroup<T>, 'label'>,
-    options: SelectRenderOptionViewParams,
+    option: Pick<SelectOptionGroupProps<T>, 'label'>,
+    options: Omit<SelectRenderOptionViewParams, 'selected'>,
 ) => React.ReactElement;
 
 export type SelectRenderPopup = (popupItems: {
@@ -68,22 +69,29 @@ export type SelectRenderPopup = (popupItems: {
 export type SelectFilterInputProps = {value: string} & Pick<
     React.InputHTMLAttributes<HTMLInputElement>,
     | 'placeholder'
-    | 'onKeyDown'
-    | 'onChange'
     | 'size'
     | 'aria-label'
     | 'aria-controls'
     | 'aria-activedescendant'
->;
+    | 'aria-expanded'
+    | 'aria-autocomplete'
+> &
+    // The Select always gives these, and an input that requires them should not have to say so
+    Required<Pick<React.InputHTMLAttributes<HTMLInputElement>, 'onKeyDown' | 'onChange' | 'role'>>;
 export type SelectRenderFilter = (props: {
-    /** @deprecated use inputProps instead */
+    /**
+     * The filter changed, as a string rather than as an event. `inputProps.onChange` is the usual
+     * way — it fits any input that takes a native handler, `TextInput` included — and this one is
+     * for an input that only ever hands over a value of its own
+     */
     onChange: (filter: string) => void;
-    /** @deprecated use inputProps instead */
-    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
-    /** @deprecated use inputProps instead */
-    value: string;
     ref: React.Ref<HTMLInputElement>;
     style: React.CSSProperties;
+    /**
+     * Everything the input of a combobox needs: the value, the handlers, the placeholder, the size
+     * that lets it shrink inside the popup and the ARIA of the combobox. Spread it onto a plain
+     * input, or hand the parts over one by one
+     */
     inputProps: SelectFilterInputProps;
 }) => React.ReactElement;
 
@@ -94,27 +102,46 @@ export type SelectRenderCounter = (
     counterProps: SelectCounterProps,
 ) => React.ReactNode;
 
-export type SelectProps<T = any> = AriaLabelingProps &
+export type SelectProps<T = any, V = string> = AriaLabelingProps &
     QAProps &
     UseOpenProps & {
-        onUpdate?: (value: string[]) => void;
-        renderControl?: SelectRenderControl;
+        onUpdate?: (value: V[]) => void;
+        renderControl?: SelectRenderControl<HTMLElement, V>;
         renderFilter?: SelectRenderFilter;
-        renderOption?: SelectRenderOption<T>;
+        renderOption?: SelectRenderOption<T, V>;
         renderOptionGroup?: SelectRenderOptionGroup<T>;
-        renderSelectedOption?: (option: SelectOption<T>, index: number) => React.ReactElement;
+        /**
+         * How a row shows that its option is selected: `auto` — the check mark of a multiple
+         * `Select` and the highlight of a single one, `none` — nothing, for options that draw
+         * their own indication with `renderOption`
+         */
+        selectionStyle?: 'auto' | 'none';
+        /** The content of the control for the whole selection, in the order of `value`; called only with a value */
+        renderSelectedOptions?: (options: SelectOptionProps<T, V>[]) => React.ReactNode;
         renderEmptyOptions?: ({filter}: {filter: string}) => React.ReactElement;
         renderPopup?: SelectRenderPopup;
         renderCounter?: SelectRenderCounter;
-        getOptionHeight?: (option: SelectOption<T>, index: number) => number;
-        getOptionGroupHeight?: (option: SelectOptionGroup<T>, index: number) => number;
-        filterOption?: (option: SelectOption<T>, filter: string) => boolean;
+        /**
+         * The text of an option: the trigger shows it for a selected option, the filter matches it
+         * and the search by the first letters looks it up. Defaults to the content of the option
+         * when that is a string or a number, otherwise to its value — `getSelectOptionText` is
+         * that default
+         */
+        getOptionText?: (option: SelectOptionProps<T, V>) => string;
+        /**
+         * The string a value is known by: the id of its row, the value of the hidden form field,
+         * the equality of two values. Defaults to the value itself for a string and to `String()`
+         * for another primitive; an object value needs it
+         */
+        getValueKey?: (value: V) => string;
+        getOptionHeight?: (option: SelectOptionProps<T, V>, index: number) => number;
+        getOptionGroupHeight?: (option: SelectOptionGroupProps<T, V>, index: number) => number;
+        filterOption?: (option: SelectOptionProps<T, V>, filter: string) => boolean;
         view?: InputControlView;
         size?: SelectSize;
         pin?: InputControlPin;
         width?: 'auto' | 'max' | number;
         popupWidth?: 'fit' | number;
-        virtualizationThreshold?: number;
         className?: string;
         controlClassName?: string;
         popupClassName?: string;
@@ -123,13 +150,9 @@ export type SelectProps<T = any> = AriaLabelingProps &
         label?: string;
         placeholder?: React.ReactNode;
         filterPlaceholder?: string;
-        value?: string[];
-        defaultValue?: string[];
-        options?: (SelectOption<T> | SelectOptionGroup<T>)[];
-        /**
-         * @deprecated Prop `error` has a lower priority than `errorMessage`. Use `errorMessage` instead
-         */
-        error?: string | boolean;
+        value?: V[];
+        defaultValue?: V[];
+        options?: (SelectOptionProps<T, V> | SelectOptionGroupProps<T, V>)[];
         /** Determines content of the error message */
         errorMessage?: React.ReactNode;
         /** Determines whether the error message will be placed under the input field as text or in the tooltip */
@@ -147,10 +170,10 @@ export type SelectProps<T = any> = AriaLabelingProps &
         loading?: boolean;
         onLoadMore?: () => void;
         children?:
-            | React.ReactElement<SelectOption<T>, typeof Option>
-            | React.ReactElement<SelectOption<T>, typeof Option>[]
-            | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>
-            | React.ReactElement<SelectOptionGroup<T>, typeof OptionGroup>[];
+            | React.ReactElement<SelectOptionProps<T, V>, typeof Option>
+            | React.ReactElement<SelectOptionProps<T, V>, typeof Option>[]
+            | React.ReactElement<SelectOptionGroupProps<T, V>, typeof OptionGroup>
+            | React.ReactElement<SelectOptionGroupProps<T, V>, typeof OptionGroup>[];
         id?: string;
         /**Shows selected options count if multiple selection is avalable */
         hasCounter?: boolean;
@@ -160,23 +183,24 @@ export type SelectProps<T = any> = AriaLabelingProps &
         disabled?: boolean;
     };
 
-export type SelectOption<T = any> = QAProps &
-    ControlGroupOption & {
-        text?: string;
+export type SelectOptionProps<T = any, V = string> = QAProps &
+    Omit<ControlGroupOption, 'value'> & {
+        value: V;
         data?: T;
     };
 
-export type SelectOptionGroup<T = any> = {
+export type SelectOptionGroupProps<T = any, V = string> = {
     /**
      * Label is a string which displayed above the options group.
-     * If label is empty string, group item height will be 0 and only border will be displayed
+     * An empty label makes the group a separator: a line between the options instead of a header
+     * (nothing at all when the group opens the list)
      */
     label: string;
     data?: T;
-    options?: SelectOption<T>[];
+    options?: SelectOptionProps<T, V>[];
     children?:
-        | React.ReactElement<SelectOption, typeof Option>
-        | React.ReactElement<SelectOption, typeof Option>[];
+        | React.ReactElement<SelectOptionProps<any, V>, typeof Option>
+        | React.ReactElement<SelectOptionProps<any, V>, typeof Option>[];
 };
 
 type SelectClearIconProps = {
@@ -205,4 +229,4 @@ export type SelectCounterProps = {
     disabled?: boolean;
 };
 
-export type SelectOptions<T = any> = NonNullable<SelectProps<T>['options']>;
+export type SelectOptions<T = any, V = string> = NonNullable<SelectProps<T, V>['options']>;

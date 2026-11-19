@@ -68,11 +68,26 @@ const semantic = [
     },
 ];
 
-const alwaysLight = [
+const contrast = [
     {
-        name: 'line-light',
-        title: 'Light',
-        description: 'Dividers and borders over dark background.',
+        name: 'line-contrast',
+        title: 'Contrast',
+        description: 'Dark lines in light themes, light lines in dark themes.',
+    },
+    {
+        name: 'line-contrast-inverted',
+        title: 'Contrast Inverted',
+        description: 'Light lines in light themes, dark lines in dark themes.',
+    },
+    {
+        name: 'line-contrast-light',
+        title: 'Contrast Light',
+        description: 'Light lines in both themes.',
+    },
+    {
+        name: 'line-contrast-dark',
+        title: 'Contrast Dark',
+        description: 'Dark lines in both themes.',
     },
 ];
 
@@ -88,11 +103,14 @@ export const RenderLines = () => (
             description="Blocks with semantic meaning."
             colors={semantic}
         />
-        <ColorPanel
-            title="Always light"
-            description="Dividers, strokes and other."
-            colors={alwaysLight}
-            boxBorders={true}
-        />
+        {contrast.map((color) => (
+            <ColorPanel
+                key={color.name}
+                title={color.title}
+                description="Dividers, strokes and borders."
+                colors={[color]}
+                boxBorders={true}
+            />
+        ))}
     </Showcase>
 );

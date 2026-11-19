@@ -13,12 +13,13 @@ describe('getClosestMediaPropsFactory', () => {
         expect(getClosestMediaPropsFactory('l')({xl: 'xl'})).toEqual(undefined);
     });
     test('should return `undefined` if no object passed', () => {
-        expect(getClosestMediaPropsFactory('l')()).toEqual(undefined);
+        expect(getClosestMediaPropsFactory('l')(undefined)).toEqual(undefined);
     });
     test('should return right value on age cases', () => {
-        expect(getClosestMediaPropsFactory('xxxl')({s: 's'})).toEqual('s');
-        expect(getClosestMediaPropsFactory('xxxl')()).toEqual(undefined);
-        expect(getClosestMediaPropsFactory('xxxl')({xxxl: 'xxxl'})).toEqual('xxxl');
+        expect(getClosestMediaPropsFactory('3xl')({s: 's'})).toEqual('s');
+        expect(getClosestMediaPropsFactory('3xl')(undefined)).toEqual(undefined);
+        expect(getClosestMediaPropsFactory('3xl')({'3xl': '3xl'})).toEqual('3xl');
+        expect(getClosestMediaPropsFactory('3xl')({'2xl': '2xl'})).toEqual('2xl');
     });
 });
 
@@ -26,10 +27,12 @@ describe('isMediaActiveFactory', () => {
     test('should detect mobile-first medias', () => {
         expect(isMediaActiveFactory('l')('l')).toBeTruthy();
         expect(isMediaActiveFactory('l')('m')).toBeTruthy();
+        expect(isMediaActiveFactory('3xl')('2xl')).toBeTruthy();
     });
     test('should detect wrong queries', () => {
         expect(isMediaActiveFactory('s')('m')).toBeFalsy();
         expect(isMediaActiveFactory('s')('l')).toBeFalsy();
+        expect(isMediaActiveFactory('2xl')('3xl')).toBeFalsy();
     });
 });
 
@@ -46,4 +49,11 @@ describe('makeCssMod', () => {
     ])('should return expected result if passed %s', (value, result) => {
         expect(makeCssMod(value)).toEqual(result);
     });
+});
+
+test('responsive helpers distinguish xs from s', () => {
+    expect(isMediaActiveFactory('xs')('xs')).toBe(true);
+    expect(isMediaActiveFactory('xs')('s')).toBe(false);
+    expect(getClosestMediaPropsFactory('xs')({xs: 'mobile', s: 'small'})).toBe('mobile');
+    expect(getClosestMediaPropsFactory('xs')({s: 'small'})).toBeUndefined();
 });

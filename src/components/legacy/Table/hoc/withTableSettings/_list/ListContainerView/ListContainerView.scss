@@ -1,0 +1,10 @@
+@use '../../../../../../variables';
+
+$block: '.#{variables.$ns}list-container-view-legacy';
+
+#{$block} {
+    box-sizing: border-box;
+    width: 100%;
+    outline: none;
+    overflow: auto;
+}

@@ -26,8 +26,9 @@ export const ControlLabel = React.forwardRef<HTMLLabelElement, Props>(
         },
         ref,
     ) => {
-        const clonedControl = React.cloneElement(control, {
-            className: b('indicator', control.props.className),
+        const element = control as React.ReactElement<React.HTMLAttributes<HTMLElement>>;
+        const clonedControl = React.cloneElement(element, {
+            className: b('indicator', element.props.className),
         });
 
         return (

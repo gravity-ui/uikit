@@ -3,10 +3,15 @@ import {expect} from '@playwright/experimental-ct-react';
 
 import {test} from '~playwright/core';
 
+import {Menu, MenuItem} from '../../Menu';
 import {ActionsPanel} from '../ActionsPanel';
 import type {ActionsPanelProps} from '../types';
 
-import {TestActionsPanelWithNote} from './helpersPlaywright';
+import {
+    TestActionsPanelMenuItemProps,
+    TestActionsPanelNestedAction,
+    TestActionsPanelWithNote,
+} from './helpersPlaywright';
 
 test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
     const noop = () => {
@@ -20,13 +25,13 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                 props: {
                     children: 'Action 1',
                     onClick: noop,
-                    view: 'normal-contrast',
+                    view: 'contrast-light',
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 1',
+                    onClick: noop,
+                    children: 'Action 1',
                 },
                 group: '1',
             },
@@ -39,10 +44,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 2',
+                    onClick: noop,
+                    children: 'Action 2',
                 },
                 group: '1',
             },
@@ -55,10 +60,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 3',
+                    onClick: noop,
+                    children: 'Action 3',
                 },
                 group: '2',
             },
@@ -71,10 +76,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                     onClick: noop,
                 },
             },
-            dropdown: {
+            menu: {
                 item: {
-                    action: noop,
-                    text: 'Action 4',
+                    onClick: noop,
+                    children: 'Action 4',
                 },
                 group: '2',
             },
@@ -185,24 +190,21 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                 button: {
                     props: {
                         children: 'Sub-menu',
-                        view: 'outlined-contrast',
+                        view: 'outlined',
                         onClick: noop,
                         qa: 'sub-menu-trigger',
                     },
                 },
-                dropdown: {
+                menu: {
                     item: {
-                        text: 'Sub-menu',
-                        items: [
-                            {
-                                action: noop,
-                                text: 'Edit',
-                            },
-                            {
-                                action: noop,
-                                text: 'Delete',
-                                theme: 'danger',
-                            },
+                        children: [
+                            'Sub-menu',
+                            <Menu key="submenu" size="s">
+                                <MenuItem onClick={noop}>Edit</MenuItem>
+                                <MenuItem onClick={noop} theme="danger">
+                                    Delete
+                                </MenuItem>
+                            </Menu>,
                         ],
                     },
                 },
@@ -217,10 +219,10 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
                         qa: 'nested-menu-trigger',
                     },
                 },
-                dropdown: {
+                menu: {
                     item: {
-                        action: noop,
-                        text: 'Action 3',
+                        onClick: noop,
+                        children: 'Action 3',
                     },
                     group: '2',
                 },
@@ -250,5 +252,67 @@ test.describe('ActionsPanel', {tag: '@ActionsPanel'}, () => {
         await expectScreenshot({
             themes: ['light'],
         });
+    });
+
+    test('keeps secondary actions transparent, including disabled and loading', async ({mount}) => {
+        const root = await mount(
+            <ActionsPanel
+                actions={actionsWithNoteAndGroups.map((action, index) => ({
+                    ...action,
+                    button: {
+                        props: {
+                            ...action.button.props,
+                            disabled: index === 2,
+                            loading: index === 3,
+                        },
+                    },
+                }))}
+                onClose={noop}
+            />,
+            {width: 800},
+        );
+
+        for (const name of ['Action 2', 'Action 3', 'Action 4', 'Close']) {
+            const button = root.getByRole('button', {name, exact: true});
+            expect(
+                await button.evaluate((node) => getComputedStyle(node, '::before').backgroundColor),
+            ).toBe('rgba(0, 0, 0, 0)');
+        }
+        await expect(root.getByRole('button', {name: 'Action 2'})).toHaveCSS(
+            'color',
+            'rgb(255, 255, 255)',
+        );
+        await expect(root.getByRole('button', {name: 'Action 3'})).toHaveCSS(
+            'color',
+            'rgba(255, 255, 255, 0.5)',
+        );
+        const primary = root.getByRole('button', {name: 'Action 1'});
+        expect(
+            await primary.evaluate((node) => getComputedStyle(node, '::before').backgroundColor),
+        ).toBe('rgb(255, 255, 255)');
+    });
+
+    test('runs an action from a nested overflow menu', async ({mount, page}) => {
+        await mount(<TestActionsPanelNestedAction />);
+
+        await page.getByRole('button', {name: 'Show more'}).click();
+        await page.getByRole('menuitem', {name: 'More'}).hover();
+        await page.getByRole('menuitem', {name: 'Run'}).click();
+        await expect(page.getByTestId('menu-action-result')).toHaveText('run');
+    });
+
+    test('passes MenuItem props to the overflow menu', async ({mount, page}) => {
+        await mount(<TestActionsPanelMenuItemProps />);
+
+        const openMenu = async () => page.getByRole('button', {name: 'Show more'}).click();
+        const result = page.getByTestId('menu-action-result');
+
+        await openMenu();
+        await expect(page.getByRole('menuitemcheckbox', {name: 'Selected'})).toHaveAttribute(
+            'aria-checked',
+            'true',
+        );
+        await page.getByRole('menuitem', {name: 'Run'}).click();
+        await expect(result).toHaveText('run');
     });
 });

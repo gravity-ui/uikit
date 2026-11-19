@@ -29,6 +29,12 @@ test.describe('Switch', {tag: '@Switch'}, () => {
                         </div>
                     </div>
                 ))}
+                <div>
+                    <h4>[multiline]</h4>
+                    <div style={{width: 160}}>
+                        <Switch content="A switch label that wraps onto multiple lines" />
+                    </div>
+                </div>
             </div>,
         );
 

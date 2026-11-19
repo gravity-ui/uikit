@@ -184,7 +184,9 @@ $drawer-resizer-width: 8px;
         height: $drawer-resizer-width;
     }
 
-    &__resizer:hover &__resizer-handle {
-        background: var(--g-color-line-generic-hover);
+    @media (hover: hover) {
+        &__resizer:hover &__resizer-handle {
+            background: var(--g-color-line-generic-hover);
+        }
     }
 }

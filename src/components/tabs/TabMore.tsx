@@ -3,7 +3,7 @@ import * as React from 'react';
 import {ChevronDown} from '@gravity-ui/icons';
 
 import {Icon} from '../Icon';
-import {Menu} from '../lab/Menu';
+import {Menu} from '../Menu';
 
 import {TabInner} from './Tab';
 import {TabContent} from './TabContent';

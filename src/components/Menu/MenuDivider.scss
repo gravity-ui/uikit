@@ -1,0 +1,7 @@
+@use '../variables';
+
+$b: '.#{variables.$ns}menu-divider';
+
+#{$b} {
+    margin-block: 4px;
+}

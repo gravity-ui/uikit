@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import isEqual from 'lodash/isEqual';
+import {isEqual} from 'es-toolkit';
 
 import {useLayoutEffect} from '../useLayoutEffect';
 import {useResizeObserver} from '../useResizeObserver';

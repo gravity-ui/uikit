@@ -21,9 +21,9 @@ export const makeCurrentActiveMediaExpressions = (
     s: `(min-width: ${mediaToValue.s}px) and (max-width: ${mediaToValue.m - 1}px)`,
     m: `(min-width: ${mediaToValue.m}px) and (max-width: ${mediaToValue.l - 1}px)`,
     l: `(min-width: ${mediaToValue.l}px) and (max-width: ${mediaToValue.xl - 1}px)`,
-    xl: `(min-width: ${mediaToValue.xl}px) and (max-width: ${mediaToValue.xxl - 1}px)`,
-    xxl: `(min-width: ${mediaToValue.xxl}px) and (max-width: ${mediaToValue.xxxl - 1}px)`,
-    xxxl: `(min-width: ${mediaToValue.xxxl}px)`,
+    xl: `(min-width: ${mediaToValue.xl}px) and (max-width: ${mediaToValue['2xl'] - 1}px)`,
+    '2xl': `(min-width: ${mediaToValue['2xl']}px) and (max-width: ${mediaToValue['3xl'] - 1}px)`,
+    '3xl': `(min-width: ${mediaToValue['3xl']}px)`,
 });
 
 const safeMatchMedia = (query: string): MediaQueryList => {
@@ -35,13 +35,11 @@ const safeMatchMedia = (query: string): MediaQueryList => {
 };
 
 class Queries {
-    private fix: boolean;
     private queryListsDecl: [MediaType, MediaQueryList][] = [];
 
-    constructor(breakpointsMap: MediaProps<number>, fixBreakpoints: boolean) {
+    constructor(breakpointsMap: MediaProps<number>) {
         const mediaToExpressionMap = makeCurrentActiveMediaExpressions(breakpointsMap);
 
-        this.fix = fixBreakpoints;
         this.queryListsDecl = [
             // order important here
             ['xs', safeMatchMedia(mediaToExpressionMap.xs)],
@@ -49,21 +47,15 @@ class Queries {
             ['m', safeMatchMedia(mediaToExpressionMap.m)],
             ['l', safeMatchMedia(mediaToExpressionMap.l)],
             ['xl', safeMatchMedia(mediaToExpressionMap.xl)],
-            ['xxl', safeMatchMedia(mediaToExpressionMap.xxl)],
-            ['xxxl', safeMatchMedia(mediaToExpressionMap.xxxl)],
+            ['2xl', safeMatchMedia(mediaToExpressionMap['2xl'])],
+            ['3xl', safeMatchMedia(mediaToExpressionMap['3xl'])],
         ];
     }
 
     getCurrentActiveMedia(): MediaType {
         const activeMedia = this.queryListsDecl.find(([_, queryList]) => queryList.matches)?.[0];
 
-        if (!activeMedia) {
-            return this.fix ? 'xs' : 's';
-        } else if (activeMedia === 'xs' && !this.fix) {
-            return 's';
-        }
-
-        return activeMedia;
+        return activeMedia ?? 'xs';
     }
 
     addListeners(fn: () => void) {
@@ -82,15 +74,19 @@ class Queries {
  */
 export const useCurrentActiveMediaQuery = (
     breakpointsMap: MediaProps<number>,
-    fixBreakpoints: boolean,
     initialMediaQuery?: MediaType,
+    inheritedMediaQuery?: MediaType,
 ) => {
-    const [state, _setState] = React.useState<MediaType>(
-        initialMediaQuery ?? (fixBreakpoints ? 'xs' : 's'),
-    );
+    const [state, _setState] = React.useState<MediaType>(initialMediaQuery ?? 'xs');
+
+    const inheritsMediaQuery = inheritedMediaQuery !== undefined;
 
     useLayoutEffect(() => {
-        const queries = new Queries(breakpointsMap, fixBreakpoints);
+        if (inheritsMediaQuery) {
+            return undefined;
+        }
+
+        const queries = new Queries(breakpointsMap);
 
         const setState = () => {
             _setState(queries.getCurrentActiveMedia());
@@ -103,7 +99,7 @@ export const useCurrentActiveMediaQuery = (
         return () => {
             queries.removeListeners(setState);
         };
-    }, [breakpointsMap, fixBreakpoints]);
+    }, [breakpointsMap, inheritsMediaQuery]);
 
-    return state;
+    return inheritedMediaQuery ?? state;
 };

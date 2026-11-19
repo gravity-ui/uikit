@@ -213,7 +213,7 @@ describe('SegmentedRadioGroup', () => {
 
     describe('styles', () => {
         test('add style attribute', () => {
-            const style = {color: 'red'};
+            const style = {color: 'rgb(255, 0, 0)'};
 
             renderSegmentedRadioGroup({style});
             const component = screen.getByTestId(qaId);

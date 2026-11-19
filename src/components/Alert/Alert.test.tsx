@@ -25,7 +25,7 @@ describe('Alert', () => {
 
         await userEvent.click(buttons[0]);
 
-        expect(callback).toBeCalledTimes(1);
+        expect(callback).toHaveBeenCalledTimes(1);
     });
 
     test('render actions as buttons if decl passed', async () => {

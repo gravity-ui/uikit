@@ -3,98 +3,51 @@
 $block: '.#{variables.$ns}list';
 
 #{$block} {
-    --_--item-padding: var(--g-list-item-padding, 0);
-
-    outline: none;
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
-    width: 100%;
 
-    &__filter {
-        padding: var(--_--item-padding);
-        margin-block-end: 8px;
-        flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+
+    /* The root is a flex column that may have to scroll: a row keeps its own height instead of
+       being squeezed into the viewport (the sizer of the virtualizer forbids the shrink for itself
+       the same way) */
+    > * {
+        flex-shrink: 0;
     }
 
-    &__items {
-        flex: 1 1 auto;
+    /* Indicator on the row itself (works in flat render and inside virtualizer wrappers);
+       role + attribute keeps foreign data-* out */
+    :is([role='option'], [role='row'])[data-dragging] {
+        opacity: 0.5;
+
+        /* The dragged original needs a background of its own (the state highlight is suppressed
+           while dragging); the view variable rather than background, so custom markup keeps its own */
+        --g-list-item-view-background-color: var(--g-color-base-generic-medium);
     }
 
-    &__item,
-    &__empty-placeholder {
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        padding: var(--_--item-padding);
-        user-select: none;
-        overflow: hidden;
-    }
+    :is([role='option'], [role='row'])[data-drop-target] {
+        /* z-index raises the row so that the edge line is not covered by the next row */
+        position: relative;
+        z-index: 1;
 
-    &__item {
-        &_active {
-            background: var(--g-color-base-simple-hover);
-        }
-
-        &_selected {
-            background: var(--g-color-base-selection);
-        }
-
-        &_active#{&}_selected {
-            background: var(--g-color-base-selection-hover);
-        }
-
-        &_sort-handle-align_right {
-            flex-direction: row-reverse;
-
-            #{$block}__item-sort-icon {
-                margin-inline: 10px 0;
-            }
-        }
-
-        // https://github.com/hello-pangea/dnd/blob/master/docs/guides/preset-styles.md#phase-dragging-droppable-element
-        &_sortable[data-rbd-drag-handle-context-id]:active {
-            cursor: grabbing;
-        }
-
-        &_dragging {
-            background: var(--g-color-base-simple-hover-solid);
-            z-index: 100001;
+        &::after {
+            content: '';
+            position: absolute;
+            inset-inline: 0;
+            height: 2px;
+            border-radius: 1px;
+            background: var(--g-color-line-brand);
+            pointer-events: none;
         }
     }
 
-    &__empty-placeholder {
-        box-sizing: border-box;
-        color: var(--g-color-text-hint);
-        min-height: 36px;
-        padding-block: 8px;
+    /* Inside the row: under virtualization the root is the scroll container and clips a line outside */
+    :is([role='option'], [role='row'])[data-drop-target='before']::after {
+        inset-block-start: 0;
     }
 
-    &__item-content {
-        flex: 1 1 auto;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        height: 100%;
-    }
-
-    &__item-sort-icon {
-        $icon-width: 12px;
-        $space-from-edge: 16px;
-
-        display: flex;
-        align-items: center;
-        width: $icon-width;
-        margin-inline-end: $space-from-edge - $icon-width;
-        flex: 0 0 auto;
-        color: var(--g-color-text-hint);
-    }
-
-    &__loading-indicator {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
+    :is([role='option'], [role='row'])[data-drop-target='after']::after {
+        inset-block-end: 0;
     }
 }

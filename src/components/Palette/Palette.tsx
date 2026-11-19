@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {useSelect} from '../../hooks';
+import {useControlledState} from '../../hooks';
 import {useForkRef} from '../../hooks/useForkRef/useForkRef';
 import type {ButtonProps} from '../Button';
 import {Button} from '../Button';
@@ -33,10 +33,7 @@ export type PaletteOption = Pick<ButtonProps, 'disabled' | 'title'> & {
 };
 
 export interface PaletteProps
-    extends AriaLabelingProps,
-        Pick<ButtonProps, 'disabled' | 'size'>,
-        DOMProps,
-        QAProps {
+    extends AriaLabelingProps, Pick<ButtonProps, 'disabled' | 'size'>, DOMProps, QAProps {
     /**
      * Allows selecting multiple options.
      * @default true
@@ -81,8 +78,9 @@ export interface PaletteProps
     onBlur?: (event: React.FocusEvent) => void;
 }
 
-interface PaletteComponent
-    extends React.ForwardRefExoticComponent<PaletteProps & React.RefAttributes<HTMLDivElement>> {}
+interface PaletteComponent extends React.ForwardRefExoticComponent<
+    PaletteProps & React.RefAttributes<HTMLDivElement>
+> {}
 
 export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(
     function Palette(rawProps, ref) {
@@ -111,12 +109,23 @@ export const Palette = React.forwardRef<HTMLDivElement, PaletteProps>(
         const innerRef = React.useRef<HTMLDivElement>(null);
         const handleRef = useForkRef(ref, innerRef);
 
-        const {value, handleSelection} = useSelect({
-            value: props.value,
-            defaultValue: props.defaultValue,
-            multiple,
-            onUpdate: props.onUpdate,
-        });
+        const [value, setValue] = useControlledState(
+            props.value,
+            props.defaultValue ?? [],
+            props.onUpdate,
+        );
+
+        const handleSelection = (option: PaletteOption) => {
+            if (multiple) {
+                setValue(
+                    value.includes(option.value)
+                        ? value.filter((item) => item !== option.value)
+                        : [...value, option.value],
+                );
+            } else if (!value.includes(option.value)) {
+                setValue([option.value]);
+            }
+        };
 
         const rows = React.useMemo(() => getPaletteRows(options, columns), [columns, options]);
 

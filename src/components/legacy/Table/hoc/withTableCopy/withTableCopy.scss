@@ -1,0 +1,32 @@
+@use '../../variables';
+
+#{variables.$block} {
+    &__copy {
+        display: inline-flex;
+        align-items: center;
+
+        &-content {
+            margin-inline-end: 5px;
+        }
+
+        &-button {
+            line-height: 0;
+            color: var(--g-color-text-secondary);
+            opacity: 0.5;
+
+            @media (hover: hover) {
+                visibility: hidden;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    @media (hover: hover) {
+        &__cell:hover &__copy-button {
+            visibility: visible;
+        }
+    }
+}

@@ -80,7 +80,7 @@ export default function () {
     return (
         <div>
             <Radio content="Content" size="l" />
-            <Box spacing={{mt: 2}}>
+            <Box marginBlockStart="spacing-2">
                 <Radio size="l">
                     <span>Content as children</span>
                 </Radio>

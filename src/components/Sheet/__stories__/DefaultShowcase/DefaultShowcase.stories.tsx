@@ -47,7 +47,7 @@ export const Default: StoryFn<SheetProps> = ({
     allowHideOnContentScroll = false,
     ...args
 }: SheetProps) => {
-    const [visible, setVisible] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
     const [withExtraOuterContent, setWithExtraOuterContent] = React.useState(false);
     const [withExtraInnerContent, setWithExtraInnerContent] = React.useState(false);
     const [withExtraInnerContentMoreThenViewport, setWithExtraInnerContentMoreThenViewport] =
@@ -57,7 +57,7 @@ export const Default: StoryFn<SheetProps> = ({
     return (
         <div className={b()}>
             <div className={b('show-btn')}>
-                <Button onClick={() => setVisible(true)}>Show modal</Button>
+                <Button onClick={() => setOpen(true)}>Show modal</Button>
             </div>
             <div className={b('content-item', b('checkbox'))}>
                 <Checkbox
@@ -79,8 +79,8 @@ export const Default: StoryFn<SheetProps> = ({
             <Sheet
                 {...args}
                 allowHideOnContentScroll={allowHideOnContentScroll}
-                visible={visible}
-                onOpenChange={setVisible}
+                open={open}
+                onOpenChange={setOpen}
                 title={withTitle ? 'Sheet title' : undefined}
                 qa={DEFAULT_SHEET_QA}
             >
@@ -123,7 +123,7 @@ export const Default: StoryFn<SheetProps> = ({
                     view="action"
                     size="s"
                     width="max"
-                    onClick={() => setVisible(false)}
+                    onClick={() => setOpen(false)}
                     className={b('content-item')}
                 >
                     Action

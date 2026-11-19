@@ -6,9 +6,9 @@ import {Popup} from '../../../Popup';
 import type {PopupPlacement} from '../../../Popup';
 import {Sheet} from '../../../Sheet';
 import {block} from '../../../utils/cn';
+import {getMiddlewares} from '../../../utils/popupMiddlewares';
 import {SelectQa} from '../../constants';
 
-import {getMiddlewares} from './middlewares';
 import type {SelectPopupProps} from './types';
 
 import './SelectPopup.scss';
@@ -30,19 +30,32 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             children,
             className,
             sheetClassName,
+            sheetTitle,
             disablePortal,
             virtualized,
             mobile,
             id,
         },
         ref,
-    ) =>
-        mobile ? (
+    ) => {
+        const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
+
+        React.useEffect(() => {
+            setAnchorElement(ref && typeof ref !== 'function' ? ref.current : null);
+        }, [ref]);
+
+        const handleOpenChange = (isOpen: boolean) => {
+            if (!isOpen) handleClose();
+        };
+
+        return mobile ? (
             <Sheet
                 qa={SelectQa.SHEET}
                 className={sheetClassName}
-                visible={Boolean(open)}
-                onClose={handleClose}
+                title={sheetTitle}
+                open={Boolean(open)}
+                onOpenChange={handleOpenChange}
+                onTransitionOutComplete={onAfterClose}
             >
                 {children}
             </Sheet>
@@ -50,20 +63,21 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             <Popup
                 className={b(null, className)}
                 qa={SelectQa.POPUP}
-                anchorRef={ref as React.RefObject<HTMLDivElement>}
+                anchorElement={anchorElement}
                 placement={placement}
                 open={open}
-                onClose={handleClose}
+                onOpenChange={handleOpenChange}
                 disablePortal={disablePortal}
                 returnFocus={controlRef}
-                floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}
+                floatingMiddlewares={getMiddlewares({width, placement, disablePortal, virtualized})}
                 id={id}
                 onTransitionIn={onAfterOpen}
                 onTransitionOutComplete={onAfterClose}
             >
                 {children}
             </Popup>
-        ),
+        );
+    },
 );
 
 SelectPopup.displayName = 'SelectPopup';

@@ -14,6 +14,10 @@ const qaId = 'button-component';
 const buttonViews: ButtonView[] = [
     'normal',
     'action',
+    'contrast',
+    'contrast-inverted',
+    'contrast-light',
+    'contrast-dark',
     'outlined',
     'outlined-info',
     'outlined-danger',
@@ -22,9 +26,6 @@ const buttonViews: ButtonView[] = [
     'flat-info',
     'flat-danger',
     'flat-secondary',
-    'normal-contrast',
-    'outlined-contrast',
-    'flat-contrast',
 ];
 
 const buttonPins: ButtonPin[] = [
@@ -497,7 +498,7 @@ describe('Button', () => {
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
+        const style = {color: 'rgb(255, 0, 0)'};
 
         render(<Button style={style} qa={qaId} />);
         const button = screen.getByTestId(qaId);

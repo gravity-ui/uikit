@@ -121,7 +121,7 @@ const noClickableTemplateActions = [
 
 const NoClickableTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
     return (
-        <Flex gap={4}>
+        <Flex gap="spacing-4">
             <FilePreview file={{name: 'No clickable', type: 'text/docs'} as File} />
             <FilePreview
                 file={{name: 'No clickable with actions', type: 'text/docs'} as File}
@@ -188,7 +188,7 @@ const withoutActionTooltipTemplateActions = [
 
 const WithoutActionTooltipTemplate: StoryFn<Omit<FilePreviewProps, 'actions'>> = () => {
     return (
-        <Flex gap={4}>
+        <Flex gap="spacing-4">
             <FilePreview
                 file={{name: 'Clicable without tooltip', type: 'text/docs'} as File}
                 onClick={() => action('onClick')}
@@ -233,14 +233,14 @@ export const View = ViewTemplate.bind({});
 
 const compactMenuActions = [
     {
-        iconStart: <Link width={14} height={14} />,
-        text: 'open on drive',
-        action: () => action('onLink'),
+        icon: <Link width={14} height={14} />,
+        children: 'open on drive',
+        onClick: () => action('onLink'),
     },
     {
-        iconStart: <Icon data={Xmark} width={14} height={14} />,
-        text: 'delete a file',
-        action: () => action('onClose'),
+        icon: <Icon data={Xmark} width={14} height={14} />,
+        children: 'delete a file',
+        onClick: () => action('onClose'),
     },
 ];
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {Text} from '../../Text/Text';
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {Flex} from '../../layout/Flex/Flex';
 import {Select} from '../Select';
 
@@ -54,7 +55,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
             />
 
             <h2>Modes default/fit</h2>
-            <Flex gap={10}>
+            <Flex gap="spacing-10">
                 <div>
                     Extra long values. DEFAULT (apply max-width: 90vw)
                     <div>
@@ -88,7 +89,7 @@ export const SelectPopupWidthShowcase = (args: any) => {
             <Flex justifyContent="center" style={{marginTop: '20px'}}>
                 Enclosed with 100px margin container
             </Flex>
-            <Flex gap={10} style={{margin: '0 100px', backgroundColor: 'lightgray'}}>
+            <Flex gap="spacing-10" style={{margin: '0 100px', backgroundColor: 'lightgray'}}>
                 <div>
                     Extra long values. FIT
                     <div>
@@ -130,56 +131,64 @@ export const SelectPopupWidthShowcase = (args: any) => {
 
             <h2>Virtualized</h2>
 
-            <Flex gap={10}>
+            <Flex gap="spacing-10">
                 <div>
                     Extra long values. DEFAULT.
                     <Text color="danger-heavy"> Not works for virtualized.</Text>
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-300"
-                            options={extralongVirtualized}
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-300"
+                                options={extralongVirtualized}
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
                 <div>
                     Short values. DEFAULT. Virtualized (use predefined width: 100px)
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-50"
-                            options={shortVirtualized}
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-50"
+                                options={shortVirtualized}
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
             </Flex>
 
-            <Flex gap={10}>
+            <Flex gap="spacing-10">
                 <div>
                     Extra long values. FIT. Virtualized
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-300"
-                            options={extralongVirtualized}
-                            popupWidth="fit"
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-300"
+                                options={extralongVirtualized}
+                                popupWidth="fit"
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
 
                 <div>
                     Short values. FIT. Virtualized
                     <div>
-                        <Select
-                            {...args}
-                            className="select-width-50"
-                            options={shortVirtualized}
-                            popupWidth="fit"
-                            title="Sample select"
-                        />
+                        <ListVirtualizer>
+                            <Select
+                                {...args}
+                                className="select-width-50"
+                                options={shortVirtualized}
+                                popupWidth="fit"
+                                title="Sample select"
+                            />
+                        </ListVirtualizer>
                     </div>
                 </div>
             </Flex>

@@ -156,7 +156,7 @@ export const Position: Story = {
                 >
                     <div ref={setContextElement} />
                     <Text color="complementary">Move cursor here</Text>
-                    <Popup {...props} open={open} anchorRef={{current: anchor}}>
+                    <Popup {...props} open={open} anchorElement={anchor}>
                         <div style={{padding: 10}}>Popup content</div>
                     </Popup>
                 </div>

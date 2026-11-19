@@ -36,7 +36,7 @@ export const ActionsPanel = (rawProps: ActionsPanelProps) => {
             <CollapseActions actions={actions} maxRowActions={maxRowActions} />
             {typeof onClose === 'function' && (
                 <Button
-                    view="flat-contrast"
+                    view="flat"
                     size="m"
                     onClick={onClose}
                     className={b('button-close')}

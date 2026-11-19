@@ -8,6 +8,7 @@ import {Dialog} from '../../Dialog';
 import {Select} from '../../Select';
 import {Text} from '../../Text';
 import {Tooltip} from '../../Tooltip';
+import {LangProvider} from '../LangProvider';
 import {ThemeProvider} from '../ThemeProvider';
 import {useDirection} from '../useDirection';
 
@@ -62,7 +63,7 @@ function ScopedComponent() {
                     }}
                 >{`${t('current direction')}: ${useDirection()}`}</Button>
             </Tooltip>
-            <Dialog open={open} onClose={() => setOpen(false)}>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <Dialog.Header caption={t('dialog.header')} />
                 <Dialog.Body>
                     {t('dialog.body')}
@@ -123,30 +124,30 @@ export const Scoped: Story = {
                         <ScopedComponent />
                     </div>
                 </ThemeProvider>
-                <ThemeProvider {...props} lang="en">
+                <LangProvider lang="en">
                     <div style={style}>
-                        <Text>Inside scoped theme provider (en)</Text>
+                        <Text>Inside language provider (en)</Text>
                         <ScopedComponent />
                     </div>
-                </ThemeProvider>
-                <ThemeProvider {...props} lang="ru">
+                </LangProvider>
+                <LangProvider lang="ru">
                     <div style={style}>
-                        <Text>Inside scoped theme provider (ru)</Text>
+                        <Text>Inside language provider (ru)</Text>
                         <ScopedComponent />
                     </div>
-                </ThemeProvider>
-                <ThemeProvider {...props} lang="unknown" fallbackLang="en">
+                </LangProvider>
+                <LangProvider lang="unknown" fallbackLang="en">
                     <div style={style}>
-                        <Text>Inside scoped theme provider (fallback - en)</Text>
+                        <Text>Inside language provider (fallback - en)</Text>
                         <ScopedComponent />
                     </div>
-                </ThemeProvider>
-                <ThemeProvider {...props} lang="unknown" fallbackLang="ru">
+                </LangProvider>
+                <LangProvider lang="unknown" fallbackLang="ru">
                     <div style={style}>
-                        <Text>Inside scoped theme provider (fallback - ru)</Text>
+                        <Text>Inside language provider (fallback - ru)</Text>
                         <ScopedComponent />
                     </div>
-                </ThemeProvider>
+                </LangProvider>
             </div>
         );
     },

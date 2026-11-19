@@ -78,13 +78,15 @@ $block: '.#{variables.$ns}segmented-radio-group';
             }
         }
 
-        &:not(&_checked):not(&_disabled):hover {
-            &::after {
-                background-color: var(--g-color-base-simple-hover);
-            }
+        @media (hover: hover) {
+            &:not(&_checked):not(&_disabled):hover {
+                &::after {
+                    background-color: var(--g-color-base-simple-hover);
+                }
 
-            #{$block}__option-text {
-                color: var(--g-color-text-primary);
+                #{$block}__option-text {
+                    color: var(--g-color-text-primary);
+                }
             }
         }
 

@@ -13,18 +13,12 @@ import './Link.scss';
 export type LinkView = 'normal' | 'primary' | 'secondary';
 
 export interface LinkProps
-    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'>,
-        QAProps,
-        DOMProps {
+    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'style'>, QAProps, DOMProps {
     view?: LinkView;
     visitable?: boolean;
     underline?: boolean;
     href: string;
     children?: React.ReactNode;
-    /**
-     * @deprecated Use additional props at the root
-     */
-    extraProps?: React.AnchorHTMLAttributes<HTMLAnchorElement>;
 }
 
 const b = block('link');
@@ -36,7 +30,6 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
         underline = false,
         href,
         children,
-        extraProps,
         qa,
         onClickCapture,
         ...props
@@ -59,7 +52,6 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link
     return (
         <a
             {...props}
-            {...extraProps}
             ref={ref}
             href={href}
             rel={getLinkRelWithFallback(props)}

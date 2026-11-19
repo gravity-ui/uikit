@@ -22,8 +22,17 @@ $block: '.#{variables.$ns}toast';
     border-radius: 8px;
     box-shadow: 0px 0px 15px var(--g-color-sfx-shadow);
     background-color: var(--_--background-color);
-    overflow: hidden;
     z-index: 0;
+
+    &:before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: -1;
+        border-radius: inherit;
+        background-color: var(--_--container-background-color);
+    }
 
     &_mobile {
         width: 100%;
@@ -66,18 +75,6 @@ $block: '.#{variables.$ns}toast';
         flex-flow: column nowrap;
         min-height: var(--g-text-body-2-line-height);
         min-width: 0;
-
-        &:before {
-            content: '';
-            position: absolute;
-            inset-block-start: 0;
-            inset-inline-start: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            background-color: var(--_--container-background-color);
-        }
     }
 
     &__icon-container {
@@ -92,10 +89,12 @@ $block: '.#{variables.$ns}toast';
         @include mixins.text-subheader-3;
         margin: 0;
         padding-inline-end: $closeButtonTitleSpacing + $closeButtonSize;
+        overflow-wrap: break-word;
     }
 
     &__content {
         margin-block-start: var(--g-spacing-2);
+        overflow-wrap: break-word;
 
         &_without-title {
             margin-block-start: 0;

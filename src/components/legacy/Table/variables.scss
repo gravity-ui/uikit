@@ -1,0 +1,4 @@
+@use '../../variables';
+
+$block: '.#{variables.$ns}table';
+$tableLineHeight: 18px;

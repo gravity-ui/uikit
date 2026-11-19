@@ -1,5 +1,59 @@
 # Changelog
 
+## [8.1.0](https://github.com/gravity-ui/uikit/compare/v8.0.0...v8.1.0) (2026-11-17)
+
+
+### Features
+
+* bump all dependencies ([#2926](https://github.com/gravity-ui/uikit/issues/2926)) ([32621e5](https://github.com/gravity-ui/uikit/commit/32621e544acb02f206522211a217e9a6426913b1))
+* **Sheet:** add keepMounted prop ([#2943](https://github.com/gravity-ui/uikit/issues/2943)) ([ec73128](https://github.com/gravity-ui/uikit/commit/ec731283afef1bd72b443cdcd82fead94c7fdf2b))
+* **Suggest:** add Suggest component ([#2942](https://github.com/gravity-ui/uikit/issues/2942)) ([f1d4a67](https://github.com/gravity-ui/uikit/commit/f1d4a6737a478e110ea0770a4ac70b07eaad552f))
+
+
+### Bug Fixes
+
+* **FileDropZone:** reject non-file drags, use design tokens and stabilize memoization ([#2928](https://github.com/gravity-ui/uikit/issues/2928)) ([12c51f2](https://github.com/gravity-ui/uikit/commit/12c51f2d6fa45b5c57e817edc90dc4a047403872))
+* **FileDropZone:** validate accept extensions on drop and files from the dialog ([#2921](https://github.com/gravity-ui/uikit/issues/2921)) ([fd8a20e](https://github.com/gravity-ui/uikit/commit/fd8a20e1f972a8bc9f175d65dcf07b24daf243a4))
+* **ListItemView:** set correct inline paddings due to desing system ([#2927](https://github.com/gravity-ui/uikit/issues/2927)) ([6a79127](https://github.com/gravity-ui/uikit/commit/6a7912799155c5bee7c3499a0a5dae18584d77c6))
+* **useListNavigation:** select the first enabled item on Home ([#2925](https://github.com/gravity-ui/uikit/issues/2925)) ([1fefe85](https://github.com/gravity-ui/uikit/commit/1fefe85798abfb852adcefa320b26c577181847c))
+
+## [8.0.0](https://github.com/gravity-ui/uikit/compare/v8.0.0-beta.2...v8.0.0) (2026-10-23)
+
+
+UIKit v8 introduces composable providers, a new list foundation, responsive layout APIs, and updated themes. This major release also removes deprecated APIs and moves older components to the legacy entry point.
+
+### Highlights
+
+- **Composable providers:** `Provider` combines theme, language, layout, component defaults, and mobile settings. Feature providers let you configure each independently.
+- **New List and stable Menu:** selection, virtualization, and drag-and-drop are separate list layers. `Menu` supports composable items and submenus.
+- **Responsive layouts:** new `Grid` and responsive style props for `Box`, `Flex`, `Container`, `Row`, and `Col`.
+- **Stable APIs:** `ColorPicker`, `FileDropZone`, and `useDropZone` move to the root entry point.
+- **More flexible Select:** non-string option values, custom selection indicators, mobile sheet titles, and rendering the whole selection with `renderSelectedOptions`.
+- **Contrast palettes:** `Button` gains `contrast`, `contrast-inverted`, `contrast-light`, and `contrast-dark` views, backed by Themer v2 semantic tokens.
+
+See full migration guide here: https://github.com/gravity-ui/uikit/blob/main/docs/migration-to-v8.md
+
+## [7.51.1](https://github.com/gravity-ui/uikit/compare/v7.51.0...v7.51.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **Sheet:** follow viewport resizes without jumps ([#2878](https://github.com/gravity-ui/uikit/issues/2878)) ([248000b](https://github.com/gravity-ui/uikit/commit/248000b333632e2ef95764a2ff92acf34b5f4ee9))
+
+## [7.51.0](https://github.com/gravity-ui/uikit/compare/v7.50.1...v7.51.0) (2026-10-06)
+
+
+### Features
+
+* **Dialog:** add disableTransition prop ([#2855](https://github.com/gravity-ui/uikit/issues/2855)) ([c1ae095](https://github.com/gravity-ui/uikit/commit/c1ae095bd2f2d14890ed05de5849b1a8fb3eb6d0))
+* **HelpMark:** use Sheet on mobile ([#2850](https://github.com/gravity-ui/uikit/issues/2850)) ([9af7139](https://github.com/gravity-ui/uikit/commit/9af71390e6cb96e3d9775ab6df507ecbdefccba2))
+* **theme:** support external default props ([#2841](https://github.com/gravity-ui/uikit/issues/2841)) ([a36619a](https://github.com/gravity-ui/uikit/commit/a36619aaf378b8f6e91ce8ad952a85ab81f03525))
+
+
+### Bug Fixes
+
+* **useForkRef:** do not use cleanup functions for React versions earlier than 19 ([#2868](https://github.com/gravity-ui/uikit/issues/2868)) ([16b2257](https://github.com/gravity-ui/uikit/commit/16b22579129993c48c67687c4ed0a3520656cb96))
+
 ## [7.50.1](https://github.com/gravity-ui/uikit/compare/v7.50.0...v7.50.1) (2026-09-23)
 
 

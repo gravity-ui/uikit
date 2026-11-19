@@ -13,6 +13,7 @@ export type SelectPopupProps = {
     children?: React.ReactNode;
     className?: string;
     sheetClassName?: string;
+    sheetTitle?: string;
     disablePortal?: boolean;
     virtualized?: boolean;
     id?: string;

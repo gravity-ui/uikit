@@ -1,7 +1,7 @@
 import type {StorybookConfig} from '@storybook/react-webpack5';
 import type {RuleSetRule} from 'webpack';
 
-import {sassFunctions} from '../build-utils/sass-functions';
+import {sassFunctions} from '../build-utils/sass-functions.js';
 
 // `import src from './file.tsx?raw'` must return the SOURCE of the file (the
 // Code panel of a story shows a copyable example). The babel rule of storybook
@@ -39,6 +39,9 @@ function excludeRawFromScriptRules(rules: LooseRule[] | undefined) {
 
 const config: StorybookConfig = {
     framework: '@storybook/react-webpack5',
+    features: {
+        backgrounds: false,
+    },
     stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
     docs: {
         defaultName: 'Docs',
@@ -66,8 +69,6 @@ const config: StorybookConfig = {
                 ],
             },
         },
-        './theme-addon/register.tsx',
-        './theme-import-addon/register.tsx',
         '@storybook/addon-a11y',
         '@storybook/addon-webpack5-compiler-babel',
         '@storybook/addon-docs',
@@ -85,6 +86,15 @@ const config: StorybookConfig = {
         // A dedicated `?raw` rule → the raw text of the module (after the
         // exclusion above babel no longer touches such imports)
         rules.unshift({resourceQuery: RAW_QUERY, type: 'asset/source'});
+        // A relative `.js` names the TypeScript source, as it does for tsc: a dynamic import has
+        // to carry the extension under `nodenext` (the lazy root of ListVirtualizer)
+        webpackConfig.resolve = {
+            ...webpackConfig.resolve,
+            extensionAlias: {
+                ...webpackConfig.resolve?.extensionAlias,
+                '.js': ['.tsx', '.ts', '.js'],
+            },
+        };
         return webpackConfig;
     },
 };

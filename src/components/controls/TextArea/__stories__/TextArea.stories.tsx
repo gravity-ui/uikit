@@ -52,9 +52,6 @@ export const Default: Story = {
         note: {
             control: 'text',
         },
-        error: {
-            control: 'text',
-        },
         errorMessage: {
             control: 'text',
         },

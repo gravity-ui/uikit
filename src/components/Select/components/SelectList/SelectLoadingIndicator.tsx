@@ -7,12 +7,15 @@ import {Loader} from '../../../Loader/Loader';
 import {selectListBlock} from '../../constants';
 
 export const SelectLoadingIndicator = (props: {onIntersect?: () => void}) => {
-    const ref = React.useRef<HTMLDivElement | null>(null);
+    // State rather than a ref: the observer is attached in an effect, and a ref filled during the
+    // commit does not re-run it. The row of the list renders once and is memoized after that, so
+    // there is no second render to pick the element up
+    const [element, setElement] = React.useState<HTMLDivElement | null>(null);
 
-    useIntersection({element: ref.current, onIntersect: props?.onIntersect});
+    useIntersection({element, onIntersect: props?.onIntersect});
 
     return (
-        <div ref={ref} className={selectListBlock('loading-indicator')}>
+        <div ref={setElement} className={selectListBlock('loading-indicator')}>
             <Loader />
         </div>
     );

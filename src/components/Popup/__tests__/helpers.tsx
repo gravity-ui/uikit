@@ -6,19 +6,11 @@ import {Popup} from '../Popup';
 import {VisualTestQA} from './constants';
 
 export const TestPopup = (props: PopupProps) => {
-    const anchorRef = React.useRef<HTMLDivElement>(null);
+    const [anchorElement, setAnchorElement] = React.useState<HTMLDivElement | null>(null);
 
     return (
         <React.Fragment>
-            <Popup
-                {...props}
-                open
-                onClose={() => {
-                    // nothing
-                }}
-                anchorRef={anchorRef}
-                qa={VisualTestQA.popupContent}
-            >
+            <Popup {...props} open anchorElement={anchorElement} qa={VisualTestQA.popupContent}>
                 <div style={{padding: 10}}>Popup content</div>
             </Popup>
             <div
@@ -31,7 +23,7 @@ export const TestPopup = (props: PopupProps) => {
                 }}
             >
                 <div
-                    ref={anchorRef}
+                    ref={setAnchorElement}
                     style={{
                         width: '200px',
                         height: '100px',

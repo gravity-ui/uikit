@@ -42,6 +42,19 @@ describe('Popup', () => {
         expect(popup).toBeVisible();
     });
 
+    test('should report the escape key through onOpenChange', async () => {
+        const onOpenChange = jest.fn();
+        render(
+            <Popup open onOpenChange={onOpenChange}>
+                {sampleText}
+            </Popup>,
+        );
+
+        await userEvent.keyboard('{Escape}');
+
+        expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(KeyboardEvent), 'escape-key');
+    });
+
     test('should not set aria-modal and role by default', async () => {
         render(<Popup open qa={qaId} />);
         const popup = screen.getByTestId(qaId);

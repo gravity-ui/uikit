@@ -31,7 +31,10 @@ export const CustomThemeShowcase = () => {
                     <TextInput
                         {...textInputProps}
                         placeholder="error with message"
-                        error={isErrorMessageVisible ? 'A validation error has occurred' : true}
+                        validationState="invalid"
+                        errorMessage={
+                            isErrorMessageVisible ? 'A validation error has occurred' : undefined
+                        }
                     />
                     <Checkbox
                         onUpdate={setErrorMessageVisibility}
@@ -41,7 +44,8 @@ export const CustomThemeShowcase = () => {
                 <TextInput
                     {...textInputProps}
                     placeholder="inline error"
-                    error="A validation error has occurred"
+                    validationState="invalid"
+                    errorMessage="A validation error has occurred"
                     errorPlacement="inside"
                 />
                 <TextInput {...textInputProps} placeholder="disabled" disabled />
@@ -74,7 +78,10 @@ export const CustomThemeShowcase = () => {
                     <TextInput
                         {...textInputProps}
                         placeholder="error with message"
-                        error={isErrorMessageVisible ? 'A validation error has occurred' : true}
+                        validationState="invalid"
+                        errorMessage={
+                            isErrorMessageVisible ? 'A validation error has occurred' : undefined
+                        }
                     />
                     <Checkbox
                         onUpdate={setErrorMessageVisibility}
@@ -84,7 +91,8 @@ export const CustomThemeShowcase = () => {
                 <TextInput
                     {...textInputProps}
                     placeholder="inline error"
-                    error="A validation error has occurred"
+                    validationState="invalid"
+                    errorMessage="A validation error has occurred"
                     errorPlacement="inside"
                 />
                 <TextInput {...textInputProps} placeholder="disabled" disabled />

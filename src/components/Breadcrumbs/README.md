@@ -10,6 +10,8 @@
 import {Breadcrumbs} from '@gravity-ui/uikit';
 ```
 
+Migrating from the legacy `Breadcrumbs`? See the [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-breadcrumbs.md).
+
 ## Example
 
 <!--SANDBOX
@@ -235,19 +237,19 @@ export default function () {
         <Box width="100%">
             <Breadcrumbs>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={House} size={16} />
                         uikit
                     </Flex>
                 </Breadcrumbs.Item>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Flame} size={16} />
                         components
                     </Flex>
                 </Breadcrumbs.Item>
                 <Breadcrumbs.Item>
-                    <Flex alignItems="center" gap={1}>
+                    <Flex alignItems="center" gap="spacing-1">
                         <Icon data={Rocket} size={16} style={{minWidth: 16}} />
                         <Text ellipsis variant="inherit">
                             Breadcrumbs
@@ -265,17 +267,17 @@ SANDBOX-->
 ```jsx
 <Breadcrumbs>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <House /> uikit
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Flame /> components
     </Flex>
   </Breadcrumbs.Item>
   <Breadcrumbs.Item>
-    <Flex alignItems="center" gap={1}>
+    <Flex alignItems="center" gap="spacing-1">
       <Rocket style={{minWidth: 16}} />
       <Text ellipsis variant="inherit">
         Breadcrumbs
@@ -479,7 +481,7 @@ SANDBOX-->
 ```jsx
 <Breadcrumbs
   endContent={
-    <Flex gap={1} spacing={{pl: 1}}>
+    <Flex gap="spacing-1" paddingInlineStart="spacing-1">
       <Button>Test1</Button>
       <Button>Test2</Button>
     </Flex>
@@ -501,32 +503,35 @@ SANDBOX-->
 
 ## Properties
 
-| Name             | Description                                                                  | Type                                       | Default |
-| :--------------- | :--------------------------------------------------------------------------- | :----------------------------------------- | :------ |
-| children         | Breadcrumb items                                                             | `React.ReactElement<BreadcrumbsItemProps>` |         |
-| disabled         | Determines whether `Breadcrumbs` are disabled.                               | `boolean`                                  |         |
-| showRoot         | Enables or disables always showing the root item if the items are collapsed. | `boolean`                                  |         |
-| popupPlacement   | Style of the collapsed item popup.                                           | `PopupPlacement`                           |         |
-| popupStyle       | Style of the collapsed item popup.                                           | `"staircase"`                              |         |
-| qa               | `data-qa` HTML attribute, used for testing                                   | `string`                                   |         |
-| separator        | Custom separator node.                                                       | `React.ReactNode`                          | "/"     |
-| action           | `click` event handler.                                                       | `(id: Key) => void`                        |         |
-| id               | Element's unique ID.                                                         | `string`                                   |         |
-| className        | CSS class name for the element.                                              | `string`                                   |         |
-| style            | Sets the inline style for the element.                                       | `CSSProperties`                            |         |
-| aria-label       | Defines a string value that labels the current element.                      | `string`                                   |         |
-| aria-labelledby  | Identifies the element(s) that label the current element.                    | `string`                                   |         |
-| aria-describedby | Identifies the element(s) that describe the object.                          | `string`                                   |         |
-| endContent       | User's node rendered after last breadcrumb item.                             | `React.ReactNode`                          |         |
+| Name             | Description                                                                  | Type                 | Default |
+| :--------------- | :--------------------------------------------------------------------------- | :------------------- | :------ |
+| children         | Breadcrumb items                                                             | `React.ReactNode`    |         |
+| disabled         | Determines whether `Breadcrumbs` are disabled.                               | `boolean`            |         |
+| showRoot         | Enables or disables always showing the root item if the items are collapsed. | `boolean`            |         |
+| maxItems         | Maximum number of visible items, including the collapse control.             | `number`             |         |
+| itemComponent    | Component used to render items.                                              | `React.ElementType`  |         |
+| popupPlacement   | Style of the collapsed item popup.                                           | `PopupPlacement`     |         |
+| popupStyle       | Style of the collapsed item popup.                                           | `"staircase"`        |         |
+| qa               | `data-qa` HTML attribute, used for testing                                   | `string`             |         |
+| separator        | Custom separator node.                                                       | `React.ReactNode`    | "/"     |
+| onAction         | Handler called with the clicked item's key.                                  | `(key: Key) => void` |         |
+| id               | Element's unique ID.                                                         | `string`             |         |
+| className        | CSS class name for the element.                                              | `string`             |         |
+| style            | Sets the inline style for the element.                                       | `CSSProperties`      |         |
+| aria-label       | Defines a string value that labels the current element.                      | `string`             |         |
+| aria-labelledby  | Identifies the element(s) that label the current element.                    | `string`             |         |
+| aria-describedby | Identifies the element(s) that describe the object.                          | `string`             |         |
+| endContent       | User's node rendered after last breadcrumb item.                             | `React.ReactNode`    |         |
 
 ### BreadcrumbsItemProps
 
 | Name       | Description                                                    | Type                              | Default |
 | :--------- | :------------------------------------------------------------- | :-------------------------------- | :------ |
-| children   | Breadcrumbs content.                                           | `string`                          |         |
+| children   | Breadcrumbs content.                                           | `React.ReactNode`                 |         |
 | title      | String representation of the item contents.                    | `string`                          |         |
 | aria-label | Accessibility label for the item.                              | `string`                          |         |
 | href       | URL to use for the hyperlink.                                  | `string`                          |         |
+| onClick    | Item click handler.                                            | `React.MouseEventHandler`         |         |
 | target     | Target window for the link.                                    | `React.HTMLAttributeAnchorTarget` |         |
 | rel        | Relationship between the linked resource and the current page. | `string`                          |         |
 | disabled   | Whether the BreadcrumbsItem is disabled.                       | `boolean`                         |         |

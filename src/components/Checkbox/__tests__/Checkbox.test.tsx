@@ -87,7 +87,7 @@ describe('Checkbox', () => {
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
+        const style = {color: 'rgb(255, 0, 0)'};
 
         render(<Checkbox style={style} qa={qaId} />);
         const component = screen.getByTestId(qaId);
@@ -162,7 +162,7 @@ describe('Checkbox', () => {
 
         await user.click(checkbox);
 
-        expect(onChangeFn).toBeCalled();
+        expect(onChangeFn).toHaveBeenCalled();
     });
 
     test('call onUpdate with checked status', async () => {
@@ -173,10 +173,10 @@ describe('Checkbox', () => {
         const checkbox = screen.getByRole('checkbox');
 
         await user.click(checkbox);
-        expect(onUpdateFn).toBeCalledWith(true);
+        expect(onUpdateFn).toHaveBeenCalledWith(true);
 
         await user.click(checkbox);
-        expect(onUpdateFn).toBeCalledWith(false);
+        expect(onUpdateFn).toHaveBeenCalledWith(false);
     });
 
     test('call onFocus/onBlur', async () => {

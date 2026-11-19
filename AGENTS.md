@@ -42,7 +42,7 @@ may skip this gate, but the response must explicitly say why no documentation wa
   implementation details. Prefer spacing, typography, and radius tokens over hard-coded values.
 - Preserve RTL and i18n behavior: use logical CSS properties where direction matters and the
   existing configuration/i18n patterns for built-in text.
-- Use npm only. The supported local baseline is Node.js 20.19+ and npm 9+; restore dependencies
+- Use npm only. The supported local baseline is Node.js 24+ and npm 11+; restore dependencies
   with `npm ci` when required checks cannot run because the installation is incomplete.
 - Do not change public exports or TypeScript API shape unless the task explicitly requires it.
 

@@ -1,0 +1,4 @@
+# Committed theme artifacts are regenerated with `npm run generate:theme` and
+# verified in CI via `git diff --exit-code`. Pin them to LF so a regenerate on
+# Windows (core.autocrlf=true) can't produce a spurious CRLF diff.
+styles/themes/*.generated.css text eol=lf

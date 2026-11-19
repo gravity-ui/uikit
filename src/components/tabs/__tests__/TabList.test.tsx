@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import {Tab, TabList} from '..';
 import {act, render, screen} from '../../../../test-utils/utils';
 import {KeyCode} from '../../../constants';
-import {ThemeProvider} from '../../theme';
+import {LangProvider} from '../../theme';
 import type {TabSize} from '../types';
 
 const qaId = 'tabs-list';
@@ -130,7 +130,7 @@ test('should not call onUpdate if default prevented', async () => {
     await user.click(tabComponent1);
     await user.click(tabComponent2);
 
-    expect(onUpdateFn).toBeCalledTimes(1);
+    expect(onUpdateFn).toHaveBeenCalledTimes(1);
     expect(onUpdateFn).toHaveBeenCalledWith(tab2.value);
 });
 
@@ -329,7 +329,7 @@ test('contentOverflow collapse: shows localized More button when some tabs overf
                 {tab3.title}
             </Tab>
         </TabList>,
-        {wrapper: ({children}) => <ThemeProvider lang="ru">{children}</ThemeProvider>},
+        {wrapper: ({children}) => <LangProvider lang="ru">{children}</LangProvider>},
     );
 
     const trigger = screen.getByRole('button', {name: /ещё/i});

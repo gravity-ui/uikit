@@ -83,7 +83,7 @@ describe('Radio', () => {
     });
 
     test('add style', () => {
-        const style = {color: 'red'};
+        const style = {color: 'rgb(255, 0, 0)'};
 
         render(<Radio value={value} style={style} qa={qaId} />);
         const component = screen.getByTestId(qaId);
@@ -153,7 +153,7 @@ describe('Radio', () => {
 
         await user.click(radio);
 
-        expect(onChangeFn).toBeCalled();
+        expect(onChangeFn).toHaveBeenCalled();
     });
 
     test('call onUpdate with checked status', async () => {
@@ -164,7 +164,7 @@ describe('Radio', () => {
         const radio = screen.getByRole('radio');
 
         await user.click(radio);
-        expect(onUpdateFn).toBeCalledWith(true);
+        expect(onUpdateFn).toHaveBeenCalledWith(true);
     });
 
     test('call onFocus/onBlur', async () => {

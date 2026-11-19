@@ -1,9 +1,10 @@
 import {EllipsisVertical} from '@gravity-ui/icons';
 
 import {ActionTooltip} from '../../../../ActionTooltip';
-import type {DropdownMenuItem, DropdownMenuProps} from '../../../../DropdownMenu';
-import {DropdownMenu} from '../../../../DropdownMenu';
+import {Button} from '../../../../Button';
 import {Icon} from '../../../../Icon';
+import {Menu, MenuItem} from '../../../../Menu';
+import type {MenuItemButtonProps} from '../../../../Menu';
 import {cn} from '../../../../utils/cn';
 
 import './CompactActionsMenu.scss';
@@ -11,28 +12,27 @@ import './CompactActionsMenu.scss';
 const b = cn('file-preview-actions-compact');
 
 export interface CompactActionsMenuProps {
-    actions: DropdownMenuItem[];
+    actions: MenuItemButtonProps[];
 }
-
-const actionsButtonProps: DropdownMenuProps<unknown>['defaultSwitcherProps'] = {
-    size: 's',
-    view: 'raised',
-    pin: 'circle-circle',
-    'aria-label': 'Actions',
-};
-
-const actionsButtonIcon = <Icon data={EllipsisVertical} />;
 
 export const CompactActionsMenu = ({actions}: CompactActionsMenuProps) => {
     return (
         <div className={b()}>
             <ActionTooltip title="Actions">
-                <DropdownMenu
-                    items={actions}
+                <Menu
                     size="s"
-                    defaultSwitcherProps={actionsButtonProps}
-                    icon={actionsButtonIcon}
-                />
+                    trigger={
+                        <Button size="s" view="raised" pin="circle-circle" aria-label="Actions">
+                            <Icon data={EllipsisVertical} />
+                        </Button>
+                    }
+                >
+                    {actions.map(({children, ...props}, index) => (
+                        <MenuItem key={index} {...props}>
+                            {children}
+                        </MenuItem>
+                    ))}
+                </Menu>
             </ActionTooltip>
         </div>
     );

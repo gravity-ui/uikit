@@ -17,7 +17,4 @@ export type SVGIconStringData = string;
 export interface SVGIconSvgrData extends React.FunctionComponent<React.SVGProps<SVGSVGElement>> {}
 
 export type SVGIconData =
-    | SVGIconComponentData
-    | SVGIconSpriteData
-    | SVGIconSvgrData
-    | SVGIconStringData;
+    SVGIconComponentData | SVGIconSpriteData | SVGIconSvgrData | SVGIconStringData;

@@ -2,12 +2,15 @@
 const path = require('path');
 
 const utils = require('@gravity-ui/gulp-utils');
+const {buildDocs} = require('@gravity-ui/readme-validator');
 const {task, src, dest, series, parallel} = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const {rimrafSync} = require('rimraf');
+const ts = require('typescript');
 
 const {sassFunctions} = require('./build-utils/sass-functions');
+const {createDynamicImportTransformer} = require('./build-utils/transform-dynamic-import');
 
 const {version} = require('./package.json');
 
@@ -15,7 +18,7 @@ const BUILD_DIR = path.resolve('build');
 
 task('clean', (done) => {
     rimrafSync(BUILD_DIR);
-    rimrafSync('styles/**/*.css', {glob: true});
+    rimrafSync(['styles/styles.css', 'styles/fonts.css']);
     done();
 });
 
@@ -33,6 +36,10 @@ async function compileTs(modules = false) {
         tsProject.customTransformers.transformScssImports,
         tsProject.customTransformers.transformLocalModules,
     ];
+    // The ESM build keeps `import()` for the bundlers to split; CommonJS loads with `require`
+    const codeTransformers = modules
+        ? transformers
+        : [...transformers, createDynamicImportTransformer(ts)];
     return new Promise((resolve) => {
         src([
             'src/**/*.{ts,tsx}',
@@ -48,7 +55,7 @@ async function compileTs(modules = false) {
             .pipe(
                 tsProject({
                     customTransformers: {
-                        before: transformers,
+                        before: codeTransformers,
                         afterDeclarations: transformers,
                     },
                 }),
@@ -107,7 +114,7 @@ task('styles-components', () => {
 });
 
 task('copy-docs', (done) => {
-    utils.buildDocs();
+    buildDocs();
     done();
 });
 

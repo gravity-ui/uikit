@@ -1,28 +1,63 @@
-import * as React from 'react';
+import {Envelope, Star} from '@gravity-ui/icons';
 
+import {Icon} from '../../Icon';
+import {Label} from '../../Label';
 import {List} from '../List';
 import type {ListProps} from '../types';
 
-export const TestList = <T extends string>(props: Partial<ListProps<T>>) => {
-    const [activeItemIndex, setActiveItemIndex] = React.useState<number | undefined>(1);
-    const [selectedItemIndex, setSelectedItemIndex] = React.useState<number | undefined>(2);
+import type {Mailbox} from './cases';
+import {mailboxes, sections} from './cases';
 
-    return (
-        <List
-            {...props}
-            activeItemIndex={activeItemIndex}
-            onChangeActive={setActiveItemIndex}
-            selectedItemIndex={selectedItemIndex}
-            onItemClick={(_, index) => setSelectedItemIndex(index)}
-        />
-    );
-};
+/** Every state of a screenshot comes from the props: the pointer is never moved by the tests */
+const commonProps = {
+    'aria-label': 'Mailboxes',
+    getItemContent: (mailbox: Mailbox) => mailbox.name,
+} satisfies Partial<ListProps<Mailbox>>;
 
-export const TestListWithCustomRender = <T extends string>(props: Partial<ListProps<T>>) => {
-    return (
-        <TestList
-            {...props}
-            renderItem={(item) => <div style={{border: '1px dotted tomato'}}>{item}</div>}
-        />
-    );
-};
+export const TestList = (props: Partial<ListProps<Mailbox>>) => (
+    <List
+        items={mailboxes}
+        defaultActiveItemId="starred"
+        selectionMode="single"
+        defaultSelectedIds={['inbox']}
+        {...commonProps}
+        {...props}
+    />
+);
+
+export const TestListWithSections = (props: Partial<ListProps<Mailbox>>) => (
+    <List items={sections} {...commonProps} {...props} />
+);
+
+export const TestListWithItemView = (props: Partial<ListProps<Mailbox>>) => (
+    <List
+        items={mailboxes}
+        defaultActiveItemId="starred"
+        {...commonProps}
+        renderItem={(ctx, {getItemProps, getItemViewProps}) => (
+            <List.ItemView
+                {...getItemProps()}
+                {...getItemViewProps()}
+                startContent={<Icon data={ctx.item.id === 'starred' ? Star : Envelope} size={16} />}
+                description={ctx.item.description}
+                endContent={<Label>{ctx.item.count}</Label>}
+            >
+                {ctx.item.name}
+            </List.ItemView>
+        )}
+        {...props}
+    />
+);
+
+/**
+ * The indication of a drag is the only thing the list draws itself: the ghost of the dragged row
+ * and the insertion line of the drop target, both from the state half of the adapter
+ */
+export const TestListWithDnd = (props: Partial<ListProps<Mailbox>>) => (
+    <List
+        items={mailboxes}
+        dnd={{draggingId: 'inbox', dropTarget: {id: 'sent', position: 'before'}}}
+        {...commonProps}
+        {...props}
+    />
+);

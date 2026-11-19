@@ -10,6 +10,8 @@ Tabs components is used to explore, organize content and switch between differen
 import {TabProvider, TabList, Tab, TabPanel} from '@gravity-ui/uikit';
 ```
 
+Migrating from the legacy `Tabs`? See the [migration guide](https://github.com/gravity-ui/uikit/blob/main/docs/migration-from-legacy-tabs.md).
+
 <!--SANDBOX
 import {useState} from 'react';
 import {Tab, TabList, TabPanel, TabProvider} from '@gravity-ui/uikit';
@@ -360,11 +362,9 @@ Is a container element for content associated with a tab
 
 ## CSS API
 
-| Name                             | Description                |
-| :------------------------------- | :------------------------- |
-| `--g-tabs-border-width`          | Tabs border width          |
-| `--g-tabs-item-height`           | Tabs item height           |
-| `--g-tabs-item-border-width`     | Tabs item border width     |
-| `--g-tabs-item-gap`              | Distance between tabs      |
-| `--g-tabs-vertical-item-height`  | Tabs vertical item height  |
-| `--g-tabs-vertical-item-padding` | Tabs vertical item padding |
+| Name                         | Description            |
+| :--------------------------- | :--------------------- |
+| `--g-tabs-border-width`      | Tabs border width      |
+| `--g-tabs-item-height`       | Tabs item height       |
+| `--g-tabs-item-border-width` | Tabs item border width |
+| `--g-tabs-item-gap`          | Distance between tabs  |

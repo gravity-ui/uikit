@@ -14,8 +14,6 @@ import {waitForImages} from '../actions/wait-for-images';
 
 export type {MountFn as MountFixture} from '@gravity-ui/playwright-tools/component-tests';
 
-type Fixtures = ExpectScreenshotTestArgs & MountTestArgs;
-
 const onBeforeScreenshot = async (page: Page) => {
     await waitForImages(page);
     await waitForFonts(page);
@@ -34,9 +32,8 @@ const expectScreenshotFixtures = expectScreenshotFixturesBuilder({
 
 const mountFixtures = mountFixturesBuilder();
 
-export const test = base.extend<Fixtures>({
-    ...expectScreenshotFixtures,
-    ...mountFixtures,
+export const test = base.extend<MountTestArgs>(mountFixtures).extend<ExpectScreenshotTestArgs>({
+    expectScreenshot: expectScreenshotFixtures.expectScreenshot,
 });
 
 export {expect} from '@playwright/experimental-ct-react';

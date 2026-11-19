@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import uniq from 'lodash/uniq';
+import {uniq} from 'es-toolkit';
 
 import type {ButtonView} from '../Button';
 import type {InputControlView} from '../controls';
@@ -121,7 +121,6 @@ const PAGINATION_MANAGED_PROPS = new Set([
     'disabled',
     'qa',
     'aria-current',
-    'extraProps',
     'children',
 ]);
 

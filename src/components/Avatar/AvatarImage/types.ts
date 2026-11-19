@@ -5,7 +5,6 @@ export interface AvatarImageProps extends AvatarCommonProps {
     fallbackImgUrl?: string;
     sizes?: string;
     srcSet?: string;
-    alt?: string;
     loading?: 'eager' | 'lazy';
     withImageBorder?: boolean;
 }

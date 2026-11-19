@@ -30,10 +30,14 @@ export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | '
 
 export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
     children?: React.ReactNode;
-    /** @deprecated Use onOpenChange for dismissal requests or onTransitionOutComplete for exit cleanup */
-    onClose?: () => void;
+    /** Controlled open state; without it the sheet closes itself on dismissal */
+    open?: boolean;
+    /** Initial open state of an uncontrolled sheet */
+    defaultOpen?: boolean;
     /** Callback for open state changes, when dismiss happens for example */
     onOpenChange?: (open: boolean, event?: Event, reason?: SheetOpenChangeReason) => void;
+    /** `Sheet` will not be removed from the DOM upon hiding */
+    keepMounted?: boolean;
     /** Called when the opening transition starts */
     onTransitionIn?: () => void;
     /** Called when the opening transition completes */
@@ -42,8 +46,6 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     onTransitionOut?: () => void;
     /** Called when the closing transition completes */
     onTransitionOutComplete?: () => void;
-    /** Show/hide sheet */
-    visible: boolean;
     /** Disables closing the sheet on Escape */
     disableEscapeKeyDown?: boolean;
     /** Disables closing the sheet by clicking the veil */
@@ -71,13 +73,14 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
 function SheetComponent(rawProps: SheetProps) {
     const {
         children,
-        onClose,
+        open,
+        defaultOpen,
         onOpenChange,
+        keepMounted = false,
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
         onTransitionOutComplete,
-        visible,
         disableEscapeKeyDown,
         disableOutsideClick,
         id,
@@ -93,8 +96,13 @@ function SheetComponent(rawProps: SheetProps) {
         disablePortal,
         qa,
     } = useDefaultProps('Sheet', rawProps);
-    const {requestedOpen, immediate, requestDismiss} = useSheetDismiss({
-        visible,
+    const {
+        open: isOpen,
+        immediate,
+        requestDismiss,
+    } = useSheetDismiss({
+        open,
+        defaultOpen,
         onOpenChange,
         disableEscapeKeyDown,
         disableOutsideClick,
@@ -110,12 +118,8 @@ function SheetComponent(rawProps: SheetProps) {
     const floatingNodeId = useFloatingNodeId();
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
-        open: requestedOpen,
+        open: isOpen,
     });
-    const handleExitComplete = React.useCallback(() => {
-        onClose?.();
-        onTransitionOutComplete?.();
-    }, [onClose, onTransitionOutComplete]);
     const {isMounted, status} = useFloatingTransition({
         context,
         duration: SHEET_TRANSITION_DURATION_MS,
@@ -123,13 +127,13 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionIn,
         onTransitionInComplete,
         onTransitionOut,
-        onTransitionOutComplete: handleExitComplete,
+        onTransitionOutComplete,
     });
 
     // LayerManager routes Escape to the topmost layer across independent FloatingTrees;
     // useDismiss only coordinates within one tree. Release the layer when closing starts.
     useLayer({
-        open: requestedOpen,
+        open: isOpen,
         type: 'sheet',
         disableOutsideClick: true,
         onEscapeKeyDown: handleEscapeKeyDown,
@@ -140,13 +144,13 @@ function SheetComponent(rawProps: SheetProps) {
 
     return (
         <FloatingNode id={floatingNodeId}>
-            {isMounted ? (
+            {isMounted || keepMounted ? (
                 <Portal container={container} disablePortal={disablePortal}>
                     <FloatingOverlay
                         data-qa={qa}
                         data-floating-ui-status={status}
                         className={sheetBlock({'without-top-bar': hideTopBar}, className)}
-                        lockScroll
+                        lockScroll={isMounted}
                         style={
                             {
                                 overflow: undefined,

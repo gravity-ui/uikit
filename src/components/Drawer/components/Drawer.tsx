@@ -30,15 +30,7 @@ import './Drawer.scss';
 
 const b = block('drawer');
 
-export interface DrawerProps
-    extends Omit<
-        ModalProps,
-        | 'disableHeightTransition'
-        | 'onClose'
-        | 'onEscapeKeyDown'
-        | 'onEnterKeyDown'
-        | 'onOutsideClick'
-    > {
+export interface DrawerProps extends ModalProps {
     /**
      * Specifies the side from which the drawer should slide in, `left` by default.
      * @default left

@@ -3,12 +3,13 @@ import * as React from 'react';
 import {LayoutContext} from '../contexts/LayoutContext';
 import type {LayoutTheme, MediaType} from '../types';
 import {getClosestMediaPropsFactory, isMediaActiveFactory} from '../utils';
+import type {GetClosestMediaProps} from '../utils';
 
 interface ComputedMediaContext {
     theme: LayoutTheme;
     /**
      *
-     *  > Note: `s` breakpoint starts from `0px` and and's with `m` - 1px
+     *  > Note: `xs` covers widths below `s`; `s` starts at its configured breakpoint.
      *
      * ```tsx
      * import {useLayoutContext} from '@gravity-ui/uikit';
@@ -33,12 +34,12 @@ interface ComputedMediaContext {
      * ```tsx
      * import {useLayoutContext} from '@gravity-ui/uikit';
      *
-     * // this example of code will be shown on l, xl, xxl and xxxl screen sizes
+     * // this example of code will be shown on l, xl, 2xl and 3xl screen sizes
      * const Component = () => {
      * const {isMediaActive} = useLayoutContext();
      *
      *  return (
-     *      <>{isMediaActive('xl') ? <Text>i'm rendering on "l", "xl", "xxl" and "xxxl" screen sizes</Text> : null}</>;
+     *      <>{isMediaActive('xl') ? <Text>i'm rendering on "l", "xl", "2xl" and "3xl" screen sizes</Text> : null}</>;
      *  );
      * };
      * ```
@@ -54,7 +55,7 @@ interface ComputedMediaContext {
      * const mapOfPropsByScreen = {
      *  s: "i'm will be shown on 's' and 'n' screen size",
      *  l: "i'm will be shown on 'l' and 'xl' screen size",
-     *  xxl: "i'm will be shown on 'xxl' and 'xxxl' screen size",
+     *  '2xl': "i'm will be shown on '2xl' and '3xl' screen size",
      * };
      *
      * const Component = () => {
@@ -64,7 +65,7 @@ interface ComputedMediaContext {
      * };
      * ```
      */
-    getClosestMediaProps: ReturnType<typeof getClosestMediaPropsFactory>;
+    getClosestMediaProps: GetClosestMediaProps;
 }
 
 /**

@@ -1,15 +1,15 @@
 import type {ButtonProps} from '../Button';
-import type {DropdownMenuItem} from '../DropdownMenu';
+import type {MenuItemProps} from '../Menu';
 import type {QAProps} from '../types';
 
 export interface ActionsPanelItem {
     /** Uniq action id */
     id: string;
-    /** If true, then always inside the dropdown */
+    /** If true, then always inside the overflow menu */
     collapsed?: boolean;
-    /** Settings for dropdown action */
-    dropdown: {
-        item: DropdownMenuItem;
+    /** Settings for the overflow menu action */
+    menu: {
+        item: MenuItemProps;
         group?: string;
     };
     /** Settings for button action */

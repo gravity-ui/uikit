@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import {Source} from '@storybook/addon-docs';
+import {Source} from '@storybook/addon-docs/blocks';
 
 import {getThemeType, useThemeValue} from '../..';
 

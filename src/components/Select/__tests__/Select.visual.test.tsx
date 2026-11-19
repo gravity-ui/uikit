@@ -3,8 +3,9 @@ import {createSmokeScenarios} from '@gravity-ui/playwright-tools/component-tests
 import type {MountFixture} from '~playwright/core';
 import {test} from '~playwright/core';
 
+import {ListVirtualizer} from '../../Virtualizer/ListVirtualizer';
 import {Select} from '../Select';
-import type {SelectOption, SelectProps} from '../types';
+import type {SelectOptionProps, SelectProps} from '../types';
 
 import {
     baseOptions,
@@ -232,10 +233,56 @@ test.describe('Select', {tag: '@Select'}, () => {
         });
     });
 
+    // A popup short enough to scroll: the rows of the list keep their heights instead of being
+    // squeezed into it
+    test(
+        'grouped list in a scrolling popup',
+        {tag: ['@Select']},
+        async ({mount, page, expectScreenshot}) => {
+            await page.setViewportSize({width: 320, height: 220});
+
+            await mount(
+                <div style={{height: 32}}>
+                    <Select
+                        open
+                        width={180}
+                        placeholder="Placeholder"
+                        options={[
+                            {
+                                label: 'Group 1',
+                                options: [
+                                    {value: '1-1', content: 'First option'},
+                                    {value: '1-2', content: 'Second option'},
+                                ],
+                            },
+                            {
+                                label: 'Group 2',
+                                options: [
+                                    {value: '2-1', content: 'Third option'},
+                                    {value: '2-2', content: 'Fourth option'},
+                                ],
+                            },
+                            {
+                                label: 'Group 3',
+                                options: [
+                                    {value: '3-1', content: 'Fifth option'},
+                                    {value: '3-2', content: 'Sixth option'},
+                                ],
+                            },
+                        ]}
+                    />
+                </div>,
+            );
+
+            // The popup lives in a portal outside the mounted wrapper, so the whole page is the shot
+            await expectScreenshot({themes: ['light'], locator: page});
+        },
+    );
+
     test.describe('option states', () => {
         const render = (mount: MountFixture, props?: SelectProps) => {
             const {options: propsOptions, ...restProps} = props || {};
-            const options = (propsOptions || baseOptions) as SelectOption[];
+            const options = (propsOptions || baseOptions) as SelectOptionProps[];
 
             return mount(
                 <div style={{height: 120}}>
@@ -413,12 +460,9 @@ test.describe('Select', {tag: '@Select'}, () => {
 
                 await mount(
                     <div style={{padding: 20, height: 300}}>
-                        <Select
-                            placeholder="Choose an option"
-                            options={options}
-                            virtualizationThreshold={5}
-                            width={200}
-                        />
+                        <ListVirtualizer>
+                            <Select placeholder="Choose an option" options={options} width={200} />
+                        </ListVirtualizer>
                     </div>,
                 );
 

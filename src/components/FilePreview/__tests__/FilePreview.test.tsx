@@ -3,7 +3,7 @@ import * as React from 'react';
 import {CircleExclamation} from '@gravity-ui/icons';
 import userEvent from '@testing-library/user-event';
 
-import {act, fireEvent, render, screen} from '../../../../test-utils/utils';
+import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
 import {SHEET_TRANSITION_DURATION_MS, SheetQa} from '../../Sheet/constants';
 import {MobileProvider} from '../../mobile';
 import {FilePreview} from '../FilePreview';
@@ -61,7 +61,7 @@ describe('FilePreview', () => {
         const user = userEvent.setup();
         await user.click(filePreview);
 
-        expect(clickHandler).toBeCalled();
+        expect(clickHandler).toHaveBeenCalled();
     });
 
     test('Renders actions', () => {
@@ -123,8 +123,8 @@ describe('FilePreview', () => {
             await user.click(actionButton);
         }
 
-        expect(firstActionsClickHandler).toBeCalled();
-        expect(secondActionsClickHandler).toBeCalled();
+        expect(firstActionsClickHandler).toHaveBeenCalled();
+        expect(secondActionsClickHandler).toHaveBeenCalled();
     });
 
     test("Don't Call disabled action click handler", async () => {
@@ -172,7 +172,7 @@ describe('FilePreview', () => {
             }
         }
 
-        expect(mockFn).toBeCalledTimes(5);
+        expect(mockFn).toHaveBeenCalledTimes(5);
     });
 
     test('closes the mobile actions menu on Escape key press', async () => {
@@ -200,5 +200,50 @@ describe('FilePreview', () => {
         });
 
         expect(screen.queryByRole('dialog', {name: fileName})).not.toBeInTheDocument();
+    });
+
+    test('Calls the action of the mobile menu and closes the sheet', async () => {
+        jest.useFakeTimers();
+        const fileName = 'Some file name';
+        const actionClickHandler = jest.fn();
+
+        render(
+            <MobileProvider mobile>
+                <FilePreview
+                    file={{name: fileName, type: 'image/png'} as File}
+                    actions={[
+                        {
+                            icon: <CircleExclamation width={14} height={14} />,
+                            title: 'some hint',
+                            onClick: actionClickHandler,
+                        },
+                        {
+                            icon: <CircleExclamation width={14} height={14} />,
+                            title: 'disabled hint',
+                            disabled: true,
+                            onClick: jest.fn(),
+                        },
+                    ]}
+                />
+            </MobileProvider>,
+        );
+
+        const user = userEvent.setup({advanceTimers: jest.advanceTimersByTime});
+        await user.click(screen.getByRole('button'));
+
+        const menu = screen.getByRole('listbox', {name: fileName});
+        expect(within(menu).getByRole('option', {name: 'disabled hint'})).toHaveAttribute(
+            'aria-disabled',
+            'true',
+        );
+
+        await user.click(within(menu).getByRole('option', {name: 'some hint'}));
+
+        expect(actionClickHandler).toHaveBeenCalledTimes(1);
+        // The sheet unmounts once its hiding transition is over
+        act(() => {
+            jest.advanceTimersByTime(SHEET_TRANSITION_DURATION_MS);
+        });
+        expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 });

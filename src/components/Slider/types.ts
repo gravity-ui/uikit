@@ -1,5 +1,5 @@
 import type {SliderProps as RcSliderProps, SliderRef as RcSliderRef} from 'rc-slider';
-import type {HandleProps} from 'rc-slider/lib/Handles/Handle';
+import type {HandleProps} from 'rc-slider/lib/Handles/Handle.js';
 
 import type {DOMProps, QAProps} from '../types';
 

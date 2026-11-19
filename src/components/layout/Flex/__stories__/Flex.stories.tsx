@@ -36,17 +36,17 @@ const defaultDecorators = [
 export const Default = {
     render: (args) => (
         <Flex {...args}>
-            <Box w={50} h={50}>
+            <Box w="50px" h="50px">
                 50x50
             </Box>
 
-            <Box w={100} h={70}>
+            <Box w="100px" h="70px">
                 100x70
             </Box>
-            <Box w={200} h={150}>
+            <Box w="200px" h="150px">
                 200x150
             </Box>
-            <Box w={100} h={40}>
+            <Box w="100px" h="40px">
                 100x40
             </Box>
         </Flex>
@@ -56,7 +56,7 @@ export const Default = {
         alignItems: 'center',
         justifyContent: 'center',
         direction: {xs: 'column', m: 'row'},
-        gap: {xs: 1, m: 4},
+        gap: {xs: 'spacing-1', m: 'spacing-4'},
     },
 } satisfies Story;
 
@@ -64,7 +64,7 @@ export const FlexGap = {
     render: (args) => (
         <Flex {...args}>
             {new Array(20).fill('_').map((_, i) => (
-                <Box w={100} h={50} key={i}>
+                <Box w="100px" h="50px" key={i}>
                     100x50
                 </Box>
             ))}
@@ -73,7 +73,7 @@ export const FlexGap = {
     decorators: defaultDecorators,
     args: {
         wrap: 'wrap',
-        gap: {xs: 1, m: 6},
+        gap: {xs: 'spacing-1', m: 'spacing-6'},
     },
 } satisfies Story;
 
@@ -81,7 +81,7 @@ export const GapAndRowGap = {
     render: (args) => (
         <Flex {...args}>
             {new Array(20).fill('_').map((_, i) => (
-                <Box w={100} h={50} key={i}>
+                <Box w="100px" h="50px" key={i}>
                     100x50
                 </Box>
             ))}
@@ -90,8 +90,8 @@ export const GapAndRowGap = {
     decorators: defaultDecorators,
     args: {
         wrap: 'wrap',
-        gap: {xs: 1, m: 6},
-        gapRow: {xs: 6, m: 1},
+        gap: {xs: 'spacing-1', m: 'spacing-6'},
+        rowGap: {xs: 'spacing-6', m: 'spacing-1'},
     },
 } satisfies Story;
 
@@ -105,7 +105,7 @@ export const ChildrenWithBgColor = {
     decorators: defaultDecorators,
     args: {
         wrap: 'wrap',
-        gap: 5,
+        gap: 'spacing-5',
     },
 } satisfies Story;
 
@@ -129,6 +129,6 @@ export const WithNullChildren = {
     ],
     args: {
         direction: 'column',
-        gap: 5,
+        gap: 'spacing-5',
     },
 } satisfies Story;

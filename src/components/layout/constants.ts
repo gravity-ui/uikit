@@ -10,19 +10,18 @@ export const DEFAULT_LAYOUT_THEME: LayoutTheme = {
         xs: 0,
         s: 576,
         m: 768,
-        // TODO BREAKING CHANGE: Set l to 980
-        l: 1080,
+        l: 980,
         xl: 1200,
-        xxl: 1400,
-        xxxl: 1920,
+        '2xl': 1400,
+        '3xl': 1920,
     },
     spaceBaseSize: 4,
     components: {
         container: {
-            gutters: 3,
+            gutters: 'spacing-3',
             media: {
                 l: {
-                    gutters: 5,
+                    gutters: 'spacing-5',
                 },
             },
         },

@@ -84,7 +84,7 @@ describe('Select single mode actions', () => {
             const option = getByText(searchText);
             // select option
             await user.click(option);
-            expect(onUpdate).not.toBeCalled();
+            expect(onUpdate).not.toHaveBeenCalled();
             expect(selectControl).toHaveClass(SELECT_CONTROL_BUTTON_OPEN_CLASS);
         });
     });

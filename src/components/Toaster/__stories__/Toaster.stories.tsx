@@ -26,9 +26,10 @@ const views: ButtonView[] = [
     'flat-info',
     'flat-danger',
     'flat-secondary',
-    'normal-contrast',
-    'outlined-contrast',
-    'flat-contrast',
+    'contrast',
+    'contrast-inverted',
+    'contrast-light',
+    'contrast-dark',
 ];
 
 function viewSelect(name: string) {

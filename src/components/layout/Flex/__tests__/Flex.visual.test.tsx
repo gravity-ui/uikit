@@ -39,7 +39,7 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                 {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const props = {
-                        gap: {s: '1', m: '6'},
+                        gap: {s: 'spacing-1', m: 'spacing-6'},
                     } as const;
 
                     const size = page.viewportSize();
@@ -63,8 +63,8 @@ test.describe('Flex', {tag: '@Flex'}, () => {
                 {tag: ['@smoke']},
                 async ({mount, expectScreenshot, page}) => {
                     const props = {
-                        gap: {s: '1', m: '6'},
-                        gapRow: {s: '6', m: '1'},
+                        gap: {s: 'spacing-1', m: 'spacing-6'},
+                        rowGap: {s: 'spacing-6', m: 'spacing-1'},
                     } as const;
 
                     const size = page.viewportSize();

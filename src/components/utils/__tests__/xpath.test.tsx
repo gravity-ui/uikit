@@ -1,4 +1,4 @@
-import {render, screen} from '../../../../test-utils/utils';
+import {renderWithoutProviders as render, screen} from '../../../../test-utils/utils';
 import {getXpath, withoutClassMods} from '../xpath';
 
 class XpathBuilder {

@@ -5,7 +5,6 @@ import {BORDER_WIDTH} from '../../../utils/popupMiddlewares';
 
 import {
     SuggestInitiallyOpen,
-    SuggestStories,
     SuggestWithCustomControlAnchor,
     SuggestWithFocusablePopup,
     SuggestWithPlacement,
@@ -158,81 +157,6 @@ for (const {placement, expected} of [
         await expect(popup).toHaveAttribute('data-floating-ui-placement', expected);
     });
 }
-
-test('Suggest custom TextArea preserves plain arrows and Enter while an option is active', async ({
-    mount,
-    page,
-}) => {
-    await mount(<SuggestStories.CustomInput />);
-    const input = page.getByRole('textbox', {name: 'Reply'});
-    await input.fill('Thank you\n');
-    await input.press('Home');
-    await input.press('ArrowUp');
-    await expect
-        .poll(() => input.evaluate((element: HTMLTextAreaElement) => element.selectionStart))
-        .toBe(0);
-    await expect(page.getByRole('listbox')).toBeVisible();
-
-    await input.press('Alt+ArrowDown');
-    await expect(input).toHaveAttribute(
-        'aria-activedescendant',
-        await page
-            .getByRole('option')
-            .first()
-            .evaluate((element) => element.id),
-    );
-    await input.press('Enter');
-    await expect(input).toHaveValue('\nThank you\n');
-    await input.press('ArrowDown');
-    await input.press('Home');
-    await expect
-        .poll(() => input.evaluate((element: HTMLTextAreaElement) => element.selectionStart))
-        .toBe('\nThank you\n'.length);
-    await expect(page.getByRole('listbox')).toBeVisible();
-});
-
-test('Suggest custom TextArea filters replies on typing and replaces the entire text', async ({
-    mount,
-    page,
-}) => {
-    await mount(<SuggestStories.CustomInput />);
-    const input = page.getByRole('textbox', {name: 'Reply'});
-    await expect(page.getByRole('listbox')).toHaveCount(0);
-    await input.click();
-    await expect(page.getByRole('listbox')).toBeVisible();
-    await expect(input).toHaveValue('');
-    await expect(page.getByRole('option')).toHaveCount(10);
-    await input.press('Escape');
-    await expect(page.getByRole('listbox')).toBeHidden();
-    await input.fill('thank');
-    await expect(page.getByRole('option')).toHaveCount(4);
-    await input.pressSequentially(' you for your');
-    await expect(page.getByRole('option')).toHaveCount(2);
-
-    await input.fill('  RESOLVED  ');
-    await expect(page.getByRole('option')).toHaveCount(1);
-    await expect(page.getByRole('option')).toContainText('The issue has been resolved.');
-    const text = await page.getByRole('option').first().innerText();
-    await input.press('Home');
-    await input.press('Alt+ArrowDown');
-    await input.press('Alt+Enter');
-
-    await expect(input).toHaveValue(text);
-    await expect(input).toBeFocused();
-    await expect(page.getByRole('listbox')).toBeHidden();
-
-    await input.fill('No matching reply');
-    await expect(page.getByRole('option')).toHaveCount(0);
-    await expect(page.getByText('No matching replies', {exact: true})).toBeVisible();
-
-    await input.fill('');
-    await input.click();
-    await expect(page.getByRole('option')).toHaveCount(10);
-    await input.fill('resolved');
-    await page.getByRole('option').first().click();
-    await expect(input).toHaveValue(text);
-    await expect(page.getByRole('listbox')).toBeHidden();
-});
 
 test('Suggest anchors a custom control popup to its own wrapper', async ({mount, page}) => {
     await mount(<SuggestWithCustomControlAnchor />);

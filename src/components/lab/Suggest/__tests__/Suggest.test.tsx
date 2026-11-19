@@ -196,6 +196,7 @@ describe('Suggest', () => {
         });
     });
 
+    // IME events use fireEvent because userEvent.keyboard cannot set isComposing or keyCode.
     test.each([{isComposing: true}, {keyCode: 229}])(
         'does not select an option during IME composition: %j',
         async (composition) => {

@@ -240,7 +240,7 @@ Suggest управляет атрибутами `role`, `aria-expanded`, `aria-c
 
 `SuggestOpenChangeReason` дополняет `OpenChangeReason` из Floating UI причинами `input-change` (ввод или очистка поля) и `option-action` (выбор опции).
 
-`onActiveOptionUpdate` передаёт запросы List при взаимодействии с клавиатурой или указателем. Перестановка или удаление опций и закрытие попапа не вызывают дополнительных уведомлений. При каждом открытии активной опции нет. Текст для List берётся из строкового или числового `content`/`children`, иначе используется `value` опции.
+`onActiveOptionUpdate` передаёт запросы List при взаимодействии с клавиатурой или указателем, а также получает `null`, когда `resetActiveOption` сбрасывает активную опцию. Перестановка или удаление опций и закрытие попапа не вызывают дополнительных уведомлений. При каждом открытии активной опции нет. Текст для List берётся из строкового или числового `content`/`children`, иначе используется `value` опции.
 
 ## Доступность
 
@@ -252,14 +252,15 @@ Suggest сообщает об отсутствии результатов, в т
 
 `renderControl` заменяет TextInput на TextArea, нативный элемент или другой фокусируемый текстовый редактор. Suggest создаёт обёртку, которая принимает `className` и `style`, служит якорем попапа и отслеживает уход фокуса из контрола. Callback получает `SuggestRenderControlProps`:
 
-| Проп           | Назначение                                                                                       |
-| :------------- | :----------------------------------------------------------------------------------------------- |
-| `controlProps` | DOM-атрибуты (`id`, `role`, ARIA) и обработчики `onClick`/`onKeyDown` для фокусируемого элемента |
-| `disabled`     | Отключён ли контрол                                                                              |
-| `onUpdate`     | Вызывайте с новым текстом                                                                        |
-| `open`         | Запрошенное состояние открытия; для отображения попапу также нужно содержимое                    |
-| `ref`          | Подключите к фокусируемому элементу; при необходимости приведите к типу этого элемента           |
-| `value`        | Текущий текст                                                                                    |
+| Проп                | Назначение                                                                                       |
+| :------------------ | :----------------------------------------------------------------------------------------------- |
+| `controlProps`      | DOM-атрибуты (`id`, `role`, ARIA) и обработчики `onClick`/`onKeyDown` для фокусируемого элемента |
+| `disabled`          | Отключён ли контрол                                                                              |
+| `onUpdate`          | Вызывайте с новым текстом                                                                        |
+| `open`              | Запрошенное состояние открытия; для отображения попапу также нужно содержимое                    |
+| `ref`               | Подключите к фокусируемому элементу; при необходимости приведите к типу этого элемента           |
+| `resetActiveOption` | Сбросить активную опцию и её ARIA-ссылку, не закрывая попап                                      |
+| `value`             | Текущий текст                                                                                    |
 
 > **Обязательное подключение:** Передайте `ref`, `value`, `onUpdate` и DOM-атрибуты из `controlProps`. Передайте `disabled` своему контролу. Вызывайте `controlProps.onClick` для открытия по клику и `controlProps.onKeyDown` для встроенной клавиатурной навигации.
 
@@ -280,26 +281,40 @@ Suggest сообщает об отсутствии результатов, в т
   onUpdate={setValue}
   options={options}
   onOptionAction={(_id, option) => setValue(String(option.content))}
-  renderControl={({ref, value, onUpdate, disabled, controlProps}) => {
-    const {id, onKeyDown, ...attributes} = controlProps;
+  renderControl={({ref, value, onUpdate, disabled, controlProps, resetActiveOption}) => {
+    const {id, onClick, onKeyDown, ...attributes} = controlProps;
     return (
       <TextArea
         controlRef={ref as React.Ref<HTMLTextAreaElement>}
         id={id}
         value={value}
-        onUpdate={onUpdate}
+        onUpdate={(text) => {
+          resetActiveOption();
+          onUpdate(text);
+        }}
         disabled={disabled}
         minRows={3}
-        controlProps={{...attributes, role: undefined, 'aria-expanded': undefined}}
+        controlProps={{
+          ...attributes,
+          role: undefined,
+          'aria-expanded': undefined,
+          onCompositionStart: resetActiveOption,
+          onClick: (event) => {
+            resetActiveOption();
+            onClick?.(event);
+          },
+        }}
         onKeyDown={(event) => {
-          if (
-            event.altKey &&
-            !event.nativeEvent.isComposing &&
-            event.keyCode !== 229 &&
-            ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)
-          ) {
+          if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+          if (event.altKey && ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
             onKeyDown?.(event);
             if (event.key === 'Enter') event.preventDefault();
+          } else if (
+            ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(
+              event.key,
+            )
+          ) {
+            resetActiveOption();
           }
         }}
       />
@@ -312,6 +327,6 @@ Suggest сообщает об отсутствии результатов, в т
 
 Suggest отображает переданные `options` без фильтрации. Через `onUpdate` передавайте локально отфильтрованные опции или результаты асинхронной загрузки. В `onOptionAction` потребитель решает, заменить весь текст или вставить фрагмент в позицию курсора, включая обработку выделения и курсора.
 
-Поведение скринридера при переходе от навигации по списку к редактированию текста ещё требует ручной проверки: пока попап открыт, ссылка на активный вариант сохраняется.
+Вызывайте `resetActiveOption()` при возврате к редактированию: перемещении курсора, изменении текста, начале композиции или клике в поле. Он сбрасывает активную опцию и `aria-activedescendant`, оставляя попап открытым. Если активной опции нет, вызов ничего не меняет. Следующая переданная стрелка снова начинает навигацию по списку.
 
 Длинный текст опций можно переносить через `renderOption`. При виртуализации передайте `getOptionHeight`, соответствующий реальной высоте строк.

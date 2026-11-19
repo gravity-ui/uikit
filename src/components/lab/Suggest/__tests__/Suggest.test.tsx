@@ -164,6 +164,85 @@ describe('Suggest', () => {
             expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
         });
 
+        test('resets the active option without closing and allows navigation again', async () => {
+            const user = userEvent.setup();
+            const onActiveOptionUpdate = jest.fn();
+            const onOptionAction = jest.fn();
+            render(
+                <Suggest
+                    aria-label="Reply"
+                    options={ITEMS}
+                    onActiveOptionUpdate={onActiveOptionUpdate}
+                    onOptionAction={onOptionAction}
+                    renderControl={({controlProps, value, onUpdate, resetActiveOption}) => (
+                        <input
+                            {...controlProps}
+                            value={value}
+                            onChange={(event) => onUpdate(event.target.value)}
+                            onKeyDown={(event) => {
+                                if (event.key === 'ArrowLeft') {
+                                    resetActiveOption();
+                                    resetActiveOption();
+                                } else {
+                                    controlProps.onKeyDown?.(event);
+                                }
+                            }}
+                        />
+                    )}
+                />,
+            );
+            const input = screen.getByRole('combobox', {name: 'Reply'});
+            await user.click(input);
+            await user.keyboard('[ArrowDown]');
+            const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
+
+            await user.keyboard('[ArrowLeft][ArrowLeft][Enter]');
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            expect(screen.getByRole('listbox')).toBeVisible();
+            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth'], [null]]);
+            expect(onOptionAction).not.toHaveBeenCalled();
+
+            await user.keyboard('[ArrowDown][Enter]');
+            expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
+            expect(onOptionAction).toHaveBeenCalledWith('earth', ITEMS[0], expect.anything());
+        });
+
+        test('resetting a removed active option does not notify the consumer', async () => {
+            const user = userEvent.setup();
+            const onActiveOptionUpdate = jest.fn();
+            const props: SuggestProps = {
+                'aria-label': 'Reply',
+                onActiveOptionUpdate,
+                renderControl: ({controlProps, resetActiveOption}) => (
+                    <input
+                        {...controlProps}
+                        onKeyDown={(event) => {
+                            if (event.key === 'ArrowLeft') {
+                                resetActiveOption();
+                            } else {
+                                controlProps.onKeyDown?.(event);
+                            }
+                        }}
+                    />
+                ),
+            };
+            const {rerender} = render(<Suggest {...props} options={ITEMS} />);
+            const input = screen.getByRole('combobox', {name: 'Reply'});
+            await user.click(input);
+            await user.keyboard('[ArrowDown]');
+            expect(input).toHaveAttribute('aria-activedescendant');
+
+            rerender(<Suggest {...props} options={ITEMS.slice(1)} />);
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            await user.keyboard('[ArrowLeft]');
+            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth']]);
+
+            rerender(<Suggest {...props} options={ITEMS} />);
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            expect(screen.getByRole('listbox')).toBeVisible();
+        });
+
         test('supports a contenteditable control with the supplied DOM handlers', async () => {
             const user = userEvent.setup();
             const ref = React.createRef<HTMLDivElement>();

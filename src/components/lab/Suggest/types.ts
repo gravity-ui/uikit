@@ -21,6 +21,8 @@ export type SuggestRenderControlProps = {
     /** Whether opening is requested; the popup is only shown when it has content. */
     open: boolean;
     ref: React.Ref<HTMLElement>;
+    /** Clear the active option without closing the popup. */
+    resetActiveOption: () => void;
     value: string;
 };
 
@@ -35,7 +37,7 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     /** Append a loading row to the options, or show a standalone loader when options are empty */
     loading?: boolean;
     /**
-     * Called when List requests an active option update via keyboard or pointer.
+     * Called when List requests an active option update or resetActiveOption clears it.
      * Receives the option value or null. Changes to options and popup visibility
      * do not emit additional notifications.
      */

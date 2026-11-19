@@ -2,7 +2,7 @@ import {expect, test} from '~playwright/core';
 
 import {SuggestStories} from './helpersPlaywright';
 
-test('Suggest custom TextArea preserves plain arrows and Enter while an option is active', async ({
+test('Suggest custom TextArea clears the active option when returning to text editing', async ({
     mount,
     page,
 }) => {
@@ -26,11 +26,26 @@ test('Suggest custom TextArea preserves plain arrows and Enter while an option i
     );
     await input.press('Enter');
     await expect(input).toHaveValue('\nThank you\n');
+    await expect(input).not.toHaveAttribute('aria-activedescendant');
+    await input.press('Alt+ArrowDown');
+    await expect(input).toHaveAttribute('aria-activedescendant');
     await input.press('ArrowDown');
+    await expect(input).not.toHaveAttribute('aria-activedescendant');
     await input.press('Home');
     await expect
         .poll(() => input.evaluate((element: HTMLTextAreaElement) => element.selectionStart))
         .toBe('\nThank you\n'.length);
+    await expect(page.getByRole('listbox')).toBeVisible();
+    await input.press('Alt+ArrowDown');
+    await expect(input).toHaveAttribute(
+        'aria-activedescendant',
+        await page
+            .getByRole('option')
+            .first()
+            .evaluate((element) => element.id),
+    );
+    await input.press('Space');
+    await expect(input).not.toHaveAttribute('aria-activedescendant');
     await expect(page.getByRole('listbox')).toBeVisible();
 });
 

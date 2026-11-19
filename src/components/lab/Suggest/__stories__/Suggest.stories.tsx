@@ -430,16 +430,20 @@ function CustomTextArea({
     onUpdate,
     open,
     ref,
+    resetActiveOption,
     value,
 }: SuggestRenderControlProps) {
-    const {id, onKeyDown, ...attributes} = controlProps;
+    const {id, onClick, onKeyDown, ...attributes} = controlProps;
 
     return (
         <TextArea
             controlRef={ref as React.Ref<HTMLTextAreaElement>}
             id={id}
             value={value}
-            onUpdate={onUpdate}
+            onUpdate={(nextValue) => {
+                resetActiveOption();
+                onUpdate(nextValue);
+            }}
             disabled={disabled}
             minRows={4}
             maxRows={12}
@@ -447,6 +451,11 @@ function CustomTextArea({
                 ...attributes,
                 role: undefined,
                 'aria-expanded': undefined,
+                onCompositionStart: resetActiveOption,
+                onClick: (event) => {
+                    resetActiveOption();
+                    onClick?.(event);
+                },
             }}
             onKeyDown={(event) => {
                 if (event.nativeEvent.isComposing || event.keyCode === 229) return;
@@ -454,6 +463,18 @@ function CustomTextArea({
                     onKeyDown?.(event);
                     // Keep Alt+Enter from inserting a newline when no option is active.
                     if (event.key === 'Enter') event.preventDefault();
+                } else if (
+                    [
+                        'ArrowUp',
+                        'ArrowDown',
+                        'ArrowLeft',
+                        'ArrowRight',
+                        'Home',
+                        'End',
+                        'Enter',
+                    ].includes(event.key)
+                ) {
+                    resetActiveOption();
                 }
             }}
         />

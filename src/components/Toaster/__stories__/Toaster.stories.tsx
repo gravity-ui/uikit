@@ -173,7 +173,6 @@ export const WithFooter: Story = {
                 justifyContent="space-between"
                 gap="spacing-3"
                 paddingBlock="spacing-2"
-                paddingInline="spacing-4"
             >
                 Additional information
                 <Button view="flat" size="s" onClick={onClose}>

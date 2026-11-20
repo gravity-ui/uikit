@@ -140,7 +140,7 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
         {theme: 'dark', direction: 'rtl'},
     ] as const) {
         for (const width of [320, 768, 1024, 1440]) {
-            test(`footer spans the toast at width ${width} in ${theme} ${direction}`, async ({
+            test(`footer follows the actions at width ${width} in ${theme} ${direction}`, async ({
                 mount,
                 page,
             }) => {
@@ -164,19 +164,22 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
                 const footerSlot = toast.locator('.g-toast__footer');
                 await expect(footerSlot).toHaveCSS('border-top-width', '0px');
                 await expect(footerSlot).toHaveCSS('padding', '0px');
-                const toastBox = await toast.boundingBox();
-                const footerBox = await footerSlot.evaluate((element) => {
-                    const rect = element.getBoundingClientRect();
-                    return {x: rect.x, y: rect.y, width: rect.width, bottom: rect.bottom};
-                });
+                const footerBox = await footerSlot.boundingBox();
+                const firstActionBox = await page
+                    .getByRole('button', {name: 'A longer primary action'})
+                    .boundingBox();
                 const actionBox = await page
                     .getByRole('button', {name: 'Something More'})
                     .boundingBox();
 
-                expect(footerBox.x).toBeCloseTo(toastBox!.x);
-                expect(footerBox.width).toBeCloseTo(toastBox!.width);
-                expect(footerBox.bottom).toBeCloseTo(toastBox!.y + toastBox!.height);
-                expect(footerBox.y).toBeGreaterThanOrEqual(actionBox!.y + actionBox!.height);
+                if (direction === 'ltr') {
+                    expect(footerBox!.x).toBeCloseTo(firstActionBox!.x);
+                } else {
+                    expect(footerBox!.x + footerBox!.width).toBeCloseTo(
+                        firstActionBox!.x + firstActionBox!.width,
+                    );
+                }
+                expect(footerBox!.y).toBeGreaterThanOrEqual(actionBox!.y + actionBox!.height);
 
                 await page.getByRole('button', {name: 'Something More'}).focus();
                 await page.keyboard.press('Tab');

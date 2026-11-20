@@ -138,30 +138,28 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
     const footer = renderFooter?.({onClose: handleClose});
     return (
         <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
-            <div className={b('body')}>
-                {icon && <div className={b('icon-container')}>{icon}</div>}
-                <div className={b('container')}>
-                    {hasTitle && <h3 className={b('title')}>{title}</h3>}
-                    {isClosable && (
-                        <Button
-                            size="s"
-                            view="flat"
-                            className={b('btn-close')}
-                            onClick={handleClose}
-                            aria-label={t('label_close-button')}
-                        >
-                            <Icon data={Xmark} />
-                        </Button>
-                    )}
-                    {hasContent && (
-                        <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
-                    )}
-                    {renderActions({actions, onClose: handleClose})}
-                </div>
+            {icon && <div className={b('icon-container')}>{icon}</div>}
+            <div className={b('container')}>
+                {hasTitle && <h3 className={b('title')}>{title}</h3>}
+                {isClosable && (
+                    <Button
+                        size="s"
+                        view="flat"
+                        className={b('btn-close')}
+                        onClick={handleClose}
+                        aria-label={t('label_close-button')}
+                    >
+                        <Icon data={Xmark} />
+                    </Button>
+                )}
+                {hasContent && (
+                    <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
+                )}
+                {renderActions({actions, onClose: handleClose})}
+                {React.Children.toArray(footer).length > 0 && (
+                    <div className={b('footer')}>{footer}</div>
+                )}
             </div>
-            {React.Children.toArray(footer).length > 0 && (
-                <div className={b('footer')}>{footer}</div>
-            )}
         </div>
     );
 });

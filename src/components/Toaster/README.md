@@ -136,7 +136,7 @@ Every `action` is an object with following parameters:
 
 ## Footer
 
-Use `renderFooter` to add custom content below the toast body. The footer works independently of
+Use `renderFooter` to add custom content below the toast actions. The footer works independently of
 both declarative actions and a custom actions renderer. Its `onClose` callback closes the toast
 and invokes the toast's `onClose` handler.
 
@@ -152,10 +152,10 @@ toaster.add({
 });
 ```
 
-The footer is an unstyled slot that spans the full toast width, including the icon area. Supply
-spacing and decoration in the footer content. Return `null`, `undefined`, or `false` to omit the
-footer. Updating `renderFooter` does not replace actions or reset the body content. Set
-`renderFooter: undefined` in `update` to remove an existing footer.
+The slot shares the content column with the actions. Supply spacing and decoration in the footer
+content. Return `null`, `undefined`, or `false` to omit the footer. Updating `renderFooter` does not
+replace actions or reset the body content. Set `renderFooter: undefined` in `update` to remove an
+existing footer.
 
 ## CSS API
 

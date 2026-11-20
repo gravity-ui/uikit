@@ -13,14 +13,14 @@ export type SuggestOpenChangeReason = OpenChangeReason | 'input-change' | 'optio
 export type SuggestOptionProps<T = any> = QAProps & ControlGroupOption & {data?: T};
 
 export type SuggestRenderControlProps = {
-    /** Attributes and event handlers to attach to the custom control's focusable element. */
-    controlProps: React.AriaAttributes &
-        Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'role' | 'onClick' | 'onKeyDown'>;
     disabled?: boolean;
     onUpdate: (value: string) => void;
     /** Whether opening is requested; the popup is only shown when it has content. */
     open: boolean;
     ref: React.Ref<HTMLElement>;
+    /** Attributes and event handlers to attach to the custom control's focusable element. */
+    triggerProps: React.AriaAttributes &
+        Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'role' | 'onClick' | 'onKeyDown'>;
     value: string;
 };
 
@@ -67,7 +67,7 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     popupPlacement?: PopupPlacement;
     /** Popup width */
     popupWidth?: 'fit' | number;
-    /** Render a custom control using the provided ref, controlProps, value and onUpdate. */
+    /** Render a custom control using the provided ref, triggerProps, value and onUpdate. */
     renderControl?: (props: SuggestRenderControlProps) => React.ReactElement;
     /** Render empty-state or error content when there are no options and loading is false. */
     renderEmptyOptions?: (props: {filter: string}) => React.ReactElement | null;

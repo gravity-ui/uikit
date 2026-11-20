@@ -338,7 +338,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     {...customFocusWithinProps}
                 >
                     {renderControl({
-                        controlProps: {
+                        triggerProps: {
                             ...controlProps,
                             id: componentId,
                             onClick: handleInputClick,

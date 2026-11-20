@@ -66,16 +66,16 @@ describe('Suggest', () => {
             value,
             onUpdate,
             disabled,
-            controlProps,
+            triggerProps,
         }) => (
             <TextArea
                 controlRef={ref as React.Ref<HTMLTextAreaElement>}
-                id={controlProps.id}
-                onKeyDown={controlProps.onKeyDown}
+                id={triggerProps.id}
+                onKeyDown={triggerProps.onKeyDown}
                 value={value}
                 onUpdate={onUpdate}
                 disabled={disabled}
-                controlProps={{...controlProps, role: undefined, 'aria-expanded': undefined}}
+                controlProps={{...triggerProps, role: undefined, 'aria-expanded': undefined}}
             />
         );
 
@@ -176,9 +176,9 @@ describe('Suggest', () => {
                         activeOption={activeOption}
                         onActiveOptionUpdate={setActiveOption}
                         onOptionAction={onOptionAction}
-                        renderControl={({ref, controlProps, value, onUpdate}) => (
+                        renderControl={({ref, triggerProps, value, onUpdate}) => (
                             <input
-                                {...controlProps}
+                                {...triggerProps}
                                 ref={ref as React.Ref<HTMLInputElement>}
                                 value={value}
                                 onChange={(event) => onUpdate(event.target.value)}
@@ -186,7 +186,7 @@ describe('Suggest', () => {
                                     if (event.key === 'ArrowLeft') {
                                         setActiveOption(null);
                                     } else {
-                                        controlProps.onKeyDown?.(event);
+                                        triggerProps.onKeyDown?.(event);
                                     }
                                 }}
                             />
@@ -220,9 +220,9 @@ describe('Suggest', () => {
                     aria-label="Editor"
                     options={ITEMS}
                     onOptionAction={onOptionAction}
-                    renderControl={({ref: controlRef, controlProps, value}) => (
+                    renderControl={({ref: controlRef, triggerProps, value}) => (
                         <div
-                            {...controlProps}
+                            {...triggerProps}
                             ref={controlRef as React.Ref<HTMLDivElement>}
                             contentEditable
                             suppressContentEditableWarning

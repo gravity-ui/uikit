@@ -151,10 +151,10 @@ export function SuggestWithCustomControlAnchor() {
             style={{width: 400, padding: 24}}
             popupWidth="fit"
             options={OPTIONS}
-            renderControl={({ref, value, onUpdate, controlProps}) => (
+            renderControl={({ref, value, onUpdate, triggerProps}) => (
                 <div style={{width: 200}}>
                     <textarea
-                        {...controlProps}
+                        {...triggerProps}
                         ref={ref as React.Ref<HTMLTextAreaElement>}
                         value={value}
                         onChange={(event) => onUpdate(event.target.value)}

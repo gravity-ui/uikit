@@ -256,14 +256,14 @@ Suggest announces when no results are available, including when `renderEmptyOpti
 
 | Prop           | Purpose                                                                                 |
 | :------------- | :-------------------------------------------------------------------------------------- |
-| `controlProps` | DOM attributes (`id`, `role`, ARIA) and `onClick`/`onKeyDown` for the focusable element |
 | `disabled`     | Whether the control is disabled                                                         |
 | `onUpdate`     | Call with the new text                                                                  |
 | `open`         | The requested open state; the popup also needs content to appear                        |
 | `ref`          | Attach to the focusable element; cast to its element type if necessary                  |
+| `triggerProps` | DOM attributes (`id`, `role`, ARIA) and `onClick`/`onKeyDown` for the focusable element |
 | `value`        | The current text                                                                        |
 
-> **Required wiring:** Connect `ref`, `value`, `onUpdate`, and the DOM attributes in `controlProps`. Forward `disabled` to your control. Call `controlProps.onClick` to open on click and `controlProps.onKeyDown` for built-in keyboard navigation.
+> **Required wiring:** Connect `ref`, `value`, `onUpdate`, and the DOM attributes in `triggerProps`. Forward `disabled` to your control. Call `triggerProps.onClick` to open on click and `triggerProps.onKeyDown` for built-in keyboard navigation.
 
 UIKit `TextInput` and `TextArea` take `id` and `onKeyDown` as top-level props; pass them there rather than only inside `controlProps`.
 
@@ -271,7 +271,7 @@ The keyboard handler opens the popup with the arrows, navigates the list, and se
 
 With `renderControl`, TextInput-specific props are ignored: `view`, `pin`, `label`, `placeholder`, `hasClear`, validation props, `note`, `startContent`, `endContent`, `type`, `qa`, native attributes (`name`, `autoComplete`, `autoFocus`, `readOnly`, `tabIndex`, `controlProps`, `controlRef`) and handlers (`onChange`, `onKeyDown`, `onKeyUp`, `onFocus`, `onBlur`). Set them directly on your custom control. `size` still controls the list rows. Use Suggest's top-level ARIA labeling props to name the control and list.
 
-A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` from the supplied `controlProps`, preserving the list relationship and active descendant.
+A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` from the supplied `triggerProps`, preserving the list relationship and active descendant.
 
 <!--GITHUB_BLOCK-->
 
@@ -286,8 +286,8 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
   onUpdate={setValue}
   options={options}
   onOptionAction={(_id, option) => setValue(String(option.content))}
-  renderControl={({ref, value, onUpdate, disabled, controlProps}) => {
-    const {id, onClick, onKeyDown, ...attributes} = controlProps;
+  renderControl={({ref, value, onUpdate, disabled, triggerProps}) => {
+    const {id, onClick, onKeyDown, ...attributes} = triggerProps;
     return (
       <TextArea
         controlRef={ref as React.Ref<HTMLTextAreaElement>}
@@ -326,4 +326,4 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
 
 Suggest displays the supplied `options` without filtering. Use `onUpdate` to supply locally filtered options or async results. In `onOptionAction`, the consumer decides whether to replace the entire text or insert at the caret, including any selection and caret handling.
 
-Control the active option with `activeOption` and `onActiveOptionUpdate`. Suggest requests a reset on text changes through `onUpdate` and clicks delegated to `controlProps.onClick`. Call your own `setActiveOption(null)` on composition start and caret navigation that you do not delegate to Suggest. This clears the active option and `aria-activedescendant` while keeping the popup open. The next delegated arrow key starts list navigation again.
+Control the active option with `activeOption` and `onActiveOptionUpdate`. Suggest requests a reset on text changes through `onUpdate` and clicks delegated to `triggerProps.onClick`. Call your own `setActiveOption(null)` on composition start and caret navigation that you do not delegate to Suggest. This clears the active option and `aria-activedescendant` while keeping the popup open. The next delegated arrow key starts list navigation again.

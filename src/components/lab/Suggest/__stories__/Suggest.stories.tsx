@@ -425,10 +425,10 @@ function LongOptionsExample({
 }
 
 function renderCustomTextArea(
-    {controlProps, disabled, onUpdate, open, ref, value}: SuggestRenderControlProps,
+    {triggerProps, disabled, onUpdate, open, ref, value}: SuggestRenderControlProps,
     setActiveOption: (value: string | null) => void,
 ) {
-    const {id, onClick, onKeyDown, ...attributes} = controlProps;
+    const {id, onClick, onKeyDown, ...attributes} = triggerProps;
 
     return (
         <TextArea

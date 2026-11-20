@@ -258,14 +258,14 @@ Suggest сообщает об отсутствии результатов, в т
 
 | Проп           | Назначение                                                                                       |
 | :------------- | :----------------------------------------------------------------------------------------------- |
-| `controlProps` | DOM-атрибуты (`id`, `role`, ARIA) и обработчики `onClick`/`onKeyDown` для фокусируемого элемента |
 | `disabled`     | Отключён ли контрол                                                                              |
 | `onUpdate`     | Вызывайте с новым текстом                                                                        |
 | `open`         | Запрошенное состояние открытия; для отображения попапу также нужно содержимое                    |
 | `ref`          | Подключите к фокусируемому элементу; при необходимости приведите к типу этого элемента           |
+| `triggerProps` | DOM-атрибуты (`id`, `role`, ARIA) и обработчики `onClick`/`onKeyDown` для фокусируемого элемента |
 | `value`        | Текущий текст                                                                                    |
 
-> **Обязательное подключение:** Передайте `ref`, `value`, `onUpdate` и DOM-атрибуты из `controlProps`. Передайте `disabled` своему контролу. Вызывайте `controlProps.onClick` для открытия по клику и `controlProps.onKeyDown` для встроенной клавиатурной навигации.
+> **Обязательное подключение:** Передайте `ref`, `value`, `onUpdate` и DOM-атрибуты из `triggerProps`. Передайте `disabled` своему контролу. Вызывайте `triggerProps.onClick` для открытия по клику и `triggerProps.onKeyDown` для встроенной клавиатурной навигации.
 
 В UIKit `TextInput` и `TextArea` принимают `id` и `onKeyDown` как пропсы верхнего уровня; передавайте их туда, а не только внутрь `controlProps`.
 
@@ -273,7 +273,7 @@ Suggest сообщает об отсутствии результатов, в т
 
 При `renderControl` специфичные пропсы TextInput игнорируются: `view`, `pin`, `label`, `placeholder`, `hasClear`, пропсы валидации, `note`, `startContent`, `endContent`, `type`, `qa`, нативные атрибуты (`name`, `autoComplete`, `autoFocus`, `readOnly`, `tabIndex`, `controlProps`, `controlRef`) и обработчики (`onChange`, `onKeyDown`, `onKeyUp`, `onFocus`, `onBlur`). Задавайте их непосредственно на кастомном контроле. `size` продолжает управлять размером строк списка. Для подписи контрола и списка используйте ARIA-пропсы верхнего уровня Suggest.
 
-Многострочный TextArea сохраняет семантику текстового поля: исключите `role` и `aria-expanded` из переданных `controlProps`, сохранив связь со списком и активной опцией.
+Многострочный TextArea сохраняет семантику текстового поля: исключите `role` и `aria-expanded` из переданных `triggerProps`, сохранив связь со списком и активной опцией.
 
 <!--GITHUB_BLOCK-->
 
@@ -288,8 +288,8 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
   onUpdate={setValue}
   options={options}
   onOptionAction={(_id, option) => setValue(String(option.content))}
-  renderControl={({ref, value, onUpdate, disabled, controlProps}) => {
-    const {id, onClick, onKeyDown, ...attributes} = controlProps;
+  renderControl={({ref, value, onUpdate, disabled, triggerProps}) => {
+    const {id, onClick, onKeyDown, ...attributes} = triggerProps;
     return (
       <TextArea
         controlRef={ref as React.Ref<HTMLTextAreaElement>}
@@ -328,4 +328,4 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
 
 Suggest отображает переданные `options` без фильтрации. Через `onUpdate` передавайте локально отфильтрованные опции или результаты асинхронной загрузки. В `onOptionAction` потребитель решает, заменить весь текст или вставить фрагмент в позицию курсора, включая обработку выделения и курсора.
 
-Управляйте активной опцией через `activeOption` и `onActiveOptionUpdate`. Suggest запрашивает сброс при изменениях текста через `onUpdate` и кликах, переданных в `controlProps.onClick`. Вызывайте свой `setActiveOption(null)` при начале композиции и перемещении курсора клавишами, которые не передаёте Suggest. Это сбрасывает активную опцию и `aria-activedescendant`, оставляя попап открытым. Следующая переданная стрелка снова начинает навигацию по списку.
+Управляйте активной опцией через `activeOption` и `onActiveOptionUpdate`. Suggest запрашивает сброс при изменениях текста через `onUpdate` и кликах, переданных в `triggerProps.onClick`. Вызывайте свой `setActiveOption(null)` при начале композиции и перемещении курсора клавишами, которые не передаёте Suggest. Это сбрасывает активную опцию и `aria-activedescendant`, оставляя попап открытым. Следующая переданная стрелка снова начинает навигацию по списку.

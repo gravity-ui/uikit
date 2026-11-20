@@ -269,7 +269,7 @@ For UIKit `TextInput` and `TextArea`, pass `id` and `onKeyDown` from `triggerPro
 
 The keyboard handler opens the popup with the arrows, navigates the list, and selects the active option on Enter. To keep a key for editing, do not delegate it. Custom shortcuts should ignore IME composition (`event.nativeEvent.isComposing` or `event.keyCode === 229`). Popup dismissal still requests closing through `onOpenChange`.
 
-With `renderControl`, TextInput-specific props are ignored: `view`, `pin`, `label`, `placeholder`, `hasClear`, validation props, `note`, `startContent`, `endContent`, `type`, `qa`, native attributes (`name`, `autoComplete`, `autoFocus`, `readOnly`, `tabIndex`, `controlProps`, `controlRef`) and handlers (`onChange`, `onKeyDown`, `onKeyUp`, `onFocus`, `onBlur`). Set them directly on your custom control. `size` still controls the list rows. Use Suggest's top-level ARIA labeling props to name the control and list.
+With `renderControl`, configure the field's appearance, content, native attributes and handlers directly on your custom control; the corresponding TextInput props on Suggest do not apply. `className` and `style` apply to the wrapper, `disabled` is passed to the renderer, and `size` controls the list rows. Use Suggest's top-level ARIA labeling props to name the control and list.
 
 A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` from the supplied `triggerProps`, preserving the list relationship and active descendant.
 

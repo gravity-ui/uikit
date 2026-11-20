@@ -265,7 +265,7 @@ Suggest announces when no results are available, including when `renderEmptyOpti
 
 > **Required wiring:** Connect `ref`, `value`, `onUpdate`, and the DOM attributes in `triggerProps`. Forward `disabled` to your control. Call `triggerProps.onClick` to open on click and `triggerProps.onKeyDown` for built-in keyboard navigation.
 
-UIKit `TextInput` and `TextArea` take `id` and `onKeyDown` as top-level props; pass them there rather than only inside `controlProps`.
+For UIKit `TextInput` and `TextArea`, pass `id` and `onKeyDown` from `triggerProps` as top-level props. Both components overwrite the corresponding values in `controlProps` even when the top-level props are omitted. Pass the remaining fields from `triggerProps` through the component’s `controlProps`.
 
 The keyboard handler opens the popup with the arrows, navigates the list, and selects the active option on Enter. To keep a key for editing, do not delegate it. Custom shortcuts should ignore IME composition (`event.nativeEvent.isComposing` or `event.keyCode === 229`). Popup dismissal still requests closing through `onOpenChange`.
 

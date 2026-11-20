@@ -154,6 +154,7 @@ export const DropdownMenuPopup = <T,>({
                 {children || (
                     <Menu className={cnDropdownMenu('menu')} size={size} {...menuProps}>
                         {items.map((item, index) => {
+                            const separator = isSeparator(item);
                             const isActive = isNavigationActive && activeItemIndex === index;
                             const activate = () => setActiveItemIndex(index);
 
@@ -168,8 +169,9 @@ export const DropdownMenuPopup = <T,>({
 
                             const extraProps = {
                                 ...item.extraProps,
-                                onClick: activate,
-                                onMouseEnter: activate,
+                                ...(separator ? {role: 'separator', 'aria-hidden': true} : {}),
+                                onClick: separator ? undefined : activate,
+                                onMouseEnter: separator ? undefined : activate,
                             };
 
                             return (
@@ -179,7 +181,7 @@ export const DropdownMenuPopup = <T,>({
                                     className={cnDropdownMenu(
                                         'menu-item',
                                         {
-                                            separator: isSeparator(item),
+                                            separator,
                                             'active-parent': isActiveParent,
                                             'with-submenu': Boolean(item.items?.length),
                                         },
@@ -189,6 +191,7 @@ export const DropdownMenuPopup = <T,>({
                                     popupProps={popupProps}
                                     closeMenu={onClose}
                                     {...item}
+                                    disabled={separator || item.disabled}
                                     extraProps={extraProps}
                                 />
                             );

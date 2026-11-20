@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import Slider from 'rc-slider';
+import RcSlider from 'rc-slider';
 import type {SliderProps, SliderRef} from 'rc-slider';
 
 import {block} from '../../utils/cn';
@@ -11,6 +11,9 @@ import type {StateModifiers} from '../types';
 import './BaseSlider.scss';
 
 const b = block('base-slider');
+
+// ESM consumers may receive the CommonJS exports object instead of the component.
+const Slider = (RcSlider as typeof RcSlider & {default?: typeof RcSlider}).default ?? RcSlider;
 
 type BaseSliderProps<T = number | number[]> = {stateModifiers: StateModifiers} & Omit<
     SliderProps<T>,

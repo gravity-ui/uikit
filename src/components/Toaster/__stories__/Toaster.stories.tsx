@@ -165,7 +165,12 @@ export const WithFooter: Story = {
         isClosable: true,
         actions: [{label: 'View details', onClick: () => {}, removeAfterClick: false}],
         renderFooter: ({onClose}) => (
-            <Button view="flat" size="s" onClick={onClose}>
+            <Button
+                view="flat"
+                size="s"
+                onClick={onClose}
+                style={{marginBlockStart: 'var(--g-spacing-2)'}}
+            >
                 Dismiss
             </Button>
         ),

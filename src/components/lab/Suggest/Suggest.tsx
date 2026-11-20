@@ -117,7 +117,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const autoId = useUniqId();
     const componentId = idProp || autoId;
     const listId = `${componentId}-list`;
-    // TextInput-only props are ignored with renderControl, including list label fallbacks.
     const nativeControlProps = renderControl ? undefined : inputProps.controlProps;
     const listLabel =
         ariaLabel ??
@@ -215,7 +214,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const popupContent = renderPopup ? renderPopup({renderList}) : renderList();
     const popupOpen = open && Boolean(popupContent);
 
-    // Track focus on the default input to preserve its onFocus/onBlur events.
     const {onFocus, onBlur} = inputProps;
     const {focusWithinProps} = useFocusWithin<HTMLInputElement>({
         onFocusWithin: onFocus,
@@ -230,8 +228,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         ),
     });
 
-    // Track focus on the wrapper; custom controls manage their own focus callbacks.
-    // Close a pending popup on blur; visible popups handle focus-out themselves.
     const {focusWithinProps: customFocusWithinProps} = useFocusWithin<HTMLElement>({
         onBlurWithin: React.useCallback(
             (event: React.FocusEvent<HTMLElement>) => {

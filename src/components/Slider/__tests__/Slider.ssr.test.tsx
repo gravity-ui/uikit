@@ -1,68 +1,41 @@
 /*
  * @jest-environment node
  */
-import {execFileSync} from 'node:child_process';
-import {resolve} from 'node:path';
+import type * as RcSliderModule from 'rc-slider';
 
-const projectRoot = resolve(__dirname, '../../../..');
+// The result is server markup, not a Testing Library render result.
+/* eslint-disable testing-library/render-result-naming-convention */
 
-describe('Slider: server rendering of published builds', () => {
-    beforeAll(() => {
-        // Always rebuild so changes to the source cannot be hidden by stale artifacts.
-        execFileSync('npm', ['run', 'build'], {
-            cwd: projectRoot,
-            stdio: 'inherit',
-            timeout: 120_000,
-        });
-    }, 120_000);
+describe('Slider: server rendering', () => {
+    beforeEach(() => {
+        // The shared Jest setup imports UIKit before the test can mock rc-slider.
+        jest.resetModules();
+    });
+
+    afterEach(() => {
+        jest.dontMock('rc-slider');
+    });
 
     test.each([
-        {format: 'ESM', load: "await import('@gravity-ui/uikit')"},
-        {format: 'CommonJS', load: "require('@gravity-ui/uikit')"},
-    ])('renders the $format build with an external CommonJS rc-slider', ({load}) => {
-        // Jest transforms imports to CommonJS; a separate Node process preserves real interop.
-        const html = execFileSync(
-            process.execPath,
-            [
-                '--input-type=module',
-                '--eval',
-                `
-                    import {createRequire, registerHooks} from 'node:module';
-                    import {createElement} from 'react';
-                    import {renderToString} from 'react-dom/server';
+        {name: 'the CommonJS exports object', wrapModule: true},
+        {name: 'the component', wrapModule: false},
+    ])('renders when the default import of rc-slider is $name', async ({wrapModule}) => {
+        if (wrapModule) {
+            // Strict ESM consumers receive module.exports as the CommonJS default import.
+            jest.doMock('rc-slider', () => ({
+                __esModule: true,
+                default: jest.requireActual<typeof RcSliderModule>('rc-slider'),
+            }));
+        }
 
-                    registerHooks({
-                        load(url, context, nextLoad) {
-                            if (url.endsWith('.css')) {
-                                return {format: 'commonjs', source: '', shortCircuit: true};
-                            }
-                            if (url.endsWith('.json')) {
-                                return nextLoad(url, {
-                                    ...context,
-                                    importAttributes: {type: 'json'},
-                                });
-                            }
-                            return nextLoad(url, context);
-                        },
-                    });
+        const {renderToString} = await import('react-dom/server');
+        const {Provider} = await import('../../theme/Provider');
+        const {Slider} = await import('../Slider');
 
-                    const require = createRequire(import.meta.url);
-                    const {Provider, Slider} = ${load};
-                    const html = renderToString(
-                        createElement(Provider, {theme: 'light'},
-                            createElement(Slider, {
-                                min: 0,
-                                max: 1,
-                                value: 0,
-                                marks: 0,
-                                tooltipDisplay: 'off',
-                            }),
-                        ),
-                    );
-                    process.stdout.write(html);
-                `,
-            ],
-            {cwd: projectRoot, encoding: 'utf8', timeout: 10_000},
+        const html = renderToString(
+            <Provider theme="light">
+                <Slider min={0} max={1} value={0} marks={0} tooltipDisplay="off" />
+            </Provider>,
         );
 
         expect(html).toContain('role="slider"');

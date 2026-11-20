@@ -164,83 +164,50 @@ describe('Suggest', () => {
             expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
         });
 
-        test('resets the active option without closing and allows navigation again', async () => {
+        test('a custom control can clear controlled activity and navigate again', async () => {
             const user = userEvent.setup();
-            const onActiveOptionUpdate = jest.fn();
             const onOptionAction = jest.fn();
-            render(
-                <Suggest
-                    aria-label="Reply"
-                    options={ITEMS}
-                    onActiveOptionUpdate={onActiveOptionUpdate}
-                    onOptionAction={onOptionAction}
-                    renderControl={({controlProps, value, onUpdate, resetActiveOption}) => (
-                        <input
-                            {...controlProps}
-                            value={value}
-                            onChange={(event) => onUpdate(event.target.value)}
-                            onKeyDown={(event) => {
-                                if (event.key === 'ArrowLeft') {
-                                    resetActiveOption();
-                                    resetActiveOption();
-                                } else {
-                                    controlProps.onKeyDown?.(event);
-                                }
-                            }}
-                        />
-                    )}
-                />,
-            );
+            function Example() {
+                const [activeOption, setActiveOption] = React.useState<string | null>(null);
+                return (
+                    <Suggest
+                        aria-label="Reply"
+                        options={ITEMS}
+                        activeOption={activeOption}
+                        onActiveOptionUpdate={setActiveOption}
+                        onOptionAction={onOptionAction}
+                        renderControl={({ref, controlProps, value, onUpdate}) => (
+                            <input
+                                {...controlProps}
+                                ref={ref as React.Ref<HTMLInputElement>}
+                                value={value}
+                                onChange={(event) => onUpdate(event.target.value)}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'ArrowLeft') {
+                                        setActiveOption(null);
+                                    } else {
+                                        controlProps.onKeyDown?.(event);
+                                    }
+                                }}
+                            />
+                        )}
+                    />
+                );
+            }
+            render(<Example />);
             const input = screen.getByRole('combobox', {name: 'Reply'});
             await user.click(input);
             await user.keyboard('[ArrowDown]');
             const earthId = screen.getByRole('option', {name: 'Earth'}).id;
             expect(input).toHaveAttribute('aria-activedescendant', earthId);
 
-            await user.keyboard('[ArrowLeft][ArrowLeft][Enter]');
+            await user.keyboard('[ArrowLeft][Enter]');
             expect(input).not.toHaveAttribute('aria-activedescendant');
             expect(screen.getByRole('listbox')).toBeVisible();
-            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth'], [null]]);
             expect(onOptionAction).not.toHaveBeenCalled();
 
-            await user.keyboard('[ArrowDown][Enter]');
-            expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
-            expect(onOptionAction).toHaveBeenCalledWith('earth', ITEMS[0], expect.anything());
-        });
-
-        test('resetting a removed active option does not notify the consumer', async () => {
-            const user = userEvent.setup();
-            const onActiveOptionUpdate = jest.fn();
-            const props: SuggestProps = {
-                'aria-label': 'Reply',
-                onActiveOptionUpdate,
-                renderControl: ({controlProps, resetActiveOption}) => (
-                    <input
-                        {...controlProps}
-                        onKeyDown={(event) => {
-                            if (event.key === 'ArrowLeft') {
-                                resetActiveOption();
-                            } else {
-                                controlProps.onKeyDown?.(event);
-                            }
-                        }}
-                    />
-                ),
-            };
-            const {rerender} = render(<Suggest {...props} options={ITEMS} />);
-            const input = screen.getByRole('combobox', {name: 'Reply'});
-            await user.click(input);
             await user.keyboard('[ArrowDown]');
-            expect(input).toHaveAttribute('aria-activedescendant');
-
-            rerender(<Suggest {...props} options={ITEMS.slice(1)} />);
-            expect(input).not.toHaveAttribute('aria-activedescendant');
-            await user.keyboard('[ArrowLeft]');
-            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth']]);
-
-            rerender(<Suggest {...props} options={ITEMS} />);
-            expect(input).not.toHaveAttribute('aria-activedescendant');
-            expect(screen.getByRole('listbox')).toBeVisible();
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
         });
 
         test('supports a contenteditable control with the supplied DOM handlers', async () => {
@@ -639,12 +606,94 @@ describe('Suggest: new List integration', () => {
             await waitFor(() =>
                 expect(screen.queryByRole('listbox', {hidden: true})).not.toBeInTheDocument(),
             );
-            expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth'], [null]]);
             await user.keyboard(`[${key}]`);
             expect(screen.getByRole('listbox')).toBeVisible();
             expect(input).not.toHaveAttribute('aria-activedescendant');
         },
     );
+
+    describe('active option state', () => {
+        test.each([false, true])(
+            'uses defaultActiveOption only on the first opening (defaultOpen=%s)',
+            async (defaultOpen) => {
+                const user = userEvent.setup();
+                const onActiveOptionUpdate = jest.fn();
+                render(
+                    <Suggest
+                        options={ITEMS}
+                        defaultOpen={defaultOpen}
+                        defaultActiveOption="earth"
+                        onActiveOptionUpdate={onActiveOptionUpdate}
+                    />,
+                );
+                const input = screen.getByRole('combobox');
+                await user.click(input);
+                const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+                expect(input).toHaveAttribute('aria-activedescendant', earthId);
+                expect(onActiveOptionUpdate).not.toHaveBeenCalled();
+
+                await user.keyboard('[Escape]');
+                await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
+                expect(onActiveOptionUpdate).toHaveBeenLastCalledWith(null);
+                await user.click(input);
+                expect(input).not.toHaveAttribute('aria-activedescendant');
+            },
+        );
+
+        test('controlled activity only changes when the prop changes, including null', async () => {
+            const user = userEvent.setup();
+            const onActiveOptionUpdate = jest.fn();
+            const props: SuggestProps = {
+                options: ITEMS,
+                open: true,
+                defaultActiveOption: 'jupiter',
+                onActiveOptionUpdate,
+            };
+            const {rerender} = render(<Suggest {...props} activeOption="earth" />);
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+            const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
+            await user.keyboard('[ArrowDown]');
+            expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('europa');
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
+
+            rerender(<Suggest {...props} activeOption="europa" />);
+            expect(input).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getByRole('option', {name: 'Europa'}).id,
+            );
+            rerender(<Suggest {...props} activeOption={null} />);
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+        });
+
+        test.each([null, 'earth'])(
+            'requests a reset on closing and respects the parent value: %s',
+            async (activeOption) => {
+                const user = userEvent.setup();
+                const onActiveOptionUpdate = jest.fn();
+                const props: SuggestProps = {options: ITEMS, onActiveOptionUpdate};
+                const {rerender} = render(<Suggest {...props} activeOption="earth" />);
+                const input = screen.getByRole('combobox');
+                await user.click(input);
+                const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+                expect(input).toHaveAttribute('aria-activedescendant', earthId);
+                await user.keyboard('[Escape]');
+                await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
+                expect(onActiveOptionUpdate.mock.calls).toEqual([[null]]);
+                rerender(<Suggest {...props} activeOption={activeOption} />);
+                await user.click(input);
+                if (activeOption === null) {
+                    expect(input).not.toHaveAttribute('aria-activedescendant');
+                } else {
+                    expect(input).toHaveAttribute('aria-activedescendant', earthId);
+                }
+                expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+            },
+        );
+    });
 
     test('keeps an available option active when typing', async () => {
         const user = userEvent.setup();

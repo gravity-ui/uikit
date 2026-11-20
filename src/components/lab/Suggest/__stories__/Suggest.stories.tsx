@@ -424,15 +424,10 @@ function LongOptionsExample({
     );
 }
 
-function CustomTextArea({
-    controlProps,
-    disabled,
-    onUpdate,
-    open,
-    ref,
-    resetActiveOption,
-    value,
-}: SuggestRenderControlProps) {
+function renderCustomTextArea(
+    {controlProps, disabled, onUpdate, open, ref, value}: SuggestRenderControlProps,
+    setActiveOption: (value: string | null) => void,
+) {
     const {id, onClick, onKeyDown, ...attributes} = controlProps;
 
     return (
@@ -441,7 +436,7 @@ function CustomTextArea({
             id={id}
             value={value}
             onUpdate={(nextValue) => {
-                resetActiveOption();
+                setActiveOption(null);
                 onUpdate(nextValue);
             }}
             disabled={disabled}
@@ -451,9 +446,9 @@ function CustomTextArea({
                 ...attributes,
                 role: undefined,
                 'aria-expanded': undefined,
-                onCompositionStart: resetActiveOption,
+                onCompositionStart: () => setActiveOption(null),
                 onClick: (event) => {
-                    resetActiveOption();
+                    setActiveOption(null);
                     onClick?.(event);
                 },
             }}
@@ -474,7 +469,7 @@ function CustomTextArea({
                         'Enter',
                     ].includes(event.key)
                 ) {
-                    resetActiveOption();
+                    setActiveOption(null);
                 }
             }}
         />
@@ -484,6 +479,7 @@ function CustomTextArea({
 export const CustomInput: Story = {
     render: () => {
         const [value, setValue] = React.useState('');
+        const [activeOption, setActiveOption] = React.useState<string | null>(null);
         const items = React.useMemo(() => {
             const query = value.trim().toLowerCase();
             return TEXT_OPTIONS.filter((option) => option.content.toLowerCase().includes(query));
@@ -498,6 +494,8 @@ export const CustomInput: Story = {
                 </Text>
                 <Suggest
                     aria-label="Reply"
+                    activeOption={activeOption}
+                    onActiveOptionUpdate={setActiveOption}
                     value={value}
                     onUpdate={setValue}
                     options={items}
@@ -513,7 +511,7 @@ export const CustomInput: Story = {
                         </Text>
                     )}
                     onOptionAction={(_id, option) => setValue(String(option.content))}
-                    renderControl={CustomTextArea}
+                    renderControl={(props) => renderCustomTextArea(props, setActiveOption)}
                 />
             </Flex>
         );

@@ -198,14 +198,16 @@ List navigation follows the [List keyboard behavior](https://preview.gravity-ui.
 | `Enter`   | Apply the active option and close the popup |
 | `Escape`  | Close the popup, keeping focus in the input |
 
-No option is highlighted automatically when the popup opens.
+By default, no option is highlighted when the popup opens. Use `activeOption` or `defaultActiveOption` to specify an active option.
 
 ## Properties
 
 | Name                 | Description                                                                                          | Type                                                                                                                       | Default          |
 | :------------------- | :--------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------- | :--------------- |
+| activeOption         | Active option value (controlled mode); `null` means no active option                                 | `string \| null`                                                                                                           |                  |
 | className            | CSS class for the TextInput root or the custom-control wrapper                                       | `string`                                                                                                                   |                  |
 | controlRef           | Native input ref; ignored with `renderControl`                                                       | `TextInputProps["controlRef"]`                                                                                             |                  |
+| defaultActiveOption  | Initial active option value (uncontrolled mode)                                                      | `string \| null`                                                                                                           | `null`           |
 | defaultOpen          | Initial open state (uncontrolled)                                                                    | `boolean`                                                                                                                  |                  |
 | defaultValue         | Initial value (uncontrolled)                                                                         | `string`                                                                                                                   |                  |
 | disablePortal        | Render the popup without a portal                                                                    | `boolean`                                                                                                                  | `false`          |
@@ -240,7 +242,7 @@ After an option action, an uncontrolled popup closes. With controlled `open`, Su
 
 `SuggestOpenChangeReason` extends Floating UI's `OpenChangeReason` with `input-change` (typing or clearing the input) and `option-action` (selecting an option).
 
-`onActiveOptionUpdate` reports List requests from keyboard or pointer interaction, and receives `null` when `resetActiveOption` clears an active option. Reordering or removing options and closing the popup do not emit additional updates. Each opening starts without an active option. Text for List uses string or numeric `content`/`children`, falling back to the option value.
+`onActiveOptionUpdate` reports List requests from keyboard or pointer interaction, and receives `null` when the list closes. Reordering or removing individual options does not emit additional updates. In controlled mode, pass the requested value back through `activeOption`; if the parent ignores a reset request, the previous active option remains on reopening. By default, there is no active option; use `activeOption` or `defaultActiveOption` to specify one. Text for List uses string or numeric `content`/`children`, falling back to the option value.
 
 ## Accessibility
 
@@ -252,15 +254,14 @@ Suggest announces when no results are available, including when `renderEmptyOpti
 
 `renderControl` replaces TextInput with a TextArea, native element, or another focusable text editor. Suggest wraps the control in an element that takes `className` and `style`, anchors the popup, and tracks focus leaving the control. The callback receives `SuggestRenderControlProps`:
 
-| Prop                | Purpose                                                                                 |
-| :------------------ | :-------------------------------------------------------------------------------------- |
-| `controlProps`      | DOM attributes (`id`, `role`, ARIA) and `onClick`/`onKeyDown` for the focusable element |
-| `disabled`          | Whether the control is disabled                                                         |
-| `onUpdate`          | Call with the new text                                                                  |
-| `open`              | The requested open state; the popup also needs content to appear                        |
-| `ref`               | Attach to the focusable element; cast to its element type if necessary                  |
-| `resetActiveOption` | Clear the active option and its ARIA reference without closing the popup                |
-| `value`             | The current text                                                                        |
+| Prop           | Purpose                                                                                 |
+| :------------- | :-------------------------------------------------------------------------------------- |
+| `controlProps` | DOM attributes (`id`, `role`, ARIA) and `onClick`/`onKeyDown` for the focusable element |
+| `disabled`     | Whether the control is disabled                                                         |
+| `onUpdate`     | Call with the new text                                                                  |
+| `open`         | The requested open state; the popup also needs content to appear                        |
+| `ref`          | Attach to the focusable element; cast to its element type if necessary                  |
+| `value`        | The current text                                                                        |
 
 > **Required wiring:** Connect `ref`, `value`, `onUpdate`, and the DOM attributes in `controlProps`. Forward `disabled` to your control. Call `controlProps.onClick` to open on click and `controlProps.onKeyDown` for built-in keyboard navigation.
 
@@ -275,13 +276,17 @@ A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` 
 <!--GITHUB_BLOCK-->
 
 ```tsx
+const [activeOption, setActiveOption] = React.useState<string | null>(null);
+
 <Suggest
+  activeOption={activeOption}
+  onActiveOptionUpdate={setActiveOption}
   aria-label="Reply"
   value={value}
   onUpdate={setValue}
   options={options}
   onOptionAction={(_id, option) => setValue(String(option.content))}
-  renderControl={({ref, value, onUpdate, disabled, controlProps, resetActiveOption}) => {
+  renderControl={({ref, value, onUpdate, disabled, controlProps}) => {
     const {id, onClick, onKeyDown, ...attributes} = controlProps;
     return (
       <TextArea
@@ -289,7 +294,7 @@ A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` 
         id={id}
         value={value}
         onUpdate={(text) => {
-          resetActiveOption();
+          setActiveOption(null);
           onUpdate(text);
         }}
         disabled={disabled}
@@ -298,9 +303,9 @@ A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` 
           ...attributes,
           role: undefined,
           'aria-expanded': undefined,
-          onCompositionStart: resetActiveOption,
+          onCompositionStart: () => setActiveOption(null),
           onClick: (event) => {
-            resetActiveOption();
+            setActiveOption(null);
             onClick?.(event);
           },
         }}
@@ -314,17 +319,17 @@ A multiline TextArea keeps textbox semantics: remove `role` and `aria-expanded` 
               event.key,
             )
           ) {
-            resetActiveOption();
+            setActiveOption(null);
           }
         }}
       />
     );
   }}
-/>
+/>;
 ```
 
 <!--/GITHUB_BLOCK-->
 
 Suggest displays the supplied `options` without filtering. Use `onUpdate` to supply locally filtered options or async results. In `onOptionAction`, the consumer decides whether to replace the entire text or insert at the caret, including any selection and caret handling.
 
-Call `resetActiveOption()` when the control returns to text editing: caret navigation, text changes, composition start, or a click in the field. It clears the active option and `aria-activedescendant` while keeping the popup open. Calling it with no active option has no effect. The next delegated arrow key starts list navigation again.
+Control the active option with `activeOption` and `onActiveOptionUpdate`. Call your own `setActiveOption(null)` when returning to text editing: caret navigation, text changes, composition start, or a click in the field. This clears the active option and `aria-activedescendant` while keeping the popup open. The next delegated arrow key starts list navigation again.

@@ -67,6 +67,8 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         defaultOpen,
         onOpenChange,
 
+        activeOption: activeOptionProp,
+        defaultActiveOption,
         onActiveOptionUpdate,
 
         renderControl,
@@ -89,26 +91,11 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     }, []);
     const handleControlRef = useForkRef(inputProps.controlRef, setControlRef);
     const focusOwner = useListFocusOwner();
-    const [activeOption, setActiveOption] = React.useState<string | null>(null);
-    const activeOptionRef = React.useRef<string | null>(null);
-    const handleActiveOptionUpdate = React.useCallback(
-        (id: string | null) => {
-            activeOptionRef.current = id;
-            setActiveOption(id);
-            onActiveOptionUpdate?.(id);
-        },
-        [onActiveOptionUpdate],
+    const [activeOption, setActiveOption] = useControlledState(
+        activeOptionProp,
+        defaultActiveOption ?? null,
+        onActiveOptionUpdate,
     );
-    const resetActiveOption = React.useCallback(() => {
-        const id = activeOptionRef.current;
-        if (id === null) return;
-
-        activeOptionRef.current = null;
-        setActiveOption(null);
-        if (options?.some((option) => option.value === id)) {
-            onActiveOptionUpdate?.(null);
-        }
-    }, [options, onActiveOptionUpdate]);
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const inputValue = value ?? uncontrolledValue;
@@ -217,7 +204,7 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     getItemTextValue={getItemTextValue}
                     focusOwner={open ? focusOwner : undefined}
                     activeItemId={activeOption}
-                    onActiveItemUpdate={handleActiveOptionUpdate}
+                    onActiveItemUpdate={setActiveOption}
                     onItemAction={handleOptionAction}
                     renderItem={renderItem}
                 />
@@ -270,13 +257,14 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
     const {onKeyDown: onListKeyDown, ...listInputProps} = focusOwner.getInputProps();
     const listExpanded = listInputProps['aria-expanded'];
-    // Match List's unmount behavior without notifying the consumer of a reset.
+    const wasListExpanded = React.useRef(listExpanded);
     useLayoutEffect(() => {
-        if (!listExpanded) {
-            activeOptionRef.current = null;
+        const listClosed = wasListExpanded.current && !listExpanded;
+        wasListExpanded.current = listExpanded;
+        if (listClosed) {
             setActiveOption(null);
         }
-    }, [listExpanded]);
+    }, [listExpanded, setActiveOption]);
 
     let statusText = '';
     if (open) {
@@ -358,7 +346,6 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                         onUpdate: handleValueChange,
                         open,
                         ref,
-                        resetActiveOption,
                         value: inputValue,
                     })}
                 </div>

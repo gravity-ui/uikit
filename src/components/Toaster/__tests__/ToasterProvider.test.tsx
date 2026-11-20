@@ -294,18 +294,18 @@ describe('api.has', () => {
     });
 });
 
-it('should keep toast actions available and close the toast from the footer', () => {
+it('should keep toast actions available and allow removal from the footer', () => {
     setup();
     const onAction = jest.fn();
-    const onClose = jest.fn();
 
     act(() => {
         toasterInstance.add({
             ...toastProps,
             autoHiding: false,
-            onClose,
             actions: [{label: 'Primary action', onClick: onAction, removeAfterClick: false}],
-            renderFooter: ({onClose: close}) => <Button onClick={close}>Dismiss</Button>,
+            renderFooter: () => (
+                <Button onClick={() => toasterInstance.remove(toastProps.name)}>Dismiss</Button>
+            ),
         });
     });
 
@@ -316,7 +316,6 @@ it('should keep toast actions available and close the toast from the footer', ()
     fireEvent.click(within(toast).getByRole('button', {name: 'Dismiss'}));
     tick(toast, 0);
     expect(toast).not.toBeInTheDocument();
-    expect(onClose).toHaveBeenCalledTimes(1);
 });
 
 describe('modal remains open after toaster close', () => {

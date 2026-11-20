@@ -114,6 +114,8 @@ function getAction(): ToastAction {
     };
 }
 
+const playgroundToastName = 'demo-toast';
+
 export const ToastPlayground: Story = {
     name: 'Toast (Playground)',
     args: {
@@ -136,13 +138,12 @@ export const ToastPlayground: Story = {
         const toaster = useToaster();
 
         React.useEffect(() => {
-            const toastId = 'demo-toast';
             toaster.add({
                 ...args,
-                name: toastId,
+                name: playgroundToastName,
             });
 
-            return () => toaster.remove(toastId);
+            return () => toaster.remove(playgroundToastName);
         }, [args, toaster]);
 
         return (
@@ -164,11 +165,11 @@ export const WithFooter: Story = {
         theme: 'success',
         isClosable: true,
         actions: [{label: 'View details', onClick: () => {}, removeAfterClick: false}],
-        renderFooter: ({onClose}) => (
+        renderFooter: () => (
             <Button
                 view="flat"
                 size="s"
-                onClick={onClose}
+                onClick={() => toaster.remove(playgroundToastName)}
                 style={{marginBlockStart: 'var(--g-spacing-2)'}}
             >
                 Dismiss

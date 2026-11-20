@@ -136,14 +136,16 @@ Every `action` is an object with following parameters:
 ## Footer
 
 Pass `renderFooter` to render custom content below the toast actions. The slot adds no styles of
-its own. Call the supplied `onClose` to close the toast.
+its own. Call `toaster.remove(name)` to dismiss the toast from the footer.
 
 ```tsx
+const name = 'saved';
+
 toaster.add({
-  name: 'saved',
+  name,
   title: 'Changes saved',
-  renderFooter: ({onClose}) => (
-    <Button view="flat" onClick={onClose}>
+  renderFooter: () => (
+    <Button view="flat" onClick={() => toaster.remove(name)}>
       Dismiss
     </Button>
   ),

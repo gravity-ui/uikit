@@ -135,7 +135,6 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
     const {t} = i18n.useTranslation();
 
     const icon = renderIcon ? renderIcon(props) : renderIconByType({theme});
-    const footer = renderFooter?.({onClose: handleClose});
     return (
         <div ref={ref} className={b(mods, className)} {...closeOnTimeoutProps} data-toast>
             {icon && <div className={b('icon-container')}>{icon}</div>}
@@ -156,8 +155,8 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                     <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
                 )}
                 {renderActions({actions, onClose: handleClose})}
-                {React.Children.toArray(footer).length > 0 && (
-                    <div className={b('footer')}>{footer}</div>
+                {renderFooter && (
+                    <div className={b('footer')}>{renderFooter({onClose: handleClose})}</div>
                 )}
             </div>
         </div>

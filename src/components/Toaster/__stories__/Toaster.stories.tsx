@@ -7,7 +7,6 @@ import {toaster} from '../../../toaster-singleton';
 import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
-import {Flex} from '../../layout';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
@@ -166,19 +165,9 @@ export const WithFooter: Story = {
         isClosable: true,
         actions: [{label: 'View details', onClick: () => {}, removeAfterClick: false}],
         renderFooter: ({onClose}) => (
-            <Flex
-                role="group"
-                aria-label="Additional information"
-                alignItems="center"
-                justifyContent="space-between"
-                gap="spacing-3"
-                paddingBlock="spacing-2"
-            >
-                Additional information
-                <Button view="flat" size="s" onClick={onClose}>
-                    Dismiss
-                </Button>
-            </Flex>
+            <Button view="flat" size="s" onClick={onClose}>
+                Dismiss
+            </Button>
         ),
     },
 };

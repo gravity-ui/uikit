@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {act, fireEvent, render, screen, within} from '../../../../test-utils/utils';
+import {Button} from '../../Button';
 import {Modal} from '../../Modal/Modal';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
@@ -291,6 +292,30 @@ describe('api.has', () => {
         });
         expect(toasterInstance.has(toastProps.name)).toBe(false);
     });
+});
+
+it('should keep toast actions available and allow removal from the footer', () => {
+    setup();
+    const onAction = jest.fn();
+
+    act(() => {
+        toasterInstance.add({
+            ...toastProps,
+            autoHiding: false,
+            actions: [{label: 'Primary action', onClick: onAction, removeAfterClick: false}],
+            renderFooter: () => (
+                <Button onClick={() => toasterInstance.remove(toastProps.name)}>Dismiss</Button>
+            ),
+        });
+    });
+
+    const toast = getToast();
+    fireEvent.click(within(toast).getByRole('button', {name: 'Primary action'}));
+    expect(onAction).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(within(toast).getByRole('button', {name: 'Dismiss'}));
+    tick(toast, 0);
+    expect(toast).not.toBeInTheDocument();
 });
 
 describe('modal remains open after toaster close', () => {

@@ -4,6 +4,7 @@ import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {toaster} from '../../../toaster-singleton';
+import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
 import {ToasterProvider} from '../Provider/ToasterProvider';
@@ -89,6 +90,7 @@ export const Default: Story = {
         theme: disabledControl,
         isClosable: disabledControl,
         actions: disabledControl,
+        renderFooter: disabledControl,
         removeCallback: disabledControl,
         createSameName: booleanControl('Same name'),
         showCloseIcon: booleanControl('Show close icon'),
@@ -112,6 +114,8 @@ function getAction(): ToastAction {
     };
 }
 
+const playgroundToastName = 'demo-toast';
+
 export const ToastPlayground: Story = {
     name: 'Toast (Playground)',
     args: {
@@ -127,19 +131,19 @@ export const ToastPlayground: Story = {
         name: disabledControl,
         addedAt: disabledControl,
         renderIcon: disabledControl,
+        renderFooter: disabledControl,
         removeCallback: disabledControl,
     },
     render: (args, context) => {
         const toaster = useToaster();
 
         React.useEffect(() => {
-            const toastId = 'demo-toast';
             toaster.add({
                 ...args,
-                name: toastId,
+                name: playgroundToastName,
             });
 
-            return () => toaster.remove(toastId);
+            return () => toaster.remove(playgroundToastName);
         }, [args, toaster]);
 
         return (
@@ -148,5 +152,28 @@ export const ToastPlayground: Story = {
                 hasPortal={context.globals.screenshotTests !== true}
             />
         );
+    },
+};
+
+export const WithFooter: Story = {
+    ...ToastPlayground,
+    name: 'Toast with a footer',
+    args: {
+        ...ToastPlayground.args,
+        title: 'Changes saved',
+        content: 'Your changes have been saved.',
+        theme: 'success',
+        isClosable: true,
+        actions: [{label: 'View details', onClick: () => {}, removeAfterClick: false}],
+        renderFooter: () => (
+            <Button
+                view="flat"
+                size="s"
+                onClick={() => toaster.remove(playgroundToastName)}
+                style={{marginBlockStart: 'var(--g-spacing-2)'}}
+            >
+                Dismiss
+            </Button>
+        ),
     },
 };

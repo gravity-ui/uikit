@@ -279,22 +279,24 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
     const handleValueChange = React.useCallback(
         (newValue: string) => {
+            setActiveOption(null);
             if (value === undefined) {
                 setUncontrolledValue(newValue);
             }
             onUpdate?.(newValue);
             setOpen(Boolean(newValue), undefined, 'input-change');
         },
-        [value, onUpdate, setOpen],
+        [value, onUpdate, setOpen, setActiveOption],
     );
 
     const handleInputClick = React.useCallback(
         (e: React.MouseEvent<HTMLElement>) => {
+            setActiveOption(null);
             if (!open) {
                 setOpen(true, e.nativeEvent, 'click');
             }
         },
-        [open, setOpen],
+        [open, setOpen, setActiveOption],
     );
 
     const handleInputKeyDown = React.useCallback(

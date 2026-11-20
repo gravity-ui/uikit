@@ -39,7 +39,8 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     /** Append a loading row to the options, or show a standalone loader when options are empty */
     loading?: boolean;
     /**
-     * Called when List requests an active option update, or with null when the list closes.
+     * Called when List requests an active option update, or with null to reset activity
+     * when the list closes, the text changes, or the control is clicked.
      * Receives the option value or null. Reordering or removing individual options
      * does not emit additional notifications.
      */

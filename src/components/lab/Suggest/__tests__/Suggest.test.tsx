@@ -628,7 +628,8 @@ describe('Suggest: new List integration', () => {
                     />,
                 );
                 const input = screen.getByRole('combobox');
-                await user.click(input);
+                await user.tab();
+                if (!defaultOpen) await user.keyboard('[ArrowDown]');
                 const earthId = screen.getByRole('option', {name: 'Earth'}).id;
                 expect(input).toHaveAttribute('aria-activedescendant', earthId);
                 expect(onActiveOptionUpdate).not.toHaveBeenCalled();
@@ -636,7 +637,8 @@ describe('Suggest: new List integration', () => {
                 await user.keyboard('[Escape]');
                 await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
                 expect(onActiveOptionUpdate).toHaveBeenLastCalledWith(null);
-                await user.click(input);
+                await user.keyboard('[ArrowDown]');
+                expect(screen.getByRole('listbox')).toBeVisible();
                 expect(input).not.toHaveAttribute('aria-activedescendant');
             },
         );
@@ -652,7 +654,7 @@ describe('Suggest: new List integration', () => {
             };
             const {rerender} = render(<Suggest {...props} activeOption="earth" />);
             const input = screen.getByRole('combobox');
-            await user.click(input);
+            await user.tab();
             const earthId = screen.getByRole('option', {name: 'Earth'}).id;
             expect(input).toHaveAttribute('aria-activedescendant', earthId);
             await user.keyboard('[ArrowDown]');
@@ -677,14 +679,15 @@ describe('Suggest: new List integration', () => {
                 const props: SuggestProps = {options: ITEMS, onActiveOptionUpdate};
                 const {rerender} = render(<Suggest {...props} activeOption="earth" />);
                 const input = screen.getByRole('combobox');
-                await user.click(input);
+                await user.tab();
+                await user.keyboard('[ArrowDown]');
                 const earthId = screen.getByRole('option', {name: 'Earth'}).id;
                 expect(input).toHaveAttribute('aria-activedescendant', earthId);
                 await user.keyboard('[Escape]');
                 await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
                 expect(onActiveOptionUpdate.mock.calls).toEqual([[null]]);
                 rerender(<Suggest {...props} activeOption={activeOption} />);
-                await user.click(input);
+                await user.keyboard('[ArrowDown]');
                 if (activeOption === null) {
                     expect(input).not.toHaveAttribute('aria-activedescendant');
                 } else {
@@ -695,27 +698,45 @@ describe('Suggest: new List integration', () => {
         );
     });
 
-    test('keeps an available option active when typing', async () => {
+    test.each(['typing', 'click'])(
+        'clears activity on %s and keeps the list open',
+        async (action) => {
+            const user = userEvent.setup();
+            const onOptionAction = jest.fn();
+            const onActiveOptionUpdate = jest.fn();
+            renderSuggest({onOptionAction, onActiveOptionUpdate});
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+            await user.keyboard('[ArrowDown]');
+            expect(input).toHaveAttribute('aria-activedescendant');
+
+            if (action === 'typing') await user.keyboard('a');
+            else await user.click(input);
+
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            expect(input).toHaveFocus();
+            expect(screen.getByRole('listbox')).toBeVisible();
+            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth'], [null]]);
+            await user.keyboard('[Enter]');
+            expect(onOptionAction).not.toHaveBeenCalled();
+        },
+    );
+
+    test.each(['typing', 'click'])('requests a controlled activity reset on %s', async (action) => {
         const user = userEvent.setup();
-        const onOptionAction = jest.fn();
         const onActiveOptionUpdate = jest.fn();
-        renderSuggest({onOptionAction, onActiveOptionUpdate});
+        const props: SuggestProps = {options: ITEMS, open: true, onActiveOptionUpdate};
+        const {rerender} = render(<Suggest {...props} activeOption="earth" />);
         const input = screen.getByRole('combobox');
-        await user.type(input, 'e');
-        await user.keyboard('[ArrowDown]');
-        await user.type(input, 'a');
-        expect(input).toHaveAttribute(
-            'aria-activedescendant',
-            screen.getByRole('option', {name: 'Earth'}).id,
-        );
-        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
-        expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
-        await user.keyboard('[Enter]');
-        expect(onOptionAction).toHaveBeenCalledWith(
-            ITEMS[0].value,
-            ITEMS[0],
-            expect.objectContaining({type: 'keydown'}),
-        );
+        await user.tab();
+
+        if (action === 'typing') await user.keyboard('a');
+        else await user.click(input);
+
+        expect(onActiveOptionUpdate.mock.calls).toEqual([[null]]);
+        expect(input).toHaveAttribute('aria-activedescendant');
+        rerender(<Suggest {...props} activeOption={null} />);
+        expect(input).not.toHaveAttribute('aria-activedescendant');
     });
 
     test('Enter without an active option reaches the consumer', async () => {

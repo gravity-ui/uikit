@@ -435,10 +435,7 @@ function renderCustomTextArea(
             controlRef={ref as React.Ref<HTMLTextAreaElement>}
             id={id}
             value={value}
-            onUpdate={(nextValue) => {
-                setActiveOption(null);
-                onUpdate(nextValue);
-            }}
+            onUpdate={onUpdate}
             disabled={disabled}
             minRows={4}
             maxRows={12}
@@ -447,10 +444,7 @@ function renderCustomTextArea(
                 role: undefined,
                 'aria-expanded': undefined,
                 onCompositionStart: () => setActiveOption(null),
-                onClick: (event) => {
-                    setActiveOption(null);
-                    onClick?.(event);
-                },
+                onClick,
             }}
             onKeyDown={(event) => {
                 if (event.nativeEvent.isComposing || event.keyCode === 229) return;

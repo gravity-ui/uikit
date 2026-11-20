@@ -244,7 +244,7 @@ Suggest управляет атрибутами `role`, `aria-expanded`, `aria-c
 
 `SuggestOpenChangeReason` дополняет `OpenChangeReason` из Floating UI причинами `input-change` (ввод или очистка поля) и `option-action` (выбор опции).
 
-`onActiveOptionUpdate` передаёт запросы List при взаимодействии с клавиатурой или указателем, а также получает `null` при закрытии списка. Перестановка или удаление отдельных опций не вызывают дополнительных уведомлений. В контролируемом режиме передавайте новое значение в `activeOption`; если родитель игнорирует запрос сброса, прежняя активная опция сохраняется при повторном открытии. По умолчанию активной опции нет; её можно задать через `activeOption` или `defaultActiveOption`. Текст для List берётся из строкового или числового `content`/`children`, иначе используется `value` опции.
+`onActiveOptionUpdate` передаёт запросы List при взаимодействии с клавиатурой или указателем, а также получает `null` для сброса активной опции при закрытии списка, изменении текста или клике в поле. Перестановка или удаление отдельных опций не вызывают дополнительных уведомлений. В контролируемом режиме передавайте новое значение в `activeOption`; если родитель игнорирует запрос сброса, прежняя активная опция сохраняется при повторном открытии. По умолчанию активной опции нет; её можно задать через `activeOption` или `defaultActiveOption`. Текст для List берётся из строкового или числового `content`/`children`, иначе используется `value` опции.
 
 ## Доступность
 
@@ -295,10 +295,7 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
         controlRef={ref as React.Ref<HTMLTextAreaElement>}
         id={id}
         value={value}
-        onUpdate={(text) => {
-          setActiveOption(null);
-          onUpdate(text);
-        }}
+        onUpdate={onUpdate}
         disabled={disabled}
         minRows={3}
         controlProps={{
@@ -306,10 +303,7 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
           role: undefined,
           'aria-expanded': undefined,
           onCompositionStart: () => setActiveOption(null),
-          onClick: (event) => {
-            setActiveOption(null);
-            onClick?.(event);
-          },
+          onClick,
         }}
         onKeyDown={(event) => {
           if (event.nativeEvent.isComposing || event.keyCode === 229) return;
@@ -334,4 +328,4 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
 
 Suggest отображает переданные `options` без фильтрации. Через `onUpdate` передавайте локально отфильтрованные опции или результаты асинхронной загрузки. В `onOptionAction` потребитель решает, заменить весь текст или вставить фрагмент в позицию курсора, включая обработку выделения и курсора.
 
-Управляйте активной опцией через `activeOption` и `onActiveOptionUpdate`. При возврате к редактированию вызывайте свой `setActiveOption(null)`: при перемещении курсора, изменении текста, начале композиции или клике в поле. Это сбрасывает активную опцию и `aria-activedescendant`, оставляя попап открытым. Следующая переданная стрелка снова начинает навигацию по списку.
+Управляйте активной опцией через `activeOption` и `onActiveOptionUpdate`. Suggest запрашивает сброс при изменениях текста через `onUpdate` и кликах, переданных в `controlProps.onClick`. Вызывайте свой `setActiveOption(null)` при начале композиции и перемещении курсора клавишами, которые не передаёте Suggest. Это сбрасывает активную опцию и `aria-activedescendant`, оставляя попап открытым. Следующая переданная стрелка снова начинает навигацию по списку.

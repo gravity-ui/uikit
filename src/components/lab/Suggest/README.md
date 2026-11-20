@@ -242,7 +242,7 @@ After an option action, an uncontrolled popup closes. With controlled `open`, Su
 
 `SuggestOpenChangeReason` extends Floating UI's `OpenChangeReason` with `input-change` (typing or clearing the input) and `option-action` (selecting an option).
 
-`onActiveOptionUpdate` reports List requests from keyboard or pointer interaction, and receives `null` when the list closes. Reordering or removing individual options does not emit additional updates. In controlled mode, pass the requested value back through `activeOption`; if the parent ignores a reset request, the previous active option remains on reopening. By default, there is no active option; use `activeOption` or `defaultActiveOption` to specify one. Text for List uses string or numeric `content`/`children`, falling back to the option value.
+`onActiveOptionUpdate` reports List requests from keyboard or pointer interaction, and receives `null` to reset activity when the list closes, the text changes, or the control is clicked. Reordering or removing individual options does not emit additional updates. In controlled mode, pass the requested value back through `activeOption`; if the parent ignores a reset request, the previous active option remains on reopening. By default, there is no active option; use `activeOption` or `defaultActiveOption` to specify one. Text for List uses string or numeric `content`/`children`, falling back to the option value.
 
 ## Accessibility
 
@@ -293,10 +293,7 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
         controlRef={ref as React.Ref<HTMLTextAreaElement>}
         id={id}
         value={value}
-        onUpdate={(text) => {
-          setActiveOption(null);
-          onUpdate(text);
-        }}
+        onUpdate={onUpdate}
         disabled={disabled}
         minRows={3}
         controlProps={{
@@ -304,10 +301,7 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
           role: undefined,
           'aria-expanded': undefined,
           onCompositionStart: () => setActiveOption(null),
-          onClick: (event) => {
-            setActiveOption(null);
-            onClick?.(event);
-          },
+          onClick,
         }}
         onKeyDown={(event) => {
           if (event.nativeEvent.isComposing || event.keyCode === 229) return;
@@ -332,4 +326,4 @@ const [activeOption, setActiveOption] = React.useState<string | null>(null);
 
 Suggest displays the supplied `options` without filtering. Use `onUpdate` to supply locally filtered options or async results. In `onOptionAction`, the consumer decides whether to replace the entire text or insert at the caret, including any selection and caret handling.
 
-Control the active option with `activeOption` and `onActiveOptionUpdate`. Call your own `setActiveOption(null)` when returning to text editing: caret navigation, text changes, composition start, or a click in the field. This clears the active option and `aria-activedescendant` while keeping the popup open. The next delegated arrow key starts list navigation again.
+Control the active option with `activeOption` and `onActiveOptionUpdate`. Suggest requests a reset on text changes through `onUpdate` and clicks delegated to `controlProps.onClick`. Call your own `setActiveOption(null)` on composition start and caret navigation that you do not delegate to Suggest. This clears the active option and `aria-activedescendant` while keeping the popup open. The next delegated arrow key starts list navigation again.

@@ -41,7 +41,7 @@ function defaultRenderOption<T>(option: SuggestListItem<T>): React.ReactNode {
 const getItemChildren = () => undefined;
 
 type SuggestComponent = <T>(
-    props: SuggestProps<T> & {ref?: React.Ref<HTMLSpanElement>},
+    props: SuggestProps<T> & {ref?: React.Ref<HTMLElement>},
 ) => React.ReactElement;
 
 export const Suggest = React.forwardRef(function Suggest<T>(
@@ -67,8 +67,11 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         defaultOpen,
         onOpenChange,
 
+        activeOption: activeOptionProp,
+        defaultActiveOption,
         onActiveOptionUpdate,
 
+        renderControl,
         renderPopup,
         renderEmptyOptions,
 
@@ -79,17 +82,20 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         'aria-details': ariaDetails,
         ...inputProps
     }: SuggestProps<T>,
-    ref: React.Ref<HTMLSpanElement>,
+    ref: React.Ref<HTMLElement>,
 ) {
     const {t} = i18n.useTranslation();
     const [anchorElement, setAnchorElement] = React.useState<HTMLElement | null>(null);
-    const handleControlRef = useForkRef(
-        inputProps.controlRef,
-        React.useCallback((element: HTMLInputElement | null) => {
-            setAnchorElement(element?.parentElement ?? null);
-        }, []),
-    );
+    const setControlRef = React.useCallback((element: HTMLInputElement | null) => {
+        setAnchorElement(element?.parentElement ?? null);
+    }, []);
+    const handleControlRef = useForkRef(inputProps.controlRef, setControlRef);
     const focusOwner = useListFocusOwner();
+    const [activeOption, setActiveOption] = useControlledState(
+        activeOptionProp,
+        defaultActiveOption ?? null,
+        onActiveOptionUpdate,
+    );
     const [loadingElement, setLoadingElement] = React.useState<HTMLElement | null>(null);
     const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? '');
     const inputValue = value ?? uncontrolledValue;
@@ -111,12 +117,13 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     const autoId = useUniqId();
     const componentId = idProp || autoId;
     const listId = `${componentId}-list`;
+    const nativeControlProps = renderControl ? undefined : inputProps.controlProps;
     const listLabel =
         ariaLabel ??
-        inputProps.controlProps?.['aria-label'] ??
-        inputProps.label ??
-        inputProps.placeholder;
-    const listLabelledBy = ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'];
+        (renderControl
+            ? undefined
+            : (nativeControlProps?.['aria-label'] ?? inputProps.label ?? inputProps.placeholder));
+    const listLabelledBy = ariaLabelledBy ?? nativeControlProps?.['aria-labelledby'];
 
     const [open, setOpen] = useControlledState(openProp, defaultOpen ?? false, onOpenChange);
 
@@ -195,7 +202,8 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                     getItemContent={defaultRenderOption}
                     getItemTextValue={getItemTextValue}
                     focusOwner={open ? focusOwner : undefined}
-                    onActiveItemUpdate={onActiveOptionUpdate}
+                    activeItemId={activeOption}
+                    onActiveItemUpdate={setActiveOption}
                     onItemAction={handleOptionAction}
                     renderItem={renderItem}
                 />
@@ -220,6 +228,17 @@ export const Suggest = React.forwardRef(function Suggest<T>(
         ),
     });
 
+    const {focusWithinProps: customFocusWithinProps} = useFocusWithin<HTMLElement>({
+        onBlurWithin: React.useCallback(
+            (event: React.FocusEvent<HTMLElement>) => {
+                if (!popupOpen) {
+                    setOpen(false, event.nativeEvent, 'focus-out');
+                }
+            },
+            [popupOpen, setOpen],
+        ),
+    });
+
     const hasLoadMore = Boolean(onLoadMore);
     const onLoadMoreRef = React.useRef(onLoadMore);
     useLayoutEffect(() => {
@@ -233,6 +252,16 @@ export const Suggest = React.forwardRef(function Suggest<T>(
     });
 
     const {onKeyDown: onListKeyDown, ...listInputProps} = focusOwner.getInputProps();
+    const listExpanded = listInputProps['aria-expanded'];
+    const wasListExpanded = React.useRef(listExpanded);
+    useLayoutEffect(() => {
+        const listClosed = wasListExpanded.current && !listExpanded;
+        wasListExpanded.current = listExpanded;
+        if (listClosed) {
+            setActiveOption(null);
+        }
+    }, [listExpanded, setActiveOption]);
+
     let statusText = '';
     if (open) {
         if (initialLoading) {
@@ -246,27 +275,31 @@ export const Suggest = React.forwardRef(function Suggest<T>(
 
     const handleValueChange = React.useCallback(
         (newValue: string) => {
+            setActiveOption(null);
             if (value === undefined) {
                 setUncontrolledValue(newValue);
             }
             onUpdate?.(newValue);
             setOpen(Boolean(newValue), undefined, 'input-change');
         },
-        [value, onUpdate, setOpen],
+        [value, onUpdate, setOpen, setActiveOption],
     );
 
     const handleInputClick = React.useCallback(
-        (e: React.MouseEvent<HTMLInputElement>) => {
+        (e: React.MouseEvent<HTMLElement>) => {
+            setActiveOption(null);
             if (!open) {
                 setOpen(true, e.nativeEvent, 'click');
             }
-            inputProps.controlProps?.onClick?.(e);
         },
-        [open, setOpen, inputProps],
+        [open, setOpen, setActiveOption],
     );
 
     const handleInputKeyDown = React.useCallback(
-        (e: React.KeyboardEvent<HTMLInputElement>) => {
+        (e: React.KeyboardEvent<HTMLElement>) => {
+            if (e.nativeEvent.isComposing || e.keyCode === 229) {
+                return;
+            }
             const {key} = e;
 
             if (popupOpen) {
@@ -277,38 +310,67 @@ export const Suggest = React.forwardRef(function Suggest<T>(
                 e.preventDefault();
                 setOpen(true, e.nativeEvent, 'list-navigation');
             }
-
-            inputProps.onKeyDown?.(e);
         },
-        [open, popupOpen, setOpen, inputProps, onListKeyDown],
+        [open, popupOpen, setOpen, onListKeyDown],
     );
+
+    const controlProps = {
+        'aria-label': ariaLabel ?? nativeControlProps?.['aria-label'],
+        'aria-labelledby': ariaLabelledBy ?? nativeControlProps?.['aria-labelledby'],
+        'aria-describedby': ariaDescribedBy ?? nativeControlProps?.['aria-describedby'],
+        'aria-details': ariaDetails ?? nativeControlProps?.['aria-details'],
+        ...listInputProps,
+        'aria-busy': initialLoading || undefined,
+        'aria-autocomplete': 'list' as const,
+    };
 
     return (
         <React.Fragment>
-            <TextInput
-                autoComplete={false}
-                {...inputProps}
-                {...focusWithinProps}
-                ref={ref}
-                controlRef={handleControlRef}
-                id={componentId}
-                value={inputValue}
-                onUpdate={handleValueChange}
-                onKeyDown={handleInputKeyDown}
-                controlProps={{
-                    ...inputProps.controlProps,
-                    'aria-label': ariaLabel ?? inputProps.controlProps?.['aria-label'],
-                    'aria-labelledby':
-                        ariaLabelledBy ?? inputProps.controlProps?.['aria-labelledby'],
-                    'aria-describedby':
-                        ariaDescribedBy ?? inputProps.controlProps?.['aria-describedby'],
-                    'aria-details': ariaDetails ?? inputProps.controlProps?.['aria-details'],
-                    onClick: handleInputClick,
-                    ...listInputProps,
-                    'aria-busy': initialLoading || undefined,
-                    'aria-autocomplete': 'list',
-                }}
-            />
+            {renderControl ? (
+                <div
+                    ref={setAnchorElement}
+                    className={b('control', inputProps.className)}
+                    style={inputProps.style}
+                    {...customFocusWithinProps}
+                >
+                    {renderControl({
+                        triggerProps: {
+                            ...controlProps,
+                            id: componentId,
+                            onClick: handleInputClick,
+                            onKeyDown: handleInputKeyDown,
+                        },
+                        disabled: inputProps.disabled,
+                        onUpdate: handleValueChange,
+                        open,
+                        ref,
+                        value: inputValue,
+                    })}
+                </div>
+            ) : (
+                <TextInput
+                    autoComplete={false}
+                    {...inputProps}
+                    {...focusWithinProps}
+                    ref={ref as React.Ref<HTMLSpanElement>}
+                    controlRef={handleControlRef}
+                    id={componentId}
+                    value={inputValue}
+                    onUpdate={handleValueChange}
+                    onKeyDown={(event) => {
+                        handleInputKeyDown(event);
+                        inputProps.onKeyDown?.(event);
+                    }}
+                    controlProps={{
+                        ...inputProps.controlProps,
+                        ...controlProps,
+                        onClick: (event) => {
+                            handleInputClick(event);
+                            inputProps.controlProps?.onClick?.(event);
+                        },
+                    }}
+                />
+            )}
             <span className={b('status')} role="status">
                 {statusText}
             </span>

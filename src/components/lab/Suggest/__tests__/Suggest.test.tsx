@@ -3,7 +3,8 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 
 import {setupIntersectionObserverMock} from '../../../../../test-utils/setupIntersectionObserverMock';
-import {act, render, screen, waitFor, within} from '../../../../../test-utils/utils';
+import {act, fireEvent, render, screen, waitFor, within} from '../../../../../test-utils/utils';
+import {TextArea} from '../../../controls';
 import {LangProvider} from '../../../theme/LangProvider';
 import {Suggest} from '../Suggest';
 import type {SuggestProps} from '../types';
@@ -58,6 +59,225 @@ describe('Suggest', () => {
         expect(onClick).toHaveBeenCalledTimes(1);
         expect(screen.getByRole('listbox')).toBeVisible();
     });
+
+    describe('custom control', () => {
+        const renderControl: SuggestProps['renderControl'] = ({
+            ref,
+            value,
+            onUpdate,
+            disabled,
+            triggerProps,
+        }) => (
+            <TextArea
+                controlRef={ref as React.Ref<HTMLTextAreaElement>}
+                id={triggerProps.id}
+                onKeyDown={triggerProps.onKeyDown}
+                value={value}
+                onUpdate={onUpdate}
+                disabled={disabled}
+                controlProps={{...triggerProps, role: undefined, 'aria-expanded': undefined}}
+            />
+        );
+
+        test('forwards the control props and ref', () => {
+            const ref = React.createRef<HTMLTextAreaElement>();
+            render(
+                <Suggest
+                    renderControl={renderControl}
+                    aria-label="Reply"
+                    id="reply"
+                    defaultValue="Draft"
+                    disabled
+                    ref={ref}
+                />,
+            );
+            const input = screen.getByRole('textbox', {name: 'Reply'});
+            expect(ref.current).toBe(input);
+            expect(input).toHaveAttribute('id', 'reply');
+            expect(input).toBeDisabled();
+            expect(input).toHaveValue('Draft');
+        });
+
+        test('applies className and style to the wrapper', () => {
+            render(
+                <Suggest
+                    renderControl={renderControl}
+                    className="custom-control"
+                    style={{width: 320}}
+                />,
+            );
+            const input = screen.getByRole('textbox');
+            // eslint-disable-next-line testing-library/no-node-access -- Verify the wrapper's styling contract.
+            expect(input.closest('.custom-control')).toHaveStyle({width: '320px'});
+        });
+
+        test('ignores TextInput-only props and focus callbacks', async () => {
+            const user = userEvent.setup();
+            const onFocus = jest.fn();
+            const onBlur = jest.fn();
+            render(
+                <Suggest
+                    renderControl={renderControl}
+                    placeholder="Ignored"
+                    qa="ignored"
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                />,
+            );
+            const input = screen.getByRole('textbox');
+            expect(input).not.toHaveAttribute('placeholder');
+            expect(screen.queryByTestId('ignored')).not.toBeInTheDocument();
+            await user.click(input);
+            await user.tab();
+            expect(onFocus).not.toHaveBeenCalled();
+            expect(onBlur).not.toHaveBeenCalled();
+        });
+
+        test('typing in a custom control updates the uncontrolled value', async () => {
+            const user = userEvent.setup();
+            render(
+                <Suggest aria-label="Reply" renderControl={renderControl} defaultValue="Draft" />,
+            );
+            const input = screen.getByRole('textbox');
+            await user.type(input, ' text');
+            expect(input).toHaveValue('Draft text');
+        });
+
+        test('closes a pending popup when focus leaves the wrapper', async () => {
+            const user = userEvent.setup();
+            const onOpenChange = jest.fn();
+            const {rerender} = render(
+                <Suggest
+                    aria-label="Reply"
+                    renderControl={renderControl}
+                    onOpenChange={onOpenChange}
+                />,
+            );
+            await user.type(screen.getByRole('textbox'), 'Earth');
+            await user.tab();
+            expect(onOpenChange).toHaveBeenLastCalledWith(
+                false,
+                expect.any(FocusEvent),
+                'focus-out',
+            );
+            rerender(<Suggest aria-label="Reply" renderControl={renderControl} options={ITEMS} />);
+            expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+        });
+
+        test('a custom control can clear controlled activity and navigate again', async () => {
+            const user = userEvent.setup();
+            const onOptionAction = jest.fn();
+            function Example() {
+                const [activeOption, setActiveOption] = React.useState<string | null>(null);
+                return (
+                    <Suggest
+                        aria-label="Reply"
+                        options={ITEMS}
+                        activeOption={activeOption}
+                        onActiveOptionUpdate={setActiveOption}
+                        onOptionAction={onOptionAction}
+                        renderControl={({ref, triggerProps, value, onUpdate}) => (
+                            <input
+                                {...triggerProps}
+                                ref={ref as React.Ref<HTMLInputElement>}
+                                value={value}
+                                onChange={(event) => onUpdate(event.target.value)}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'ArrowLeft') {
+                                        setActiveOption(null);
+                                    } else {
+                                        triggerProps.onKeyDown?.(event);
+                                    }
+                                }}
+                            />
+                        )}
+                    />
+                );
+            }
+            render(<Example />);
+            const input = screen.getByRole('combobox', {name: 'Reply'});
+            await user.click(input);
+            await user.keyboard('[ArrowDown]');
+            const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
+
+            await user.keyboard('[ArrowLeft][Enter]');
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            expect(screen.getByRole('listbox')).toBeVisible();
+            expect(onOptionAction).not.toHaveBeenCalled();
+
+            await user.keyboard('[ArrowDown]');
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
+        });
+
+        test('supports a contenteditable control with the supplied DOM handlers', async () => {
+            const user = userEvent.setup();
+            const ref = React.createRef<HTMLDivElement>();
+            const onOptionAction = jest.fn();
+            render(
+                <Suggest
+                    ref={ref}
+                    aria-label="Editor"
+                    options={ITEMS}
+                    onOptionAction={onOptionAction}
+                    renderControl={({ref: controlRef, triggerProps, value}) => (
+                        <div
+                            {...triggerProps}
+                            ref={controlRef as React.Ref<HTMLDivElement>}
+                            contentEditable
+                            suppressContentEditableWarning
+                        >
+                            {value}
+                        </div>
+                    )}
+                />,
+            );
+            const control = screen.getByRole('combobox', {name: 'Editor'});
+            expect(ref.current).toBe(control);
+            await user.click(control);
+            expect(screen.getByRole('listbox')).toBeVisible();
+            await user.keyboard('[ArrowDown][Enter]');
+            expect(onOptionAction).toHaveBeenCalledWith('earth', ITEMS[0], expect.anything());
+            await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
+        });
+    });
+
+    // IME events use fireEvent because userEvent.keyboard cannot set isComposing or keyCode.
+    test.each([{isComposing: true}, {keyCode: 229}])(
+        'does not select an option during IME composition: %j',
+        async (composition) => {
+            const user = userEvent.setup();
+            const onOptionAction = jest.fn();
+            renderSuggest({open: true, onOptionAction});
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+            await user.keyboard('[ArrowDown]');
+            expect(input).toHaveAttribute('aria-activedescendant');
+
+            fireEvent.keyDown(input, {key: 'Enter', ...composition});
+            expect(onOptionAction).not.toHaveBeenCalled();
+            await user.keyboard('[Enter]');
+            expect(onOptionAction).toHaveBeenCalledTimes(1);
+        },
+    );
+
+    test.each(['ArrowDown', 'ArrowUp'])(
+        '%s does not open the popup during IME composition',
+        async (key) => {
+            const user = userEvent.setup();
+            const onOpenChange = jest.fn();
+            render(<Suggest aria-label="Reply" options={ITEMS} onOpenChange={onOpenChange} />);
+            const input = screen.getByRole('combobox', {name: 'Reply'});
+            await user.tab();
+
+            fireEvent.keyDown(input, {key, isComposing: true});
+            expect(onOpenChange).not.toHaveBeenCalled();
+            expect(input).toHaveAttribute('aria-expanded', 'false');
+
+            await user.keyboard(`[${key}]`);
+            expect(screen.getByRole('listbox')).toBeVisible();
+        },
+    );
 
     test('calls onUpdate when typing', async () => {
         const onUpdate = jest.fn();
@@ -386,34 +606,137 @@ describe('Suggest: new List integration', () => {
             await waitFor(() =>
                 expect(screen.queryByRole('listbox', {hidden: true})).not.toBeInTheDocument(),
             );
-            expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth'], [null]]);
             await user.keyboard(`[${key}]`);
             expect(screen.getByRole('listbox')).toBeVisible();
             expect(input).not.toHaveAttribute('aria-activedescendant');
         },
     );
 
-    test('keeps an available option active when typing', async () => {
+    describe('active option state', () => {
+        test.each([false, true])(
+            'uses defaultActiveOption only on the first opening (defaultOpen=%s)',
+            async (defaultOpen) => {
+                const user = userEvent.setup();
+                const onActiveOptionUpdate = jest.fn();
+                render(
+                    <Suggest
+                        options={ITEMS}
+                        defaultOpen={defaultOpen}
+                        defaultActiveOption="earth"
+                        onActiveOptionUpdate={onActiveOptionUpdate}
+                    />,
+                );
+                const input = screen.getByRole('combobox');
+                await user.tab();
+                if (!defaultOpen) await user.keyboard('[ArrowDown]');
+                const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+                expect(input).toHaveAttribute('aria-activedescendant', earthId);
+                expect(onActiveOptionUpdate).not.toHaveBeenCalled();
+
+                await user.keyboard('[Escape]');
+                await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
+                expect(onActiveOptionUpdate).toHaveBeenLastCalledWith(null);
+                await user.keyboard('[ArrowDown]');
+                expect(screen.getByRole('listbox')).toBeVisible();
+                expect(input).not.toHaveAttribute('aria-activedescendant');
+            },
+        );
+
+        test('controlled activity only changes when the prop changes, including null', async () => {
+            const user = userEvent.setup();
+            const onActiveOptionUpdate = jest.fn();
+            const props: SuggestProps = {
+                options: ITEMS,
+                open: true,
+                defaultActiveOption: 'jupiter',
+                onActiveOptionUpdate,
+            };
+            const {rerender} = render(<Suggest {...props} activeOption="earth" />);
+            const input = screen.getByRole('combobox');
+            await user.tab();
+            const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
+            await user.keyboard('[ArrowDown]');
+            expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('europa');
+            expect(input).toHaveAttribute('aria-activedescendant', earthId);
+
+            rerender(<Suggest {...props} activeOption="europa" />);
+            expect(input).toHaveAttribute(
+                'aria-activedescendant',
+                screen.getByRole('option', {name: 'Europa'}).id,
+            );
+            rerender(<Suggest {...props} activeOption={null} />);
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+        });
+
+        test.each([null, 'earth'])(
+            'requests a reset on closing and respects the parent value: %s',
+            async (activeOption) => {
+                const user = userEvent.setup();
+                const onActiveOptionUpdate = jest.fn();
+                const props: SuggestProps = {options: ITEMS, onActiveOptionUpdate};
+                const {rerender} = render(<Suggest {...props} activeOption="earth" />);
+                const input = screen.getByRole('combobox');
+                await user.tab();
+                await user.keyboard('[ArrowDown]');
+                const earthId = screen.getByRole('option', {name: 'Earth'}).id;
+                expect(input).toHaveAttribute('aria-activedescendant', earthId);
+                await user.keyboard('[Escape]');
+                await waitFor(() => expect(screen.queryByRole('listbox')).not.toBeInTheDocument());
+                expect(onActiveOptionUpdate.mock.calls).toEqual([[null]]);
+                rerender(<Suggest {...props} activeOption={activeOption} />);
+                await user.keyboard('[ArrowDown]');
+                if (activeOption === null) {
+                    expect(input).not.toHaveAttribute('aria-activedescendant');
+                } else {
+                    expect(input).toHaveAttribute('aria-activedescendant', earthId);
+                }
+                expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
+            },
+        );
+    });
+
+    test.each(['typing', 'click'])(
+        'clears activity on %s and keeps the list open',
+        async (action) => {
+            const user = userEvent.setup();
+            const onOptionAction = jest.fn();
+            const onActiveOptionUpdate = jest.fn();
+            renderSuggest({onOptionAction, onActiveOptionUpdate});
+            const input = screen.getByRole('combobox');
+            await user.click(input);
+            await user.keyboard('[ArrowDown]');
+            expect(input).toHaveAttribute('aria-activedescendant');
+
+            if (action === 'typing') await user.keyboard('a');
+            else await user.click(input);
+
+            expect(input).not.toHaveAttribute('aria-activedescendant');
+            expect(input).toHaveFocus();
+            expect(screen.getByRole('listbox')).toBeVisible();
+            expect(onActiveOptionUpdate.mock.calls).toEqual([['earth'], [null]]);
+            await user.keyboard('[Enter]');
+            expect(onOptionAction).not.toHaveBeenCalled();
+        },
+    );
+
+    test.each(['typing', 'click'])('requests a controlled activity reset on %s', async (action) => {
         const user = userEvent.setup();
-        const onOptionAction = jest.fn();
         const onActiveOptionUpdate = jest.fn();
-        renderSuggest({onOptionAction, onActiveOptionUpdate});
+        const props: SuggestProps = {options: ITEMS, open: true, onActiveOptionUpdate};
+        const {rerender} = render(<Suggest {...props} activeOption="earth" />);
         const input = screen.getByRole('combobox');
-        await user.type(input, 'e');
-        await user.keyboard('[ArrowDown]');
-        await user.type(input, 'a');
-        expect(input).toHaveAttribute(
-            'aria-activedescendant',
-            screen.getByRole('option', {name: 'Earth'}).id,
-        );
-        expect(onActiveOptionUpdate).toHaveBeenCalledTimes(1);
-        expect(onActiveOptionUpdate).toHaveBeenLastCalledWith('earth');
-        await user.keyboard('[Enter]');
-        expect(onOptionAction).toHaveBeenCalledWith(
-            ITEMS[0].value,
-            ITEMS[0],
-            expect.objectContaining({type: 'keydown'}),
-        );
+        await user.tab();
+
+        if (action === 'typing') await user.keyboard('a');
+        else await user.click(input);
+
+        expect(onActiveOptionUpdate.mock.calls).toEqual([[null]]);
+        expect(input).toHaveAttribute('aria-activedescendant');
+        rerender(<Suggest {...props} activeOption={null} />);
+        expect(input).not.toHaveAttribute('aria-activedescendant');
     });
 
     test('Enter without an active option reaches the consumer', async () => {
@@ -689,4 +1012,16 @@ describe('Suggest: status announcements', () => {
         expect(status).toHaveTextContent('No results found');
         expect(screen.getByRole('status')).toBe(status);
     });
+});
+
+// Checked by npm run typecheck: wrapper props remain extendable and can use Omit.
+test('supports wrappers around SuggestProps', () => {
+    interface WrapperProps extends SuggestProps {
+        caption: string;
+    }
+    function Wrapper({caption, onKeyDown, ...props}: Omit<WrapperProps, 'options'>) {
+        return <Suggest {...props} options={ITEMS} aria-label={caption} onKeyDown={onKeyDown} />;
+    }
+    render(<Wrapper caption="Wrapped" />);
+    expect(screen.getByRole('combobox', {name: 'Wrapped'})).toBeInTheDocument();
 });

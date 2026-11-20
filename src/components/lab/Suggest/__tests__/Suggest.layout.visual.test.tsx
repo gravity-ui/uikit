@@ -5,6 +5,7 @@ import {BORDER_WIDTH} from '../../../utils/popupMiddlewares';
 
 import {
     SuggestInitiallyOpen,
+    SuggestWithCustomControlAnchor,
     SuggestWithFocusablePopup,
     SuggestWithPlacement,
     SuggestWithPopupLayout,
@@ -156,3 +157,27 @@ for (const {placement, expected} of [
         await expect(popup).toHaveAttribute('data-floating-ui-placement', expected);
     });
 }
+
+test('Suggest anchors a custom control popup to its own wrapper', async ({mount, page}) => {
+    await mount(<SuggestWithCustomControlAnchor />);
+    await page.getByRole('combobox', {name: 'Custom control'}).click();
+    const anchor = page.locator('.custom-control-anchor');
+    const popup = page.getByTestId('suggest-popup').locator('..');
+    await expect(popup).toBeVisible();
+    await expect
+        .poll(async () => {
+            const anchorBox = await anchor.boundingBox();
+            const popupBox = await popup.boundingBox();
+            if (!anchorBox || !popupBox) return null;
+            return {
+                widthDifference: Math.round(popupBox.width - anchorBox.width),
+                leftDifference: Math.round(popupBox.x - anchorBox.x),
+                gap: Math.round(popupBox.y - anchorBox.y - anchorBox.height),
+            };
+        })
+        .toEqual({
+            widthDifference: -2 * BORDER_WIDTH,
+            leftDifference: BORDER_WIDTH,
+            gap: FLOATING_OFFSET,
+        });
+});

@@ -4,9 +4,10 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {ListVirtualizer} from '../../../../virtualizer';
 import {Text} from '../../../Text';
+import {TextArea} from '../../../controls';
 import {Flex} from '../../../layout';
 import {Suggest} from '../Suggest';
-import type {SuggestOptionProps, SuggestProps} from '../types';
+import type {SuggestOptionProps, SuggestProps, SuggestRenderControlProps} from '../types';
 
 const meta: Meta<typeof Suggest> = {
     title: 'Lab/Suggest',
@@ -320,6 +321,193 @@ export const Virtualized: Story = {
                     onFocus={() => setOpen(true)}
                 />
             </ListVirtualizer>
+        );
+    },
+};
+
+const TEXT_OPTIONS = [
+    {
+        value: 'follow-up',
+        content:
+            'Thank you for the detailed description. We will review the information and get back to you with the next steps.\n\nPlease let us know if anything changes in the meantime.',
+    },
+    {
+        value: 'resolved',
+        content:
+            'The issue has been resolved. Please try again and let us know whether everything works as expected.',
+    },
+    {
+        value: 'investigating',
+        content:
+            'Thank you for your patience. Our team is investigating the issue.\n\nWe will share an update as soon as we have more information.',
+    },
+    {
+        value: 'feedback',
+        content:
+            'Thank you for your feedback. We have shared your suggestions with the product team and will consider them when planning future improvements.',
+    },
+    {
+        value: 'request-received',
+        content:
+            'Thank you for contacting us. Your request has been received and assigned to our support team.\n\nYou can reply to this message to add more details.',
+    },
+    {
+        value: 'request-details',
+        content:
+            'Could you provide more details about your request? Please include the steps you followed, the result you expected, and what happened instead.',
+    },
+    {
+        value: 'request-screenshot',
+        content:
+            'Please attach a screenshot of the error message and tell us which browser you are using. Make sure to hide any personal information before sharing it.',
+    },
+    {
+        value: 'account-access',
+        content:
+            'If you cannot access your account, please reset your password using the sign-in page.\n\nIf the reset email does not arrive, check your spam folder or contact our support team.',
+    },
+    {
+        value: 'account-settings',
+        content:
+            'You can update your account details in Settings. Open your profile, make the necessary changes, and select Save to apply them.',
+    },
+    {
+        value: 'workaround',
+        content:
+            'As a temporary workaround, please refresh the page and try again in a private browser window. Your saved work will remain available in your account.',
+    },
+];
+
+export const LongOptions: Story = {
+    render: () => (
+        <Flex gap="spacing-4" wrap="wrap">
+            <LongOptionsExample title="Default: wrap at spaces" />
+            <LongOptionsExample
+                title="Custom: single line with ellipsis"
+                renderOption={(option) => <Text ellipsis>{option.content}</Text>}
+            />
+            <LongOptionsExample
+                title="Custom: preserve paragraphs and wrap long words"
+                renderOption={(option) => (
+                    <Text style={{whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>
+                        {option.content}
+                    </Text>
+                )}
+            />
+        </Flex>
+    ),
+};
+
+function LongOptionsExample({
+    title,
+    renderOption,
+}: {
+    title: string;
+    renderOption?: SuggestProps['renderOption'];
+}) {
+    const [value, setValue] = React.useState('');
+
+    return (
+        <Flex direction="column" gap="spacing-2" style={{width: 320, maxWidth: '100%'}}>
+            <Text>{title}</Text>
+            <Suggest
+                aria-label={title}
+                placeholder="Click to compare long options"
+                value={value}
+                onUpdate={setValue}
+                options={TEXT_OPTIONS}
+                popupWidth="fit"
+                renderOption={renderOption}
+                onOptionAction={(_id, option) => setValue(String(option.content))}
+            />
+        </Flex>
+    );
+}
+
+function renderCustomTextArea(
+    {triggerProps, disabled, onUpdate, open, ref, value}: SuggestRenderControlProps,
+    setActiveOption: (value: string | null) => void,
+) {
+    const {id, onClick, onKeyDown, ...attributes} = triggerProps;
+
+    return (
+        <TextArea
+            controlRef={ref as React.Ref<HTMLTextAreaElement>}
+            id={id}
+            value={value}
+            onUpdate={onUpdate}
+            disabled={disabled}
+            minRows={4}
+            maxRows={12}
+            controlProps={{
+                ...attributes,
+                role: undefined,
+                'aria-expanded': undefined,
+                onCompositionStart: () => setActiveOption(null),
+                onClick,
+            }}
+            onKeyDown={(event) => {
+                if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+                if (open && event.altKey && ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
+                    onKeyDown?.(event);
+                    // Keep Alt+Enter from inserting a newline when no option is active.
+                    if (event.key === 'Enter') event.preventDefault();
+                } else if (
+                    [
+                        'ArrowUp',
+                        'ArrowDown',
+                        'ArrowLeft',
+                        'ArrowRight',
+                        'Home',
+                        'End',
+                        'Enter',
+                    ].includes(event.key)
+                ) {
+                    setActiveOption(null);
+                }
+            }}
+        />
+    );
+}
+
+export const CustomInput: Story = {
+    render: () => {
+        const [value, setValue] = React.useState('');
+        const [activeOption, setActiveOption] = React.useState<string | null>(null);
+        const items = React.useMemo(() => {
+            const query = value.trim().toLowerCase();
+            return TEXT_OPTIONS.filter((option) => option.content.toLowerCase().includes(query));
+        }, [value]);
+
+        return (
+            <Flex direction="column" gap="spacing-2" style={{width: 480, maxWidth: '100%'}}>
+                <Text>
+                    Click to show replies or type to filter them by their text. Alt+↑/↓ (Mac:
+                    Option+↑/↓): navigate. Alt+Enter (Mac: Option+Return): replace the entire text.
+                    Plain arrows and Enter/Return edit the text. Escape closes suggestions.
+                </Text>
+                <Suggest
+                    aria-label="Reply"
+                    activeOption={activeOption}
+                    onActiveOptionUpdate={setActiveOption}
+                    value={value}
+                    onUpdate={setValue}
+                    options={items}
+                    popupWidth="fit"
+                    renderEmptyOptions={() => (
+                        <Flex padding="spacing-2">
+                            <Text color="secondary">No matching replies</Text>
+                        </Flex>
+                    )}
+                    renderOption={(option) => (
+                        <Text style={{whiteSpace: 'pre-wrap', overflowWrap: 'anywhere'}}>
+                            {option.content}
+                        </Text>
+                    )}
+                    onOptionAction={(_id, option) => setValue(String(option.content))}
+                    renderControl={(props) => renderCustomTextArea(props, setActiveOption)}
+                />
+            </Flex>
         );
     },
 };

@@ -46,6 +46,12 @@ SANDBOX-->
 
 ## Properties
 
+On desktop, hovering previews the content without moving focus. Activating the help button with
+a click, Enter, or Space opens modal help: focus moves into the popover and stays inside until it
+is dismissed. Escape closes it and returns focus to the help button. Pass `popoverProps.modal`
+to override this behavior, or `popoverProps.trigger="click"` to disable hover previews.
+Provide an accessible name for the button, for example `aria-label="Show help"`.
+
 `HelpMark` accepts any valid `button` element props in addition to these:
 
 | Name         | Description                                   |           Type           | Default |

@@ -1,5 +1,14 @@
 # Changelog
 
+## [8.1.1](https://github.com/gravity-ui/uikit/compare/v8.1.0...v8.1.1) (2026-11-20)
+
+
+### Bug Fixes
+
+* **CopyToClipboard:** remove fallback textarea when copy fails ([#2929](https://github.com/gravity-ui/uikit/issues/2929)) ([e44fe0a](https://github.com/gravity-ui/uikit/commit/e44fe0a87c0931f98141aaf7f216993044814f93))
+* **DefinitionList:** allow definitions to shrink ([#2950](https://github.com/gravity-ui/uikit/issues/2950)) ([44c961b](https://github.com/gravity-ui/uikit/commit/44c961bcba275d5792c5ed2b03ba97979c8ce5f3))
+* **Slider:** ssr import for rc-slider component ([#2946](https://github.com/gravity-ui/uikit/issues/2946)) ([d47d435](https://github.com/gravity-ui/uikit/commit/d47d435a986642828663b8323f9ee9d1480c9726))
+
 ## [8.1.0](https://github.com/gravity-ui/uikit/compare/v8.0.0...v8.1.0) (2026-11-17)
 
 

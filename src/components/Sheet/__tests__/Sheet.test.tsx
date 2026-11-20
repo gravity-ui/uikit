@@ -64,7 +64,7 @@ describe('Sheet', () => {
             expect(screen.queryByTestId(SheetQa.TITLE)).not.toBeInTheDocument();
 
             rerender(
-                <Sheet open title={title}>
+                <Sheet open title={title} aria-label={undefined}>
                     Content
                 </Sheet>,
             );

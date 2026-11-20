@@ -7,21 +7,21 @@ import {
     FloatingNode,
     FloatingOverlay,
     FloatingTree,
+    useDismiss,
     useFloating,
     useFloatingNodeId,
     useFloatingParentNodeId,
-    useFloatingTree,
     useInteractions,
     useRole,
 } from '@floating-ui/react';
 import type {FloatingFocusManagerProps} from '@floating-ui/react';
 
-import {KeyCode} from '../../constants';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
 import type {AriaLabelingProps, QAProps} from '../types';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
@@ -110,10 +110,7 @@ function SheetComponent(rawProps: SheetProps) {
         container,
         disablePortal,
         qa,
-        'aria-label': ariaLabel,
-        'aria-labelledby': ariaLabelledBy,
-        'aria-describedby': ariaDescribedBy,
-        'aria-details': ariaDetails,
+        ...restProps
     } = useDefaultProps('Sheet', rawProps);
     const {t} = i18n.useTranslation();
     const {
@@ -136,39 +133,17 @@ function SheetComponent(rawProps: SheetProps) {
     );
 
     const floatingNodeId = useFloatingNodeId();
-    const tree = useFloatingTree();
 
-    // Floating UI parents (Modal, Popup, Drawer) stop Escape from their whole React subtree,
-    // portaled sheets included, before LayerManager sees it, so a nested sheet handles Escape itself.
-    // A closing sheet lets it through, so the next Escape reaches the layer below.
-    // An open floating child (e.g. a Popup) owns Escape, so the sheet does not close over it.
+    // Floating UI parents (Modal, Popup, Drawer) stop Escape before LayerManager sees it,
+    // so a nested sheet closes on Escape through useDismiss, as Modal does
     const isNested = useFloatingParentNodeId() !== null;
-    const handleKeyDown = React.useCallback(
-        (event: React.KeyboardEvent) => {
-            if (event.key !== KeyCode.ESCAPE || !isOpen) {
-                return;
-            }
-
-            const hasOpenChild = tree?.nodesRef.current.some(
-                (node) => node.parentId === floatingNodeId && node.context?.open,
-            );
-
-            if (!hasOpenChild) {
-                event.stopPropagation();
-                handleEscapeKeyDown(event.nativeEvent);
-            }
-        },
-        [floatingNodeId, handleEscapeKeyDown, isOpen, tree],
-    );
 
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
         open: isOpen,
-        // FloatingFocusManager reports its visually hidden dismiss buttons here, without a reason,
-        // as in Modal
-        onOpenChange: (nextOpen, event) => {
+        onOpenChange: (nextOpen, event, reason) => {
             if (!nextOpen) {
-                requestDismiss({event});
+                requestDismiss({event, reason: reason === 'escape-key' ? reason : undefined});
             }
         },
     });
@@ -188,11 +163,12 @@ function SheetComponent(rawProps: SheetProps) {
         open: isOpen,
         type: 'sheet',
         disableOutsideClick: true,
-        onEscapeKeyDown: handleEscapeKeyDown,
+        onEscapeKeyDown: isNested ? undefined : handleEscapeKeyDown,
     });
 
+    const dismiss = useDismiss(context, {enabled: isNested, outsidePress: false});
     const role = useRole(context, {role: 'dialog'});
-    const {getFloatingProps} = useInteractions([role]);
+    const {getFloatingProps} = useInteractions([dismiss, role]);
 
     return (
         <FloatingNode id={floatingNodeId}>
@@ -203,7 +179,6 @@ function SheetComponent(rawProps: SheetProps) {
                         data-floating-ui-status={status}
                         className={sheetBlock({'without-top-bar': hideTopBar}, className)}
                         lockScroll={isMounted}
-                        onKeyDown={isNested ? handleKeyDown : undefined}
                         style={
                             {
                                 overflow: undefined,
@@ -219,9 +194,6 @@ function SheetComponent(rawProps: SheetProps) {
                             initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}
                             restoreFocus
-                            visuallyHiddenDismiss={
-                                disableVisuallyHiddenDismiss ? false : t('close')
-                            }
                         >
                             <SheetContentContainer
                                 id={id}
@@ -229,11 +201,14 @@ function SheetComponent(rawProps: SheetProps) {
                                 contentClassName={contentClassName}
                                 swipeAreaClassName={swipeAreaClassName}
                                 title={title}
+                                dismissLabel={
+                                    disableVisuallyHiddenDismiss || status === 'unmounted'
+                                        ? undefined
+                                        : t('close')
+                                }
                                 labelingProps={{
-                                    'aria-label': ariaLabel ?? title,
-                                    'aria-labelledby': ariaLabelledBy,
-                                    'aria-describedby': ariaDescribedBy,
-                                    'aria-details': ariaDetails,
+                                    ...filterDOMProps(restProps, {labelable: true}),
+                                    'aria-label': restProps['aria-label'] ?? title,
                                 }}
                                 presenceStatus={status}
                                 allowHideOnContentScroll={allowHideOnContentScroll}

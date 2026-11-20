@@ -161,9 +161,12 @@ test.describe('Toast', {tag: '@Toaster'}, () => {
                 await expect(footer).toBeVisible();
                 await expect(page.locator('body')).toHaveClass(new RegExp(`g-root_theme_${theme}`));
                 await expect(footer).toHaveCSS('direction', direction);
+                const footerSlot = toast.locator('.g-toast__footer');
+                await expect(footerSlot).toHaveCSS('border-top-width', '0px');
+                await expect(footerSlot).toHaveCSS('padding', '0px');
                 const toastBox = await toast.boundingBox();
-                const footerBox = await footer.evaluate((element) => {
-                    const rect = element.parentElement!.getBoundingClientRect();
+                const footerBox = await footerSlot.evaluate((element) => {
+                    const rect = element.getBoundingClientRect();
                     return {x: rect.x, y: rect.y, width: rect.width, bottom: rect.bottom};
                 });
                 const actionBox = await page

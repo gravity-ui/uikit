@@ -152,10 +152,10 @@ toaster.add({
 });
 ```
 
-The footer spans the full toast width, including the icon area, and has a top divider and the same
-inline padding as the body. Footer content controls its own vertical spacing. Return `null`,
-`undefined`, or `false` to omit the footer. Updating `renderFooter` does not replace actions or reset
-the body content. Set `renderFooter: undefined` in `update` to remove an existing footer.
+The footer is an unstyled slot that spans the full toast width, including the icon area. Supply
+spacing and decoration in the footer content. Return `null`, `undefined`, or `false` to omit the
+footer. Updating `renderFooter` does not replace actions or reset the body content. Set
+`renderFooter: undefined` in `update` to remove an existing footer.
 
 ## CSS API
 

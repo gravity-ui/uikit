@@ -75,14 +75,6 @@ $block: '.#{variables.$ns}toast';
         padding: var(--g-toaster-item-padding, var(--_--item-padding));
     }
 
-    &__footer {
-        min-width: 0;
-        padding: var(--g-toaster-item-padding, var(--_--item-padding));
-        padding-block: 0;
-        border-block-start: 1px solid var(--g-color-line-generic);
-        overflow-wrap: break-word;
-    }
-
     &__container {
         flex: 1 1 auto;
         display: flex;

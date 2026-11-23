@@ -42,7 +42,6 @@ export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
             disabled = false,
             className,
             children,
-            onScroll,
             qa,
             tabIndex,
             ...restProps
@@ -53,11 +52,6 @@ export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
         const ref = useForkRef(innerRef, forwardedRef);
         const shadow = useScrollShadow({ref: innerRef, axis, position, disabled});
 
-        const handleScroll: React.UIEventHandler<HTMLDivElement> = (event) => {
-            shadow.onScroll();
-            onScroll?.(event);
-        };
-
         return (
             <div
                 data-qa={qa}
@@ -65,7 +59,6 @@ export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
                 ref={ref}
                 className={`${shadow.className} ${b('container')}${className ? ` ${className}` : ''}`}
                 tabIndex={tabIndex === undefined && shadow.state.hasOverflow ? 0 : tabIndex}
-                onScroll={handleScroll}
             >
                 {children}
             </div>

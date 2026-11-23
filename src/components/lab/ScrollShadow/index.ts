@@ -7,5 +7,5 @@ export {
 export {
     useScrollShadow,
     type ScrollShadowState,
-    type UseScrollShadowOptions,
+    type UseScrollShadowProps,
 } from './useScrollShadow';

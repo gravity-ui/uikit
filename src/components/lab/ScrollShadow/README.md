@@ -20,7 +20,7 @@ The component itself scrolls. When its content overflows, it gets `tabIndex={0}`
 
 ## Existing scroll elements
 
-Use `unstable_useScrollShadow` when another component owns the scroll element. Apply the returned class and scroll handler to that element. The hook leaves `overflow` under the owning component's control and returns logical edge visibility for other UI:
+Use `unstable_useScrollShadow` when another component owns the scroll element. Apply the returned class to that element. The hook listens for scrolling, leaves `overflow` under the owning component's control, and returns logical edge visibility for other UI:
 
 ```tsx
 import * as React from 'react';
@@ -34,7 +34,6 @@ function ExistingScroller() {
     <div
       ref={ref}
       className={shadow.className}
-      onScroll={shadow.onScroll}
       tabIndex={shadow.state.hasOverflow ? 0 : undefined}
       role="region"
       aria-label="Updates"
@@ -63,6 +62,19 @@ function ExistingScroller() {
 <ScrollShadow position="end">...</ScrollShadow>
 ```
 
+## Properties
+
+`ScrollShadow` accepts native `div` attributes, including `className`, `style`, `onScroll`, and ARIA attributes.
+
+| Name       | Description                                |              Type               |          Default           |
+| :--------- | :----------------------------------------- | :-----------------------------: | :------------------------: |
+| `axis`     | Logical scroll axis to observe             | `"block" \| "inline" \| "both"` |         `"block"`          |
+| `position` | Logical edges where a fade can appear      |  `"start" \| "end" \| "both"`   |          `"both"`          |
+| `disabled` | Hides fades while keeping native scrolling |            `boolean`            |          `false`           |
+| `qa`       | Value of the root `data-qa` attribute      |            `string`             |                            |
+| `tabIndex` | Keyboard focus order                       |            `number`             | `0` when content overflows |
+| `children` | Scrollable content                         |        `React.ReactNode`        |                            |
+
 ## CSS API
 
 The fade uses a mask on the scroll container, so opaque children and sticky content fade too. It follows the surface behind the container in every theme.
@@ -90,16 +102,3 @@ Set the fade depth with a CSS variable:
 | Name                     | Description | Default |
 | :----------------------- | :---------- | :------ |
 | `--g-scroll-shadow-size` | Fade depth  | `24px`  |
-
-## Properties
-
-`ScrollShadow` accepts native `div` attributes, including `className`, `style`, `onScroll`, and ARIA attributes.
-
-| Name       | Description                                | Type                            | Default                    |
-| :--------- | :----------------------------------------- | :------------------------------ | :------------------------- |
-| `axis`     | Logical scroll axis to observe             | `"block" \| "inline" \| "both"` | `"block"`                  |
-| `position` | Logical edges where a fade can appear      | `"start" \| "end" \| "both"`    | `"both"`                   |
-| `disabled` | Hides fades while keeping native scrolling | `boolean`                       | `false`                    |
-| `qa`       | Value of the root `data-qa` attribute      | `string`                        |                            |
-| `tabIndex` | Keyboard focus order                       | `number`                        | `0` when content overflows |
-| `children` | Scrollable content                         | `React.ReactNode`               |                            |

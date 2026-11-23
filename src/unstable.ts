@@ -6,7 +6,7 @@ export {
     type ScrollShadowPosition as unstable_ScrollShadowPosition,
     type ScrollShadowProps as unstable_ScrollShadowProps,
     type ScrollShadowState as unstable_ScrollShadowState,
-    type UseScrollShadowOptions as unstable_UseScrollShadowOptions,
+    type UseScrollShadowProps as unstable_UseScrollShadowProps,
 } from './components/lab/ScrollShadow';
 export {
     Suggest as unstable_Suggest,

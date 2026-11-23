@@ -28,7 +28,7 @@ interface InternalState {
     physical: EdgeVisibility;
 }
 
-export interface UseScrollShadowOptions {
+export interface UseScrollShadowProps {
     ref: React.RefObject<HTMLElement | null>;
     axis?: ScrollShadowAxis;
     position?: ScrollShadowPosition;
@@ -152,7 +152,7 @@ export function useScrollShadow({
     axis = 'block',
     position = 'both',
     disabled = false,
-}: UseScrollShadowOptions) {
+}: UseScrollShadowProps) {
     const [current, setCurrent] = React.useState(EMPTY_STATE);
     const update = React.useCallback(() => {
         const element = ref.current;
@@ -165,11 +165,12 @@ export function useScrollShadow({
     }, [ref, axis, position, disabled]);
     const updateRef = React.useRef(update);
 
-    useLayoutEffect(() => update(), [update]);
     useLayoutEffect(() => {
         updateRef.current = update;
+        update();
     }, [update]);
 
+    // Keep observers attached while the fade options change.
     useLayoutEffect(() => {
         const element = ref.current;
         if (!element) {
@@ -185,6 +186,8 @@ export function useScrollShadow({
                 });
             }
         };
+        const handleScroll = () => updateRef.current();
+        element.addEventListener('scroll', handleScroll, {passive: true});
         const resizeObserver =
             typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(scheduleUpdate);
         const observedChildren = new Set<Element>();
@@ -247,6 +250,7 @@ export function useScrollShadow({
             resizeObserver?.disconnect();
             mutationObserver.disconnect();
             flowObserver.disconnect();
+            element.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', scheduleUpdate);
         };
     }, [ref]);
@@ -254,6 +258,5 @@ export function useScrollShadow({
     return {
         state: current.logical,
         className: b(current.physical),
-        onScroll: update,
     };
 }

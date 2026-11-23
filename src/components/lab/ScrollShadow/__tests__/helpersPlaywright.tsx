@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import {ThemeProvider} from '../../../theme/ThemeProvider';
 import {ScrollShadow} from '../ScrollShadow';
 import {useScrollShadow} from '../useScrollShadow';
 
@@ -53,7 +54,6 @@ export function ExistingScroller() {
         <div
             ref={ref}
             className={shadow.className}
-            onScroll={shadow.onScroll}
             style={{width: 220, height: 160, overflow: 'auto'}}
         >
             <OpaqueContent />
@@ -73,9 +73,9 @@ export function DynamicDirection() {
     const [rtl, setRtl] = React.useState(false);
 
     return (
-        <div dir={rtl ? 'rtl' : 'ltr'}>
+        <ThemeProvider direction={rtl ? 'rtl' : 'ltr'} scoped>
             <button onClick={() => setRtl((value) => !value)}>Toggle direction</button>
             <MemoScroller />
-        </div>
+        </ThemeProvider>
     );
 }

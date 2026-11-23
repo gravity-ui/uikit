@@ -10,6 +10,7 @@ import {
 } from './helpersPlaywright';
 
 test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
+    // Geometry is theme-independent; dark snapshots cover opaque content and focus contrast.
     test('block fade at mount, middle, and end with opaque content', async ({
         mount,
         expectScreenshot,
@@ -191,7 +192,7 @@ test.describe('ScrollShadow', {tag: '@ScrollShadow'}, () => {
         await expect(scroller).toHaveClass(/g-scroll-shadow_bottom/);
     });
 
-    test('ancestor direction can change without remounting the scroller', async ({mount}) => {
+    test('ThemeProvider direction can change without remounting the scroller', async ({mount}) => {
         const root = await mount(<DynamicDirection />);
         const scroller = root.locator('.g-scroll-shadow');
 

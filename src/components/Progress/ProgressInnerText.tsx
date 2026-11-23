@@ -16,6 +16,7 @@ export function ProgressInnerText(props: ProgressInnerTextProps) {
 
     return (
         <div
+            aria-hidden="true"
             className={progressBlock('text-inner')}
             style={{transform: `translateX(calc(var(--g-flow-direction) * ${-offset}%))`}}
         >

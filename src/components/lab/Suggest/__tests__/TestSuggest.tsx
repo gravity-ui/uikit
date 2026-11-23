@@ -9,9 +9,7 @@ export const ITEMS: SuggestOptionProps[] = [
     {value: 'jupiter', content: 'Jupiter'},
 ];
 
-export type TestSuggestProps = Omit<SuggestProps, 'options'> & {
-    options?: SuggestProps['options'];
-};
+export type TestSuggestProps = SuggestProps;
 
 export function TestSuggest({options = ITEMS, ...props}: TestSuggestProps) {
     const [value, setValue] = React.useState('');

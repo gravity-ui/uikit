@@ -12,8 +12,24 @@ export type SuggestOpenChangeReason = OpenChangeReason | 'input-change' | 'optio
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SuggestOptionProps<T = any> = QAProps & ControlGroupOption & {data?: T};
 
+export type SuggestRenderControlProps = {
+    disabled?: boolean;
+    onUpdate: (value: string) => void;
+    /** Whether opening is requested; the popup is only shown when it has content. */
+    open: boolean;
+    ref: React.Ref<HTMLElement>;
+    /** Attributes and event handlers to attach to the custom control's focusable element. */
+    triggerProps: React.AriaAttributes &
+        Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'role' | 'onClick' | 'onKeyDown'>;
+    value: string;
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps {
+    /** The active option's value (controlled mode); null means no active option. */
+    activeOption?: string | null;
+    /** Initial active option's value (uncontrolled mode). */
+    defaultActiveOption?: string | null;
     /** Initial open state (uncontrolled mode) */
     defaultOpen?: boolean;
     /** Render the popup without a portal */
@@ -23,9 +39,10 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     /** Append a loading row to the options, or show a standalone loader when options are empty */
     loading?: boolean;
     /**
-     * Called when List requests an active option update via keyboard or pointer.
-     * Receives the option value or null. Changes to options and popup visibility
-     * do not emit additional notifications.
+     * Called when List requests an active option update, or with null to reset activity
+     * when the list closes, the text changes, or the control is clicked.
+     * Receives the option value or null. Reordering or removing individual options
+     * does not emit additional notifications.
      */
     onActiveOptionUpdate?: (value: string | null) => void;
     /** Called when the loading row becomes visible in a non-empty list (for pagination) */
@@ -50,6 +67,8 @@ export interface SuggestProps<T = any> extends TextInputProps, AriaLabelingProps
     popupPlacement?: PopupPlacement;
     /** Popup width */
     popupWidth?: 'fit' | number;
+    /** Render a custom control using the provided ref, triggerProps, value and onUpdate. */
+    renderControl?: (props: SuggestRenderControlProps) => React.ReactElement;
     /** Render empty-state or error content when there are no options and loading is false. */
     renderEmptyOptions?: (props: {filter: string}) => React.ReactElement | null;
     /**

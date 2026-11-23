@@ -45,6 +45,8 @@ const options = React.useMemo(
 
 По умолчанию отображается `content` опции, а если он не задан — `children`. Для изменения содержимого передайте `renderOption`.
 
+Длинный текст опций можно переносить через `renderOption`. При виртуализации высота строк измеряется автоматически; `getOptionHeight` задаёт явную высоту строки.
+
 <!--/GITHUB_BLOCK-->
 
 ## Асинхронная загрузка
@@ -198,14 +200,16 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 | `Enter`   | Применить активную опцию и закрыть попап   |
 | `Escape`  | Закрыть попап, сохранив фокус в поле ввода |
 
-При открытии попапа ни одна опция не подсвечивается автоматически.
+По умолчанию при открытии попапа ни одна опция не подсвечивается. Используйте `activeOption` или `defaultActiveOption`, чтобы задать активную опцию.
 
 ## Свойства
 
 | Имя                  | Описание                                                                                          | Тип                                                                                                                        | Значение по умолчанию |
 | :------------------- | :------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------- | :-------------------- |
-| className            | CSS-класс корня TextInput                                                                         | `string`                                                                                                                   |                       |
-| controlRef           | Ссылка на нативный элемент ввода (см. TextInput)                                                  | `TextInputProps["controlRef"]`                                                                                             |                       |
+| activeOption         | Значение активной опции (контролируемый режим); `null` — активной опции нет                       | `string \| null`                                                                                                           |                       |
+| className            | CSS-класс корня TextInput или обёртки кастомного контрола                                         | `string`                                                                                                                   |                       |
+| controlRef           | Ref нативного input; игнорируется при `renderControl`                                             | `TextInputProps["controlRef"]`                                                                                             |                       |
+| defaultActiveOption  | Начальное значение активной опции (неконтролируемый режим)                                        | `string \| null`                                                                                                           | `null`                |
 | defaultOpen          | Начальное состояние открытия (неконтролируемый режим)                                             | `boolean`                                                                                                                  |                       |
 | defaultValue         | Начальное значение (неконтролируемый режим)                                                       | `string`                                                                                                                   |                       |
 | disablePortal        | Рендерить попап без портала                                                                       | `boolean`                                                                                                                  | `false`               |
@@ -222,16 +226,17 @@ import {ListVirtualizer} from '@gravity-ui/uikit/virtualizer';
 | popupClassName       | CSS-класс попапа                                                                                  | `string`                                                                                                                   |                       |
 | popupPlacement       | Положение попапа относительно инпута                                                              | `PopupPlacement`                                                                                                           | `'bottom-start'`      |
 | popupWidth           | Ширина попапа                                                                                     | `'fit' \| number`                                                                                                          |                       |
-| qa                   | Атрибут `data-qa` корневого `span` TextInput                                                      | `string`                                                                                                                   |                       |
-| ref                  | Ссылка на корневой `span` TextInput                                                               | `React.Ref<HTMLSpanElement>`                                                                                               |                       |
+| qa                   | `data-qa` корня TextInput; игнорируется при `renderControl`                                       | `string`                                                                                                                   |                       |
+| ref                  | Ref корня TextInput или фокусируемого элемента при `renderControl`                                | `React.Ref<HTMLElement>`                                                                                                   |                       |
+| renderControl        | Рендер контрола; см. [Кастомный контрол](#кастомный-контрол)                                      | `(props: SuggestRenderControlProps) => ReactElement`                                                                       |                       |
 | renderEmptyOptions   | Пользовательское пустое состояние, когда нет загрузки                                             | `(props: {filter: string}) => ReactElement \| null`                                                                        |                       |
 | renderOption         | Рендерер содержимого опции (по умолчанию `content`, а если он не задан — `children`)              | `(option: SuggestOptionProps<T>, options: {itemHeight: number; isItemActive: boolean; selected: boolean}) => ReactElement` |                       |
 | renderPopup          | Заменить или обернуть стандартный список внутри попапа                                            | `(props: {renderList: () => ReactElement \| null}) => ReactElement \| null`                                                |                       |
 | size                 | Размер инпута и строк списка                                                                      | `'s' \| 'm' \| 'l' \| 'xl'`                                                                                                | `'m'`                 |
-| style                | Инлайн-стили корня TextInput                                                                      | `CSSProperties`                                                                                                            |                       |
+| style                | Инлайн-стили корня TextInput или обёртки кастомного контрола                                      | `CSSProperties`                                                                                                            |                       |
 | value                | Значение поля (контролируемый режим)                                                              | `string`                                                                                                                   |                       |
 
-Suggest принимает все [пропсы TextInput](../../controls/TextInput/README.md) напрямую, а также `aria-label`, `aria-labelledby`, `aria-describedby` и `aria-details`. `ref` указывает на корень TextInput, `controlRef` — на нативный input.
+Без `renderControl` Suggest принимает все [пропсы TextInput](../../controls/TextInput/README.md) напрямую, а также `aria-label`, `aria-labelledby`, `aria-describedby` и `aria-details`. `ref` указывает на корень TextInput, `controlRef` — на нативный input.
 
 Suggest управляет атрибутами `role`, `aria-expanded`, `aria-controls`, `aria-activedescendant`, `aria-autocomplete` и `aria-busy`; переопределять их через `controlProps` нельзя.
 
@@ -239,10 +244,88 @@ Suggest управляет атрибутами `role`, `aria-expanded`, `aria-c
 
 `SuggestOpenChangeReason` дополняет `OpenChangeReason` из Floating UI причинами `input-change` (ввод или очистка поля) и `option-action` (выбор опции).
 
-`onActiveOptionUpdate` передаёт запросы List при взаимодействии с клавиатурой или указателем. Перестановка или удаление опций и закрытие попапа не вызывают дополнительных уведомлений. При каждом открытии активной опции нет. Текст для List берётся из строкового или числового `content`/`children`, иначе используется `value` опции.
+`onActiveOptionUpdate` передаёт запросы List при взаимодействии с клавиатурой или указателем, а также получает `null` для сброса активной опции при закрытии списка, изменении текста или клике в поле. Перестановка или удаление отдельных опций не вызывают дополнительных уведомлений. В контролируемом режиме передавайте новое значение в `activeOption`; если родитель игнорирует запрос сброса, прежняя активная опция сохраняется при повторном открытии. По умолчанию активной опции нет; её можно задать через `activeOption` или `defaultActiveOption`. Текст для List берётся из строкового или числового `content`/`children`, иначе используется `value` опции.
 
 ## Доступность
 
 Инпут получает `aria-busy` только при загрузке без доступных опций. При пагинации статус сообщает количество доступных вариантов вместо загрузки. Визуально скрытая область статуса в режиме polite сообщает о загрузке, количестве вариантов или отсутствии результатов, когда запрошено открытие. `aria-expanded` и `aria-controls` соответствуют смонтированному List: попап только со спиннером или пользовательским пустым состоянием не обозначается как раскрытый список.
 
 Suggest сообщает об отсутствии результатов, в том числе при пользовательском содержимом в `renderEmptyOptions` или `renderPopup`. Пользовательское пустое состояние отвечает за визуальное отображение и не требует собственной live region.
+
+## Кастомный контрол
+
+`renderControl` заменяет TextInput на TextArea, нативный элемент или другой фокусируемый текстовый редактор. Suggest создаёт обёртку, которая принимает `className` и `style`, служит якорем попапа и отслеживает уход фокуса из контрола. Callback получает `SuggestRenderControlProps`:
+
+| Проп           | Назначение                                                                                       |
+| :------------- | :----------------------------------------------------------------------------------------------- |
+| `disabled`     | Отключён ли контрол                                                                              |
+| `onUpdate`     | Вызывайте с новым текстом                                                                        |
+| `open`         | Запрошенное состояние открытия; для отображения попапу также нужно содержимое                    |
+| `ref`          | Подключите к фокусируемому элементу; при необходимости приведите к типу этого элемента           |
+| `triggerProps` | DOM-атрибуты (`id`, `role`, ARIA) и обработчики `onClick`/`onKeyDown` для фокусируемого элемента |
+| `value`        | Текущий текст                                                                                    |
+
+> **Обязательное подключение:** Передайте `ref`, `value`, `onUpdate` и DOM-атрибуты из `triggerProps`. Передайте `disabled` своему контролу. Вызывайте `triggerProps.onClick` для открытия по клику и `triggerProps.onKeyDown` для встроенной клавиатурной навигации.
+
+Передавайте `id` и `onKeyDown` из `triggerProps` компонентам UIKit `TextInput` и `TextArea` как пропсы верхнего уровня. Оба компонента перезаписывают соответствующие значения в `controlProps`, даже если пропсы верхнего уровня не заданы. Остальные поля из `triggerProps` передавайте через `controlProps` компонента.
+
+Обработчик клавиатуры открывает попап стрелками, управляет навигацией по списку и выбирает активную опцию по Enter. Чтобы оставить клавишу для редактирования, не передавайте её этому обработчику. В собственных хоткеях игнорируйте ввод через IME (`event.nativeEvent.isComposing` или `event.keyCode === 229`). Закрытие попапа по-прежнему запрашивается через `onOpenChange`.
+
+При `renderControl` задавайте внешний вид, содержимое, нативные атрибуты и обработчики поля непосредственно на кастомном контроле; соответствующие пропсы TextInput у Suggest не применяются. `className` и `style` применяются к обёртке, `disabled` передаётся в функцию рендера, а `size` управляет размером строк списка. Для подписи контрола и списка используйте ARIA-пропсы верхнего уровня Suggest.
+
+Многострочный TextArea сохраняет семантику текстового поля: исключите `role` и `aria-expanded` из переданных `triggerProps`, сохранив связь со списком и активной опцией.
+
+<!--GITHUB_BLOCK-->
+
+```tsx
+const [activeOption, setActiveOption] = React.useState<string | null>(null);
+
+<Suggest
+  activeOption={activeOption}
+  onActiveOptionUpdate={setActiveOption}
+  aria-label="Reply"
+  value={value}
+  onUpdate={setValue}
+  options={options}
+  onOptionAction={(_id, option) => setValue(String(option.content))}
+  renderControl={({ref, value, onUpdate, disabled, triggerProps}) => {
+    const {id, onClick, onKeyDown, ...attributes} = triggerProps;
+    return (
+      <TextArea
+        controlRef={ref as React.Ref<HTMLTextAreaElement>}
+        id={id}
+        value={value}
+        onUpdate={onUpdate}
+        disabled={disabled}
+        minRows={3}
+        controlProps={{
+          ...attributes,
+          role: undefined,
+          'aria-expanded': undefined,
+          onCompositionStart: () => setActiveOption(null),
+          onClick,
+        }}
+        onKeyDown={(event) => {
+          if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+          if (event.altKey && ['ArrowUp', 'ArrowDown', 'Enter'].includes(event.key)) {
+            onKeyDown?.(event);
+            if (event.key === 'Enter') event.preventDefault();
+          } else if (
+            ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Enter'].includes(
+              event.key,
+            )
+          ) {
+            setActiveOption(null);
+          }
+        }}
+      />
+    );
+  }}
+/>;
+```
+
+<!--/GITHUB_BLOCK-->
+
+Suggest отображает переданные `options` без фильтрации. Через `onUpdate` передавайте локально отфильтрованные опции или результаты асинхронной загрузки. В `onOptionAction` потребитель решает, заменить весь текст или вставить фрагмент в позицию курсора, включая обработку выделения и курсора.
+
+Управляйте активной опцией через `activeOption` и `onActiveOptionUpdate`. Suggest запрашивает сброс при изменениях текста через `onUpdate` и кликах, переданных в `triggerProps.onClick`. Вызывайте свой `setActiveOption(null)` при начале композиции и перемещении курсора клавишами, которые не передаёте Suggest. Это сбрасывает активную опцию и `aria-activedescendant`, оставляя попап открытым. Следующая переданная стрелка снова начинает навигацию по списку.

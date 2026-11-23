@@ -4,9 +4,9 @@ import {faker} from '@faker-js/faker/locale/en';
 import type {Meta, StoryObj} from '@storybook/react-webpack5';
 
 import {toaster} from '../../../toaster-singleton';
-import {Button} from '../../Button';
 import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
+import {Text} from '../../Text';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
@@ -114,8 +114,6 @@ function getAction(): ToastAction {
     };
 }
 
-const playgroundToastName = 'demo-toast';
-
 export const ToastPlayground: Story = {
     name: 'Toast (Playground)',
     args: {
@@ -138,12 +136,13 @@ export const ToastPlayground: Story = {
         const toaster = useToaster();
 
         React.useEffect(() => {
+            const toastId = 'demo-toast';
             toaster.add({
                 ...args,
-                name: playgroundToastName,
+                name: toastId,
             });
 
-            return () => toaster.remove(playgroundToastName);
+            return () => toaster.remove(toastId);
         }, [args, toaster]);
 
         return (
@@ -160,20 +159,24 @@ export const WithFooter: Story = {
     name: 'Toast with a footer',
     args: {
         ...ToastPlayground.args,
-        title: 'Changes saved',
-        content: 'Your changes have been saved.',
+        title: 'Notification settings saved',
+        content: 'Your email preferences have been updated.',
         theme: 'success',
         isClosable: true,
-        actions: [{label: 'View details', onClick: () => {}, removeAfterClick: false}],
+        actions: [{label: 'View settings', onClick: () => {}, removeAfterClick: false}],
         renderFooter: () => (
-            <Button
-                view="flat"
-                size="s"
-                onClick={() => toaster.remove(playgroundToastName)}
-                style={{marginBlockStart: 'var(--g-spacing-2)'}}
+            <Text
+                as="div"
+                variant="body-2"
+                color="complementary"
+                style={{
+                    borderBlockStart: '1px solid var(--g-color-line-generic)',
+                    marginBlockStart: 'var(--g-spacing-3)',
+                    paddingBlockStart: 'var(--g-spacing-2)',
+                }}
             >
-                Dismiss
-            </Button>
+                Changes apply to new notifications only.
+            </Text>
         ),
     },
 };

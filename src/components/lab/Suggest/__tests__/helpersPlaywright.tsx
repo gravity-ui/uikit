@@ -1,0 +1,144 @@
+import * as React from 'react';
+
+import {composeStories} from '@storybook/react-webpack5';
+
+import {ListVirtualizer} from '../../../../virtualizer';
+import {Suggest} from '../Suggest';
+import * as SuggestStoriesModule from '../__stories__/Suggest.stories';
+import type {SuggestProps} from '../types';
+
+export const SuggestStories = composeStories(SuggestStoriesModule);
+
+const OPTIONS = [{value: 'earth', content: 'Earth'}];
+
+const PAGINATED_OPTIONS = Array.from({length: 80}, (_, index) => ({
+    value: String(index),
+    content: `Option ${index}`,
+}));
+
+export function SuggestPagination({virtualized}: {virtualized: boolean}) {
+    const [loading, setLoading] = React.useState(false);
+    const [count, setCount] = React.useState(40);
+    const [requests, setRequests] = React.useState(0);
+    const suggest = (
+        <Suggest
+            open
+            options={PAGINATED_OPTIONS.slice(0, count)}
+            loading={loading}
+            onLoadMore={() => setRequests((value) => value + 1)}
+            getOptionHeight={() => 32}
+        />
+    );
+    return (
+        <div style={{height: 500}}>
+            <button
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => setLoading(true)}
+            >
+                Start loading
+            </button>
+            <button
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => {
+                    setCount(80);
+                    setLoading(false);
+                }}
+            >
+                Finish loading
+            </button>
+            <output data-qa="load-requests">{requests}</output>
+            {virtualized ? <ListVirtualizer>{suggest}</ListVirtualizer> : suggest}
+        </div>
+    );
+}
+
+export function SuggestWithLabel() {
+    return (
+        <Suggest
+            open
+            defaultValue="earth"
+            options={OPTIONS}
+            label="Planet"
+            placeholder="Type to search"
+        />
+    );
+}
+
+export function SuggestInitiallyOpen({
+    popupWidth,
+    options = OPTIONS,
+}: Pick<SuggestProps, 'popupWidth' | 'options'>) {
+    return (
+        <div style={{width: 320, margin: 40, height: 300}}>
+            <Suggest
+                defaultOpen
+                options={options}
+                popupWidth={popupWidth}
+                qa="initial-input"
+                aria-label="Planets"
+                validationState="invalid"
+                errorMessage="Please select a planet"
+                note="Additional field note"
+            />
+        </div>
+    );
+}
+
+export function SuggestWithPopupLayout({virtualized}: {virtualized: boolean}) {
+    const suggest = (
+        <Suggest
+            open
+            options={PAGINATED_OPTIONS}
+            popupClassName="suggest-layout-popup"
+            aria-label="Options"
+            renderPopup={({renderList}) => (
+                <div style={{display: 'flex', flexDirection: 'column', minHeight: 0}}>
+                    <div data-qa="layout-header" style={{height: 48, flexShrink: 0}}>
+                        Header
+                    </div>
+                    {renderList()}
+                    <div data-qa="layout-footer" style={{height: 48, flexShrink: 0}}>
+                        Footer
+                    </div>
+                </div>
+            )}
+        />
+    );
+    return (
+        <div style={{width: 320, height: 500}}>
+            <style>{'.suggest-layout-popup { max-height: 240px; }'}</style>
+            {virtualized ? <ListVirtualizer>{suggest}</ListVirtualizer> : suggest}
+        </div>
+    );
+}
+
+export function SuggestWithFocusablePopup() {
+    const [actions, setActions] = React.useState(0);
+    return (
+        <div>
+            <Suggest
+                options={OPTIONS}
+                label="Planet"
+                startContent={<span>Search icon</span>}
+                endContent={<span>Suffix</span>}
+                disablePortal
+                renderPopup={({renderList}) => (
+                    <div>
+                        {renderList()}
+                        <button onClick={() => setActions((count) => count + 1)}>Retry</button>
+                    </div>
+                )}
+            />
+            <button>Next field</button>
+            <output data-qa="retry-count">{actions}</output>
+        </div>
+    );
+}
+
+export function SuggestWithPlacement({popupPlacement}: Pick<SuggestProps, 'popupPlacement'>) {
+    return (
+        <div style={{position: 'fixed', left: 20, bottom: 20, width: 200}}>
+            <Suggest defaultOpen options={OPTIONS} popupPlacement={popupPlacement} />
+        </div>
+    );
+}

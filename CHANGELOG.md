@@ -1,5 +1,20 @@
 # Changelog
 
+## [8.2.0](https://github.com/gravity-ui/uikit/compare/v8.1.0...v8.2.0) (2026-11-23)
+
+
+### Features
+
+* **Suggest:** add renderControl for custom controls ([#2949](https://github.com/gravity-ui/uikit/issues/2949)) ([38760eb](https://github.com/gravity-ui/uikit/commit/38760ebf41c0032b7c430421124b2b6254e28676))
+
+
+### Bug Fixes
+
+* **CopyToClipboard:** remove fallback textarea when copy fails ([#2929](https://github.com/gravity-ui/uikit/issues/2929)) ([e44fe0a](https://github.com/gravity-ui/uikit/commit/e44fe0a87c0931f98141aaf7f216993044814f93))
+* **DefinitionList:** allow definitions to shrink ([#2950](https://github.com/gravity-ui/uikit/issues/2950)) ([44c961b](https://github.com/gravity-ui/uikit/commit/44c961bcba275d5792c5ed2b03ba97979c8ce5f3))
+* **Progress:** hide duplicate accessible text ([#2935](https://github.com/gravity-ui/uikit/issues/2935)) ([45a43ae](https://github.com/gravity-ui/uikit/commit/45a43ae5a14d7936709691c70cf3ca364fe2fb49))
+* **Slider:** ssr import for rc-slider component ([#2946](https://github.com/gravity-ui/uikit/issues/2946)) ([d47d435](https://github.com/gravity-ui/uikit/commit/d47d435a986642828663b8323f9ee9d1480c9726))
+
 ## [8.1.0](https://github.com/gravity-ui/uikit/compare/v8.0.0...v8.1.0) (2026-11-17)
 
 

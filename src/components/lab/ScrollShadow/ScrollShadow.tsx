@@ -14,9 +14,7 @@ export type ScrollShadowAxis = 'block' | 'inline' | 'both';
 export type ScrollShadowPosition = 'start' | 'end' | 'both';
 
 export interface ScrollShadowProps
-    extends DOMProps,
-        QAProps,
-        Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
+    extends DOMProps, QAProps, Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
     /**
      * Logical axis whose scroll state controls the fade.
      * @default 'block'
@@ -35,7 +33,7 @@ export interface ScrollShadowProps
 }
 
 export const ScrollShadow = React.forwardRef<HTMLDivElement, ScrollShadowProps>(
-    function ScrollShadow(
+    function ScrollShadowComponent(
         {
             axis = 'block',
             position = 'both',

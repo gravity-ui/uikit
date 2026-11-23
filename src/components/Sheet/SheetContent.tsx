@@ -4,11 +4,8 @@ import * as React from 'react';
 
 import type {UseInteractionsReturn} from '@floating-ui/react';
 import {useMergeRefs} from '@floating-ui/react';
-import {Xmark} from '@gravity-ui/icons';
 
 import type {UseFloatingTransitionResult} from '../../hooks/private/useFloatingTransition';
-import {Button} from '../Button';
-import {Icon} from '../Icon';
 import {MobileContext} from '../mobile';
 import type {AriaLabelingProps} from '../types';
 import {warnOnce} from '../utils/warn';
@@ -55,8 +52,6 @@ interface SheetContentBaseProps {
     title?: string;
     /** The name and the description of the dialog */
     labelingProps?: AriaLabelingProps;
-    /** Label of the visually hidden dismiss buttons, which are not rendered without it */
-    dismissLabel?: string;
     contentClassName?: string;
     swipeAreaClassName?: string;
     hideTopBar?: boolean;
@@ -79,7 +74,6 @@ export function SheetContent(props: SheetContentProps) {
         hideTopBar,
         title,
         labelingProps,
-        dismissLabel,
         presenceStatus,
         requestDismiss,
         floatingRef,
@@ -437,21 +431,6 @@ export function SheetContent(props: SheetContentProps) {
 
     const contentWithoutScroll = (deltaY > 0 && contentTouched) || swipeAreaTouched;
 
-    // As in FloatingFocusManager, but the last button is also reachable by Tab
-    const renderDismissButton = (tabbable: boolean) =>
-        dismissLabel ? (
-            <Button
-                view="flat"
-                size="l"
-                className={sheetBlock('dismiss')}
-                tabIndex={tabbable ? 0 : -1}
-                aria-label={dismissLabel}
-                onClick={(event) => requestDismiss({event: event.nativeEvent})}
-            >
-                <Icon data={Xmark} size={20} />
-            </Button>
-        ) : null;
-
     return (
         <React.Fragment>
             <SheetVeil veilRef={veilRef} withTransition={withTransition} {...veilHandlers} />
@@ -460,7 +439,6 @@ export function SheetContent(props: SheetContentProps) {
                 className={sheetBlock('sheet', {'with-transition': withTransition})}
                 {...getFloatingProps(labelingProps)}
             >
-                {renderDismissButton(false)}
                 {!hideTopBar && (
                     <div
                         ref={sheetTopRef}
@@ -487,7 +465,6 @@ export function SheetContent(props: SheetContentProps) {
                 >
                     {content}
                 </SheetContentArea>
-                {renderDismissButton(true)}
             </div>
         </React.Fragment>
     );

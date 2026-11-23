@@ -42,12 +42,15 @@ the sheet after it closes.
 Use `initialFocus` to focus a control instead and `returnFocus` to customize or disable focus
 restoration.
 
-Visually hidden dismiss controls are available to assistive technology, as in `Modal`. The last one
-is also reachable by Tab and shows up while focused, so the sheet can be closed from the keyboard
-without Escape. Activating one requests `onOpenChange(false, event)` without a reason. As with other
-dismissals, a controlled sheet stays open until the parent updates `open`. Use
-`disableVisuallyHiddenDismiss` to remove them, for example when the sheet has a close button of its
-own.
+Screen readers can activate visually hidden dismiss buttons. Tab skips these buttons. Activating
+one calls `onOpenChange(false, event)` without a reason. A controlled sheet stays open until the
+parent updates `open`. Use `disableVisuallyHiddenDismiss` to remove the hidden buttons when you
+provide your own accessible close button.
+
+If you set `disableOutsideClick` or the sheet can cover the entire viewport
+(`maxContentHeightCoefficient={1}`), include a visible close button in the sheet so users can
+close it with a single tap or click. If you set `disableEscapeKeyDown`, make sure users can
+reach that button with Tab.
 
 Name the sheet with `title`, `aria-label` or `aria-labelledby`: a screen reader announces the name when
 the sheet takes focus, and without it only the role is announced.

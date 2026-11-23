@@ -193,6 +193,9 @@ function SheetComponent(rawProps: SheetProps) {
                             // Focusing a text field on open would show the on-screen keyboard
                             initialFocus={initialFocus ?? refs.floating}
                             returnFocus={returnFocus}
+                            visuallyHiddenDismiss={
+                                disableVisuallyHiddenDismiss ? false : t('close')
+                            }
                             restoreFocus
                         >
                             <SheetContentContainer
@@ -201,11 +204,6 @@ function SheetComponent(rawProps: SheetProps) {
                                 contentClassName={contentClassName}
                                 swipeAreaClassName={swipeAreaClassName}
                                 title={title}
-                                dismissLabel={
-                                    disableVisuallyHiddenDismiss || status === 'unmounted'
-                                        ? undefined
-                                        : t('close')
-                                }
                                 labelingProps={{
                                     ...filterDOMProps(restProps, {labelable: true}),
                                     'aria-label': restProps['aria-label'] ?? title,

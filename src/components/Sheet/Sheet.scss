@@ -48,25 +48,6 @@ $block: '.#{variables.$ns}sheet';
         }
     }
 
-    &__dismiss {
-        position: absolute;
-        inset-block-start: var(--g-spacing-2);
-        inset-inline-end: var(--g-spacing-2);
-        z-index: 1;
-
-        &:not(:focus-visible) {
-            width: 1px;
-            min-width: 0;
-            height: 1px;
-            margin: -1px;
-            padding: 0;
-            border: 0;
-            overflow: hidden;
-            clip-path: inset(50%);
-            white-space: nowrap;
-        }
-    }
-
     &__sheet-top {
         position: relative;
         height: var(--_--top-height);

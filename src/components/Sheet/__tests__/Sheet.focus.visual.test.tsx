@@ -14,18 +14,13 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
         const dialog = page.getByRole('dialog', {name: 'Parent'});
         const first = dialog.getByRole('button', {name: 'First action'});
         const last = dialog.getByRole('button', {name: 'Last action'});
-        const close = dialog.getByRole('button', {name: 'Close'}).last();
 
         await expect(dialog).toBeFocused();
         await expect(background).toHaveCount(0);
         await page.keyboard.press('Tab');
         await expect(first).toBeFocused();
         await page.keyboard.press('Shift+Tab');
-        await expect(close).toBeFocused();
-        await page.keyboard.press('Shift+Tab');
         await expect(last).toBeFocused();
-        await page.keyboard.press('Tab');
-        await expect(close).toBeFocused();
         await page.keyboard.press('Tab');
         await expect(first).toBeFocused();
         await page.keyboard.press('Escape');
@@ -34,21 +29,15 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
         await expect(background).toHaveCount(1);
     });
 
-    test('closes through the visually hidden dismiss control reached by Tab', async ({
-        mount,
-        page,
-    }) => {
+    test('closes through the visually hidden dismiss control', async ({mount, page}) => {
         await mount(<StackedSheets />);
         const trigger = page.getByRole('button', {name: 'Open parent'});
         await trigger.click();
         const dialog = page.getByRole('dialog', {name: 'Parent'});
-        const close = dialog.getByRole('button', {name: 'Close'}).last();
         // The initial focus lands a frame later and would take the focus back
         await expect(dialog).toBeFocused();
 
-        await page.keyboard.press('Shift+Tab');
-        await expect(close).toBeFocused();
-        await expect(close).toBeInViewport();
+        await page.getByRole('button', {name: 'Close'}).first().focus();
         await page.keyboard.press('Enter');
 
         await expect(dialog).toHaveCount(0);
@@ -74,8 +63,6 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
             await expect(child).toBeFocused();
             await page.keyboard.press('Tab');
             await expect(childAction).toBeFocused();
-            await page.keyboard.press('Tab');
-            await expect(child.getByRole('button', {name: 'Close'}).last()).toBeFocused();
             await page.keyboard.press('Tab');
             await expect(childAction).toBeFocused();
 
@@ -119,17 +106,12 @@ test.describe('Sheet keyboard access', {tag: '@Sheet'}, () => {
         const sheet = page.getByRole('dialog', {name: 'Inside modal'});
         const first = sheet.getByRole('button', {name: 'First sheet action'});
         const last = sheet.getByRole('button', {name: 'Last sheet action'});
-        const close = sheet.getByRole('button', {name: 'Close'}).last();
 
         await expect(sheet).toBeFocused();
         await page.keyboard.press('Tab');
         await expect(first).toBeFocused();
         await page.keyboard.press('Shift+Tab');
-        await expect(close).toBeFocused();
-        await page.keyboard.press('Shift+Tab');
         await expect(last).toBeFocused();
-        await page.keyboard.press('Tab');
-        await expect(close).toBeFocused();
         await page.keyboard.press('Tab');
         await expect(first).toBeFocused();
 

@@ -149,7 +149,10 @@ export class List<T = unknown> extends React.Component<ListProps<T>, ListState<T
             }
         }
 
-        if (this.props.activeItemIndex !== prevProps.activeItemIndex) {
+        if (
+            this.props.activeItemIndex !== prevProps.activeItemIndex &&
+            this.props.activeItemIndex !== this.state.activeItem
+        ) {
             this.activateItem(this.props.activeItemIndex);
         }
 

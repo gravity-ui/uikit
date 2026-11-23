@@ -32,6 +32,31 @@ afterEach(() => {
 });
 
 describe('base List', () => {
+    it('keeps the scroll position when the parent echoes the hovered item index', () => {
+        const onScrollToItem = jest.fn(() => true);
+        const ControlledList = () => {
+            const [activeItemIndex, setActiveItemIndex] = React.useState<number>();
+            return (
+                <List
+                    items={['one', 'two', 'three']}
+                    virtualized={false}
+                    activeItemIndex={activeItemIndex}
+                    onChangeActive={setActiveItemIndex}
+                    onScrollToItem={onScrollToItem}
+                />
+            );
+        };
+
+        render(<ControlledList />);
+        const [, second, third] = screen.getAllByRole('listitem');
+        fireEvent.mouseEnter(second);
+        expect(onScrollToItem).not.toHaveBeenCalled();
+
+        fireEvent.keyDown(second, {key: 'ArrowDown'});
+        expect(onScrollToItem).toHaveBeenCalledTimes(1);
+        expect(onScrollToItem).toHaveBeenCalledWith(third);
+    });
+
     it('preserves item state when filtering if itemKey is provided', () => {
         const StatefulItem = ({name}: {name: string}) => {
             const [active, setActive] = React.useState(false);

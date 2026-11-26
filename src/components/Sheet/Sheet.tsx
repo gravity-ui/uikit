@@ -3,32 +3,38 @@
 import * as React from 'react';
 
 import {
+    FloatingFocusManager,
     FloatingNode,
     FloatingOverlay,
     FloatingTree,
+    useDismiss,
     useFloating,
     useFloatingNodeId,
     useFloatingParentNodeId,
     useInteractions,
     useRole,
 } from '@floating-ui/react';
+import type {FloatingFocusManagerProps} from '@floating-ui/react';
 
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal/Portal';
 import type {PortalProps} from '../Portal/Portal';
 import {useDefaultProps} from '../theme/useDefaultProps';
-import type {QAProps} from '../types';
+import type {AriaLabelingProps, QAProps} from '../types';
+import {filterDOMProps} from '../utils/filterDOMProps';
 import {useLayer} from '../utils/layer-manager';
 
 import {SheetContentContainer} from './SheetContent';
 import {SHEET_TRANSITION_DURATION_MS, sheetBlock} from './constants';
 import {useSheetDismiss} from './hooks/useSheetDismiss';
+import i18n from './i18n';
 
 import './Sheet.scss';
 
 export type SheetOpenChangeReason = 'escape-key' | 'outside-press' | 'swipe' | 'navigation';
 
-export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePortal'>, QAProps {
+export interface SheetProps
+    extends Pick<PortalProps, 'container' | 'disablePortal'>, AriaLabelingProps, QAProps {
     children?: React.ReactNode;
     /** Controlled open state; without it the sheet closes itself on dismissal */
     open?: boolean;
@@ -50,6 +56,12 @@ export interface SheetProps extends Pick<PortalProps, 'container' | 'disablePort
     disableEscapeKeyDown?: boolean;
     /** Disables closing the sheet by clicking the veil */
     disableOutsideClick?: boolean;
+    /** Index of the tabbable element or ref to focus on open. The sheet itself by default */
+    initialFocus?: FloatingFocusManagerProps['initialFocus'];
+    /** Element to return focus to, or `false` to disable it */
+    returnFocus?: FloatingFocusManagerProps['returnFocus'];
+    /** Do not add a11y dismiss buttons when managing focus */
+    disableVisuallyHiddenDismiss?: boolean;
     /** ID of the sheet, used as hash in URL. It's important to specify different `id` values if there can be more than one sheet on the page */
     id?: string;
     /** Title of the sheet window */
@@ -83,6 +95,9 @@ function SheetComponent(rawProps: SheetProps) {
         onTransitionOutComplete,
         disableEscapeKeyDown,
         disableOutsideClick,
+        initialFocus,
+        returnFocus,
+        disableVisuallyHiddenDismiss,
         id,
         title,
         className,
@@ -95,7 +110,9 @@ function SheetComponent(rawProps: SheetProps) {
         container,
         disablePortal,
         qa,
+        ...restProps
     } = useDefaultProps('Sheet', rawProps);
+    const {t} = i18n.useTranslation();
     const {
         open: isOpen,
         immediate,
@@ -116,9 +133,19 @@ function SheetComponent(rawProps: SheetProps) {
     );
 
     const floatingNodeId = useFloatingNodeId();
+
+    // Floating UI parents (Modal, Popup, Drawer) stop Escape before LayerManager sees it,
+    // so a nested sheet closes on Escape through useDismiss, as Modal does
+    const isNested = useFloatingParentNodeId() !== null;
+
     const {refs, context} = useFloating({
         nodeId: floatingNodeId,
         open: isOpen,
+        onOpenChange: (nextOpen, event, reason) => {
+            if (!nextOpen) {
+                requestDismiss({event, reason: reason === 'escape-key' ? reason : undefined});
+            }
+        },
     });
     const {isMounted, status} = useFloatingTransition({
         context,
@@ -136,11 +163,12 @@ function SheetComponent(rawProps: SheetProps) {
         open: isOpen,
         type: 'sheet',
         disableOutsideClick: true,
-        onEscapeKeyDown: handleEscapeKeyDown,
+        onEscapeKeyDown: isNested ? undefined : handleEscapeKeyDown,
     });
 
+    const dismiss = useDismiss(context, {enabled: isNested, outsidePress: false});
     const role = useRole(context, {role: 'dialog'});
-    const {getFloatingProps} = useInteractions([role]);
+    const {getFloatingProps} = useInteractions([dismiss, role]);
 
     return (
         <FloatingNode id={floatingNodeId}>
@@ -158,21 +186,38 @@ function SheetComponent(rawProps: SheetProps) {
                             } as React.CSSProperties
                         }
                     >
-                        <SheetContentContainer
-                            id={id}
-                            content={children}
-                            contentClassName={contentClassName}
-                            swipeAreaClassName={swipeAreaClassName}
-                            title={title}
-                            presenceStatus={status}
-                            allowHideOnContentScroll={allowHideOnContentScroll}
-                            hideTopBar={hideTopBar}
-                            requestDismiss={requestDismiss}
-                            floatingRef={refs.setFloating}
-                            getFloatingProps={getFloatingProps}
-                            maxContentHeightCoefficient={maxContentHeightCoefficient}
-                            alwaysFullHeight={alwaysFullHeight}
-                        />
+                        <FloatingFocusManager
+                            context={context}
+                            // The sheet is hidden while unmounted: kept mounted after closing, or about to open
+                            disabled={status === 'unmounted'}
+                            // Focusing a text field on open would show the on-screen keyboard
+                            initialFocus={initialFocus ?? refs.floating}
+                            returnFocus={returnFocus}
+                            visuallyHiddenDismiss={
+                                disableVisuallyHiddenDismiss ? false : t('close')
+                            }
+                            restoreFocus
+                        >
+                            <SheetContentContainer
+                                id={id}
+                                content={children}
+                                contentClassName={contentClassName}
+                                swipeAreaClassName={swipeAreaClassName}
+                                title={title}
+                                labelingProps={{
+                                    ...filterDOMProps(restProps, {labelable: true}),
+                                    'aria-label': restProps['aria-label'] ?? title,
+                                }}
+                                presenceStatus={status}
+                                allowHideOnContentScroll={allowHideOnContentScroll}
+                                hideTopBar={hideTopBar}
+                                requestDismiss={requestDismiss}
+                                floatingRef={refs.setFloating}
+                                getFloatingProps={getFloatingProps}
+                                maxContentHeightCoefficient={maxContentHeightCoefficient}
+                                alwaysFullHeight={alwaysFullHeight}
+                            />
+                        </FloatingFocusManager>
                     </FloatingOverlay>
                 </Portal>
             ) : null}

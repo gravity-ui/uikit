@@ -21,16 +21,18 @@ jobs:
         run: npm ci
       - name: Lint Files
         run: npm run lint
-      - name: Typecheck
-        run: npm run typecheck
       - name: Verify generated theme is up to date
         run: |
           npm run generate:theme
           git diff --exit-code styles/themes/default.generated.css styles/themes/hc.generated.css
 
-  unit_tests:
-    name: Unit Tests
+  typecheck:
+    name: Typecheck (React ${{ matrix.react }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react: [18, 19]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,5 +43,31 @@ jobs:
           cache: npm
       - name: Install Packages
         run: npm ci
+      - name: Install React 18
+        if: matrix.react == 18
+        run: npm install --no-save react@18 react-dom@18 @types/react@18 @types/react-dom@18
+      - name: Typecheck
+        run: npm run typecheck
+
+  unit_tests:
+    name: Unit Tests (React ${{ matrix.react }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react: [18, 19]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install Packages
+        run: npm ci
+      - name: Install React 18
+        if: matrix.react == 18
+        run: npm install --no-save react@18 react-dom@18
       - name: Run Tests
         run: npm run test

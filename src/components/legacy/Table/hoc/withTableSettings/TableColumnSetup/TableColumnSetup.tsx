@@ -159,14 +159,7 @@ const useDndRenderContainer = ({onDragEnd, renderControls}: UseDndRenderContaine
 
         return (
             <React.Fragment>
-                <ListContainerView
-                    /*
-                     *  TODO: Remove casting in React 19 (https://github.com/gravity-ui/uikit/issues/2537)
-                     */
-                    ref={containerRef as React.Ref<HTMLDivElement>}
-                    id={id}
-                    className={className}
-                >
+                <ListContainerView ref={containerRef} id={id} className={className}>
                     {stickyStartItemList}
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId={uniqId} renderClone={renderDndActiveItem}>

@@ -6,9 +6,9 @@ import {Popup} from '../../../Popup';
 import type {PopupPlacement} from '../../../Popup';
 import {Sheet} from '../../../Sheet';
 import {block} from '../../../utils/cn';
+import {getMiddlewares} from '../../../utils/popupMiddlewares';
 import {SelectQa} from '../../constants';
 
-import {getMiddlewares} from './middlewares';
 import type {SelectPopupProps} from './types';
 
 import './SelectPopup.scss';
@@ -35,6 +35,8 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
             virtualized,
             mobile,
             id,
+            sheetInitialFocus,
+            sheetLabelledBy,
         },
         ref,
     ) => {
@@ -56,6 +58,9 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 open={Boolean(open)}
                 onOpenChange={handleOpenChange}
                 onTransitionOutComplete={onAfterClose}
+                initialFocus={sheetInitialFocus}
+                returnFocus={controlRef}
+                aria-labelledby={sheetLabelledBy}
             >
                 {children}
             </Sheet>
@@ -69,7 +74,7 @@ export const SelectPopup = React.forwardRef<HTMLDivElement, SelectPopupProps>(
                 onOpenChange={handleOpenChange}
                 disablePortal={disablePortal}
                 returnFocus={controlRef}
-                floatingMiddlewares={getMiddlewares({width, disablePortal, virtualized})}
+                floatingMiddlewares={getMiddlewares({width, placement, disablePortal, virtualized})}
                 id={id}
                 onTransitionIn={onAfterOpen}
                 onTransitionOutComplete={onAfterClose}

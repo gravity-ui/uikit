@@ -12,6 +12,10 @@ $block: '.#{variables.$ns}sheet';
 
     --_--top-height: 20px;
 
+    &[data-floating-ui-status='unmounted'] {
+        display: none;
+    }
+
     &_without-top-bar {
         --_--top-height: 0;
     }
@@ -24,6 +28,7 @@ $block: '.#{variables.$ns}sheet';
         max-height: 100%;
         will-change: transform;
         background-color: var(--g-sheet-background-color, var(--g-color-base-float));
+        outline: none;
 
         &:has(> #{$block}__sheet-top) {
             border-start-start-radius: 20px;

@@ -4,9 +4,11 @@ import * as React from 'react';
 
 import {List} from '../../../List';
 import type {ListFocusOwner, ListItemContext, ListItemHelpers} from '../../../List';
-import {ListVirtualizationContext} from '../../../List/VirtualizationContext';
+import {
+    ListVirtualizationContext,
+    useListVirtualizationItemSize,
+} from '../../../List/VirtualizationContext';
 import type {ListVirtualizationContextValue} from '../../../List/VirtualizationContext';
-import {warnOnce} from '../../../utils/warn';
 import {SelectQa, selectListBlock} from '../../constants';
 import {
     buildSelectListNodes,
@@ -34,6 +36,8 @@ import './SelectList.scss';
 
 type SelectListProps = {
     activeItemId?: string;
+    /** Gets the element of the active option: the sheet focuses it when the list owns the focus */
+    activeItemRef?: React.Ref<HTMLElement>;
     flattenOptions: FlattenOption[];
     focusOwner?: ListFocusOwner;
     getKey: SelectValueKeyGetter;
@@ -45,7 +49,7 @@ type SelectListProps = {
     /** The groups that came with options: only such a group can be left empty by the filter */
     groupsWithOptions?: Set<GroupTitleItem>;
     id: string;
-    /** The trigger names the list: its text is the value or the placeholder of the Select */
+    /** The ids that name the trigger, or the trigger itself: its text is the value or the placeholder */
     labelledBy: string;
     loading?: boolean;
     mobile: boolean;
@@ -96,6 +100,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
             labelledBy,
             focusOwner,
             activeItemId,
+            activeItemRef,
             onActiveItemUpdate,
         } = props;
 
@@ -140,24 +145,11 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
          * rows the filter left. The height a row comes out as is also its estimate: the estimate of
          * the outer `ListVirtualizer` is re-wrapped, the type of an option row never leaves the Select
          */
-        const virtualization = React.useMemo<ListVirtualizationContextValue | null>(() => {
-            if (!selectVirtualization) {
-                return null;
-            }
-
-            if (selectVirtualization.estimateItemSize !== undefined) {
-                warnOnce(
-                    '[Select] `estimateItemSize` of `ListVirtualizer` is not used by the Select: the height of a row comes from `getOptionHeight`/`getOptionGroupHeight` and the size of the Select.',
-                );
-            }
-
-            return {
-                ...selectVirtualization,
-                minItemsCount: 0,
-                estimateItemSize: (ctx: ListItemContext<SelectListNode>) =>
-                    getItemHeight(ctx.item, ctx.index),
-            };
-        }, [selectVirtualization, getItemHeight]);
+        const virtualization = useListVirtualizationItemSize(
+            selectVirtualization,
+            getItemHeight,
+            '[Select] `estimateItemSize` of `ListVirtualizer` is not used by the Select: the height of a row comes from `getOptionHeight`/`getOptionGroupHeight` and the size of the Select.',
+        );
         const virtualized = virtualization !== null;
 
         const handleItemAction = React.useCallback(
@@ -265,6 +257,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                             className: selectListBlock('item'),
                             style,
                             'data-qa': isItemActive ? SelectQa.ACTIVE_ITEM : undefined,
+                            ref: isItemActive ? activeItemRef : undefined,
                         })}
                         {...getItemViewProps()}
                         {...(selectionStyle === 'none' && {selectionStyle})}
@@ -274,6 +267,7 @@ export const SelectList = React.forwardRef<HTMLDivElement, SelectListProps>(
                 );
             },
             [
+                activeItemRef,
                 getItemHeight,
                 getOptionGroupHeight,
                 getOptionHeight,

@@ -64,7 +64,7 @@ describe('Sheet', () => {
             expect(screen.queryByTestId(SheetQa.TITLE)).not.toBeInTheDocument();
 
             rerender(
-                <Sheet open title={title}>
+                <Sheet open title={title} aria-label={undefined}>
                     Content
                 </Sheet>,
             );
@@ -72,6 +72,27 @@ describe('Sheet', () => {
             expect(screen.getByText(title)).toBeInTheDocument();
             expect(screen.getByTestId(SheetQa.TITLE)).toBeInTheDocument();
             expect(screen.getByRole('dialog')).toHaveAttribute('aria-label', title);
+        });
+
+        test('is named by aria-label or aria-labelledby without a title', () => {
+            const {rerender} = render(
+                <Sheet open aria-label="Filters">
+                    Content
+                </Sheet>,
+            );
+
+            expect(screen.getByRole('dialog', {name: 'Filters'})).toBeInTheDocument();
+
+            rerender(
+                <React.Fragment>
+                    <span id="sheet-caption">Sorting</span>
+                    <Sheet open aria-labelledby="sheet-caption">
+                        Content
+                    </Sheet>
+                </React.Fragment>,
+            );
+
+            expect(screen.getByRole('dialog', {name: 'Sorting'})).toBeInTheDocument();
         });
     });
 
@@ -366,8 +387,12 @@ describe('Sheet', () => {
 
             expect(upperOnOpenChange).not.toHaveBeenCalled();
             expect(lowerOnOpenChange).not.toHaveBeenCalled();
-            expect(screen.getByRole('dialog', {name: 'Upper sheet'})).toBeInTheDocument();
-            expect(screen.getByRole('dialog', {name: 'Lower sheet'})).toBeInTheDocument();
+            expect(
+                screen.getByRole('dialog', {name: 'Upper sheet', hidden: true}),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByRole('dialog', {name: 'Lower sheet', hidden: true}),
+            ).toBeInTheDocument();
             expect(getLayersCount()).toBe(2);
         });
 

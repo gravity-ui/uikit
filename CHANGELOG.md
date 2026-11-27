@@ -1,5 +1,17 @@
 # Changelog
 
+## [8.3.0](https://github.com/gravity-ui/uikit/compare/v8.2.0...v8.3.0) (2026-11-26)
+
+
+### Features
+
+* **Sheet:** manage focus and accessible dismissal ([#2822](https://github.com/gravity-ui/uikit/issues/2822)) ([a9efee3](https://github.com/gravity-ui/uikit/commit/a9efee34069e563bb8ca0455f7b132b6d7072066))
+
+
+### Bug Fixes
+
+* **DropdownMenu:** exclude separators from accessible actions ([#2936](https://github.com/gravity-ui/uikit/issues/2936)) ([f8abcd8](https://github.com/gravity-ui/uikit/commit/f8abcd806e51fc614eacd3175b35513ac3e238ed))
+
 ## [8.2.0](https://github.com/gravity-ui/uikit/compare/v8.1.0...v8.2.0) (2026-11-23)
 
 

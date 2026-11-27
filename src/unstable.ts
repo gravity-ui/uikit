@@ -1,5 +1,14 @@
 /* eslint-disable camelcase */
 export {
+    ScrollShadow as unstable_ScrollShadow,
+    useScrollShadow as unstable_useScrollShadow,
+    type ScrollShadowAxis as unstable_ScrollShadowAxis,
+    type ScrollShadowPosition as unstable_ScrollShadowPosition,
+    type ScrollShadowProps as unstable_ScrollShadowProps,
+    type ScrollShadowState as unstable_ScrollShadowState,
+    type UseScrollShadowProps as unstable_UseScrollShadowProps,
+} from './components/lab/ScrollShadow';
+export {
     Suggest as unstable_Suggest,
     type SuggestProps as unstable_SuggestProps,
     type SuggestRenderControlProps as unstable_SuggestRenderControlProps,

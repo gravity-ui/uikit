@@ -92,6 +92,29 @@ $block: '.#{variables.$ns}text-area';
         }
     }
 
+    &__error-icon-wrap {
+        position: absolute;
+        display: inline-flex;
+        inset-inline-end: var(--g-text-area-border-width, #{control-variables.$border-width});
+        inset-block-start: 0;
+    }
+
+    &__error-icon {
+        box-sizing: content-box;
+        color: var(--g-color-text-danger);
+        padding-block-start: var(--_--error-icon-padding-block);
+        padding-inline: var(--_--error-icon-padding-inline-start)
+            var(--_--error-icon-padding-inline-end);
+    }
+
+    &__error-popover {
+        max-width: 300px;
+    }
+
+    &__error-popover-content {
+        padding: var(--g-spacing-5) var(--g-spacing-4);
+    }
+
     &_size {
         &_s {
             #{$block}__control {
@@ -101,6 +124,20 @@ $block: '.#{variables.$ns}text-area';
             &#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 26px;
             }
+
+            &#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 22px;
+            }
+
+            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: calc(42px + var(--_--error-clear-scrollbar-offset, 0px));
+            }
+
+            --_--error-icon-padding-block: 6px;
+            --_--error-icon-size: 12px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
+            --_--error-clear-gap: 0px;
 
             --_--border-radius: var(--g-border-radius-s);
         }
@@ -114,6 +151,20 @@ $block: '.#{variables.$ns}text-area';
                 padding-inline-end: 26px;
             }
 
+            &#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 26px;
+            }
+
+            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: calc(48px + var(--_--error-clear-scrollbar-offset, 0px));
+            }
+
+            --_--error-icon-padding-block: 6px;
+            --_--error-icon-size: 16px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 5px;
+            --_--error-clear-gap: 0px;
+
             --_--border-radius: var(--g-border-radius-m);
         }
 
@@ -126,6 +177,20 @@ $block: '.#{variables.$ns}text-area';
                 padding-inline-end: 36px;
             }
 
+            &#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 30px;
+            }
+
+            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: calc(62px + var(--_--error-clear-scrollbar-offset, 0px));
+            }
+
+            --_--error-icon-padding-block: 10px;
+            --_--error-icon-size: 16px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 9px;
+            --_--error-clear-gap: 1px;
+
             --_--border-radius: var(--g-border-radius-l);
         }
 
@@ -137,6 +202,20 @@ $block: '.#{variables.$ns}text-area';
             &#{$block}_has-clear #{$block}__control {
                 padding-inline-end: 36px;
             }
+
+            &#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: 38px;
+            }
+
+            &#{$block}_has-clear#{$block}_has-error-icon #{$block}__control {
+                padding-inline-end: calc(66px + var(--_--error-clear-scrollbar-offset, 0px));
+            }
+
+            --_--error-icon-padding-block: 14px;
+            --_--error-icon-size: 16px;
+            --_--error-icon-padding-inline-start: 0;
+            --_--error-icon-padding-inline-end: 13px;
+            --_--error-clear-gap: 1px;
 
             --_--border-radius: var(--g-border-radius-xl);
         }
@@ -181,8 +260,38 @@ $block: '.#{variables.$ns}text-area';
     }
 
     &_has-scrollbar {
+        --_--error-clear-scrollbar-offset: var(--g-scrollbar-width);
+
         #{$block}__clear {
             inset-inline-end: var(--g-scrollbar-width);
+        }
+
+        #{$block}__error-icon-wrap {
+            inset-inline-end: calc(
+                var(--g-scrollbar-width) +
+                    var(--g-text-area-border-width, #{control-variables.$border-width})
+            );
+        }
+    }
+
+    &_has-clear#{$block}_has-error-icon {
+        #{$block}__clear {
+            inset-inline-end: calc(
+                var(--g-text-area-border-width, #{control-variables.$border-width}) +
+                    var(--_--error-icon-size) + var(--_--error-icon-padding-inline-end) +
+                    var(--_--error-clear-gap)
+            );
+        }
+
+        &#{$block}_has-scrollbar {
+            #{$block}__clear {
+                inset-inline-end: calc(
+                    var(--g-scrollbar-width) +
+                        var(--g-text-area-border-width, #{control-variables.$border-width}) +
+                        var(--_--error-icon-size) + var(--_--error-icon-padding-inline-end) +
+                        var(--_--error-clear-gap)
+                );
+            }
         }
     }
 

@@ -133,6 +133,25 @@ Every `action` is an object with following parameters:
 | view             | [`ButtonView`](../Button/README.md#properties) |          | `outlined` | Action appearance, same as `view` for `<Button/>`                        |
 | removeAfterClick | `boolean`                                      |          | `true`     | Enables or disables closing the notification after the action is clicked |
 
+## Footer
+
+Pass `renderFooter` to render custom content below the toast actions. The slot adds no styles of
+its own. Call `toaster.remove(name)` to dismiss the toast from the footer.
+
+```tsx
+const name = 'saved';
+
+toaster.add({
+  name,
+  title: 'Changes saved',
+  renderFooter: () => (
+    <Button view="flat" onClick={() => toaster.remove(name)}>
+      Dismiss
+    </Button>
+  ),
+});
+```
+
 ## CSS API
 
 | Name                       | Description     |

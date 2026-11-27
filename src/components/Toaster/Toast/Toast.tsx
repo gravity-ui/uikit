@@ -106,6 +106,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
         className,
         theme = 'normal',
         renderIcon,
+        renderFooter,
         autoHiding: timeoutProp = DEFAULT_TIMEOUT,
         isClosable = true,
         mobile = false,
@@ -154,6 +155,7 @@ export const Toast = React.forwardRef<HTMLDivElement, ToastUnitedProps>(function
                     <div className={b('content', {'without-title': !hasTitle})}>{content}</div>
                 )}
                 {renderActions({actions, onClose: handleClose})}
+                {renderFooter && <div className={b('footer')}>{renderFooter()}</div>}
             </div>
         </div>
     );

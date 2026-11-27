@@ -6,6 +6,7 @@ import type {Meta, StoryObj} from '@storybook/react-webpack5';
 import {toaster} from '../../../toaster-singleton';
 import type {ButtonView} from '../../Button';
 import {BUTTON_VIEWS} from '../../Button/constants';
+import {Text} from '../../Text';
 import {ToasterProvider} from '../Provider/ToasterProvider';
 import {Toast} from '../Toast/Toast';
 import {ToasterComponent} from '../ToasterComponent/ToasterComponent';
@@ -89,6 +90,7 @@ export const Default: Story = {
         theme: disabledControl,
         isClosable: disabledControl,
         actions: disabledControl,
+        renderFooter: disabledControl,
         removeCallback: disabledControl,
         createSameName: booleanControl('Same name'),
         showCloseIcon: booleanControl('Show close icon'),
@@ -127,6 +129,7 @@ export const ToastPlayground: Story = {
         name: disabledControl,
         addedAt: disabledControl,
         renderIcon: disabledControl,
+        renderFooter: disabledControl,
         removeCallback: disabledControl,
     },
     render: (args, context) => {
@@ -148,5 +151,32 @@ export const ToastPlayground: Story = {
                 hasPortal={context.globals.screenshotTests !== true}
             />
         );
+    },
+};
+
+export const WithFooter: Story = {
+    ...ToastPlayground,
+    name: 'Toast with a footer',
+    args: {
+        ...ToastPlayground.args,
+        title: 'Notification settings saved',
+        content: 'Your email preferences have been updated.',
+        theme: 'success',
+        isClosable: true,
+        actions: [{label: 'View settings', onClick: () => {}, removeAfterClick: false}],
+        renderFooter: () => (
+            <Text
+                as="div"
+                variant="body-2"
+                color="complementary"
+                style={{
+                    borderBlockStart: '1px solid var(--g-color-line-generic)',
+                    marginBlockStart: 'var(--g-spacing-3)',
+                    paddingBlockStart: 'var(--g-spacing-2)',
+                }}
+            >
+                Changes apply to new notifications only.
+            </Text>
+        ),
     },
 };

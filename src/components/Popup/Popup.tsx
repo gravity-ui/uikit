@@ -28,9 +28,8 @@ import type {
     Strategy,
     UseRoleProps,
 } from '@floating-ui/react';
-import {enableFocusInside} from '@floating-ui/react/utils';
 
-import {useForkRef, useLayoutEffect} from '../../hooks';
+import {useForkRef} from '../../hooks';
 import {useFloatingTransition} from '../../hooks/private/useFloatingTransition';
 import {Portal} from '../Portal';
 import type {PortalProps} from '../Portal';
@@ -238,17 +237,11 @@ function PopupComponent(rawProps: PopupProps) {
     });
 
     React.useEffect(() => {
-        if (open && isMounted && elements.reference && elements.floating) {
+        if (isMounted && elements.reference && elements.floating) {
             return autoUpdate(elements.reference, elements.floating, update);
         }
         return undefined;
-    }, [open, isMounted, elements, update]);
-
-    useLayoutEffect(() => {
-        if (open && modal && isPositioned && elements.floating) {
-            enableFocusInside(elements.floating);
-        }
-    }, [open, modal, isPositioned, elements.floating]);
+    }, [isMounted, elements, update]);
 
     const handleFloatingRef = useForkRef<HTMLDivElement>(refs.setFloating, floatingRef);
 

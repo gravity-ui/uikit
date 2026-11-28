@@ -53,6 +53,7 @@ export * from './Skeleton';
 export * from './Slider';
 export * from './Stepper';
 export * from './Spin';
+export * from './Suggest';
 export * from './Switch';
 export * from './tabs';
 export * from './Text';
